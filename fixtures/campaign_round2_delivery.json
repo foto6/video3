@@ -1,0 +1,25 @@
+{
+  "campaign_id": "round2-learning-demo",
+  "causal": false,
+  "creator_seed_fixture": "creator_next_cycle_seed_v1.json",
+  "duplicate_replay_event_ids": [
+    "thumb-b-follow",
+    "hook-a-base"
+  ],
+  "expected_batch_id": "fb1:f0caad0fc7aeb4e27036f27c5ecdd143a7342d385557747464eacd34c4eb2340",
+  "expected_logical_handoffs": 1,
+  "expected_payload_digest": "39e09b181c58650a31c10d2c1067ccb3ce693e1d47b166ae87e4a5e13fe0f00c",
+  "fixture_version": "growth.feedback_delivery_fixture.v1",
+  "late_event_ids": [
+    "thumb-a-base",
+    "hook-c-base",
+    "hook-a-follow",
+    "thumb-b-base",
+    "hook-b-follow",
+    "thumb-a-follow",
+    "hook-b-base",
+    "thumb-c-base",
+    "hook-a-base"
+  ],
+  "window_label": "followup"
+}
