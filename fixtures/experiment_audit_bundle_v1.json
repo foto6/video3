@@ -109,8 +109,8 @@
       "decision": false,
       "decision_reason": "holm_adjusted_above_family_alpha",
       "experiment_id": "synthetic-growth-exp-v1",
-      "family_adjusted_p_value": 1,
-      "family_input_p_value": 1,
+      "family_adjusted_p_value": 1.0,
+      "family_input_p_value": 1.0,
       "holm_multiplier": 1,
       "holm_rank": 1,
       "integrity_reference": {
@@ -123,7 +123,7 @@
       "raw_two_sided_p_value": 0.294121658111,
       "registry_freeze_hash": "5bc0a1c9c7f54d2b6da38ffdb78f219a950c6958f1535b998c68916628f0f07e",
       "registry_revision": 1,
-      "sequential_valid_p_value": 1,
+      "sequential_valid_p_value": 1.0,
       "slot_id": "synthetic-growth-exp-v1@1:synthetic-growth-exp-v1:synthetic_primary_success_rate:treatment_vs_control",
       "treatment_effect_interpretation_allowed": false
     },
@@ -167,8 +167,8 @@
       "decision": false,
       "decision_reason": "holm_adjusted_above_family_alpha",
       "experiment_id": "synthetic-growth-exp-v1",
-      "family_adjusted_p_value": 1,
-      "family_input_p_value": 1,
+      "family_adjusted_p_value": 1.0,
+      "family_input_p_value": 1.0,
       "holm_multiplier": 1,
       "holm_rank": 1,
       "integrity_reference": {
@@ -181,7 +181,7 @@
       "raw_two_sided_p_value": 0.294121658111,
       "registry_freeze_hash": "5bc0a1c9c7f54d2b6da38ffdb78f219a950c6958f1535b998c68916628f0f07e",
       "registry_revision": 1,
-      "sequential_valid_p_value": 1,
+      "sequential_valid_p_value": 1.0,
       "slot_id": "synthetic-growth-exp-v1@1:synthetic-growth-exp-v1:synthetic_primary_success_rate:treatment_vs_control",
       "treatment_effect_interpretation_allowed": false
     },
