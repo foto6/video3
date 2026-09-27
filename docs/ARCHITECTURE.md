@@ -62,3 +62,17 @@ The contract is serializable with `CreatorFeedback.to_dict()`.
 ## Local-first validation
 
 `fixtures/sample_events.json` exercises ingestion without external credentials. Unit tests cover idempotency conflicts, retention integration, deterministic scoring, uncertainty behavior, CTR experiment lift, feedback shape, fixture normalization, and mutation blocking.
+
+
+## Experiment Engine v2
+
+Round 2 adds a durable experiment and learning layer around the original analytics core:
+
+- multi-variant experiment lifecycle in `growth_analytics.experiment`;
+- append-only replayable JSONL event stream in `growth_analytics.event_stream`;
+- time windows, trend deltas, retention cohorts, calibrated observational uncertainty, deterministic cross-job recommendation ranking, and batch feedback in `growth_analytics.engine`;
+- deterministic campaign simulation plus JSON/Markdown reports in `growth_analytics.campaign`.
+
+CreatorFeedback remains contract version `"1.0"` with the exact Round-1 wire vocabulary. V2 experiment and uncertainty objects are internal/reporting contracts and never imply causal certainty from observational provider analytics.
+
+See `docs/EXPERIMENT_ENGINE_V2.md` and `fixtures/campaign_round2.json`.
