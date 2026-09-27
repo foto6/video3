@@ -127,3 +127,12 @@ Wave 9 adds experiment_registry.v1 with an fsynced append-only freeze/outcome le
 The canonical 40-null family contains four nominal raw p-values below 0.05 and zero confirmatory family decisions after sequential + Holm correction. Post-hoc metrics remain exploratory, and integrity-invalid evidence is blocked regardless of p-value.
 
 See docs/EXPERIMENT_REGISTRY_V1.md.
+
+
+## Reproducible experiment audit bundle
+
+Wave 10 adds experiment_audit_bundle.v1 as a content-addressed, read-only reconstruction layer over the frozen registry, randomized evidence, experiment_integrity.v1, sequential report, and Holm family report.
+
+The canonical bundle is fixtures/experiment_audit_bundle_v1.json and independently verifies from durable fixtures only. Equivalent replay/order permutations produce the same logical audit digest; tampered or conflicting component references fail closed.
+
+See docs/EXPERIMENT_AUDIT_BUNDLE_V1.md.
