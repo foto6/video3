@@ -66,3 +66,12 @@ python -c "from growth_analytics import write_campaign_report; write_campaign_re
 The test suite compares regenerated reports byte-for-byte with the committed snapshots. Provider adapters remain read-only and expose no posting/account mutation path.
 
 See `docs/EXPERIMENT_ENGINE_V2.md` for lifecycle, replay, uncertainty, and reporting semantics.
+
+
+## Feedback delivery and replay
+
+Wave 3 adds a replay-safe Growth -> Creator handoff without changing CreatorFeedback 1.0. The canonical consumer seed is `fixtures/creator_next_cycle_seed_v1.json`; the replay/fault fixture is `fixtures/campaign_round2_delivery.json`.
+
+Growth owns feedback generation and durable export identity. Creator owns persisting and applying the seed to a new cycle, using the exported `idempotency_key` for persist-once behavior.
+
+See `docs/FEEDBACK_DELIVERY_REPLAY.md` for batch identity, ledger commit semantics, crash/replay behavior, and ownership.
