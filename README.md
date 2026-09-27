@@ -82,3 +82,12 @@ See `docs/FEEDBACK_DELIVERY_REPLAY.md` for batch identity, ledger commit semanti
 Wave 4 freezes strict `growth.feedback_batch.v1` and `growth.creator_seed.v1` transport parsing and publishes a hash-manifested producer corpus under `fixtures/creator_consumer_conformance_v1/`.
 
 The pack is cross-checked against Creator `foto6/video1 @ 7ece5182bdf0791eadda28f10e7316f3a496ded4`. Creator currently accepts strict individual `growth_feedback` seed metadata using CreatorFeedback `1.0`; it does not yet parse the outer batch/seed envelopes. The exact persist-once adapter algorithm is documented in `docs/CREATOR_CONSUMER_CONFORMANCE_V1.md`.
+
+
+## Wave 5 reliability
+
+Event-time learning now has explicit watermark/finalization semantics without changing `analytics.event.v1`. `captured_at` is event time; durable JSONL sequence is ingestion/replay order only. Finalized campaign/window identities are immutable and bind the canonical event-set digest to the existing feedback-batch and Creator-seed hashes.
+
+The deterministic stress fixture is `fixtures/reliability_stress_v1.json` with 1,152 unique events, 128 duplicate attempts, 96 deliberately delayed events, 3 campaigns, 12 variants, and 12 finalized windows. Reports are `fixtures/reliability_report_v1.json` and `fixtures/reliability_report_v1.md`.
+
+See `docs/EVENT_STREAM_RELIABILITY_V1.md` for watermark closure, late-event policy, JSONL recovery boundaries, crash semantics, and deterministic-learning guarantees.
