@@ -150,3 +150,12 @@ Wave 10 adds growth_analytics.experiment_audit as an offline-only verification l
 The audit layer fails closed on registry mutation, source hash mismatch, assignment/corpus mismatch, integrity conflict, stopping-policy drift and wrong family references. It preserves raw decision evidence even when interpretation is blocked, keeps amendment lineage and exploratory metrics visible, and never changes CreatorFeedback or provider state.
 
 See docs/EXPERIMENT_AUDIT_BUNDLE_V1.md.
+
+
+## Audit-bound decision handoff boundary
+
+Wave 11 adds growth_analytics.decision_handoff after experiment_audit_bundle.v1. The handoff carries audited effect/uncertainty, guardrails, multiplicity, integrity and provenance to Creator while keeping release/publish authority false.
+
+The handoff classification cannot outrank the bound audit classification. Invalid integrity is always blocked; integrity warnings and guardrail regressions can only downgrade authority. Raw metrics remain inspectable. A durable fsynced handoff ledger makes exact replay idempotent and rejects conflicting reuse of the same handoff identity.
+
+CreatorFeedback 1.0 and provider read-only boundaries are unchanged. See docs/DECISION_HANDOFF_V1.md.
