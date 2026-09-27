@@ -1,0 +1,36 @@
+[
+  {
+    "event_id": "fixture-001",
+    "channel_id": "channel-demo",
+    "video_id": "video-demo",
+    "variant_id": "A",
+    "captured_at": "2026-09-20T00:00:00Z",
+    "impressions": 1200,
+    "views": 640,
+    "clicks": 72,
+    "watch_time_seconds": 19200,
+    "retention": [
+      {"position": 0.0, "retained": 1.0},
+      {"position": 0.25, "retained": 0.78},
+      {"position": 0.5, "retained": 0.63},
+      {"position": 1.0, "retained": 0.41}
+    ]
+  },
+  {
+    "event_id": "fixture-002",
+    "channel_id": "channel-demo",
+    "video_id": "video-demo",
+    "variant_id": "B",
+    "captured_at": "2026-09-21T00:00:00Z",
+    "impressions": 1180,
+    "views": 690,
+    "clicks": 88,
+    "watch_time_seconds": 22425,
+    "retention": [
+      {"position": 0.0, "retained": 1.0},
+      {"position": 0.25, "retained": 0.82},
+      {"position": 0.5, "retained": 0.68},
+      {"position": 1.0, "retained": 0.46}
+    ]
+  }
+]
