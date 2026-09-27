@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import json
 from dataclasses import asdict, dataclass
 from enum import Enum
-from math import sqrt
+from math import isfinite, sqrt
 from statistics import fmean
-from typing import Iterable, Mapping, Sequence
+from typing import Any, Iterable, Mapping, Sequence
 
 
 class MetricKind(str, Enum):
@@ -132,6 +133,147 @@ class ExperimentResult:
     sample_size: int
 
 
+class CreatorFeedbackValidationError(ValueError):
+    """Raised when a CreatorFeedback wire payload violates contract 1.0."""
+
+
+_CREATOR_FEEDBACK_FIELDS = frozenset(
+    {
+        "contract_version",
+        "content_job_id",
+        "channel_id",
+        "video_id",
+        "variant_id",
+        "score",
+        "uncertainty",
+        "observed",
+        "recommendations",
+        "evidence_event_ids",
+    }
+)
+_CREATOR_FEEDBACK_OBSERVED_FIELDS = frozenset(
+    {"ctr", "average_watch_time_seconds", "retention_auc"}
+)
+
+
+def _feedback_string(value: Any, field: str, *, nullable: bool = False) -> str | None:
+    if value is None and nullable:
+        return None
+    if not isinstance(value, str) or not value:
+        raise CreatorFeedbackValidationError(f"{field} must be a non-empty string")
+    return value
+
+
+def _feedback_number(
+    value: Any,
+    field: str,
+    *,
+    minimum: float | None = None,
+    maximum: float | None = None,
+) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise CreatorFeedbackValidationError(f"{field} must be a finite number")
+    number = float(value)
+    if not isfinite(number):
+        raise CreatorFeedbackValidationError(f"{field} must be a finite number")
+    if minimum is not None and number < minimum:
+        raise CreatorFeedbackValidationError(f"{field} must be >= {minimum}")
+    if maximum is not None and number > maximum:
+        raise CreatorFeedbackValidationError(f"{field} must be <= {maximum}")
+    return number
+
+
+def _feedback_string_array(value: Any, field: str, *, require_nonempty: bool) -> tuple[str, ...]:
+    if not isinstance(value, (list, tuple)):
+        raise CreatorFeedbackValidationError(f"{field} must be an array of strings")
+    if require_nonempty and not value:
+        raise CreatorFeedbackValidationError(f"{field} must not be empty")
+    items: list[str] = []
+    for item in value:
+        if not isinstance(item, str) or not item:
+            raise CreatorFeedbackValidationError(f"{field} must contain only non-empty strings")
+        items.append(item)
+    return tuple(items)
+
+
+def _creator_feedback_from_mapping(payload: Mapping[str, Any]) -> "CreatorFeedback":
+    if not isinstance(payload, Mapping):
+        raise CreatorFeedbackValidationError("CreatorFeedback payload must be an object")
+
+    keys = set(payload.keys())
+    missing = _CREATOR_FEEDBACK_FIELDS - keys
+    extra = keys - _CREATOR_FEEDBACK_FIELDS
+    if missing:
+        raise CreatorFeedbackValidationError(
+            "CreatorFeedback payload missing fields: " + ", ".join(sorted(missing))
+        )
+    if extra:
+        raise CreatorFeedbackValidationError(
+            "CreatorFeedback payload has unknown fields: " + ", ".join(sorted(extra))
+        )
+
+    version = payload["contract_version"]
+    if version != "1.0" or not isinstance(version, str):
+        raise CreatorFeedbackValidationError(
+            f"unsupported contract_version: {version!r}; expected '1.0'"
+        )
+
+    observed = payload["observed"]
+    if not isinstance(observed, Mapping):
+        raise CreatorFeedbackValidationError("observed must be an object")
+    observed_keys = set(observed.keys())
+    if observed_keys != _CREATOR_FEEDBACK_OBSERVED_FIELDS:
+        missing_observed = _CREATOR_FEEDBACK_OBSERVED_FIELDS - observed_keys
+        extra_observed = observed_keys - _CREATOR_FEEDBACK_OBSERVED_FIELDS
+        details: list[str] = []
+        if missing_observed:
+            details.append("missing " + ", ".join(sorted(missing_observed)))
+        if extra_observed:
+            details.append("unknown " + ", ".join(sorted(extra_observed)))
+        raise CreatorFeedbackValidationError("observed fields invalid: " + "; ".join(details))
+
+    normalized_observed = {
+        "ctr": _feedback_number(observed["ctr"], "observed.ctr", minimum=0.0, maximum=1.0),
+        "average_watch_time_seconds": _feedback_number(
+            observed["average_watch_time_seconds"],
+            "observed.average_watch_time_seconds",
+            minimum=0.0,
+        ),
+        "retention_auc": _feedback_number(
+            observed["retention_auc"],
+            "observed.retention_auc",
+            minimum=0.0,
+            maximum=1.0,
+        ),
+    }
+
+    return CreatorFeedback(
+        contract_version="1.0",
+        content_job_id=_feedback_string(payload["content_job_id"], "content_job_id"),
+        channel_id=_feedback_string(payload["channel_id"], "channel_id"),
+        video_id=_feedback_string(payload["video_id"], "video_id"),
+        variant_id=_feedback_string(payload["variant_id"], "variant_id", nullable=True),
+        score=_feedback_number(payload["score"], "score", minimum=0.0, maximum=1.0),
+        uncertainty=_feedback_number(
+            payload["uncertainty"],
+            "uncertainty",
+            minimum=0.0,
+            maximum=1.0,
+        ),
+        observed=normalized_observed,
+        recommendations=_feedback_string_array(
+            payload["recommendations"],
+            "recommendations",
+            require_nonempty=True,
+        ),
+        evidence_event_ids=_feedback_string_array(
+            payload["evidence_event_ids"],
+            "evidence_event_ids",
+            require_nonempty=False,
+        ),
+    )
+
+
 @dataclass(frozen=True)
 class CreatorFeedback:
     contract_version: str
@@ -147,6 +289,30 @@ class CreatorFeedback:
 
     def to_dict(self) -> dict:
         return asdict(self)
+
+    @classmethod
+    def from_dict(cls, payload: Mapping[str, Any]) -> "CreatorFeedback":
+        return _creator_feedback_from_mapping(payload)
+
+    def to_json(self) -> str:
+        validated = type(self).from_dict(self.to_dict())
+        return json.dumps(
+            validated.to_dict(),
+            ensure_ascii=False,
+            allow_nan=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+
+    @classmethod
+    def from_json(cls, wire_json: str) -> "CreatorFeedback":
+        if not isinstance(wire_json, str):
+            raise CreatorFeedbackValidationError("CreatorFeedback wire JSON must be a string")
+        try:
+            payload = json.loads(wire_json)
+        except json.JSONDecodeError as exc:
+            raise CreatorFeedbackValidationError("invalid CreatorFeedback JSON") from exc
+        return cls.from_dict(payload)
 
 
 class AnalyticsStore:
