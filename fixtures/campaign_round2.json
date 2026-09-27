@@ -1,0 +1,52 @@
+{
+  "campaign_id": "round2-learning-demo",
+  "channel_id": "channel-demo",
+  "windows": [
+    {"label": "baseline", "start": "2026-09-01T00:00:00Z", "end": "2026-09-08T00:00:00Z"},
+    {"label": "followup", "start": "2026-09-08T00:00:00Z", "end": "2026-09-15T00:00:00Z"}
+  ],
+  "experiments": [
+    {
+      "experiment_id": "exp-thumbnail",
+      "hypothesis_id": "hyp-thumbnail-contrast",
+      "primary_metric": "ctr",
+      "status": "completed",
+      "started_at": "2026-09-01T00:00:00Z",
+      "ended_at": "2026-09-15T00:00:00Z",
+      "observational": true,
+      "variants": [
+        {"variant_id": "thumb-a", "video_id": "video-thumb", "label": "control", "duration_seconds": 60.0, "next_content_job_id": "next-thumb-a"},
+        {"variant_id": "thumb-b", "video_id": "video-thumb", "label": "high-contrast", "duration_seconds": 60.0, "next_content_job_id": "next-thumb-b"},
+        {"variant_id": "thumb-c", "video_id": "video-thumb", "label": "face-led", "duration_seconds": 60.0, "next_content_job_id": "next-thumb-c"}
+      ]
+    },
+    {
+      "experiment_id": "exp-hook",
+      "hypothesis_id": "hyp-opening-hook",
+      "primary_metric": "retention_auc",
+      "status": "completed",
+      "started_at": "2026-09-01T00:00:00Z",
+      "ended_at": "2026-09-15T00:00:00Z",
+      "observational": true,
+      "variants": [
+        {"variant_id": "hook-a", "video_id": "video-hook", "label": "control", "duration_seconds": 45.0, "next_content_job_id": "next-hook-a"},
+        {"variant_id": "hook-b", "video_id": "video-hook", "label": "cold-open", "duration_seconds": 45.0, "next_content_job_id": "next-hook-b"},
+        {"variant_id": "hook-c", "video_id": "video-hook", "label": "question-open", "duration_seconds": 45.0, "next_content_job_id": "next-hook-c"}
+      ]
+    }
+  ],
+  "events": [
+    {"provider":"fixture","event_id":"thumb-b-follow","channel_id":"channel-demo","video_id":"video-thumb","variant_id":"thumb-b","captured_at":"2026-09-10T12:00:00Z","impressions":1300,"views":720,"clicks":91,"watch_time_seconds":25200.0,"retention":[{"position":0.0,"retained":1.0},{"position":0.25,"retained":0.84},{"position":0.5,"retained":0.69},{"position":1.0,"retained":0.47}]},
+    {"provider":"fixture","event_id":"thumb-a-base","channel_id":"channel-demo","video_id":"video-thumb","variant_id":"thumb-a","captured_at":"2026-09-03T12:00:00Z","impressions":1000,"views":500,"clicks":50,"watch_time_seconds":15000.0,"retention":[{"position":0.0,"retained":1.0},{"position":0.25,"retained":0.75},{"position":0.5,"retained":0.55},{"position":1.0,"retained":0.35}]},
+    {"provider":"fixture","event_id":"hook-c-base","channel_id":"channel-demo","video_id":"video-hook","variant_id":"hook-c","captured_at":"2026-09-05T12:00:00Z","impressions":1050,"views":600,"clicks":63,"watch_time_seconds":16200.0,"retention":[{"position":0.0,"retained":1.0},{"position":0.25,"retained":0.76},{"position":0.5,"retained":0.57},{"position":1.0,"retained":0.36}]},
+    {"provider":"fixture","event_id":"thumb-c-follow","channel_id":"channel-demo","video_id":"video-thumb","variant_id":"thumb-c","captured_at":"2026-09-11T12:00:00Z","impressions":1250,"views":670,"clicks":75,"watch_time_seconds":22110.0,"retention":[{"position":0.0,"retained":1.0},{"position":0.25,"retained":0.80},{"position":0.5,"retained":0.64},{"position":1.0,"retained":0.42}]},
+    {"provider":"fixture","event_id":"hook-a-follow","channel_id":"channel-demo","video_id":"video-hook","variant_id":"hook-a","captured_at":"2026-09-09T12:00:00Z","impressions":1200,"views":650,"clicks":60,"watch_time_seconds":16900.0,"retention":[{"position":0.0,"retained":1.0},{"position":0.25,"retained":0.73},{"position":0.5,"retained":0.52},{"position":1.0,"retained":0.31}]},
+    {"provider":"fixture","event_id":"thumb-b-base","channel_id":"channel-demo","video_id":"video-thumb","variant_id":"thumb-b","captured_at":"2026-09-04T12:00:00Z","impressions":950,"views":510,"clicks":58,"watch_time_seconds":16830.0,"retention":[{"position":0.0,"retained":1.0},{"position":0.25,"retained":0.78},{"position":0.5,"retained":0.60},{"position":1.0,"retained":0.40}]},
+    {"provider":"fixture","event_id":"hook-b-follow","channel_id":"channel-demo","video_id":"video-hook","variant_id":"hook-b","captured_at":"2026-09-10T14:00:00Z","impressions":1250,"views":760,"clicks":75,"watch_time_seconds":23940.0,"retention":[{"position":0.0,"retained":1.0},{"position":0.25,"retained":0.86},{"position":0.5,"retained":0.72},{"position":1.0,"retained":0.50}]},
+    {"provider":"fixture","event_id":"thumb-a-follow","channel_id":"channel-demo","video_id":"video-thumb","variant_id":"thumb-a","captured_at":"2026-09-09T12:00:00Z","impressions":1200,"views":590,"clicks":60,"watch_time_seconds":17700.0,"retention":[{"position":0.0,"retained":1.0},{"position":0.25,"retained":0.74},{"position":0.5,"retained":0.54},{"position":1.0,"retained":0.34}]},
+    {"provider":"fixture","event_id":"hook-b-base","channel_id":"channel-demo","video_id":"video-hook","variant_id":"hook-b","captured_at":"2026-09-04T14:00:00Z","impressions":1000,"views":620,"clicks":60,"watch_time_seconds":18414.0,"retention":[{"position":0.0,"retained":1.0},{"position":0.25,"retained":0.82},{"position":0.5,"retained":0.66},{"position":1.0,"retained":0.44}]},
+    {"provider":"fixture","event_id":"thumb-c-base","channel_id":"channel-demo","video_id":"video-thumb","variant_id":"thumb-c","captured_at":"2026-09-05T12:00:00Z","impressions":980,"views":505,"clicks":55,"watch_time_seconds":15907.5,"retention":[{"position":0.0,"retained":1.0},{"position":0.25,"retained":0.76},{"position":0.5,"retained":0.58},{"position":1.0,"retained":0.38}]},
+    {"provider":"fixture","event_id":"hook-c-follow","channel_id":"channel-demo","video_id":"video-hook","variant_id":"hook-c","captured_at":"2026-09-11T14:00:00Z","impressions":1220,"views":720,"clicks":70,"watch_time_seconds":21600.0,"retention":[{"position":0.0,"retained":1.0},{"position":0.25,"retained":0.82},{"position":0.5,"retained":0.67},{"position":1.0,"retained":0.45}]},
+    {"provider":"fixture","event_id":"hook-a-base","channel_id":"channel-demo","video_id":"video-hook","variant_id":"hook-a","captured_at":"2026-09-03T14:00:00Z","impressions":1100,"views":580,"clicks":55,"watch_time_seconds":14790.0,"retention":[{"position":0.0,"retained":1.0},{"position":0.25,"retained":0.72},{"position":0.5,"retained":0.50},{"position":1.0,"retained":0.30}]}
+  ]
+}
