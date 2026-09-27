@@ -1,0 +1,237 @@
+{
+  "campaign_count": 3,
+  "causal": false,
+  "configured_duplicate_attempt_count": 128,
+  "delivery_ledger_sha256": "a886d23d9c8743a951914a1465ebac0ad594e8bcc3ef8f1e261168bd4cbf96cd",
+  "designated_late_event_count": 96,
+  "event_stream_sha256": "c93ae8f564f244545bbf45dc2fd8066911f4e5a513a6fce2eec60b1d15ab6280",
+  "finalization_ledger_sha256": "4358bd59a90b18d2768241b2eba20b05aed6abd20d3b909ddd10e598ff4cdddf",
+  "finalized_learning": {
+    "campaign_count": 3,
+    "causal": false,
+    "finalized_window_count": 12,
+    "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+    "report_version": "growth.finalized_learning_report.v1",
+    "seed": 20260927,
+    "unique_event_count": 1152,
+    "windows": [
+      {
+        "batch_id": "fb1:f6a8fe7e128ff34c6cc13d6bb47c4748cde86a31607271e8ecccc6cb03c45747",
+        "campaign_id": "stress-campaign-1",
+        "causal": false,
+        "event_count": 96,
+        "event_set_digest": "3bdec03a4dcae296e758f5e2b192b24f65c290f83e313c9dd4f950810a2e46db",
+        "feedback_count": 4,
+        "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+        "payload_digest": "3e7f588a686cf2374e3deb4a5e7ad31ce99f917241150731e46b8daa5c57a3fe",
+        "seed_digest": "41ea7c23d6b4168d7bb1559af7f1824c82ab1b6aa2c3b59db66f5f1aa9ac4007",
+        "window": {
+          "end": "2026-08-08T00:00:00Z",
+          "label": "w1",
+          "start": "2026-08-01T00:00:00Z",
+          "watermark": "2026-08-10T00:00:00Z"
+        }
+      },
+      {
+        "batch_id": "fb1:b223307cb1c33146e021563b549848f46e70285cfda2779b37d79457e8d8d7e2",
+        "campaign_id": "stress-campaign-1",
+        "causal": false,
+        "event_count": 96,
+        "event_set_digest": "b0089b47235aeecc5c0da3674383ab5815bfc707efa817287ca04279e1f49aed",
+        "feedback_count": 4,
+        "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+        "payload_digest": "26ac2475aa2c482ff0dc0582d90e0f2c23a2f371821d9b7e3251fc4232712f1f",
+        "seed_digest": "cf36b77714f27d0c727e47ea9753dbf385e34f231d948488a4640326c77f6a6e",
+        "window": {
+          "end": "2026-08-15T00:00:00Z",
+          "label": "w2",
+          "start": "2026-08-08T00:00:00Z",
+          "watermark": "2026-08-17T00:00:00Z"
+        }
+      },
+      {
+        "batch_id": "fb1:36d830c547af9a0004fe84325f7315fb20a56fbe920e021de949094b5dbc8be3",
+        "campaign_id": "stress-campaign-1",
+        "causal": false,
+        "event_count": 96,
+        "event_set_digest": "82f6e7206c8d791ae7e7c8bc9c3b46d2f00ed09a176ff6cdc778ec1744473665",
+        "feedback_count": 4,
+        "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+        "payload_digest": "ede395234fd2473641a3a5d8713ae2efd064a1b0f6e85a56cc248fc4d84aa6cd",
+        "seed_digest": "c888bfd2ccd839ca00794365bbc0fe26dcba9b0fcb3b28f5ac49de328597d066",
+        "window": {
+          "end": "2026-08-22T00:00:00Z",
+          "label": "w3",
+          "start": "2026-08-15T00:00:00Z",
+          "watermark": "2026-08-24T00:00:00Z"
+        }
+      },
+      {
+        "batch_id": "fb1:da59f9713a27410075319a6d7f0b9887d573108cb9011de59c24780ecb24d1e5",
+        "campaign_id": "stress-campaign-1",
+        "causal": false,
+        "event_count": 96,
+        "event_set_digest": "463974e5e2305a5eab707279463dc17cc76a5bca1ae34755f5a31543f8bd756f",
+        "feedback_count": 4,
+        "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+        "payload_digest": "6376f582eb7bc4b107beef17f48f4039327bd19d27c5bd015443faa4600431ff",
+        "seed_digest": "e52506824862fbcd7dfb751cf403c731eba1dbc2aff189d85c0bb43d5d6481ab",
+        "window": {
+          "end": "2026-08-29T00:00:00Z",
+          "label": "w4",
+          "start": "2026-08-22T00:00:00Z",
+          "watermark": "2026-08-31T00:00:00Z"
+        }
+      },
+      {
+        "batch_id": "fb1:53320f0e59bc5b7f0e05cf707f7d2ee7345ed6525f29b591500cc4871522784e",
+        "campaign_id": "stress-campaign-2",
+        "causal": false,
+        "event_count": 96,
+        "event_set_digest": "d0b4ebf16637e51fba55bba743b34891209a2ff850542171cbf672cbaffa66b8",
+        "feedback_count": 4,
+        "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+        "payload_digest": "ebc187a482b14216e3e21b4a2502f6d0619bee68fabff4469356ef7ac73cc5e2",
+        "seed_digest": "5706e4a2044a00a3f6beb10f08f1421a83bc764b0f80d81b15c20991b769b397",
+        "window": {
+          "end": "2026-08-08T00:00:00Z",
+          "label": "w1",
+          "start": "2026-08-01T00:00:00Z",
+          "watermark": "2026-08-10T00:00:00Z"
+        }
+      },
+      {
+        "batch_id": "fb1:fcc8a4953fbda9a5cdb1663c81da02d99359bb4b56a9721558c65f20e38ac272",
+        "campaign_id": "stress-campaign-2",
+        "causal": false,
+        "event_count": 96,
+        "event_set_digest": "e505705b184e5d7d540c3b517c2ea5e073cf0b35bc695dcc584922ca75449827",
+        "feedback_count": 4,
+        "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+        "payload_digest": "b8314dca17274c8565cda264feda21b76c9dd8b48339977aaf9e78e1be87378d",
+        "seed_digest": "ea906da7dfb0fa9530de7084439ac901eedad0a63464fc3ac7ef92610da1ed7a",
+        "window": {
+          "end": "2026-08-15T00:00:00Z",
+          "label": "w2",
+          "start": "2026-08-08T00:00:00Z",
+          "watermark": "2026-08-17T00:00:00Z"
+        }
+      },
+      {
+        "batch_id": "fb1:f36fc84429d411111fdfad3161a8ce0277d48b3d4225e53f5562d91b33cb1de8",
+        "campaign_id": "stress-campaign-2",
+        "causal": false,
+        "event_count": 96,
+        "event_set_digest": "ce0711ce4303e7ed548f3f548209a03aab9f6ff268d50cabe6e7ad5c76a1a62d",
+        "feedback_count": 4,
+        "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+        "payload_digest": "8cb3e41d9d888005b698a03287e9791334ab2337783551a6bffcb723b6e92e80",
+        "seed_digest": "1c30160e515445a1765247d0c01e13f0662ad593a75c052439ec08e2f865db66",
+        "window": {
+          "end": "2026-08-22T00:00:00Z",
+          "label": "w3",
+          "start": "2026-08-15T00:00:00Z",
+          "watermark": "2026-08-24T00:00:00Z"
+        }
+      },
+      {
+        "batch_id": "fb1:2ddfc3520e264ac24dbb27f1b6330e46106052e378efe9932e6c904309727216",
+        "campaign_id": "stress-campaign-2",
+        "causal": false,
+        "event_count": 96,
+        "event_set_digest": "0a2e1c26fcbcfa2ce960511e9f5f649fc916c4d910c4460d511bcafab4004f07",
+        "feedback_count": 4,
+        "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+        "payload_digest": "8789b147edaece1a1bb5a0a7561ce9d913c46e721e54e0dbfc4a3b952ec51503",
+        "seed_digest": "4df9866932ec97fab8e8337fe32893d49e068b866d5e503dd815552a5749a7d4",
+        "window": {
+          "end": "2026-08-29T00:00:00Z",
+          "label": "w4",
+          "start": "2026-08-22T00:00:00Z",
+          "watermark": "2026-08-31T00:00:00Z"
+        }
+      },
+      {
+        "batch_id": "fb1:5a7866e9864d798de0bb3d0ddee0a1e3120b6d74d9a6069451981e29ffcf9eaa",
+        "campaign_id": "stress-campaign-3",
+        "causal": false,
+        "event_count": 96,
+        "event_set_digest": "c51700ebde2a0d9f43a011efb9258644b515e0955296a8645cc0b977113077fe",
+        "feedback_count": 4,
+        "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+        "payload_digest": "46038df4502a04475a9a1acc3084b8ad676fe44040e34c2d4d708fee3b62934f",
+        "seed_digest": "bba271c768414d97b75e417761f121885d579978dcef3a63b19fa23088cf78c3",
+        "window": {
+          "end": "2026-08-08T00:00:00Z",
+          "label": "w1",
+          "start": "2026-08-01T00:00:00Z",
+          "watermark": "2026-08-10T00:00:00Z"
+        }
+      },
+      {
+        "batch_id": "fb1:fbf745e02959920316a30b5b8156c950e29b9bc2af02c155eb6bf9e42864e8b7",
+        "campaign_id": "stress-campaign-3",
+        "causal": false,
+        "event_count": 96,
+        "event_set_digest": "a0f1c4bdb4301416e51981a672afe104974835d72142f816b86eb22a74b57b59",
+        "feedback_count": 4,
+        "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+        "payload_digest": "b32eef9ef1593ba9a548e3eeac50dc26598a3f1665dcd4213ae8252b68a1df5b",
+        "seed_digest": "b42cb4be7d3535a3af42ff079fa9285a6b0c4445662387c67960126659723082",
+        "window": {
+          "end": "2026-08-15T00:00:00Z",
+          "label": "w2",
+          "start": "2026-08-08T00:00:00Z",
+          "watermark": "2026-08-17T00:00:00Z"
+        }
+      },
+      {
+        "batch_id": "fb1:33eb2bff2bd74624318610a32ed725c31ba0e652be520b13994e7d62ab55fd74",
+        "campaign_id": "stress-campaign-3",
+        "causal": false,
+        "event_count": 96,
+        "event_set_digest": "92b0ef93c17035469a3ac0f61fa4b0d2417a40388a8843aa9026590c71fa1eff",
+        "feedback_count": 4,
+        "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+        "payload_digest": "d238d082258ac912751962768efd62310d8aafb2fd22c4f24a1ed64f28b7b154",
+        "seed_digest": "bfd7113731c79baafdef716e467ef10acf103a881d50bf6180640aad44ae62ac",
+        "window": {
+          "end": "2026-08-22T00:00:00Z",
+          "label": "w3",
+          "start": "2026-08-15T00:00:00Z",
+          "watermark": "2026-08-24T00:00:00Z"
+        }
+      },
+      {
+        "batch_id": "fb1:d3f8c9147cc4807d732693e4dfe98147b26578fc1734500d2a66426dbba334bd",
+        "campaign_id": "stress-campaign-3",
+        "causal": false,
+        "event_count": 96,
+        "event_set_digest": "edaf3b85b648ae37f35ef0190708809053f9e1c6cb8c31310a3067365faceff9",
+        "feedback_count": 4,
+        "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+        "payload_digest": "40bb996310de18d162b48ca65f58b68f52e977fdeca8c8c785ce506c06728feb",
+        "seed_digest": "e336d8c462cad4f6ca110b3e9a594063dbbc873a43de2aababbc83cd2399be4d",
+        "window": {
+          "end": "2026-08-29T00:00:00Z",
+          "label": "w4",
+          "start": "2026-08-22T00:00:00Z",
+          "watermark": "2026-08-31T00:00:00Z"
+        }
+      }
+    ]
+  },
+  "finalized_learning_sha256": "5d19e6d78feb3473f0b42073aff4f63a74e7c103d029b7fd203c66779ee8a756",
+  "finalized_window_count": 12,
+  "ingestion_attempt_count": 1280,
+  "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+  "logical_delivery_count": 12,
+  "observed_duplicate_receipt_count": 129,
+  "observed_late_accept_count": 1137,
+  "report_version": "growth.reliability_report.v1",
+  "restart_count": 41,
+  "seed": 20260927,
+  "unique_event_count": 1152,
+  "variant_count": 12,
+  "window_count": 12
+}

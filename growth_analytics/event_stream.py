@@ -11,6 +11,7 @@ from .core import AnalyticsEvent, AnalyticsStore, RetentionPoint
 
 
 STREAM_VERSION = "analytics.event.v1"
+TAIL_POLICIES = frozenset({"fail_closed", "recover_truncated_tail"})
 
 
 class EventConflictError(ValueError):
@@ -18,6 +19,10 @@ class EventConflictError(ValueError):
 
 
 class InvalidAnalyticsEvent(ValueError):
+    pass
+
+
+class InjectedEventStreamFault(RuntimeError):
     pass
 
 
@@ -130,48 +135,101 @@ def analytics_event_from_dict(payload: Mapping[str, Any]) -> AnalyticsEvent:
 
 
 class DurableAnalyticsEventStream:
-    """Append-only JSONL event stream with replay-safe idempotency semantics."""
+    """Append-only JSONL stream with explicit arrival order and event time.
 
-    def __init__(self, path: str | Path) -> None:
+    captured_at is event time. sequence is durable ingestion/replay order.
+    Only a syntactically truncated final JSON line may be recovered, and only
+    when recover_truncated_tail is explicitly selected.
+    """
+
+    def __init__(
+        self,
+        path: str | Path,
+        *,
+        tail_policy: str = "fail_closed",
+    ) -> None:
+        if tail_policy not in TAIL_POLICIES:
+            raise ValueError(
+                "tail_policy must be 'fail_closed' or 'recover_truncated_tail'"
+            )
         self.path = Path(path)
+        self.tail_policy = tail_policy
         self._events: dict[str, tuple[int, AnalyticsEvent]] = {}
         self._arrival: list[AnalyticsEvent] = []
         self._max_captured_at: datetime | None = None
+        self._recovered_truncated_tail = False
         self._load()
+
+    def _recover_tail(self, prefix: bytes) -> None:
+        with self.path.open("r+b") as handle:
+            handle.truncate(len(prefix))
+            handle.flush()
+            os.fsync(handle.fileno())
+        self._recovered_truncated_tail = True
 
     def _load(self) -> None:
         if not self.path.exists():
             return
-        with self.path.open("r", encoding="utf-8") as handle:
-            for line_number, line in enumerate(handle, 1):
-                if not line.strip():
-                    continue
-                try:
-                    row = json.loads(line)
-                except json.JSONDecodeError as exc:
-                    raise InvalidAnalyticsEvent(
-                        f"invalid stream JSON on line {line_number}"
-                    ) from exc
-                if row.get("stream_version") != STREAM_VERSION:
-                    raise InvalidAnalyticsEvent("unknown analytics event stream version")
-                expected_sequence = len(self._arrival) + 1
-                if row.get("sequence") != expected_sequence:
-                    raise InvalidAnalyticsEvent("event stream sequence is not contiguous")
-                event = analytics_event_from_dict(row.get("event"))
-                key = event.idempotency_key
-                previous = self._events.get(key)
-                if previous is not None:
-                    if previous[1] != event:
-                        raise EventConflictError(f"conflicting replay for {key}")
-                    raise InvalidAnalyticsEvent(f"duplicate durable row for {key}")
-                self._events[key] = (expected_sequence, event)
-                self._arrival.append(event)
-                captured = parse_timestamp(event.captured_at)
-                if self._max_captured_at is None or captured > self._max_captured_at:
-                    self._max_captured_at = captured
+        raw = self.path.read_bytes()
+        try:
+            raw.decode("utf-8")
+        except UnicodeDecodeError as exc:
+            raise InvalidAnalyticsEvent("event stream is not valid UTF-8") from exc
+        raw_lines = raw.splitlines(keepends=True)
+        for index, raw_line in enumerate(raw_lines):
+            line = raw_line.decode("utf-8").rstrip("\r\n")
+            if not line.strip():
+                continue
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError as exc:
+                is_final_line = index == len(raw_lines) - 1
+                final_line_unterminated = is_final_line and not raw_line.endswith(b"\n")
+                if (
+                    self.tail_policy == "recover_truncated_tail"
+                    and final_line_unterminated
+                ):
+                    prefix = b"".join(raw_lines[:index])
+                    self._recover_tail(prefix)
+                    break
+                raise InvalidAnalyticsEvent(
+                    f"invalid stream JSON on line {index + 1}"
+                ) from exc
+            if not isinstance(row, Mapping):
+                raise InvalidAnalyticsEvent("event stream row must be an object")
+            if set(row) != {"stream_version", "sequence", "event"}:
+                raise InvalidAnalyticsEvent(
+                    "event stream row fields must match analytics.event.v1 exactly"
+                )
+            if row.get("stream_version") != STREAM_VERSION:
+                raise InvalidAnalyticsEvent("unknown analytics event stream version")
+            expected_sequence = len(self._arrival) + 1
+            if row.get("sequence") != expected_sequence:
+                raise InvalidAnalyticsEvent("event stream sequence is not contiguous")
+            event = analytics_event_from_dict(row.get("event"))
+            key = event.idempotency_key
+            previous = self._events.get(key)
+            if previous is not None:
+                if previous[1] != event:
+                    raise EventConflictError(f"conflicting replay for {key}")
+                raise InvalidAnalyticsEvent(f"duplicate durable row for {key}")
+            self._events[key] = (expected_sequence, event)
+            self._arrival.append(event)
+            captured = parse_timestamp(event.captured_at)
+            if self._max_captured_at is None or captured > self._max_captured_at:
+                self._max_captured_at = captured
 
-    def append(self, event: AnalyticsEvent) -> IngestReceipt:
+    def append(
+        self,
+        event: AnalyticsEvent,
+        *,
+        fault: str | None = None,
+    ) -> IngestReceipt:
         validate_event_metrics(event)
+        if fault not in {None, "before_commit", "after_commit"}:
+            raise ValueError(
+                "fault must be None, 'before_commit', or 'after_commit'"
+            )
         key = event.idempotency_key
         existing = self._events.get(key)
         if existing is not None:
@@ -187,12 +245,24 @@ class DurableAnalyticsEventStream:
             "sequence": sequence,
             "event": analytics_event_to_dict(event),
         }
-        serialized = json.dumps(row, sort_keys=True, separators=(",", ":"), allow_nan=False)
+        serialized = json.dumps(
+            row,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+            allow_nan=False,
+        )
+        if fault == "before_commit":
+            raise InjectedEventStreamFault("injected crash before event commit")
+
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.path.open("a", encoding="utf-8", newline="\n") as handle:
             handle.write(serialized + "\n")
             handle.flush()
             os.fsync(handle.fileno())
+
+        if fault == "after_commit":
+            raise InjectedEventStreamFault("injected crash after event commit")
 
         self._events[key] = (sequence, event)
         self._arrival.append(event)
@@ -210,7 +280,10 @@ class DurableAnalyticsEventStream:
             return tuple(
                 sorted(
                     self._arrival,
-                    key=lambda event: (parse_timestamp(event.captured_at), event.idempotency_key),
+                    key=lambda event: (
+                        parse_timestamp(event.captured_at),
+                        event.idempotency_key,
+                    ),
                 )
             )
         raise ValueError("order must be 'arrival' or 'captured_at'")
@@ -223,3 +296,7 @@ class DurableAnalyticsEventStream:
     @property
     def event_count(self) -> int:
         return len(self._arrival)
+
+    @property
+    def recovered_truncated_tail(self) -> bool:
+        return self._recovered_truncated_tail
