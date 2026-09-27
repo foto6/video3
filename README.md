@@ -91,3 +91,12 @@ Event-time learning now has explicit watermark/finalization semantics without ch
 The deterministic stress fixture is `fixtures/reliability_stress_v1.json` with 1,152 unique events, 128 duplicate attempts, 96 deliberately delayed events, 3 campaigns, 12 variants, and 12 finalized windows. Reports are `fixtures/reliability_report_v1.json` and `fixtures/reliability_report_v1.md`.
 
 See `docs/EVENT_STREAM_RELIABILITY_V1.md` for watermark closure, late-event policy, JSONL recovery boundaries, crash semantics, and deterministic-learning guarantees.
+
+
+## Offline evaluation and calibration
+
+Wave 6 adds a deterministic historical/replay evaluation layer over finalized read-only analytics. It compares the existing score/ranking heuristic to a CTR-only baseline, measures rank stability, score error, uncertainty calibration/coverage, recommendation turnover, and missing/out-of-order robustness, and emits non-publishing gate metadata.
+
+The canonical report is fixtures/offline_evaluation_report_v1.json; scenarios are in fixtures/offline_evaluation_scenarios_v1.json. The primary fixture gates unstable because uncertainty coverage fails despite stable ranking, while sparse evidence gates insufficient_evidence.
+
+See docs/OFFLINE_EVALUATION_V1.md.

@@ -1,0 +1,28 @@
+{
+  "bootstrap_resamples": 1000,
+  "bootstrap_seed": 6102026,
+  "causal": false,
+  "fixture_version": "growth.offline_evaluation_scenarios.v1",
+  "historical_windows_per_campaign": 2,
+  "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+  "scenarios": {
+    "distribution_shift": {
+      "description": "deterministic replay-only metric transform; historical partition remains unchanged"
+    },
+    "duplicate_replay": {
+      "description": "exact duplicate replay events; semantic event set must be unchanged"
+    },
+    "late_event_omission": {
+      "description": "remove the 96 designated delayed events to measure sensitivity to missing late arrivals"
+    },
+    "out_of_order": {
+      "description": "reverse and seeded-shuffle ingestion; event-time holdout must be unchanged",
+      "shuffle_seed": 314159
+    },
+    "sparse": {
+      "description": "retain one replay event per campaign variant across replay holdout",
+      "keep_per_variant": 1
+    }
+  },
+  "source_fixture": "reliability_stress_v1.json"
+}

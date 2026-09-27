@@ -105,3 +105,12 @@ Once finalized, exact event replays are duplicate/no-op, while new in-window ide
 The event stream may optionally recover only an unterminated syntactically invalid final JSONL line. All semantically ambiguous storage faults—including conflicting duplicate ids and sequence corruption—fail closed. Delivery-ledger sequence corruption likewise fails closed.
 
 The Wave5 stress and metamorphic suites prove that identical semantic event sets yield identical finalized-learning bytes and frozen Growth-to-Creator delivery hashes across ingestion permutations and injected restarts. See `docs/EVENT_STREAM_RELIABILITY_V1.md`.
+
+
+## Offline evaluation boundary
+
+Wave 6 adds growth_analytics.evaluation as a read-only offline layer. It consumes canonical finalized analytics events, splits whole finalized campaign/window identities into disjoint historical and replay partitions, calibrates observational uncertainty using historical transitions only, and evaluates replay stability without changing any delivery contract.
+
+Evaluation output is separate metadata. It is never serialized into CreatorFeedback 1.0, growth.feedback_batch.v1, or growth.creator_seed.v1, and it cannot dispatch or publish. The gate can only describe evidence as insufficient, unstable, or stable enough for an experiment.
+
+See docs/OFFLINE_EVALUATION_V1.md.
