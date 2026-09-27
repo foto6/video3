@@ -123,3 +123,12 @@ Wave 7 adds growth_analytics.experiment_protocol as a pure read-only assignment/
 Experiment evidence is separate from Growth-to-Creator feedback delivery. Only validated synthetic randomized-assignment fixtures enter sequential experiment inference; historical analytics remain explicitly observational. Replay is canonicalized by event time and stable ids, and no experiment result can authorize publishing or account mutation.
 
 See docs/EXPERIMENT_PROTOCOL_V1.md.
+
+
+## Experiment integrity boundary
+
+Wave 8 inserts growth_analytics.experiment_integrity before treatment-effect interpretation. It consumes the exact experiment plan, raw randomized evidence, and sequential report, then emits experiment_integrity.v1 bound to exact plan/randomization/corpus/report hashes.
+
+Integrity invalidation is fail-closed for inference but non-destructive for evidence inspection. CreatorFeedback 1.0 and Growth-to-Creator delivery payloads are unaffected. Historical analytics remain observational and cannot be promoted to randomized evidence by the integrity layer.
+
+Sequential-report generation supports an optional integrity reference; omission preserves Wave 7 core output. See docs/EXPERIMENT_INTEGRITY_V1.md.

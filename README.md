@@ -109,3 +109,12 @@ Wave 7 adds strict experiment.plan.v1 assignment and experiment.evidence.v1 sequ
 The canonical synthetic corpus covers null, positive synthetic effect, SRM, sparse evidence, late/replay, and guardrail breach. Historical analytics remain observational and are rejected by randomized experiment inference.
 
 See docs/EXPERIMENT_PROTOCOL_V1.md.
+
+
+## Experiment integrity gate
+
+Wave 8 adds experiment_integrity.v1 as a pre-inference gate over Wave 7 randomized experiment artifacts. It validates A/A null calibration, SRM/allocation, duplicate and cross-arm assignment, differential missingness, experiment-window leakage, pre-randomization strata balance, sequential peek/stopping conformance, and guardrail data coverage.
+
+Invalid integrity blocks treatment-effect interpretation while retaining the raw sequential report. The canonical Monte Carlo A/A calibration uses seed 820260927 and 1000 null simulations; observed false-positive rate is 0.03 with Wilson 95% upper 0.04250368 against family-wise alpha 0.05.
+
+See docs/EXPERIMENT_INTEGRITY_V1.md.

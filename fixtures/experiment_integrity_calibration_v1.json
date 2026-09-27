@@ -1,0 +1,23 @@
+{
+  "calibration_version": "experiment_integrity.calibration.v1",
+  "causal": false,
+  "false_positive_count": 30,
+  "false_positive_rate": 0.03,
+  "familywise_alpha": 0.05,
+  "interpretation": "Synthetic A/A null calibration of repeated-look false-positive behavior; not a business or historical causal claim.",
+  "method": "fixed_seed_null_monte_carlo_v1",
+  "null_success_rate": 0.1,
+  "seed": 820260927,
+  "sequential_method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+  "simulations": 1000,
+  "status": "valid",
+  "stopping_counts": {
+    "1": 12,
+    "2": 9,
+    "3": 2,
+    "4": 7,
+    "no_rejection": 970
+  },
+  "wilson_95_lower": 0.0210936,
+  "wilson_95_upper": 0.04250368
+}

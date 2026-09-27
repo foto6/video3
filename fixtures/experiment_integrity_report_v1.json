@@ -1,0 +1,1261 @@
+{
+  "auto_publish": false,
+  "calibration": {
+    "calibration_version": "experiment_integrity.calibration.v1",
+    "causal": false,
+    "false_positive_count": 30,
+    "false_positive_rate": 0.03,
+    "familywise_alpha": 0.05,
+    "interpretation": "Synthetic A/A null calibration of repeated-look false-positive behavior; not a business or historical causal claim.",
+    "method": "fixed_seed_null_monte_carlo_v1",
+    "null_success_rate": 0.1,
+    "seed": 820260927,
+    "sequential_method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+    "simulations": 1000,
+    "status": "valid",
+    "stopping_counts": {
+      "1": 12,
+      "2": 9,
+      "3": 2,
+      "4": 7,
+      "no_rejection": 970
+    },
+    "wilson_95_lower": 0.0210936,
+    "wilson_95_upper": 0.04250368
+  },
+  "cases": {
+    "cross_arm_contamination": {
+      "auto_publish": false,
+      "bindings": {
+        "corpus_sha256": "3d1e88b4838d8f51d8ef76fc8afe0301ae6f127c36e0b376de64bc64abd44edd",
+        "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+        "plan_sha256": "6e3b42c01107bbaeab34a59dc55b2fc556714b768232a2aa46ca9ec2b016e517",
+        "randomization_sha256": "199221b2dc991bce7982591657f4a95a52f9a3a069c389a971ae44a2e87975a8",
+        "sequential_report_sha256": "5927a735c1e52aa2633e5c75d92ce3e973ba60389f3e35b0bbf1157ffe9c24a7"
+      },
+      "checks": [
+        {
+          "false_positive_rate": 0.03,
+          "familywise_alpha": 0.05,
+          "name": "aa_null_calibration",
+          "seed": 820260927,
+          "simulations": 1000,
+          "status": "valid",
+          "wilson_95_upper": 0.04250368
+        },
+        {
+          "by_variant": [
+            {
+              "expected": 200.5,
+              "observed": 202,
+              "relative_deviation": 0.0074813,
+              "variant_id": "control"
+            },
+            {
+              "expected": 200.5,
+              "observed": 199,
+              "relative_deviation": 0.0074813,
+              "variant_id": "treatment"
+            }
+          ],
+          "max_relative_deviation": 0.0074813,
+          "name": "sample_ratio_mismatch",
+          "status": "valid",
+          "threshold": 0.15
+        },
+        {
+          "cross_arm_contaminated_units": 1,
+          "duplicated_assignment_units": 1,
+          "exact_replay_duplicate_rows": 0,
+          "malformed_assignment_rows": 0,
+          "name": "assignment_integrity",
+          "status": "invalid",
+          "wrong_assignment_rows": 1
+        },
+        {
+          "absolute_limit": 0.15,
+          "imbalance_invalid": 0.15,
+          "imbalance_warning": 0.08,
+          "max_missing_rate": 0.0,
+          "missing_rate_imbalance": 0.0,
+          "name": "missingness_dropout_imbalance",
+          "per_variant": {
+            "control": {
+              "missing": 0,
+              "missing_rate": 0.0,
+              "total": 202
+            },
+            "treatment": {
+              "missing": 0,
+              "missing_rate": 0.0,
+              "total": 199
+            }
+          },
+          "status": "valid"
+        },
+        {
+          "at_or_after_stop": 0,
+          "before_start": 0,
+          "malformed_timestamps": 0,
+          "name": "event_time_window_leakage",
+          "status": "valid"
+        },
+        {
+          "diagnostics": [
+            {
+              "absolute_share_gap": 0.03987761,
+              "by_variant": {
+                "control": {
+                  "count": 63,
+                  "share": 0.31188119
+                },
+                "treatment": {
+                  "count": 70,
+                  "share": 0.35175879
+                }
+              },
+              "covariate": "region",
+              "level": "apac"
+            },
+            {
+              "absolute_share_gap": 0.01992636,
+              "by_variant": {
+                "control": {
+                  "count": 65,
+                  "share": 0.32178218
+                },
+                "treatment": {
+                  "count": 68,
+                  "share": 0.34170854
+                }
+              },
+              "covariate": "region",
+              "level": "eu"
+            },
+            {
+              "absolute_share_gap": 0.05980397,
+              "by_variant": {
+                "control": {
+                  "count": 74,
+                  "share": 0.36633663
+                },
+                "treatment": {
+                  "count": 61,
+                  "share": 0.30653266
+                }
+              },
+              "covariate": "region",
+              "level": "na"
+            },
+            {
+              "absolute_share_gap": 0.01248818,
+              "by_variant": {
+                "control": {
+                  "count": 102,
+                  "share": 0.5049505
+                },
+                "treatment": {
+                  "count": 98,
+                  "share": 0.49246231
+                }
+              },
+              "covariate": "device",
+              "level": "desktop"
+            },
+            {
+              "absolute_share_gap": 0.01248818,
+              "by_variant": {
+                "control": {
+                  "count": 100,
+                  "share": 0.4950495
+                },
+                "treatment": {
+                  "count": 101,
+                  "share": 0.50753769
+                }
+              },
+              "covariate": "device",
+              "level": "mobile"
+            }
+          ],
+          "invalid_threshold": 0.2,
+          "max_absolute_share_gap": 0.05980397,
+          "name": "pre_randomization_covariate_imbalance",
+          "status": "valid",
+          "warning_threshold": 0.1
+        },
+        {
+          "declared_look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "name": "sequential_peek_stopping_conformance",
+          "reasons": [],
+          "status": "valid"
+        },
+        {
+          "coverage": 1.0,
+          "covered_rows": 401,
+          "missing_by_field": {
+            "distribution_value": 0,
+            "missing": 0,
+            "recommendation_token": 0
+          },
+          "name": "guardrail_data_coverage",
+          "status": "valid",
+          "total_rows": 401
+        }
+      ],
+      "experiment_id": "synthetic-growth-exp-v1",
+      "external_mutation": false,
+      "integrity_version": "experiment_integrity.v1",
+      "randomized_evidence": true,
+      "raw_report_inspectable": true,
+      "reasons": {
+        "invalid": [
+          "assignment_integrity"
+        ],
+        "warning": []
+      },
+      "sample_counts": {
+        "raw_observations": 401,
+        "unique_assignment_units": 400,
+        "unique_observation_ids": 401
+      },
+      "status": "invalid",
+      "treatment_effect_interpretation_allowed": false
+    },
+    "differential_missingness": {
+      "auto_publish": false,
+      "bindings": {
+        "corpus_sha256": "e7ce9a993e93a1fff9670f1387a3ce5878a2bd2e026195f2387f81794ce2bc67",
+        "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+        "plan_sha256": "6e3b42c01107bbaeab34a59dc55b2fc556714b768232a2aa46ca9ec2b016e517",
+        "randomization_sha256": "3cb16af86502b744cf9941465eca03a4a8c602f00548278441b110a2208e6532",
+        "sequential_report_sha256": "5927a735c1e52aa2633e5c75d92ce3e973ba60389f3e35b0bbf1157ffe9c24a7"
+      },
+      "checks": [
+        {
+          "false_positive_rate": 0.03,
+          "familywise_alpha": 0.05,
+          "name": "aa_null_calibration",
+          "seed": 820260927,
+          "simulations": 1000,
+          "status": "valid",
+          "wilson_95_upper": 0.04250368
+        },
+        {
+          "by_variant": [
+            {
+              "expected": 200.0,
+              "observed": 201,
+              "relative_deviation": 0.005,
+              "variant_id": "control"
+            },
+            {
+              "expected": 200.0,
+              "observed": 199,
+              "relative_deviation": 0.005,
+              "variant_id": "treatment"
+            }
+          ],
+          "max_relative_deviation": 0.005,
+          "name": "sample_ratio_mismatch",
+          "status": "valid",
+          "threshold": 0.15
+        },
+        {
+          "cross_arm_contaminated_units": 0,
+          "duplicated_assignment_units": 0,
+          "exact_replay_duplicate_rows": 0,
+          "malformed_assignment_rows": 0,
+          "name": "assignment_integrity",
+          "status": "valid",
+          "wrong_assignment_rows": 0
+        },
+        {
+          "absolute_limit": 0.15,
+          "imbalance_invalid": 0.15,
+          "imbalance_warning": 0.08,
+          "max_missing_rate": 0.40201005,
+          "missing_rate_imbalance": 0.40201005,
+          "name": "missingness_dropout_imbalance",
+          "per_variant": {
+            "control": {
+              "missing": 0,
+              "missing_rate": 0.0,
+              "total": 201
+            },
+            "treatment": {
+              "missing": 80,
+              "missing_rate": 0.40201005,
+              "total": 199
+            }
+          },
+          "status": "invalid"
+        },
+        {
+          "at_or_after_stop": 0,
+          "before_start": 0,
+          "malformed_timestamps": 0,
+          "name": "event_time_window_leakage",
+          "status": "valid"
+        },
+        {
+          "diagnostics": [
+            {
+              "absolute_share_gap": 0.03832596,
+              "by_variant": {
+                "control": {
+                  "count": 63,
+                  "share": 0.31343284
+                },
+                "treatment": {
+                  "count": 70,
+                  "share": 0.35175879
+                }
+              },
+              "covariate": "region",
+              "level": "apac"
+            },
+            {
+              "absolute_share_gap": 0.01832546,
+              "by_variant": {
+                "control": {
+                  "count": 65,
+                  "share": 0.32338308
+                },
+                "treatment": {
+                  "count": 68,
+                  "share": 0.34170854
+                }
+              },
+              "covariate": "region",
+              "level": "eu"
+            },
+            {
+              "absolute_share_gap": 0.05665142,
+              "by_variant": {
+                "control": {
+                  "count": 73,
+                  "share": 0.36318408
+                },
+                "treatment": {
+                  "count": 61,
+                  "share": 0.30653266
+                }
+              },
+              "covariate": "region",
+              "level": "na"
+            },
+            {
+              "absolute_share_gap": 0.01500038,
+              "by_variant": {
+                "control": {
+                  "count": 102,
+                  "share": 0.50746269
+                },
+                "treatment": {
+                  "count": 98,
+                  "share": 0.49246231
+                }
+              },
+              "covariate": "device",
+              "level": "desktop"
+            },
+            {
+              "absolute_share_gap": 0.01500038,
+              "by_variant": {
+                "control": {
+                  "count": 99,
+                  "share": 0.49253731
+                },
+                "treatment": {
+                  "count": 101,
+                  "share": 0.50753769
+                }
+              },
+              "covariate": "device",
+              "level": "mobile"
+            }
+          ],
+          "invalid_threshold": 0.2,
+          "max_absolute_share_gap": 0.05665142,
+          "name": "pre_randomization_covariate_imbalance",
+          "status": "valid",
+          "warning_threshold": 0.1
+        },
+        {
+          "declared_look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "name": "sequential_peek_stopping_conformance",
+          "reasons": [],
+          "status": "valid"
+        },
+        {
+          "coverage": 1.0,
+          "covered_rows": 400,
+          "missing_by_field": {
+            "distribution_value": 0,
+            "missing": 0,
+            "recommendation_token": 0
+          },
+          "name": "guardrail_data_coverage",
+          "status": "valid",
+          "total_rows": 400
+        }
+      ],
+      "experiment_id": "synthetic-growth-exp-v1",
+      "external_mutation": false,
+      "integrity_version": "experiment_integrity.v1",
+      "randomized_evidence": true,
+      "raw_report_inspectable": true,
+      "reasons": {
+        "invalid": [
+          "missingness_dropout_imbalance"
+        ],
+        "warning": []
+      },
+      "sample_counts": {
+        "raw_observations": 400,
+        "unique_assignment_units": 400,
+        "unique_observation_ids": 400
+      },
+      "status": "invalid",
+      "treatment_effect_interpretation_allowed": false
+    },
+    "early_stopping_misuse": {
+      "auto_publish": false,
+      "bindings": {
+        "corpus_sha256": "22432681daad8fb71fbabd514dce63c1754009cbc79a12ebd94627c269c1f764",
+        "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+        "plan_sha256": "6e3b42c01107bbaeab34a59dc55b2fc556714b768232a2aa46ca9ec2b016e517",
+        "randomization_sha256": "3cb16af86502b744cf9941465eca03a4a8c602f00548278441b110a2208e6532",
+        "sequential_report_sha256": "3c19c81a0c88959628620be624e40c3ea9292c287182ea5b93100c587136c1f5"
+      },
+      "checks": [
+        {
+          "false_positive_rate": 0.03,
+          "familywise_alpha": 0.05,
+          "name": "aa_null_calibration",
+          "seed": 820260927,
+          "simulations": 1000,
+          "status": "valid",
+          "wilson_95_upper": 0.04250368
+        },
+        {
+          "by_variant": [
+            {
+              "expected": 200.0,
+              "observed": 201,
+              "relative_deviation": 0.005,
+              "variant_id": "control"
+            },
+            {
+              "expected": 200.0,
+              "observed": 199,
+              "relative_deviation": 0.005,
+              "variant_id": "treatment"
+            }
+          ],
+          "max_relative_deviation": 0.005,
+          "name": "sample_ratio_mismatch",
+          "status": "valid",
+          "threshold": 0.15
+        },
+        {
+          "cross_arm_contaminated_units": 0,
+          "duplicated_assignment_units": 0,
+          "exact_replay_duplicate_rows": 0,
+          "malformed_assignment_rows": 0,
+          "name": "assignment_integrity",
+          "status": "valid",
+          "wrong_assignment_rows": 0
+        },
+        {
+          "absolute_limit": 0.15,
+          "imbalance_invalid": 0.15,
+          "imbalance_warning": 0.08,
+          "max_missing_rate": 0.0,
+          "missing_rate_imbalance": 0.0,
+          "name": "missingness_dropout_imbalance",
+          "per_variant": {
+            "control": {
+              "missing": 0,
+              "missing_rate": 0.0,
+              "total": 201
+            },
+            "treatment": {
+              "missing": 0,
+              "missing_rate": 0.0,
+              "total": 199
+            }
+          },
+          "status": "valid"
+        },
+        {
+          "at_or_after_stop": 0,
+          "before_start": 0,
+          "malformed_timestamps": 0,
+          "name": "event_time_window_leakage",
+          "status": "valid"
+        },
+        {
+          "diagnostics": [
+            {
+              "absolute_share_gap": 0.03832596,
+              "by_variant": {
+                "control": {
+                  "count": 63,
+                  "share": 0.31343284
+                },
+                "treatment": {
+                  "count": 70,
+                  "share": 0.35175879
+                }
+              },
+              "covariate": "region",
+              "level": "apac"
+            },
+            {
+              "absolute_share_gap": 0.01832546,
+              "by_variant": {
+                "control": {
+                  "count": 65,
+                  "share": 0.32338308
+                },
+                "treatment": {
+                  "count": 68,
+                  "share": 0.34170854
+                }
+              },
+              "covariate": "region",
+              "level": "eu"
+            },
+            {
+              "absolute_share_gap": 0.05665142,
+              "by_variant": {
+                "control": {
+                  "count": 73,
+                  "share": 0.36318408
+                },
+                "treatment": {
+                  "count": 61,
+                  "share": 0.30653266
+                }
+              },
+              "covariate": "region",
+              "level": "na"
+            },
+            {
+              "absolute_share_gap": 0.01500038,
+              "by_variant": {
+                "control": {
+                  "count": 102,
+                  "share": 0.50746269
+                },
+                "treatment": {
+                  "count": 98,
+                  "share": 0.49246231
+                }
+              },
+              "covariate": "device",
+              "level": "desktop"
+            },
+            {
+              "absolute_share_gap": 0.01500038,
+              "by_variant": {
+                "control": {
+                  "count": 99,
+                  "share": 0.49253731
+                },
+                "treatment": {
+                  "count": 101,
+                  "share": 0.50753769
+                }
+              },
+              "covariate": "device",
+              "level": "mobile"
+            }
+          ],
+          "invalid_threshold": 0.2,
+          "max_absolute_share_gap": 0.05665142,
+          "name": "pre_randomization_covariate_imbalance",
+          "status": "valid",
+          "warning_threshold": 0.1
+        },
+        {
+          "declared_look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "name": "sequential_peek_stopping_conformance",
+          "reasons": [
+            "early_stop_without_boundary"
+          ],
+          "status": "invalid"
+        },
+        {
+          "coverage": 1.0,
+          "covered_rows": 400,
+          "missing_by_field": {
+            "distribution_value": 0,
+            "missing": 0,
+            "recommendation_token": 0
+          },
+          "name": "guardrail_data_coverage",
+          "status": "valid",
+          "total_rows": 400
+        }
+      ],
+      "experiment_id": "synthetic-growth-exp-v1",
+      "external_mutation": false,
+      "integrity_version": "experiment_integrity.v1",
+      "randomized_evidence": true,
+      "raw_report_inspectable": true,
+      "reasons": {
+        "invalid": [
+          "sequential_peek_stopping_conformance"
+        ],
+        "warning": []
+      },
+      "sample_counts": {
+        "raw_observations": 400,
+        "unique_assignment_units": 400,
+        "unique_observation_ids": 400
+      },
+      "status": "invalid",
+      "treatment_effect_interpretation_allowed": false
+    },
+    "late_event_leakage": {
+      "auto_publish": false,
+      "bindings": {
+        "corpus_sha256": "bb3f2ae8eaa3f72a7c740d001f146303f464a9b233034317ceac92b8f216625a",
+        "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+        "plan_sha256": "6e3b42c01107bbaeab34a59dc55b2fc556714b768232a2aa46ca9ec2b016e517",
+        "randomization_sha256": "3cb16af86502b744cf9941465eca03a4a8c602f00548278441b110a2208e6532",
+        "sequential_report_sha256": "5927a735c1e52aa2633e5c75d92ce3e973ba60389f3e35b0bbf1157ffe9c24a7"
+      },
+      "checks": [
+        {
+          "false_positive_rate": 0.03,
+          "familywise_alpha": 0.05,
+          "name": "aa_null_calibration",
+          "seed": 820260927,
+          "simulations": 1000,
+          "status": "valid",
+          "wilson_95_upper": 0.04250368
+        },
+        {
+          "by_variant": [
+            {
+              "expected": 200.0,
+              "observed": 201,
+              "relative_deviation": 0.005,
+              "variant_id": "control"
+            },
+            {
+              "expected": 200.0,
+              "observed": 199,
+              "relative_deviation": 0.005,
+              "variant_id": "treatment"
+            }
+          ],
+          "max_relative_deviation": 0.005,
+          "name": "sample_ratio_mismatch",
+          "status": "valid",
+          "threshold": 0.15
+        },
+        {
+          "cross_arm_contaminated_units": 0,
+          "duplicated_assignment_units": 0,
+          "exact_replay_duplicate_rows": 0,
+          "malformed_assignment_rows": 0,
+          "name": "assignment_integrity",
+          "status": "valid",
+          "wrong_assignment_rows": 0
+        },
+        {
+          "absolute_limit": 0.15,
+          "imbalance_invalid": 0.15,
+          "imbalance_warning": 0.08,
+          "max_missing_rate": 0.0,
+          "missing_rate_imbalance": 0.0,
+          "name": "missingness_dropout_imbalance",
+          "per_variant": {
+            "control": {
+              "missing": 0,
+              "missing_rate": 0.0,
+              "total": 201
+            },
+            "treatment": {
+              "missing": 0,
+              "missing_rate": 0.0,
+              "total": 199
+            }
+          },
+          "status": "valid"
+        },
+        {
+          "at_or_after_stop": 20,
+          "before_start": 0,
+          "malformed_timestamps": 0,
+          "name": "event_time_window_leakage",
+          "status": "invalid"
+        },
+        {
+          "diagnostics": [
+            {
+              "absolute_share_gap": 0.03832596,
+              "by_variant": {
+                "control": {
+                  "count": 63,
+                  "share": 0.31343284
+                },
+                "treatment": {
+                  "count": 70,
+                  "share": 0.35175879
+                }
+              },
+              "covariate": "region",
+              "level": "apac"
+            },
+            {
+              "absolute_share_gap": 0.01832546,
+              "by_variant": {
+                "control": {
+                  "count": 65,
+                  "share": 0.32338308
+                },
+                "treatment": {
+                  "count": 68,
+                  "share": 0.34170854
+                }
+              },
+              "covariate": "region",
+              "level": "eu"
+            },
+            {
+              "absolute_share_gap": 0.05665142,
+              "by_variant": {
+                "control": {
+                  "count": 73,
+                  "share": 0.36318408
+                },
+                "treatment": {
+                  "count": 61,
+                  "share": 0.30653266
+                }
+              },
+              "covariate": "region",
+              "level": "na"
+            },
+            {
+              "absolute_share_gap": 0.01500038,
+              "by_variant": {
+                "control": {
+                  "count": 102,
+                  "share": 0.50746269
+                },
+                "treatment": {
+                  "count": 98,
+                  "share": 0.49246231
+                }
+              },
+              "covariate": "device",
+              "level": "desktop"
+            },
+            {
+              "absolute_share_gap": 0.01500038,
+              "by_variant": {
+                "control": {
+                  "count": 99,
+                  "share": 0.49253731
+                },
+                "treatment": {
+                  "count": 101,
+                  "share": 0.50753769
+                }
+              },
+              "covariate": "device",
+              "level": "mobile"
+            }
+          ],
+          "invalid_threshold": 0.2,
+          "max_absolute_share_gap": 0.05665142,
+          "name": "pre_randomization_covariate_imbalance",
+          "status": "valid",
+          "warning_threshold": 0.1
+        },
+        {
+          "declared_look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "name": "sequential_peek_stopping_conformance",
+          "reasons": [],
+          "status": "valid"
+        },
+        {
+          "coverage": 1.0,
+          "covered_rows": 400,
+          "missing_by_field": {
+            "distribution_value": 0,
+            "missing": 0,
+            "recommendation_token": 0
+          },
+          "name": "guardrail_data_coverage",
+          "status": "valid",
+          "total_rows": 400
+        }
+      ],
+      "experiment_id": "synthetic-growth-exp-v1",
+      "external_mutation": false,
+      "integrity_version": "experiment_integrity.v1",
+      "randomized_evidence": true,
+      "raw_report_inspectable": true,
+      "reasons": {
+        "invalid": [
+          "event_time_window_leakage"
+        ],
+        "warning": []
+      },
+      "sample_counts": {
+        "raw_observations": 400,
+        "unique_assignment_units": 400,
+        "unique_observation_ids": 400
+      },
+      "status": "invalid",
+      "treatment_effect_interpretation_allowed": false
+    },
+    "sample_ratio_mismatch": {
+      "auto_publish": false,
+      "bindings": {
+        "corpus_sha256": "b1f20bbd73a2c260db91844355c54184ec0ca2420803e706ee18a59f7904ac11",
+        "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+        "plan_sha256": "6e3b42c01107bbaeab34a59dc55b2fc556714b768232a2aa46ca9ec2b016e517",
+        "randomization_sha256": "88e5fced24f4c988c34433c88b411f79c7e02fa1199518b737f2c4ed05971b45",
+        "sequential_report_sha256": "735aac740fc5ddcda9f63ec90e068b4b55b6291c6dbbeb18c33797ea359e9a4b"
+      },
+      "checks": [
+        {
+          "false_positive_rate": 0.03,
+          "familywise_alpha": 0.05,
+          "name": "aa_null_calibration",
+          "seed": 820260927,
+          "simulations": 1000,
+          "status": "valid",
+          "wilson_95_upper": 0.04250368
+        },
+        {
+          "by_variant": [
+            {
+              "expected": 400.0,
+              "observed": 645,
+              "relative_deviation": 0.6125,
+              "variant_id": "control"
+            },
+            {
+              "expected": 400.0,
+              "observed": 155,
+              "relative_deviation": 0.6125,
+              "variant_id": "treatment"
+            }
+          ],
+          "max_relative_deviation": 0.6125,
+          "name": "sample_ratio_mismatch",
+          "status": "invalid",
+          "threshold": 0.15
+        },
+        {
+          "cross_arm_contaminated_units": 0,
+          "duplicated_assignment_units": 0,
+          "exact_replay_duplicate_rows": 0,
+          "malformed_assignment_rows": 0,
+          "name": "assignment_integrity",
+          "status": "valid",
+          "wrong_assignment_rows": 0
+        },
+        {
+          "absolute_limit": 0.15,
+          "imbalance_invalid": 0.15,
+          "imbalance_warning": 0.08,
+          "max_missing_rate": 0.0,
+          "missing_rate_imbalance": 0.0,
+          "name": "missingness_dropout_imbalance",
+          "per_variant": {
+            "control": {
+              "missing": 0,
+              "missing_rate": 0.0,
+              "total": 645
+            },
+            "treatment": {
+              "missing": 0,
+              "missing_rate": 0.0,
+              "total": 155
+            }
+          },
+          "status": "valid"
+        },
+        {
+          "at_or_after_stop": 0,
+          "before_start": 0,
+          "malformed_timestamps": 0,
+          "name": "event_time_window_leakage",
+          "status": "valid"
+        },
+        {
+          "diagnostics": [
+            {
+              "absolute_share_gap": 0.00815204,
+              "by_variant": {
+                "control": {
+                  "count": 205,
+                  "share": 0.31782946
+                },
+                "treatment": {
+                  "count": 48,
+                  "share": 0.30967742
+                }
+              },
+              "covariate": "region",
+              "level": "apac"
+            },
+            {
+              "absolute_share_gap": 0.02780695,
+              "by_variant": {
+                "control": {
+                  "count": 226,
+                  "share": 0.3503876
+                },
+                "treatment": {
+                  "count": 50,
+                  "share": 0.32258065
+                }
+              },
+              "covariate": "region",
+              "level": "eu"
+            },
+            {
+              "absolute_share_gap": 0.03595899,
+              "by_variant": {
+                "control": {
+                  "count": 214,
+                  "share": 0.33178295
+                },
+                "treatment": {
+                  "count": 57,
+                  "share": 0.36774194
+                }
+              },
+              "covariate": "region",
+              "level": "na"
+            },
+            {
+              "absolute_share_gap": 0.50852713,
+              "by_variant": {
+                "control": {
+                  "count": 328,
+                  "share": 0.50852713
+                },
+                "treatment": {
+                  "count": 0,
+                  "share": 0.0
+                }
+              },
+              "covariate": "device",
+              "level": "desktop"
+            },
+            {
+              "absolute_share_gap": 0.50852713,
+              "by_variant": {
+                "control": {
+                  "count": 317,
+                  "share": 0.49147287
+                },
+                "treatment": {
+                  "count": 155,
+                  "share": 1.0
+                }
+              },
+              "covariate": "device",
+              "level": "mobile"
+            }
+          ],
+          "invalid_threshold": 0.2,
+          "max_absolute_share_gap": 0.50852713,
+          "name": "pre_randomization_covariate_imbalance",
+          "status": "invalid",
+          "warning_threshold": 0.1
+        },
+        {
+          "declared_look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "name": "sequential_peek_stopping_conformance",
+          "reasons": [],
+          "status": "valid"
+        },
+        {
+          "coverage": 1.0,
+          "covered_rows": 800,
+          "missing_by_field": {
+            "distribution_value": 0,
+            "missing": 0,
+            "recommendation_token": 0
+          },
+          "name": "guardrail_data_coverage",
+          "status": "valid",
+          "total_rows": 800
+        }
+      ],
+      "experiment_id": "synthetic-growth-exp-v1",
+      "external_mutation": false,
+      "integrity_version": "experiment_integrity.v1",
+      "randomized_evidence": true,
+      "raw_report_inspectable": true,
+      "reasons": {
+        "invalid": [
+          "pre_randomization_covariate_imbalance",
+          "sample_ratio_mismatch"
+        ],
+        "warning": []
+      },
+      "sample_counts": {
+        "raw_observations": 800,
+        "unique_assignment_units": 800,
+        "unique_observation_ids": 800
+      },
+      "status": "invalid",
+      "treatment_effect_interpretation_allowed": false
+    },
+    "valid_null_aa": {
+      "auto_publish": false,
+      "bindings": {
+        "corpus_sha256": "749d19deff90e0e7355692d358ca2efdc0d34e6c4df25dc9a2caf7d83d2e7427",
+        "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+        "plan_sha256": "6e3b42c01107bbaeab34a59dc55b2fc556714b768232a2aa46ca9ec2b016e517",
+        "randomization_sha256": "93213ea319ddb3eab151f150e4e7a4cf74a571038fdc9fd807a1e8e84dff1903",
+        "sequential_report_sha256": "5927a735c1e52aa2633e5c75d92ce3e973ba60389f3e35b0bbf1157ffe9c24a7"
+      },
+      "checks": [
+        {
+          "false_positive_rate": 0.03,
+          "familywise_alpha": 0.05,
+          "name": "aa_null_calibration",
+          "seed": 820260927,
+          "simulations": 1000,
+          "status": "valid",
+          "wilson_95_upper": 0.04250368
+        },
+        {
+          "by_variant": [
+            {
+              "expected": 800.0,
+              "observed": 828,
+              "relative_deviation": 0.035,
+              "variant_id": "control"
+            },
+            {
+              "expected": 800.0,
+              "observed": 772,
+              "relative_deviation": 0.035,
+              "variant_id": "treatment"
+            }
+          ],
+          "max_relative_deviation": 0.035,
+          "name": "sample_ratio_mismatch",
+          "status": "valid",
+          "threshold": 0.15
+        },
+        {
+          "cross_arm_contaminated_units": 0,
+          "duplicated_assignment_units": 0,
+          "exact_replay_duplicate_rows": 0,
+          "malformed_assignment_rows": 0,
+          "name": "assignment_integrity",
+          "status": "valid",
+          "wrong_assignment_rows": 0
+        },
+        {
+          "absolute_limit": 0.15,
+          "imbalance_invalid": 0.15,
+          "imbalance_warning": 0.08,
+          "max_missing_rate": 0.0,
+          "missing_rate_imbalance": 0.0,
+          "name": "missingness_dropout_imbalance",
+          "per_variant": {
+            "control": {
+              "missing": 0,
+              "missing_rate": 0.0,
+              "total": 828
+            },
+            "treatment": {
+              "missing": 0,
+              "missing_rate": 0.0,
+              "total": 772
+            }
+          },
+          "status": "valid"
+        },
+        {
+          "at_or_after_stop": 0,
+          "before_start": 0,
+          "malformed_timestamps": 0,
+          "name": "event_time_window_leakage",
+          "status": "valid"
+        },
+        {
+          "diagnostics": [
+            {
+              "absolute_share_gap": 0.03461115,
+              "by_variant": {
+                "control": {
+                  "count": 262,
+                  "share": 0.31642512
+                },
+                "treatment": {
+                  "count": 271,
+                  "share": 0.35103627
+                }
+              },
+              "covariate": "region",
+              "level": "apac"
+            },
+            {
+              "absolute_share_gap": 0.02546244,
+              "by_variant": {
+                "control": {
+                  "count": 286,
+                  "share": 0.34541063
+                },
+                "treatment": {
+                  "count": 247,
+                  "share": 0.31994819
+                }
+              },
+              "covariate": "region",
+              "level": "eu"
+            },
+            {
+              "absolute_share_gap": 0.00914871,
+              "by_variant": {
+                "control": {
+                  "count": 280,
+                  "share": 0.33816425
+                },
+                "treatment": {
+                  "count": 254,
+                  "share": 0.32901554
+                }
+              },
+              "covariate": "region",
+              "level": "na"
+            },
+            {
+              "absolute_share_gap": 0.02002453,
+              "by_variant": {
+                "control": {
+                  "count": 422,
+                  "share": 0.50966184
+                },
+                "treatment": {
+                  "count": 378,
+                  "share": 0.48963731
+                }
+              },
+              "covariate": "device",
+              "level": "desktop"
+            },
+            {
+              "absolute_share_gap": 0.02002453,
+              "by_variant": {
+                "control": {
+                  "count": 406,
+                  "share": 0.49033816
+                },
+                "treatment": {
+                  "count": 394,
+                  "share": 0.51036269
+                }
+              },
+              "covariate": "device",
+              "level": "mobile"
+            }
+          ],
+          "invalid_threshold": 0.2,
+          "max_absolute_share_gap": 0.03461115,
+          "name": "pre_randomization_covariate_imbalance",
+          "status": "valid",
+          "warning_threshold": 0.1
+        },
+        {
+          "declared_look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "name": "sequential_peek_stopping_conformance",
+          "reasons": [],
+          "status": "valid"
+        },
+        {
+          "coverage": 1.0,
+          "covered_rows": 1600,
+          "missing_by_field": {
+            "distribution_value": 0,
+            "missing": 0,
+            "recommendation_token": 0
+          },
+          "name": "guardrail_data_coverage",
+          "status": "valid",
+          "total_rows": 1600
+        }
+      ],
+      "experiment_id": "synthetic-growth-exp-v1",
+      "external_mutation": false,
+      "integrity_version": "experiment_integrity.v1",
+      "randomized_evidence": true,
+      "raw_report_inspectable": true,
+      "reasons": {
+        "invalid": [],
+        "warning": []
+      },
+      "sample_counts": {
+        "raw_observations": 1600,
+        "unique_assignment_units": 1600,
+        "unique_observation_ids": 1600
+      },
+      "status": "valid",
+      "treatment_effect_interpretation_allowed": true
+    }
+  },
+  "corpus_sha256": "e19d67804b58eaa428a00bfa706282d45a9b011d77bf1132df969f822e4ca684",
+  "creator_feedback_contract_version": "1.0",
+  "external_mutation": false,
+  "historical_observational_contract_preserved": true,
+  "integrity_version": "experiment_integrity.v1",
+  "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+  "plan_sha256": "6e3b42c01107bbaeab34a59dc55b2fc556714b768232a2aa46ca9ec2b016e517",
+  "report_version": "experiment_integrity.report.v1",
+  "seed": 820260927,
+  "status_counts": {
+    "invalid": 5,
+    "valid": 1,
+    "warning": 0
+  }
+}

@@ -146,6 +146,18 @@ from .experiment_protocol import (
     parse_experiment_evidence,
     plan_digest,
 )
+from .experiment_integrity import (
+    CALIBRATION_VERSION as EXPERIMENT_INTEGRITY_CALIBRATION_VERSION,
+    CORPUS_VERSION as EXPERIMENT_INTEGRITY_CORPUS_VERSION,
+    DEFAULT_INTEGRITY_SEED,
+    INTEGRITY_VERSION as EXPERIMENT_INTEGRITY_VERSION,
+    ExperimentIntegrityError,
+    build_integrity_report,
+    evaluate_experiment_integrity,
+    generate_integrity_synthetic_corpus,
+    monte_carlo_aa_calibration,
+    randomization_digest,
+)
 from .experiment import (
     ExperimentLifecycleError,
     ExperimentStatus,
@@ -159,6 +171,16 @@ from .experiment import (
 
 __all__ = [
     "AccountMutationDisabled",
+    "EXPERIMENT_INTEGRITY_CALIBRATION_VERSION",
+    "EXPERIMENT_INTEGRITY_CORPUS_VERSION",
+    "EXPERIMENT_INTEGRITY_VERSION",
+    "DEFAULT_INTEGRITY_SEED",
+    "ExperimentIntegrityError",
+    "build_integrity_report",
+    "evaluate_experiment_integrity",
+    "generate_integrity_synthetic_corpus",
+    "monte_carlo_aa_calibration",
+    "randomization_digest",
     "DEFAULT_EXPERIMENT_SEED",
     "EXPERIMENT_EVIDENCE_VERSION",
     "EXPERIMENT_PLAN_VERSION",

@@ -661,7 +661,11 @@ def generate_synthetic_experiment_corpus(
         },
     }
 
-def build_sequential_report(corpus: Mapping[str, Any]) -> dict[str, Any]:
+def build_sequential_report(
+    corpus: Mapping[str, Any],
+    *,
+    integrity_reference: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
     if corpus.get("corpus_version") != SYNTHETIC_CORPUS_VERSION:
         raise ExperimentProtocolError("unsupported synthetic corpus version")
     plan = ExperimentPlan.from_dict(corpus["plan"])
@@ -669,7 +673,7 @@ def build_sequential_report(corpus: Mapping[str, Any]) -> dict[str, Any]:
     for name in sorted(corpus["cases"]):
         evidence = parse_experiment_evidence(plan, corpus["cases"][name])
         results[name] = evaluate_sequential(plan, evidence)
-    return {
+    report = {
         "report_version": REPORT_VERSION, "seed": corpus["seed"],
         "plan_digest": plan_digest(plan), "plan_version": PLAN_VERSION,
         "evidence_version": EVIDENCE_VERSION,
@@ -684,3 +688,6 @@ def build_sequential_report(corpus: Mapping[str, Any]) -> dict[str, Any]:
         "experiment_evidence_separate_from_creator_payload": True,
         "auto_publish": False, "external_mutation": False,
     }
+    if integrity_reference is not None:
+        report["integrity_reference"] = json.loads(_canonical(dict(integrity_reference)))
+    return report
