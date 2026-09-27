@@ -9,10 +9,13 @@ from growth_analytics import (
     AggregateMetrics,
     AnalyticsEvent,
     AnalyticsStore,
+    CreatorFeedback,
+    CreatorFeedbackValidationError,
     Experiment,
     FixtureProvider,
     MetricoolAnalyticsAdapter,
     RetentionPoint,
+    VidIQAnalyticsAdapter,
     build_creator_feedback,
     compare_ctr,
     deterministic_score,
@@ -38,6 +41,24 @@ class GrowthAnalyticsTests(unittest.TestCase):
                 RetentionPoint(0.5, 0.6),
                 RetentionPoint(1.0, 0.4),
             ),
+        )
+
+    def _feedback(self) -> CreatorFeedback:
+        metrics = AggregateMetrics(
+            1000,
+            400,
+            20,
+            4000.0,
+            (RetentionPoint(0.0, 1.0), RetentionPoint(1.0, 0.2)),
+        )
+        return build_creator_feedback(
+            content_job_id="job-7",
+            channel_id="ch-1",
+            video_id="vid-1",
+            variant_id="a",
+            metrics=metrics,
+            duration_seconds=60.0,
+            evidence_event_ids=("z", "a"),
         )
 
     def test_ingest_is_idempotent_and_conflicts_are_rejected(self) -> None:
@@ -82,27 +103,56 @@ class GrowthAnalyticsTests(unittest.TestCase):
         self.assertAlmostEqual(result.relative_lift, 0.5)
         self.assertGreater(result.uncertainty, 0.0)
 
-    def test_creator_feedback_contract(self) -> None:
-        metrics = AggregateMetrics(
-            1000,
-            400,
-            20,
-            4000.0,
-            (RetentionPoint(0.0, 1.0), RetentionPoint(1.0, 0.2)),
-        )
-        feedback = build_creator_feedback(
-            content_job_id="job-7",
-            channel_id="ch-1",
-            video_id="vid-1",
-            variant_id="a",
-            metrics=metrics,
-            duration_seconds=60.0,
-            evidence_event_ids=("z", "a"),
-        )
+    def test_creator_feedback_contract_round_trips_and_matches_fixture(self) -> None:
+        feedback = self._feedback()
         body = feedback.to_dict()
         self.assertEqual(body["contract_version"], "1.0")
         self.assertEqual(body["evidence_event_ids"], ("a", "z"))
         self.assertIn("test_thumbnail_or_title", body["recommendations"])
+
+        self.assertEqual(CreatorFeedback.from_dict(body), feedback)
+        wire_json = feedback.to_json()
+        self.assertEqual(CreatorFeedback.from_json(wire_json), feedback)
+
+        fixture_path = Path(__file__).resolve().parents[1] / "fixtures" / "creator_feedback_v1.json"
+        self.assertEqual(fixture_path.read_text(encoding="utf-8").rstrip("\n"), wire_json)
+
+    def test_creator_feedback_unknown_version_fails_closed(self) -> None:
+        body = self._feedback().to_dict()
+        body["contract_version"] = "2.0"
+        with self.assertRaises(CreatorFeedbackValidationError):
+            CreatorFeedback.from_dict(body)
+
+    def test_creator_feedback_arrays_are_strict(self) -> None:
+        invalid_values = (
+            ("recommendations", "test_thumbnail_or_title"),
+            ("recommendations", ()),
+            ("recommendations", ("ok", 7)),
+            ("evidence_event_ids", "event-1"),
+            ("evidence_event_ids", ("event-1", 7)),
+        )
+        for field, value in invalid_values:
+            with self.subTest(field=field, value=value):
+                body = self._feedback().to_dict()
+                body[field] = value
+                with self.assertRaises(CreatorFeedbackValidationError):
+                    CreatorFeedback.from_dict(body)
+
+    def test_creator_feedback_score_and_uncertainty_are_bounded_numbers(self) -> None:
+        invalid_numbers = (True, "0.5", -0.01, 1.01, float("nan"), float("inf"))
+        for field in ("score", "uncertainty"):
+            for value in invalid_numbers:
+                with self.subTest(field=field, value=value):
+                    body = self._feedback().to_dict()
+                    body[field] = value
+                    with self.assertRaises(CreatorFeedbackValidationError):
+                        CreatorFeedback.from_dict(body)
+
+    def test_creator_feedback_rejects_unknown_fields(self) -> None:
+        body = self._feedback().to_dict()
+        body["future_field"] = "not-accepted-in-1.0"
+        with self.assertRaises(CreatorFeedbackValidationError):
+            CreatorFeedback.from_dict(body)
 
     def test_fixture_provider_filters_and_normalizes(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -116,14 +166,16 @@ class GrowthAnalyticsTests(unittest.TestCase):
             self.assertEqual(events[0].provider, "fixture")
             self.assertEqual(events[0].impressions, 10)
 
-    def test_metricool_adapter_rejects_mutation(self) -> None:
+    def test_provider_adapters_reject_mutation(self) -> None:
         class Client:
             def fetch_analytics(self, **kwargs):
                 return []
 
-        adapter = MetricoolAnalyticsAdapter(Client())
-        with self.assertRaises(AccountMutationDisabled):
-            adapter.mutate_account("publish", {"anything": True})
+        for adapter_type in (MetricoolAnalyticsAdapter, VidIQAnalyticsAdapter):
+            with self.subTest(adapter=adapter_type.__name__):
+                adapter = adapter_type(Client())
+                with self.assertRaises(AccountMutationDisabled):
+                    adapter.mutate_account("publish", {"anything": True})
 
 
 if __name__ == "__main__":
