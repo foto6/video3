@@ -93,13 +93,17 @@ class FeedbackBatch:
         window_payload = payload["window"]
         if not isinstance(window_payload, Mapping) or set(window_payload) != {"label", "start", "end"}:
             raise FeedbackBatchValidationError("window must contain label/start/end exactly")
+        for field in ("label", "start", "end"):
+            value = window_payload[field]
+            if not isinstance(value, str) or not value:
+                raise FeedbackBatchValidationError(f"window.{field} must be a non-empty string")
         try:
             window = TimeWindow(
-                str(window_payload["label"]),
-                str(window_payload["start"]),
-                str(window_payload["end"]),
+                window_payload["label"],
+                window_payload["start"],
+                window_payload["end"],
             )
-        except (TypeError, ValueError) as exc:
+        except ValueError as exc:
             raise FeedbackBatchValidationError("invalid feedback batch window") from exc
         feedback_payload = payload["feedback"]
         if not isinstance(feedback_payload, list) or not feedback_payload:
@@ -300,13 +304,17 @@ class CreatorSeedHandoff:
         window_payload = payload["window"]
         if not isinstance(window_payload, Mapping) or set(window_payload) != {"label", "start", "end"}:
             raise CreatorSeedValidationError("window must contain label/start/end exactly")
+        for field in ("label", "start", "end"):
+            value = window_payload[field]
+            if not isinstance(value, str) or not value:
+                raise CreatorSeedValidationError(f"window.{field} must be a non-empty string")
         try:
             window = TimeWindow(
-                str(window_payload["label"]),
-                str(window_payload["start"]),
-                str(window_payload["end"]),
+                window_payload["label"],
+                window_payload["start"],
+                window_payload["end"],
             )
-        except (TypeError, ValueError) as exc:
+        except ValueError as exc:
             raise CreatorSeedValidationError("invalid creator seed window") from exc
 
         feedback_payload = payload["feedback"]
