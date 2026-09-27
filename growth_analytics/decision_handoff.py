@@ -243,7 +243,13 @@ def _conservative_classification(
     if integrity_status == "invalid":
         return "invalid_integrity"
     if integrity_status == "warning":
-        return "insufficient_evidence"
+        warning_classification = "insufficient_evidence"
+        if (
+            classification_strength(audit_classification)
+            > classification_strength(warning_classification)
+        ):
+            return warning_classification
+        return audit_classification
     if audit_classification == "confirmatory_supported":
         if guardrail_status != "pass":
             return "confirmatory_not_supported"
@@ -693,10 +699,72 @@ def parse_decision_handoff(
             "decision handoff id mismatch"
         )
 
+    nested_exact = {
+        "registry": {
+            "experiment_id", "revision", "freeze_hash",
+            "hypothesis_id", "hypothesis",
+        },
+        "primary_metric": {
+            "name", "effect_estimate", "standard_error",
+            "confidence_lower", "confidence_upper",
+            "control_variant", "treatment_variant",
+            "control_n", "treatment_n",
+            "control_rate", "treatment_rate",
+        },
+        "guardrails": {
+            "breaches", "distribution_shift", "missing_rate",
+            "recommendation_churn", "status",
+        },
+        "multiplicity": {
+            "family_id", "method", "family_alpha", "decision",
+            "decision_reason", "raw_two_sided_p_value",
+            "sequential_valid_p_value", "family_adjusted_p_value",
+        },
+        "integrity": {"status", "reasons", "result_digest"},
+        "provenance": {
+            "sample_counts", "window", "event_window_corpus_digest",
+            "randomization_digest", "sequential_result_digest",
+            "family_report_digest",
+        },
+        "raw_metrics": {
+            "primary_comparison", "guardrails",
+            "family_confirmatory", "preserved_when_blocked",
+        },
+        "recommendation": {"mode", "confirmatory", "text", "data"},
+        "authority": {
+            "auto_publish", "external_mutation", "release_authorized",
+            "publish_authorized", "requires_creator_release_authorization",
+            "notice",
+        },
+    }
+    for name, fields in nested_exact.items():
+        value = _require_mapping(payload[name], name)
+        if set(value) != fields:
+            raise DecisionHandoffError(
+                f"{name} fields must match decision handoff v1 exactly"
+            )
+
     recommendation = _require_mapping(
         payload["recommendation"],
         "recommendation",
     )
+    data = _require_mapping(
+        recommendation.get("data"),
+        "recommendation data",
+    )
+    if set(data) != {
+        "preferred_variant", "effect_estimate", "source_classification"
+    }:
+        raise DecisionHandoffError(
+            "recommendation data fields must match v1 exactly"
+        )
+    expected_confirmatory = (
+        classification == "confirmatory_supported"
+    )
+    if recommendation.get("confirmatory") is not expected_confirmatory:
+        raise DecisionHandoffError(
+            "recommendation authority conflicts with classification"
+        )
     if (
         classification
         in {"invalid_integrity", "exploratory_only"}
