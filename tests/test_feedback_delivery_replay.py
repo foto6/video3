@@ -20,6 +20,8 @@ from growth_analytics import (
     MetricoolAnalyticsAdapter,
     TimeWindow,
     VidIQAnalyticsAdapter,
+    analytics_event_from_dict,
+    analytics_event_to_dict,
     build_feedback_batch,
     creator_seed_handoff_json,
     simulate_campaign,
@@ -159,36 +161,22 @@ class FeedbackDeliveryReplayTests(unittest.TestCase):
             changed_feedback[0],
             score=max(0.0, changed_feedback[0].score - 0.01),
         )
-        conflicting = replace(
-            batch,
-            feedback=tuple(changed_feedback),
-            payload_digest="0" * 64,
+        conflicting = build_feedback_batch(
+            campaign_id=batch.campaign_id,
+            window=TimeWindow(batch.window_label, batch.window_start, batch.window_end),
+            feedbacks=changed_feedback,
         )
+        self.assertEqual(conflicting.batch_id, batch.batch_id)
+        self.assertNotEqual(conflicting.payload_digest, batch.payload_digest)
         with tempfile.TemporaryDirectory() as tmp:
             ledger = FeedbackDeliveryLedger(Path(tmp) / "delivery.jsonl")
             ledger.commit(batch)
-            with self.assertRaises(FeedbackBatchValidationError):
+            with self.assertRaises(DeliveryConflictError):
                 ledger.commit(conflicting)
 
     def test_event_replay_duplicate_and_late_event_produce_one_logical_handoff(self) -> None:
         payload = self.campaign_payload()
-        raw_events = payload["events"]
-        events = tuple(
-            AnalyticsEvent(
-                provider=item["provider"],
-                event_id=item["event_id"],
-                channel_id=item["channel_id"],
-                video_id=item["video_id"],
-                variant_id=item["variant_id"],
-                captured_at=item["captured_at"],
-                impressions=item["impressions"],
-                views=item["views"],
-                clicks=item["clicks"],
-                watch_time_seconds=item["watch_time_seconds"],
-                retention=tuple(),
-            )
-            for item in raw_events
-        )
+        events = tuple(analytics_event_from_dict(item) for item in payload["events"])
 
         with tempfile.TemporaryDirectory() as tmp:
             stream_path = Path(tmp) / "events.jsonl"
@@ -199,12 +187,30 @@ class FeedbackDeliveryReplayTests(unittest.TestCase):
             self.assertEqual(stream.append(events[-1]).status, "duplicate")
 
             reopened = DurableAnalyticsEventStream(stream_path)
-            replay_ids = tuple(item.event_id for item in reopened.replay(order="captured_at"))
+            replayed_events = reopened.replay(order="captured_at")
+            replay_ids = tuple(item.event_id for item in replayed_events)
             self.assertEqual(len(replay_ids), len(set(replay_ids)))
             self.assertEqual(reopened.event_count, len(events))
 
+            replay_payload = dict(payload)
+            replay_payload["events"] = [
+                analytics_event_to_dict(item) for item in replayed_events
+            ]
+            replay_report = simulate_campaign(replay_payload)
+            replay_feedback = tuple(
+                CreatorFeedback.from_dict(item)
+                for item in replay_report["next_cycle_feedback"]
+            )
+            raw_window = replay_payload["windows"][-1]
+            replay_batch = build_feedback_batch(
+                campaign_id=replay_report["campaign_id"],
+                window=TimeWindow(
+                    raw_window["label"], raw_window["start"], raw_window["end"]
+                ),
+                feedbacks=replay_feedback,
+            )
+
             original_batch = self.build_batch()
-            replay_batch = self.build_batch()
             self.assertEqual(original_batch.to_json(), replay_batch.to_json())
 
             ledger = FeedbackDeliveryLedger(Path(tmp) / "delivery.jsonl")
