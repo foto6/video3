@@ -371,11 +371,17 @@ class ExperimentEngineV2Tests(unittest.TestCase):
         self.assertEqual(report["window_count"], 2)
         self.assertEqual(len(report["next_cycle_feedback"]), 6)
         self.assertFalse(report["causal"])
-        self.assertEqual(json.loads(campaign_report_json(report)), report)
+        json_report = campaign_report_json(report)
+        self.assertEqual(json.loads(json_report), report)
         markdown = campaign_report_markdown(report)
         self.assertIn("Experiments: 2", markdown)
         self.assertIn("Causal claim: no", markdown)
         self.assertIn("Observational analytics", markdown)
+
+        json_snapshot = fixture.with_name("campaign_round2_report.json")
+        markdown_snapshot = fixture.with_name("campaign_round2_report.md")
+        self.assertEqual(json_snapshot.read_text(encoding="utf-8"), json_report)
+        self.assertEqual(markdown_snapshot.read_text(encoding="utf-8"), markdown)
 
     def test_score_bounds_property_grid(self) -> None:
         for impressions in (0, 1, 10, 100, 10000):
