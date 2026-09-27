@@ -94,3 +94,14 @@ Wave 4 freezes strict producer parsers/serializers for `growth.feedback_batch.v1
 The Creator cross-check is against `foto6/video1 @ 7ece5182bdf0791eadda28f10e7316f3a496ded4`: its current public integration boundary accepts exact CreatorFeedback `1.0` as `growth_feedback` seed metadata but has no outer batch/seed parser. Growth does not edit or mutate Creator state; Creator owns persist-once application using `idempotency_key=batch_id`.
 
 See `docs/CREATOR_CONSUMER_CONFORMANCE_V1.md`.
+
+
+## Event-time finalization and crash consistency
+
+Wave 5 separates event time from ingestion order explicitly. `AnalyticsEvent.captured_at` controls window membership; stream `sequence` records only durable arrival order. `WindowFinalizationLedger` closes a campaign/window only after its explicit watermark passes end plus allowed lateness and binds the canonical event set to the existing batch/payload/Creator-seed digests.
+
+Once finalized, exact event replays are duplicate/no-op, while new in-window identities are rejected. Finalized windows are not reopened under the same identity. This prevents late data or restart order from silently changing an already delivered next-cycle seed.
+
+The event stream may optionally recover only an unterminated syntactically invalid final JSONL line. All semantically ambiguous storage faults—including conflicting duplicate ids and sequence corruption—fail closed. Delivery-ledger sequence corruption likewise fails closed.
+
+The Wave5 stress and metamorphic suites prove that identical semantic event sets yield identical finalized-learning bytes and frozen Growth-to-Creator delivery hashes across ingestion permutations and injected restarts. See `docs/EVENT_STREAM_RELIABILITY_V1.md`.
