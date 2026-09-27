@@ -97,7 +97,30 @@ class ExperimentAuditWave10Tests(unittest.TestCase):
             "experiment_audit_bundle_v1.json"
         )
         rebuilt = rebuild_canonical_audit_bundle(self.root)
-        self.assertEqual(rebuilt, expected)
+        def first_diff(left, right, path="$"):
+            if type(left) is not type(right):
+                return (path, left, right)
+            if isinstance(left, dict):
+                if set(left) != set(right):
+                    return (path + ".keys", sorted(left), sorted(right))
+                for key in sorted(left):
+                    found = first_diff(left[key], right[key], path + "." + key)
+                    if found is not None:
+                        return found
+                return None
+            if isinstance(left, list):
+                if len(left) != len(right):
+                    return (path + ".length", len(left), len(right))
+                for index, (a, b) in enumerate(zip(left, right)):
+                    found = first_diff(a, b, path + f"[{index}]")
+                    if found is not None:
+                        return found
+                return None
+            if left != right:
+                return (path, left, right)
+            return None
+        difference = first_diff(rebuilt, expected)
+        self.assertIsNone(difference, msg=repr(difference))
         verified = verify_audit_bundle(
             self.root, expected
         )
