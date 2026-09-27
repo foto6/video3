@@ -175,6 +175,20 @@ from .experiment_registry import (
     evidence_from_sequential_result,
     generate_registry_synthetic_corpus,
 )
+from .experiment_audit import (
+    AUDIT_BUNDLE_VERSION as EXPERIMENT_AUDIT_BUNDLE_VERSION,
+    PRIMARY_METRIC_DEFINITION_VERSION as EXPERIMENT_PRIMARY_METRIC_DEFINITION_VERSION,
+    VERIFICATION_VERSION as EXPERIMENT_AUDIT_VERIFICATION_VERSION,
+    ExperimentAuditError,
+    build_audit_bundle,
+    canonical_json as audit_canonical_json,
+    classify_conclusion,
+    observation_corpus_digest,
+    rebuild_canonical_audit_bundle,
+    sha256_json as audit_sha256_json,
+    verify_audit_bundle,
+    write_canonical_bundle,
+)
 from .experiment import (
     ExperimentLifecycleError,
     ExperimentStatus,
@@ -188,6 +202,18 @@ from .experiment import (
 
 __all__ = [
     "AccountMutationDisabled",
+    "EXPERIMENT_AUDIT_BUNDLE_VERSION",
+    "EXPERIMENT_PRIMARY_METRIC_DEFINITION_VERSION",
+    "EXPERIMENT_AUDIT_VERIFICATION_VERSION",
+    "ExperimentAuditError",
+    "build_audit_bundle",
+    "audit_canonical_json",
+    "classify_conclusion",
+    "observation_corpus_digest",
+    "rebuild_canonical_audit_bundle",
+    "audit_sha256_json",
+    "verify_audit_bundle",
+    "write_canonical_bundle",
     "EXPERIMENT_REGISTRY_CORPUS_VERSION",
     "DEFAULT_REGISTRY_SEED",
     "EXPERIMENT_FAMILY_REPORT_VERSION",
