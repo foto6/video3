@@ -1,0 +1,1 @@
+{"channel_id":"ch-1","content_job_id":"job-7","contract_version":"1.0","evidence_event_ids":["a","z"],"observed":{"average_watch_time_seconds":10.0,"ctr":0.02,"retention_auc":0.6},"recommendations":["test_thumbnail_or_title","strengthen_opening_and_pacing"],"score":0.30833333,"uncertainty":0.03162278,"variant_id":"a","video_id":"vid-1"}\n
