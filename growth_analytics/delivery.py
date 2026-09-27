@@ -20,6 +20,10 @@ class FeedbackBatchValidationError(ValueError):
     pass
 
 
+class CreatorSeedValidationError(ValueError):
+    pass
+
+
 class DeliveryConflictError(ValueError):
     pass
 
@@ -221,28 +225,167 @@ def build_feedback_batch(
     )
 
 
+@dataclass(frozen=True)
+class CreatorSeedHandoff:
+    handoff_version: str
+    seed_kind: str
+    idempotency_key: str
+    batch_id: str
+    campaign_id: str
+    window_label: str
+    window_start: str
+    window_end: str
+    payload_digest: str
+    causal: bool
+    interpretation: str
+    feedback: tuple[CreatorFeedback, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "handoff_version": self.handoff_version,
+            "seed_kind": self.seed_kind,
+            "idempotency_key": self.idempotency_key,
+            "batch_id": self.batch_id,
+            "campaign_id": self.campaign_id,
+            "window": {
+                "label": self.window_label,
+                "start": self.window_start,
+                "end": self.window_end,
+            },
+            "payload_digest": self.payload_digest,
+            "causal": self.causal,
+            "interpretation": self.interpretation,
+            "feedback": [json.loads(item.to_json()) for item in self.feedback],
+        }
+
+    def to_json(self) -> str:
+        validated = type(self).from_dict(self.to_dict())
+        return _canonical_json(validated.to_dict())
+
+    @classmethod
+    def from_dict(cls, payload: Mapping[str, Any]) -> "CreatorSeedHandoff":
+        if not isinstance(payload, Mapping):
+            raise CreatorSeedValidationError("creator seed handoff must be an object")
+        expected_fields = {
+            "handoff_version",
+            "seed_kind",
+            "idempotency_key",
+            "batch_id",
+            "campaign_id",
+            "window",
+            "payload_digest",
+            "causal",
+            "interpretation",
+            "feedback",
+        }
+        if set(payload) != expected_fields:
+            raise CreatorSeedValidationError("creator seed fields must match v1 exactly")
+        if payload["handoff_version"] != CREATOR_SEED_HANDOFF_VERSION:
+            raise CreatorSeedValidationError("unsupported creator seed handoff version")
+        if payload["seed_kind"] != "growth_feedback_batch":
+            raise CreatorSeedValidationError("unsupported creator seed kind")
+        if payload["causal"] is not False:
+            raise CreatorSeedValidationError("creator seed must remain observational/non-causal")
+        if payload["interpretation"] != CAUSALITY_NOTICE:
+            raise CreatorSeedValidationError(
+                "creator seed interpretation must preserve observational semantics"
+            )
+        for field in ("idempotency_key", "batch_id", "campaign_id", "payload_digest"):
+            value = payload[field]
+            if not isinstance(value, str) or not value:
+                raise CreatorSeedValidationError(f"{field} must be a non-empty string")
+        if payload["idempotency_key"] != payload["batch_id"]:
+            raise CreatorSeedValidationError("idempotency_key must equal batch_id")
+
+        window_payload = payload["window"]
+        if not isinstance(window_payload, Mapping) or set(window_payload) != {"label", "start", "end"}:
+            raise CreatorSeedValidationError("window must contain label/start/end exactly")
+        try:
+            window = TimeWindow(
+                str(window_payload["label"]),
+                str(window_payload["start"]),
+                str(window_payload["end"]),
+            )
+        except (TypeError, ValueError) as exc:
+            raise CreatorSeedValidationError("invalid creator seed window") from exc
+
+        feedback_payload = payload["feedback"]
+        if not isinstance(feedback_payload, list) or not feedback_payload:
+            raise CreatorSeedValidationError("feedback must be a non-empty array")
+        try:
+            feedback = tuple(CreatorFeedback.from_dict(item) for item in feedback_payload)
+        except CreatorFeedbackValidationError as exc:
+            raise CreatorSeedValidationError("invalid CreatorFeedback 1.0 payload") from exc
+
+        try:
+            batch = build_feedback_batch(
+                campaign_id=str(payload["campaign_id"]),
+                window=window,
+                feedbacks=feedback,
+            )
+        except FeedbackBatchValidationError as exc:
+            raise CreatorSeedValidationError("invalid creator seed feedback batch") from exc
+
+        if payload["batch_id"] != batch.batch_id:
+            raise CreatorSeedValidationError(
+                "batch_id does not match campaign/window/evidence identity"
+            )
+        if payload["payload_digest"] != batch.payload_digest:
+            raise CreatorSeedValidationError(
+                "payload_digest does not match byte-stable feedback set"
+            )
+        if tuple(item.to_json() for item in feedback) != tuple(
+            item.to_json() for item in batch.feedback
+        ):
+            raise CreatorSeedValidationError(
+                "feedback array is not in canonical deterministic order"
+            )
+        return cls(
+            handoff_version=CREATOR_SEED_HANDOFF_VERSION,
+            seed_kind="growth_feedback_batch",
+            idempotency_key=batch.batch_id,
+            batch_id=batch.batch_id,
+            campaign_id=batch.campaign_id,
+            window_label=batch.window_label,
+            window_start=batch.window_start,
+            window_end=batch.window_end,
+            payload_digest=batch.payload_digest,
+            causal=False,
+            interpretation=CAUSALITY_NOTICE,
+            feedback=batch.feedback,
+        )
+
+    @classmethod
+    def from_json(cls, wire_json: str) -> "CreatorSeedHandoff":
+        if not isinstance(wire_json, str):
+            raise CreatorSeedValidationError("creator seed JSON must be a string")
+        try:
+            payload = json.loads(wire_json)
+        except json.JSONDecodeError as exc:
+            raise CreatorSeedValidationError("invalid creator seed JSON") from exc
+        return cls.from_dict(payload)
+
+
 def creator_seed_handoff(batch: FeedbackBatch) -> dict[str, Any]:
     validated = FeedbackBatch.from_dict(batch.to_dict())
-    return {
-        "handoff_version": CREATOR_SEED_HANDOFF_VERSION,
-        "seed_kind": "growth_feedback_batch",
-        "idempotency_key": validated.batch_id,
-        "batch_id": validated.batch_id,
-        "campaign_id": validated.campaign_id,
-        "window": {
-            "label": validated.window_label,
-            "start": validated.window_start,
-            "end": validated.window_end,
-        },
-        "payload_digest": validated.payload_digest,
-        "causal": False,
-        "interpretation": CAUSALITY_NOTICE,
-        "feedback": [json.loads(item.to_json()) for item in validated.feedback],
-    }
+    return CreatorSeedHandoff(
+        handoff_version=CREATOR_SEED_HANDOFF_VERSION,
+        seed_kind="growth_feedback_batch",
+        idempotency_key=validated.batch_id,
+        batch_id=validated.batch_id,
+        campaign_id=validated.campaign_id,
+        window_label=validated.window_label,
+        window_start=validated.window_start,
+        window_end=validated.window_end,
+        payload_digest=validated.payload_digest,
+        causal=False,
+        interpretation=CAUSALITY_NOTICE,
+        feedback=validated.feedback,
+    ).to_dict()
 
 
 def creator_seed_handoff_json(batch: FeedbackBatch) -> str:
-    return _canonical_json(creator_seed_handoff(batch))
+    return CreatorSeedHandoff.from_dict(creator_seed_handoff(batch)).to_json()
 
 
 class FeedbackDeliveryLedger:
