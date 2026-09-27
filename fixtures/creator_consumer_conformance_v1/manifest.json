@@ -1,0 +1,36 @@
+{
+  "batch_id": "fb1:f0caad0fc7aeb4e27036f27c5ecdd143a7342d385557747464eacd34c4eb2340",
+  "causal": false,
+  "creator_consumer_repository": "foto6/video1",
+  "creator_consumer_sha": "7ece5182bdf0791eadda28f10e7316f3a496ded4",
+  "expected_creatorfeedback_version": "1.0",
+  "expected_semantics": {
+    "canonical_batch.json": "accept",
+    "changed_evidence_identity.json": "reject_fail_closed",
+    "changed_payload_digest.json": "reject_fail_closed",
+    "conflicting_same_id_batch.json": "valid_transport_but_conflict_against_committed_batch_id",
+    "creator_seed.json": "accept_and_persist_once",
+    "duplicate_replay.json": "duplicate_noop_after_first_commit",
+    "malformed_payload.json": "reject_fail_closed",
+    "unknown_version.json": "reject_fail_closed"
+  },
+  "files_sha256": {
+    "canonical_batch.json": "4d433442a5da256c8aa5cc97f5ec50f8f9d50631ed817ba9f5dd3ba126dad024",
+    "changed_evidence_identity.json": "971d5a393fcfb949e12ec47a53274a4085d7f5ed7ead3bce2a256037ece76223",
+    "changed_payload_digest.json": "8de349603292f9b7aa114064e0b297530a1b9b05282c505f266e6a59ed48be3c",
+    "conflicting_same_id_batch.json": "5d8ff232c12836b745fb1dd60e2be559811ce1165c08d6151e699b6de354f24c",
+    "creator_seed.json": "58e100ab79b8a52b0f1286dc0af2c83179fc918b40d82808731f234046839224",
+    "duplicate_replay.json": "58e100ab79b8a52b0f1286dc0af2c83179fc918b40d82808731f234046839224",
+    "malformed_payload.json": "f6f040491d953dcdb795ef651828672c5bb6289d8866080afa175740c2749614",
+    "unknown_version.json": "9e087f285b4792fad44b90fed4e9c33ee726d864070a438ebb50385d2b3e21cc"
+  },
+  "manifest_version": "growth.creator_consumer_conformance_manifest.v1",
+  "observational": true,
+  "payload_digest": "39e09b181c58650a31c10d2c1067ccb3ce693e1d47b166ae87e4a5e13fe0f00c",
+  "producer_base_sha": "5c38b8844e91cc8e4f82ccf5e1aa135d32204b36",
+  "producer_branch": "agent/growth-analytics",
+  "producer_contract_sha": "bcd58e510cc129d6f02504856a1bb9de6dbef358",
+  "producer_repository": "foto6/video3",
+  "producer_sha": "bcd58e510cc129d6f02504856a1bb9de6dbef358",
+  "seed_digest": "f878154b3ae54b2f55bf91076fccaab7a15470034550bb5c0f6af044a0e26a46"
+}
