@@ -82,6 +82,14 @@ class DecisionHandoffWave11Tests(unittest.TestCase):
         )
         expected = self.canonical_handoff()
         self.assertEqual(actual, expected)
+        digest_material = dict(actual)
+        provided_digest = digest_material.pop("handoff_digest")
+        recomputed_digest = audit_sha256_json(digest_material)
+        self.assertEqual(
+            recomputed_digest,
+            provided_digest,
+            msg=f"recomputed={recomputed_digest} provided={provided_digest}",
+        )
         self.assertEqual(
             actual["handoff_version"],
             "growth.decision_handoff.v1",
