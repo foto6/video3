@@ -1,0 +1,14 @@
+{
+  "manifest_version": "growth.decision_handoff_fixture_manifest.v1",
+  "audit_bundle_digest": "788eca36cd305ff62209bec4ff76ce5b3531589234cc698d4c774844694ca5c3",
+  "canonical_fixture": "canonical_handoff.json",
+  "canonical_fixture_sha256": "5473bb23258a0943c5f4a0e43f1d853ad53e2f114b4388a7d99c86a1fa9f34a9",
+  "classification": "confirmatory_not_supported",
+  "creator_feedback_contract_version": "1.0",
+  "duplicate_replay_fixture": "duplicate_replay.json",
+  "duplicate_replay_fixture_sha256": "5473bb23258a0943c5f4a0e43f1d853ad53e2f114b4388a7d99c86a1fa9f34a9",
+  "external_mutation": false,
+  "handoff_digest": "890ecd0cb5bbb82a7f041bfc84a90c2d790b7b94d750bb159292db4038064fbf",
+  "handoff_version": "growth.decision_handoff.v1",
+  "auto_publish": false
+}
