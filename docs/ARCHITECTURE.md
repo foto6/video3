@@ -76,3 +76,12 @@ Round 2 adds a durable experiment and learning layer around the original analyti
 CreatorFeedback remains contract version `"1.0"` with the exact Round-1 wire vocabulary. V2 experiment and uncertainty objects are internal/reporting contracts and never imply causal certainty from observational provider analytics.
 
 See `docs/EXPERIMENT_ENGINE_V2.md` and `fixtures/campaign_round2.json`.
+
+
+## Feedback delivery boundary
+
+The cycle-N -> cycle-N+1 integration boundary is additive to CreatorFeedback 1.0. `growth_analytics.delivery` owns deterministic feedback-batch identity, byte-stable Creator seed export, and the append-only delivery ledger.
+
+Batch identity is derived from campaign/window/evidence inputs; a separate payload digest protects the canonical v1 payload set. This allows identical replay after restart to collapse to one logical delivery while a reused identity with changed feedback fails closed.
+
+Growth generates and exports feedback only. Creator owns persisting/applying the exported seed to the next cycle. No Growth component posts content, mutates provider accounts, or mutates Creator workflow state.
