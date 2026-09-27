@@ -1,0 +1,1729 @@
+{
+  "auto_publish": false,
+  "bundle_version": "experiment_family_report_bundle.v1",
+  "cases": {
+    "integrity_invalid_block": {
+      "auto_publish": false,
+      "confirmatory": [
+        {
+          "analysis_id": "wave9-integrity-invalid:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "integrity_invalid",
+          "experiment_id": "wave9-integrity-invalid",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 1,
+          "holm_rank": 1,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "invalid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 1e-07,
+          "registry_freeze_hash": "d23257bcdc177abca0b685d94d1adda5961af6c872e9b0274fb152faae3783de",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 4e-07,
+          "slot_id": "wave9-integrity-invalid@1:wave9-integrity-invalid:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        }
+      ],
+      "exploratory": [],
+      "external_mutation": false,
+      "family_id": "wave9-integrity-family",
+      "family_report_version": "experiment_family_report.v1",
+      "historical_observational_outside_randomized_inference": true,
+      "multiplicity": {
+        "bonferroni_reference_alpha_per_test": 0.05,
+        "family_alpha": 0.05,
+        "input_is_sequentially_adjusted": true,
+        "method": "holm_bonferroni_v1",
+        "planned_confirmatory_count": 1
+      },
+      "registry": [
+        {
+          "creation_hash": "cbde4a03eeb73f941327af42fdbe5e7f59fe89a987d52fdbd6b1e4855797103c",
+          "experiment_id": "wave9-integrity-invalid",
+          "freeze_hash": "d23257bcdc177abca0b685d94d1adda5961af6c872e9b0274fb152faae3783de",
+          "hypothesis": "Very small p-value with invalid integrity.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        }
+      ],
+      "summary": {
+        "confirmatory_decisions": 0,
+        "exploratory_metrics": 0,
+        "integrity_blocked": 1
+      }
+    },
+    "many_null_experiments": {
+      "auto_publish": false,
+      "confirmatory": [
+        {
+          "analysis_id": "wave9-null-01:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-01",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 27,
+          "holm_rank": 14,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.942711518405,
+          "registry_freeze_hash": "1b6c3410a37973b2b7999ac823e3ef7e06f13e68fafd0303c6da11bad4abaeb0",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-01@1:wave9-null-01:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-02:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-02",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 26,
+          "holm_rank": 15,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.431240646918,
+          "registry_freeze_hash": "5fec8b4b7ea0e3e53822ac0be611383f3a91e99fef0ef8c9dc72a70cd20daf0e",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-02@1:wave9-null-02:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-03:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-03",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 25,
+          "holm_rank": 16,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.647569244103,
+          "registry_freeze_hash": "bad9039bb8b5f963ad738eb7716f1f7edbf70b9699ac01ecf1235b37b9676656",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-03@1:wave9-null-03:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-04:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-04",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.18601446062,
+          "holm_multiplier": 37,
+          "holm_rank": 4,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.046503615155,
+          "registry_freeze_hash": "b79b995d9febd0a67d38ef61023f8f7f537333fbfeb890ccc921af7cd322c4f3",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.18601446062,
+          "slot_id": "wave9-null-04@1:wave9-null-04:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-05:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-05",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 24,
+          "holm_rank": 17,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.529303763923,
+          "registry_freeze_hash": "fdb2628aec6390380b8870054d6a8a1928e063f613af3ba1fed5e6016a71f68c",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-05@1:wave9-null-05:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-06:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-06",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.955774993912,
+          "holm_multiplier": 29,
+          "holm_rank": 12,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.238943748478,
+          "registry_freeze_hash": "1cebfeb6839318dd3bc04706d5e121aaa8fa72a67d10aef3ffa17b718ab87b97",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.955774993912,
+          "slot_id": "wave9-null-06@1:wave9-null-06:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-07:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-07",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 23,
+          "holm_rank": 18,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.347808023187,
+          "registry_freeze_hash": "ac825d2c4033dfeabea488c04c40c3dc21f2f89b907199eea3c831a25bdb63cb",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-07@1:wave9-null-07:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-08:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-08",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 22,
+          "holm_rank": 19,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.434298670728,
+          "registry_freeze_hash": "c9aba8f4305e705c581992b69c3f410dc5b29d357bdb89d4515612ced0e8788e",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-08@1:wave9-null-08:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-09:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-09",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.02509748325,
+          "holm_multiplier": 40,
+          "holm_rank": 1,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.006274370812,
+          "registry_freeze_hash": "1c343d2ee21d3b8280884c73f7d2a11bd7637cc1d52db7fd162dc3a990f610a3",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.02509748325,
+          "slot_id": "wave9-null-09@1:wave9-null-09:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-10:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-10",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 21,
+          "holm_rank": 20,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.539897044981,
+          "registry_freeze_hash": "29cd2bb00248c3b69183cf7db4321b7e688cba6dd920eefc20819c7230adf20d",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-10@1:wave9-null-10:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-11:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-11",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 20,
+          "holm_rank": 21,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.627216063967,
+          "registry_freeze_hash": "ac001b45ec26f74ce00aa21b35cad65257d688fbb3ee0fe4b2954a44284fb048",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-11@1:wave9-null-11:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-12:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-12",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 19,
+          "holm_rank": 22,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.597730672299,
+          "registry_freeze_hash": "6c1bcf800152da21e49b89371cab02c9997aa005ec8c726b6483d1aa0cc2293c",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-12@1:wave9-null-12:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-13:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-13",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 18,
+          "holm_rank": 23,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.493266090486,
+          "registry_freeze_hash": "8f608f6ef5f41198f0594a5e7749fa72371844980f45b0bf595fdcc1541c072d",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-13@1:wave9-null-13:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-14:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-14",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 17,
+          "holm_rank": 24,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.951273495337,
+          "registry_freeze_hash": "d9a9389995ff4aef3717fa6fac87b7e48126d687134249439826ecd919a6c3df",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-14@1:wave9-null-14:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-15:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-15",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.567099767603,
+          "holm_multiplier": 33,
+          "holm_rank": 8,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.141774941901,
+          "registry_freeze_hash": "0d82dda256a500fbc5c88670b5fe72708786fdad2f32488fbd859c46234852e6",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.567099767603,
+          "slot_id": "wave9-null-15@1:wave9-null-15:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-16:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-16",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 16,
+          "holm_rank": 25,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.591255406363,
+          "registry_freeze_hash": "0beef1be1afab3d4871ed0e7c930fc8841092c1513b939e863173c92f70a5490",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-16@1:wave9-null-16:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-17:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-17",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 15,
+          "holm_rank": 26,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.978171032046,
+          "registry_freeze_hash": "1b1b9bacf8c1e62fe13274d126b0e1b0a756c5b994cda93410661679121b8ee9",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-17@1:wave9-null-17:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-18:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-18",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.529340320653,
+          "holm_multiplier": 34,
+          "holm_rank": 7,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.132335080163,
+          "registry_freeze_hash": "5625ecdf0f62da716f2314a1d272e635c2fa5915e97f5270bb44146832a08f89",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.529340320653,
+          "slot_id": "wave9-null-18@1:wave9-null-18:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-19:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-19",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 14,
+          "holm_rank": 27,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.761875689108,
+          "registry_freeze_hash": "56133122d6c733a9038cc11838ece3e3a2e0dea13a2d8ca274fa83a9f904ac4b",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-19@1:wave9-null-19:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-20:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-20",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.784147950122,
+          "holm_multiplier": 31,
+          "holm_rank": 10,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.196036987531,
+          "registry_freeze_hash": "4c2bf37d132b4bc6ee7c3c7cf90c59e8b632fa078eed49a52f23930a36bb7bf9",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.784147950122,
+          "slot_id": "wave9-null-20@1:wave9-null-20:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-21:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-21",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.15049466932,
+          "holm_multiplier": 38,
+          "holm_rank": 3,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.03762366733,
+          "registry_freeze_hash": "8c46998049505cbf59a5304de0dcc3033b06710d10af9f416b687e60c2075608",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.15049466932,
+          "slot_id": "wave9-null-21@1:wave9-null-21:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-22:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-22",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.603606864048,
+          "holm_multiplier": 32,
+          "holm_rank": 9,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.150901716012,
+          "registry_freeze_hash": "8c8d800230239f3653657e2f9513af597e597c746265ceae393b4d3c5ab23e7c",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.603606864048,
+          "slot_id": "wave9-null-22@1:wave9-null-22:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-23:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-23",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 13,
+          "holm_rank": 28,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.295629972121,
+          "registry_freeze_hash": "599ef5758fd1ee6912e46a7ab77a210090d146f9188e96f9abf630e4930a927e",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-23@1:wave9-null-23:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-24:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-24",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 12,
+          "holm_rank": 29,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.855719417731,
+          "registry_freeze_hash": "ac053be05a8560ebc79e6c953fcbb426c13d242880bb960af78c521f8c928a4a",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-24@1:wave9-null-24:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-25:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-25",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 11,
+          "holm_rank": 30,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.928459897979,
+          "registry_freeze_hash": "b9e8b5a4c48e5bced0046fa8605c99c9856120767b0893ab3229a45d6becbc58",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-25@1:wave9-null-25:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-26:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-26",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 10,
+          "holm_rank": 31,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.669971983885,
+          "registry_freeze_hash": "eca207226e6ba691d109e45747947858af9b952c0f503c15a9f8b65bc0f190f5",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-26@1:wave9-null-26:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-27:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-27",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.981450807374,
+          "holm_multiplier": 28,
+          "holm_rank": 13,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.245362701844,
+          "registry_freeze_hash": "1086b91442d0b0cce9c2c6c8a1a9c673a4a7c27f18f52c89acca780fdc68ea38",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.981450807374,
+          "slot_id": "wave9-null-27@1:wave9-null-27:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-28:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-28",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 9,
+          "holm_rank": 32,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.331012661813,
+          "registry_freeze_hash": "38afc3bf1b6bedf9f2cecd721dd094d80f80674d885658ea6e0d007418a24d6c",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-28@1:wave9-null-28:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-29:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-29",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 8,
+          "holm_rank": 33,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.932158496031,
+          "registry_freeze_hash": "a94dd5f72cc0d75bf247c7acd132aa6a8222810cb57815fc14ca9f4287683538",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-29@1:wave9-null-29:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-30:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-30",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 7,
+          "holm_rank": 34,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.933601567399,
+          "registry_freeze_hash": "ab5f939d67c004be0439fc378dd239e146f7ee99cb515d3277ef571b8d488e58",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-30@1:wave9-null-30:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-31:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-31",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 6,
+          "holm_rank": 35,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.423489293488,
+          "registry_freeze_hash": "aec6f64625aafbf6651a124a00b0fd51def68f4f2496d078d942d68662a29e87",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-31@1:wave9-null-31:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-32:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-32",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.232440011335,
+          "holm_multiplier": 36,
+          "holm_rank": 5,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.058110002834,
+          "registry_freeze_hash": "1c4a66030704f0076fe3b592a70178e889c62e7bebe05bcb3a841274aa67dd19",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.232440011335,
+          "slot_id": "wave9-null-32@1:wave9-null-32:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-33:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-33",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 5,
+          "holm_rank": 36,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.669086628669,
+          "registry_freeze_hash": "380a563e8e421692d70f6db73500cb670e36d4bfa5717e5d4cedfb071ea65f0e",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-33@1:wave9-null-33:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-34:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-34",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.114621038654,
+          "holm_multiplier": 39,
+          "holm_rank": 2,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.028655259663,
+          "registry_freeze_hash": "4ac6ba49184a5288107b226e5534ae5b477396c790a609219b1f7ff9501f33ba",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.114621038654,
+          "slot_id": "wave9-null-34@1:wave9-null-34:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-35:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-35",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 4,
+          "holm_rank": 37,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.509989386974,
+          "registry_freeze_hash": "b6fb4af707ec0774c1e679d7b841f762b11630ec32a8681c1e6e89cab36ac515",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-35@1:wave9-null-35:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-36:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-36",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.911692217635,
+          "holm_multiplier": 30,
+          "holm_rank": 11,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.227923054409,
+          "registry_freeze_hash": "1ec958052a4bb889f5bd74fb7a4fcd098ea6a5e19fef2ecf80ca1a6a6c8b7187",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.911692217635,
+          "slot_id": "wave9-null-36@1:wave9-null-36:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-37:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-37",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 3,
+          "holm_rank": 38,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.756534922727,
+          "registry_freeze_hash": "078687f68f76000043102936ba902a584123faea91c1948d78b78beb36c11dc6",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-37@1:wave9-null-37:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-38:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-38",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 2,
+          "holm_rank": 39,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.743634912498,
+          "registry_freeze_hash": "5b96e4ce73b98380c9310bb75e5e198aa31a2d007082b3e7cb57918bcc985422",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-38@1:wave9-null-38:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-39:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-39",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 0.528603157387,
+          "holm_multiplier": 35,
+          "holm_rank": 6,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.132150789347,
+          "registry_freeze_hash": "465ae9ea91d7ddd0675153eafc0356e093e50910f445b268356fe51c66b7851b",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.528603157387,
+          "slot_id": "wave9-null-39@1:wave9-null-39:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-null-40:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-null-40",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 1,
+          "holm_rank": 40,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.266656942636,
+          "registry_freeze_hash": "1eed0426e334ee9e89306de1a2bd4d224ce50e9be4e05c287fad4902902c5e4a",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-null-40@1:wave9-null-40:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        }
+      ],
+      "exploratory": [],
+      "external_mutation": false,
+      "family_id": "wave9-many-null-family",
+      "family_report_version": "experiment_family_report.v1",
+      "historical_observational_outside_randomized_inference": true,
+      "multiplicity": {
+        "bonferroni_reference_alpha_per_test": 0.00125,
+        "family_alpha": 0.05,
+        "input_is_sequentially_adjusted": true,
+        "method": "holm_bonferroni_v1",
+        "planned_confirmatory_count": 40
+      },
+      "registry": [
+        {
+          "creation_hash": "c6961c85c339865c9a42584b17f5e52e85f47a6be0359247f2cafb6ffa8f7b94",
+          "experiment_id": "wave9-null-01",
+          "freeze_hash": "1b6c3410a37973b2b7999ac823e3ef7e06f13e68fafd0303c6da11bad4abaeb0",
+          "hypothesis": "Null-family preregistered hypothesis 1.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "c49dafb4dd54b9461e6b1d9ccaf92ad8064da8044b16d591fa96c4801898a283",
+          "experiment_id": "wave9-null-02",
+          "freeze_hash": "5fec8b4b7ea0e3e53822ac0be611383f3a91e99fef0ef8c9dc72a70cd20daf0e",
+          "hypothesis": "Null-family preregistered hypothesis 2.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "3a9fa02bf81bc811a1e249575eb6e1bca6587adb0e207e884842e667a4229fc6",
+          "experiment_id": "wave9-null-03",
+          "freeze_hash": "bad9039bb8b5f963ad738eb7716f1f7edbf70b9699ac01ecf1235b37b9676656",
+          "hypothesis": "Null-family preregistered hypothesis 3.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "81fb332ae4544a1b88d97f79ad2cdfcc97c211ff3991303e36e32ea8b9a5b8c5",
+          "experiment_id": "wave9-null-04",
+          "freeze_hash": "b79b995d9febd0a67d38ef61023f8f7f537333fbfeb890ccc921af7cd322c4f3",
+          "hypothesis": "Null-family preregistered hypothesis 4.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "852bec70cdb6f68baa29928d52602b2e653688bbf6df542b4931655fc23a1395",
+          "experiment_id": "wave9-null-05",
+          "freeze_hash": "fdb2628aec6390380b8870054d6a8a1928e063f613af3ba1fed5e6016a71f68c",
+          "hypothesis": "Null-family preregistered hypothesis 5.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "8b480bba2091f466bc9ece3f694649a2936c202304875a0d59830018c25b5004",
+          "experiment_id": "wave9-null-06",
+          "freeze_hash": "1cebfeb6839318dd3bc04706d5e121aaa8fa72a67d10aef3ffa17b718ab87b97",
+          "hypothesis": "Null-family preregistered hypothesis 6.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "36e8d645862a41240150523420c7c618db4d4f8a91fef70d7ff11df958787a54",
+          "experiment_id": "wave9-null-07",
+          "freeze_hash": "ac825d2c4033dfeabea488c04c40c3dc21f2f89b907199eea3c831a25bdb63cb",
+          "hypothesis": "Null-family preregistered hypothesis 7.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "7d7dab75283a94028205653ff119b6b9be45ab604a6232c06bdabb4583fe9484",
+          "experiment_id": "wave9-null-08",
+          "freeze_hash": "c9aba8f4305e705c581992b69c3f410dc5b29d357bdb89d4515612ced0e8788e",
+          "hypothesis": "Null-family preregistered hypothesis 8.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "ecf3043ad7f56b4f7a06ffae3e66f2548c1da2773eca724ae69c1a187f8c7441",
+          "experiment_id": "wave9-null-09",
+          "freeze_hash": "1c343d2ee21d3b8280884c73f7d2a11bd7637cc1d52db7fd162dc3a990f610a3",
+          "hypothesis": "Null-family preregistered hypothesis 9.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "8c3604dc9801c10cdd371d0716976d2580d73d1bdf59542ce721f875dce52699",
+          "experiment_id": "wave9-null-10",
+          "freeze_hash": "29cd2bb00248c3b69183cf7db4321b7e688cba6dd920eefc20819c7230adf20d",
+          "hypothesis": "Null-family preregistered hypothesis 10.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "3f6fd13c25390364bf56f8e58ab1cb75dc803be8483e4a881228fcac6cdae6eb",
+          "experiment_id": "wave9-null-11",
+          "freeze_hash": "ac001b45ec26f74ce00aa21b35cad65257d688fbb3ee0fe4b2954a44284fb048",
+          "hypothesis": "Null-family preregistered hypothesis 11.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "d1ac093c8667f9fb695f58941b0e1e00f1d96a0e764f63aaa22f389f4fe96319",
+          "experiment_id": "wave9-null-12",
+          "freeze_hash": "6c1bcf800152da21e49b89371cab02c9997aa005ec8c726b6483d1aa0cc2293c",
+          "hypothesis": "Null-family preregistered hypothesis 12.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "d5e703cfe464e7404bf2d5747176a7f3e68735cae84db323e3fac6cc19b251c8",
+          "experiment_id": "wave9-null-13",
+          "freeze_hash": "8f608f6ef5f41198f0594a5e7749fa72371844980f45b0bf595fdcc1541c072d",
+          "hypothesis": "Null-family preregistered hypothesis 13.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "62809f53bc7048fe8bc4fdac415c1db188901f9d54765de532b2f511ac11a78c",
+          "experiment_id": "wave9-null-14",
+          "freeze_hash": "d9a9389995ff4aef3717fa6fac87b7e48126d687134249439826ecd919a6c3df",
+          "hypothesis": "Null-family preregistered hypothesis 14.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "6cc92824e11f27ae213fadcc1fac70d8c5bb1faadd092d878a7ea6ed8c747841",
+          "experiment_id": "wave9-null-15",
+          "freeze_hash": "0d82dda256a500fbc5c88670b5fe72708786fdad2f32488fbd859c46234852e6",
+          "hypothesis": "Null-family preregistered hypothesis 15.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "81edd265308d07d6a4828b649f46004b03a32cbfc1b97257a524a10c538251d6",
+          "experiment_id": "wave9-null-16",
+          "freeze_hash": "0beef1be1afab3d4871ed0e7c930fc8841092c1513b939e863173c92f70a5490",
+          "hypothesis": "Null-family preregistered hypothesis 16.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "c4a2f63c5dafb34aaaba50e9a7558b4f7f5684076a944bcf7e34e95a04c3c9a3",
+          "experiment_id": "wave9-null-17",
+          "freeze_hash": "1b1b9bacf8c1e62fe13274d126b0e1b0a756c5b994cda93410661679121b8ee9",
+          "hypothesis": "Null-family preregistered hypothesis 17.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "e327140852e9ada06a9c78ba6f13874533489c8b667742753f6e0edad9b484f7",
+          "experiment_id": "wave9-null-18",
+          "freeze_hash": "5625ecdf0f62da716f2314a1d272e635c2fa5915e97f5270bb44146832a08f89",
+          "hypothesis": "Null-family preregistered hypothesis 18.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "abe860ae6327f48462db5d63deb15133fd22a517507cd5e0442e5d36cefafb30",
+          "experiment_id": "wave9-null-19",
+          "freeze_hash": "56133122d6c733a9038cc11838ece3e3a2e0dea13a2d8ca274fa83a9f904ac4b",
+          "hypothesis": "Null-family preregistered hypothesis 19.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "32d65bf7a55ade4e94288403acf62ee8565e50943226659fd2bcb2cd53931f9a",
+          "experiment_id": "wave9-null-20",
+          "freeze_hash": "4c2bf37d132b4bc6ee7c3c7cf90c59e8b632fa078eed49a52f23930a36bb7bf9",
+          "hypothesis": "Null-family preregistered hypothesis 20.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "1fa44c6832d8aadb84c603c222b7ac3cd82a2bc37f1e685f2547e9f66011c246",
+          "experiment_id": "wave9-null-21",
+          "freeze_hash": "8c46998049505cbf59a5304de0dcc3033b06710d10af9f416b687e60c2075608",
+          "hypothesis": "Null-family preregistered hypothesis 21.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "551dee54e2ef5b6c8ee73e5ec272b7883fc08cc6b8ee184edb5cadea93692048",
+          "experiment_id": "wave9-null-22",
+          "freeze_hash": "8c8d800230239f3653657e2f9513af597e597c746265ceae393b4d3c5ab23e7c",
+          "hypothesis": "Null-family preregistered hypothesis 22.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "b136cc00a608add9b5cb550ca89b65f652ccbb094819b787a2fcdf2f727281ef",
+          "experiment_id": "wave9-null-23",
+          "freeze_hash": "599ef5758fd1ee6912e46a7ab77a210090d146f9188e96f9abf630e4930a927e",
+          "hypothesis": "Null-family preregistered hypothesis 23.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "270ab99eb4822e4723ef48af47988a99ec435b79917d05fd460966f79f77eaad",
+          "experiment_id": "wave9-null-24",
+          "freeze_hash": "ac053be05a8560ebc79e6c953fcbb426c13d242880bb960af78c521f8c928a4a",
+          "hypothesis": "Null-family preregistered hypothesis 24.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "ca34acad5a1416f88fde2b6b796847f44eba99ef55346b146928599c583f5a38",
+          "experiment_id": "wave9-null-25",
+          "freeze_hash": "b9e8b5a4c48e5bced0046fa8605c99c9856120767b0893ab3229a45d6becbc58",
+          "hypothesis": "Null-family preregistered hypothesis 25.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "b93ae147a69c8fb39922660e3f1e99291ee9b84aef4061c19b24508f35932f1a",
+          "experiment_id": "wave9-null-26",
+          "freeze_hash": "eca207226e6ba691d109e45747947858af9b952c0f503c15a9f8b65bc0f190f5",
+          "hypothesis": "Null-family preregistered hypothesis 26.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "b77adbcffdd20a1552f12c17d6556069101cd582820b5c41665dddf12e17bfe2",
+          "experiment_id": "wave9-null-27",
+          "freeze_hash": "1086b91442d0b0cce9c2c6c8a1a9c673a4a7c27f18f52c89acca780fdc68ea38",
+          "hypothesis": "Null-family preregistered hypothesis 27.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "17922a929e94a6857f889f972c81699018a75e90beaed76dd46210eeda117f3d",
+          "experiment_id": "wave9-null-28",
+          "freeze_hash": "38afc3bf1b6bedf9f2cecd721dd094d80f80674d885658ea6e0d007418a24d6c",
+          "hypothesis": "Null-family preregistered hypothesis 28.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "cf9afa529ead6dddadc359cd159bb49e6bb8c63ddb8f3740caeff6c6e260ceb7",
+          "experiment_id": "wave9-null-29",
+          "freeze_hash": "a94dd5f72cc0d75bf247c7acd132aa6a8222810cb57815fc14ca9f4287683538",
+          "hypothesis": "Null-family preregistered hypothesis 29.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "004ec696b9fe4b20ca0e667e053a056cdb669dcc3bcd8d6630bba0b3ed05f4ac",
+          "experiment_id": "wave9-null-30",
+          "freeze_hash": "ab5f939d67c004be0439fc378dd239e146f7ee99cb515d3277ef571b8d488e58",
+          "hypothesis": "Null-family preregistered hypothesis 30.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "ecbf50bd07a573e5d23ddc0a7043ee0298df76ef842f3348d3d63d0df1dd2e6a",
+          "experiment_id": "wave9-null-31",
+          "freeze_hash": "aec6f64625aafbf6651a124a00b0fd51def68f4f2496d078d942d68662a29e87",
+          "hypothesis": "Null-family preregistered hypothesis 31.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "3a8c3cae5c260fdb18166658d3a7ef0476849b0208bb3c0b2adccd47d0b1e1cc",
+          "experiment_id": "wave9-null-32",
+          "freeze_hash": "1c4a66030704f0076fe3b592a70178e889c62e7bebe05bcb3a841274aa67dd19",
+          "hypothesis": "Null-family preregistered hypothesis 32.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "7db02fdec16a7eb08280fa6c81f38466db5b4bf0ecc7d43b8be770729b3a4b29",
+          "experiment_id": "wave9-null-33",
+          "freeze_hash": "380a563e8e421692d70f6db73500cb670e36d4bfa5717e5d4cedfb071ea65f0e",
+          "hypothesis": "Null-family preregistered hypothesis 33.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "fec10fd8245c326891b4257fbe006036b14ab9290edd6d817ea608ecf1a59774",
+          "experiment_id": "wave9-null-34",
+          "freeze_hash": "4ac6ba49184a5288107b226e5534ae5b477396c790a609219b1f7ff9501f33ba",
+          "hypothesis": "Null-family preregistered hypothesis 34.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "4f6bfdb0c5ffb71a47b49dd7deaeb6730ab93f4964d73beb7fb45283826348a5",
+          "experiment_id": "wave9-null-35",
+          "freeze_hash": "b6fb4af707ec0774c1e679d7b841f762b11630ec32a8681c1e6e89cab36ac515",
+          "hypothesis": "Null-family preregistered hypothesis 35.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "b74485f7a8bebd0cc9c59fa4554c29d3c8d296ff6533dd1b6b876e7b87311fb9",
+          "experiment_id": "wave9-null-36",
+          "freeze_hash": "1ec958052a4bb889f5bd74fb7a4fcd098ea6a5e19fef2ecf80ca1a6a6c8b7187",
+          "hypothesis": "Null-family preregistered hypothesis 36.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "836fbdad2c1d44a23cc68599a21ac47486ce4a692ffd2b775524671ee6a69359",
+          "experiment_id": "wave9-null-37",
+          "freeze_hash": "078687f68f76000043102936ba902a584123faea91c1948d78b78beb36c11dc6",
+          "hypothesis": "Null-family preregistered hypothesis 37.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "beae61ee2947ca884ef609349be25365976adc67fd6066b1e6a0a8a818cbe36b",
+          "experiment_id": "wave9-null-38",
+          "freeze_hash": "5b96e4ce73b98380c9310bb75e5e198aa31a2d007082b3e7cb57918bcc985422",
+          "hypothesis": "Null-family preregistered hypothesis 38.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "983d9b742e6cf06d65ea25ede8f5b8622f7d28017a4799fc51fcf90fd80c803f",
+          "experiment_id": "wave9-null-39",
+          "freeze_hash": "465ae9ea91d7ddd0675153eafc0356e093e50910f445b268356fe51c66b7851b",
+          "hypothesis": "Null-family preregistered hypothesis 39.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "41f83d2dcf2700c5933af4692807fd709f04f5a1623af18118010e80e3181a25",
+          "experiment_id": "wave9-null-40",
+          "freeze_hash": "1eed0426e334ee9e89306de1a2bd4d224ce50e9be4e05c287fad4902902c5e4a",
+          "hypothesis": "Null-family preregistered hypothesis 40.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        }
+      ],
+      "summary": {
+        "confirmatory_decisions": 0,
+        "exploratory_metrics": 0,
+        "integrity_blocked": 0
+      }
+    },
+    "metric_swap_after_results": {
+      "auto_publish": false,
+      "confirmatory": [
+        {
+          "analysis_id": "wave9-metric-swap:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-metric-swap",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 1,
+          "holm_rank": 1,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.4,
+          "registry_freeze_hash": "1f42e7ec28456dfa5deb6ab77d25276008d73b56221a4b89b4fd54ec2d12a5ba",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "wave9-metric-swap@1:wave9-metric-swap:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        }
+      ],
+      "exploratory": [
+        {
+          "confirmatory": false,
+          "decision": false,
+          "decision_reason": "metric_not_preregistered_primary",
+          "effect_estimate": 0.2,
+          "experiment_id": "wave9-metric-swap",
+          "family_adjusted_p_value": null,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "exploratory",
+          "metric": "posthoc_metric_after_results",
+          "raw_two_sided_p_value": 1e-06,
+          "registry_freeze_hash": "1f42e7ec28456dfa5deb6ab77d25276008d73b56221a4b89b4fd54ec2d12a5ba",
+          "registry_revision": 1,
+          "sequential_multiplicity_scope": 4,
+          "sequential_report_sha256": "2032ba23ae881b5afdceb900885ee09f6aa88ebce0cad800346c170ad15e6402",
+          "sequential_valid_p_value": 4e-06,
+          "source_kind": "synthetic_randomized_assignment"
+        }
+      ],
+      "external_mutation": false,
+      "family_id": "wave9-metric-swap-family",
+      "family_report_version": "experiment_family_report.v1",
+      "historical_observational_outside_randomized_inference": true,
+      "multiplicity": {
+        "bonferroni_reference_alpha_per_test": 0.05,
+        "family_alpha": 0.05,
+        "input_is_sequentially_adjusted": true,
+        "method": "holm_bonferroni_v1",
+        "planned_confirmatory_count": 1
+      },
+      "registry": [
+        {
+          "creation_hash": "87c461f411c81d2af9d15aa890e137076b7a499e171a08b99df0044b58573a22",
+          "experiment_id": "wave9-metric-swap",
+          "freeze_hash": "1f42e7ec28456dfa5deb6ab77d25276008d73b56221a4b89b4fd54ec2d12a5ba",
+          "hypothesis": "Only the preregistered primary metric is confirmatory.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        }
+      ],
+      "summary": {
+        "confirmatory_decisions": 0,
+        "exploratory_metrics": 1,
+        "integrity_blocked": 0
+      }
+    },
+    "sequential_family_budget_interaction": {
+      "auto_publish": false,
+      "confirmatory": [
+        {
+          "analysis_id": "wave9-seq-family-1:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": true,
+          "decision_reason": "holm_adjusted_at_or_below_family_alpha",
+          "experiment_id": "wave9-seq-family-1",
+          "family_adjusted_p_value": 0.048,
+          "family_input_p_value": 0.016,
+          "holm_multiplier": 3,
+          "holm_rank": 1,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.004,
+          "registry_freeze_hash": "69a563c421c27b031517af5c1e77ef1772195116e63454df811dbd46b0ee2619",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.016,
+          "slot_id": "wave9-seq-family-1@1:wave9-seq-family-1:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": true
+        },
+        {
+          "analysis_id": "wave9-seq-family-2:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-seq-family-2",
+          "family_adjusted_p_value": 0.064,
+          "family_input_p_value": 0.032,
+          "holm_multiplier": 2,
+          "holm_rank": 2,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.008,
+          "registry_freeze_hash": "ee055cfc573a8b47835ada2f287b331cbdec98c6768de020c1929b7780ed75c5",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.032,
+          "slot_id": "wave9-seq-family-2@1:wave9-seq-family-2:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        {
+          "analysis_id": "wave9-seq-family-3:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "wave9-seq-family-3",
+          "family_adjusted_p_value": 0.08,
+          "family_input_p_value": 0.08,
+          "holm_multiplier": 1,
+          "holm_rank": 3,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.02,
+          "registry_freeze_hash": "df648024ea4f996e6b66ec3f0fe97c646a99096fd80459b161fccc60cb7064d8",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 0.08,
+          "slot_id": "wave9-seq-family-3@1:wave9-seq-family-3:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        }
+      ],
+      "exploratory": [],
+      "external_mutation": false,
+      "family_id": "wave9-sequential-family",
+      "family_report_version": "experiment_family_report.v1",
+      "historical_observational_outside_randomized_inference": true,
+      "multiplicity": {
+        "bonferroni_reference_alpha_per_test": 0.016666666667,
+        "family_alpha": 0.05,
+        "input_is_sequentially_adjusted": true,
+        "method": "holm_bonferroni_v1",
+        "planned_confirmatory_count": 3
+      },
+      "registry": [
+        {
+          "creation_hash": "79b840a7b3f940392d5b1c39010d42caeb5f39ef348e88131967a0a542eabcb4",
+          "experiment_id": "wave9-seq-family-1",
+          "freeze_hash": "69a563c421c27b031517af5c1e77ef1772195116e63454df811dbd46b0ee2619",
+          "hypothesis": "Sequential-family hypothesis 1.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "31d6f21ea7d30ffd8a9a4fb367a976e449503048deeca13c82fd3cbed3dfc98f",
+          "experiment_id": "wave9-seq-family-2",
+          "freeze_hash": "ee055cfc573a8b47835ada2f287b331cbdec98c6768de020c1929b7780ed75c5",
+          "hypothesis": "Sequential-family hypothesis 2.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        },
+        {
+          "creation_hash": "4633d16dd15b72c8c8099c4e2509e112dac933a230ec4d30445d9a55e7a02c9e",
+          "experiment_id": "wave9-seq-family-3",
+          "freeze_hash": "df648024ea4f996e6b66ec3f0fe97c646a99096fd80459b161fccc60cb7064d8",
+          "hypothesis": "Sequential-family hypothesis 3.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        }
+      ],
+      "summary": {
+        "confirmatory_decisions": 1,
+        "exploratory_metrics": 0,
+        "integrity_blocked": 0
+      }
+    },
+    "valid_preregistered": {
+      "auto_publish": false,
+      "confirmatory": [
+        {
+          "analysis_id": "synthetic-growth-exp-v1:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "synthetic-growth-exp-v1",
+          "family_adjusted_p_value": 1.0,
+          "family_input_p_value": 1.0,
+          "holm_multiplier": 1,
+          "holm_rank": 1,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.294121658111,
+          "registry_freeze_hash": "5bc0a1c9c7f54d2b6da38ffdb78f219a950c6958f1535b998c68916628f0f07e",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1.0,
+          "slot_id": "synthetic-growth-exp-v1@1:synthetic-growth-exp-v1:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        }
+      ],
+      "exploratory": [],
+      "external_mutation": false,
+      "family_id": "wave9-valid-family",
+      "family_report_version": "experiment_family_report.v1",
+      "historical_observational_outside_randomized_inference": true,
+      "multiplicity": {
+        "bonferroni_reference_alpha_per_test": 0.05,
+        "family_alpha": 0.05,
+        "input_is_sequentially_adjusted": true,
+        "method": "holm_bonferroni_v1",
+        "planned_confirmatory_count": 1
+      },
+      "registry": [
+        {
+          "creation_hash": "6ea2ef0b08f293e597ace2eff12e130f7699d8a81920715942b6aa1efc48d6ca",
+          "experiment_id": "synthetic-growth-exp-v1",
+          "freeze_hash": "5bc0a1c9c7f54d2b6da38ffdb78f219a950c6958f1535b998c68916628f0f07e",
+          "hypothesis": "Treatment changes the preregistered synthetic primary success rate.",
+          "primary_metrics": [
+            "synthetic_primary_success_rate"
+          ],
+          "revision": 1
+        }
+      ],
+      "summary": {
+        "confirmatory_decisions": 0,
+        "exploratory_metrics": 0,
+        "integrity_blocked": 0
+      }
+    }
+  },
+  "creator_feedback_contract_version": "1.0",
+  "external_mutation": false,
+  "governance_expectations": {
+    "amendment_after_outcome": "reject_fail_closed",
+    "amendment_before_outcome": "accept_new_revision",
+    "duplicate_experiment_id_changed_hypothesis": "reject_fail_closed"
+  },
+  "historical_observational_outside_randomized_inference": true,
+  "multiplicity_method": "holm_bonferroni_v1",
+  "seed": 920260927,
+  "source_hashes": {
+    "plan_sha256": "6e3b42c01107bbaeab34a59dc55b2fc556714b768232a2aa46ca9ec2b016e517",
+    "registry_corpus_sha256": "3e0399e44f3aa0ceb52e2cb64872bb2fb4f17cb75468a48e48aaa196a24a0cfd",
+    "wave7_sequential_report_sha256": "d8b0206b1d9bfd716a0ec6cf39fec91019386e683159b4fe2c3db9daea0d2d11",
+    "wave8_integrity_report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70"
+  }
+}

@@ -118,3 +118,12 @@ Wave 8 adds experiment_integrity.v1 as a pre-inference gate over Wave 7 randomiz
 Invalid integrity blocks treatment-effect interpretation while retaining the raw sequential report. The canonical Monte Carlo A/A calibration uses seed 820260927 and 1000 null simulations; observed false-positive rate is 0.03 with Wilson 95% upper 0.04250368 against family-wise alpha 0.05.
 
 See docs/EXPERIMENT_INTEGRITY_V1.md.
+
+
+## Experiment registry and multiplicity governance
+
+Wave 9 adds experiment_registry.v1 with an fsynced append-only freeze/outcome ledger, preregistration hashes, pre-outcome amendment rules, and Holm-Bonferroni family accounting layered after the existing sequential adjustment.
+
+The canonical 40-null family contains four nominal raw p-values below 0.05 and zero confirmatory family decisions after sequential + Holm correction. Post-hoc metrics remain exploratory, and integrity-invalid evidence is blocked regardless of p-value.
+
+See docs/EXPERIMENT_REGISTRY_V1.md.

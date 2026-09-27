@@ -132,3 +132,12 @@ Wave 8 inserts growth_analytics.experiment_integrity before treatment-effect int
 Integrity invalidation is fail-closed for inference but non-destructive for evidence inspection. CreatorFeedback 1.0 and Growth-to-Creator delivery payloads are unaffected. Historical analytics remain observational and cannot be promoted to randomized evidence by the integrity layer.
 
 Sequential-report generation supports an optional integrity reference; omission preserves Wave 7 core output. See docs/EXPERIMENT_INTEGRITY_V1.md.
+
+
+## Experiment registry governance boundary
+
+Wave 9 adds growth_analytics.experiment_registry above experiment protocol and integrity. Frozen experiment_registry.v1 entries preregister hypothesis, primary metrics, allocation, population/window, sequential policy, planned analyses and multiplicity family before outcome consumption.
+
+An append-only fsynced ledger prevents same-revision mutation and post-outcome amendments. Family inference composes the existing sequential multiplicity scope with Holm-Bonferroni across preregistered confirmatory analyses. Integrity-invalid or historical-observational evidence cannot produce treatment-effect conclusions, and non-preregistered metrics remain exploratory.
+
+CreatorFeedback/delivery contracts and provider read-only boundaries are unchanged. See docs/EXPERIMENT_REGISTRY_V1.md.

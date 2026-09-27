@@ -1,0 +1,4342 @@
+{
+  "amendment_before_vs_after_outcome": {
+    "after_outcome_expected": "reject_fail_closed",
+    "before_outcome_expected": "accept_new_revision",
+    "outcome_digest": "b11fd885fc7fd31f52013fe9b3bc7113f2bc2be462f516ab2d825c5d0144d7d8",
+    "revision_1": {
+      "amendment_reason": null,
+      "arms": [
+        {
+          "variant_id": "control",
+          "weight": 0.5
+        },
+        {
+          "variant_id": "treatment",
+          "weight": 0.5
+        }
+      ],
+      "auto_publish": false,
+      "created_at": "2026-08-20T00:00:00Z",
+      "creation_hash": "55f89875a725ec35454e9095337c11b49a704e8ba8dc59dcb483325e970723e6",
+      "experiment_id": "wave9-amendment",
+      "external_mutation": false,
+      "family": {
+        "family_alpha": 0.05,
+        "family_id": "wave9-governance-family",
+        "multiplicity_method": "holm_bonferroni_v1"
+      },
+      "freeze_hash": "a64fef83d630ca0ee86804f0084b878a436fe7981df2fefce2ffa680556733ac",
+      "frozen_at": "2026-08-20T01:00:00Z",
+      "guardrail_metrics": [
+        "sample_ratio_mismatch",
+        "missing_rate",
+        "distribution_shift",
+        "recommendation_churn"
+      ],
+      "hypothesis": "Original preregistered amendment hypothesis.",
+      "planned_analyses": [
+        {
+          "analysis_id": "wave9-amendment:synthetic_primary_success_rate:treatment_vs_control",
+          "contrast": "treatment_vs_control",
+          "metric": "synthetic_primary_success_rate",
+          "sidedness": "two_sided"
+        }
+      ],
+      "population": {
+        "assignment_unit": "synthetic_viewer_id",
+        "eligibility": "synthetic_preregistered_population_v1",
+        "stratification_keys": [
+          "region",
+          "device"
+        ]
+      },
+      "predecessor_freeze_hash": null,
+      "primary_metrics": [
+        "synthetic_primary_success_rate"
+      ],
+      "registry_version": "experiment_registry.v1",
+      "revision": 1,
+      "sequential_policy": {
+        "familywise_alpha": 0.05,
+        "look_sample_sizes": [
+          400,
+          800,
+          1200,
+          1600
+        ],
+        "max_looks": 4,
+        "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+        "plan_digest": "ce0b1406c8a0ddea49988f4a71c1cf115c3009ccf69f932b1e06c64306ba11c0"
+      },
+      "window": {
+        "start": "2026-09-01T00:00:00Z",
+        "stop": "2026-10-01T00:00:00Z"
+      }
+    },
+    "revision_2": {
+      "amendment_reason": "Clarify hypothesis before first outcome consumption.",
+      "arms": [
+        {
+          "variant_id": "control",
+          "weight": 0.5
+        },
+        {
+          "variant_id": "treatment",
+          "weight": 0.5
+        }
+      ],
+      "auto_publish": false,
+      "created_at": "2026-08-20T02:00:00Z",
+      "creation_hash": "8ccd9ab48cf8069979a609288bbbd057d417be8abd72af075099200ba2a314dc",
+      "experiment_id": "wave9-amendment",
+      "external_mutation": false,
+      "family": {
+        "family_alpha": 0.05,
+        "family_id": "wave9-governance-family",
+        "multiplicity_method": "holm_bonferroni_v1"
+      },
+      "freeze_hash": "a4e71987d0e2f78c1cd767a19857937510a667662fd0fd8ea03f7be0e17b4780",
+      "frozen_at": "2026-08-20T03:00:00Z",
+      "guardrail_metrics": [
+        "sample_ratio_mismatch",
+        "missing_rate",
+        "distribution_shift",
+        "recommendation_churn"
+      ],
+      "hypothesis": "Amended hypothesis before any outcome data.",
+      "planned_analyses": [
+        {
+          "analysis_id": "wave9-amendment:synthetic_primary_success_rate:treatment_vs_control",
+          "contrast": "treatment_vs_control",
+          "metric": "synthetic_primary_success_rate",
+          "sidedness": "two_sided"
+        }
+      ],
+      "population": {
+        "assignment_unit": "synthetic_viewer_id",
+        "eligibility": "synthetic_preregistered_population_v1",
+        "stratification_keys": [
+          "region",
+          "device"
+        ]
+      },
+      "predecessor_freeze_hash": "a64fef83d630ca0ee86804f0084b878a436fe7981df2fefce2ffa680556733ac",
+      "primary_metrics": [
+        "synthetic_primary_success_rate"
+      ],
+      "registry_version": "experiment_registry.v1",
+      "revision": 2,
+      "sequential_policy": {
+        "familywise_alpha": 0.05,
+        "look_sample_sizes": [
+          400,
+          800,
+          1200,
+          1600
+        ],
+        "max_looks": 4,
+        "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+        "plan_digest": "ce0b1406c8a0ddea49988f4a71c1cf115c3009ccf69f932b1e06c64306ba11c0"
+      },
+      "window": {
+        "start": "2026-09-01T00:00:00Z",
+        "stop": "2026-10-01T00:00:00Z"
+      }
+    }
+  },
+  "corpus_version": "experiment_registry.synthetic_corpus.v1",
+  "duplicate_experiment_id_changed_hypothesis": {
+    "conflicting_same_revision": {
+      "amendment_reason": null,
+      "arms": [
+        {
+          "variant_id": "control",
+          "weight": 0.5
+        },
+        {
+          "variant_id": "treatment",
+          "weight": 0.5
+        }
+      ],
+      "auto_publish": false,
+      "created_at": "2026-08-20T00:00:00Z",
+      "creation_hash": "248195454ea7452b953f792ac94b74356b8ae022ba1adc4f6ab3af09f232c697",
+      "experiment_id": "wave9-duplicate-id",
+      "external_mutation": false,
+      "family": {
+        "family_alpha": 0.05,
+        "family_id": "wave9-governance-family",
+        "multiplicity_method": "holm_bonferroni_v1"
+      },
+      "freeze_hash": "6a7e54e14f939193751510e49d7ba5c851cea9c947ac9acc35e69c685b827778",
+      "frozen_at": "2026-08-20T01:00:00Z",
+      "guardrail_metrics": [
+        "sample_ratio_mismatch",
+        "missing_rate",
+        "distribution_shift",
+        "recommendation_churn"
+      ],
+      "hypothesis": "Changed hypothesis under same frozen identity.",
+      "planned_analyses": [
+        {
+          "analysis_id": "wave9-duplicate-id:synthetic_primary_success_rate:treatment_vs_control",
+          "contrast": "treatment_vs_control",
+          "metric": "synthetic_primary_success_rate",
+          "sidedness": "two_sided"
+        }
+      ],
+      "population": {
+        "assignment_unit": "synthetic_viewer_id",
+        "eligibility": "synthetic_preregistered_population_v1",
+        "stratification_keys": [
+          "region",
+          "device"
+        ]
+      },
+      "predecessor_freeze_hash": null,
+      "primary_metrics": [
+        "synthetic_primary_success_rate"
+      ],
+      "registry_version": "experiment_registry.v1",
+      "revision": 1,
+      "sequential_policy": {
+        "familywise_alpha": 0.05,
+        "look_sample_sizes": [
+          400,
+          800,
+          1200,
+          1600
+        ],
+        "max_looks": 4,
+        "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+        "plan_digest": "7ab4a461c468449cbfbcc55c58890ff71dc3f056f2ca613d3ed3690165406290"
+      },
+      "window": {
+        "start": "2026-09-01T00:00:00Z",
+        "stop": "2026-10-01T00:00:00Z"
+      }
+    },
+    "expected": "reject_fail_closed",
+    "first": {
+      "amendment_reason": null,
+      "arms": [
+        {
+          "variant_id": "control",
+          "weight": 0.5
+        },
+        {
+          "variant_id": "treatment",
+          "weight": 0.5
+        }
+      ],
+      "auto_publish": false,
+      "created_at": "2026-08-20T00:00:00Z",
+      "creation_hash": "89b26797b5a6b2a2407eb8d231cb2cd901686c205a2f31a83cfb33334611ebc8",
+      "experiment_id": "wave9-duplicate-id",
+      "external_mutation": false,
+      "family": {
+        "family_alpha": 0.05,
+        "family_id": "wave9-governance-family",
+        "multiplicity_method": "holm_bonferroni_v1"
+      },
+      "freeze_hash": "ad05832aa60c13a441522abf5332f4722ffba814939addf2c4edab30c16b1435",
+      "frozen_at": "2026-08-20T01:00:00Z",
+      "guardrail_metrics": [
+        "sample_ratio_mismatch",
+        "missing_rate",
+        "distribution_shift",
+        "recommendation_churn"
+      ],
+      "hypothesis": "Original frozen hypothesis.",
+      "planned_analyses": [
+        {
+          "analysis_id": "wave9-duplicate-id:synthetic_primary_success_rate:treatment_vs_control",
+          "contrast": "treatment_vs_control",
+          "metric": "synthetic_primary_success_rate",
+          "sidedness": "two_sided"
+        }
+      ],
+      "population": {
+        "assignment_unit": "synthetic_viewer_id",
+        "eligibility": "synthetic_preregistered_population_v1",
+        "stratification_keys": [
+          "region",
+          "device"
+        ]
+      },
+      "predecessor_freeze_hash": null,
+      "primary_metrics": [
+        "synthetic_primary_success_rate"
+      ],
+      "registry_version": "experiment_registry.v1",
+      "revision": 1,
+      "sequential_policy": {
+        "familywise_alpha": 0.05,
+        "look_sample_sizes": [
+          400,
+          800,
+          1200,
+          1600
+        ],
+        "max_looks": 4,
+        "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+        "plan_digest": "7ab4a461c468449cbfbcc55c58890ff71dc3f056f2ca613d3ed3690165406290"
+      },
+      "window": {
+        "start": "2026-09-01T00:00:00Z",
+        "stop": "2026-10-01T00:00:00Z"
+      }
+    }
+  },
+  "integrity_invalid_block": {
+    "entries": [
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "cbde4a03eeb73f941327af42fdbe5e7f59fe89a987d52fdbd6b1e4855797103c",
+        "experiment_id": "wave9-integrity-invalid",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-integrity-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "d23257bcdc177abca0b685d94d1adda5961af6c872e9b0274fb152faae3783de",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Very small p-value with invalid integrity.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-integrity-invalid:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "bb588ba756c3b055406e76bcafc903f1fcfd2f11ffdc1cd274ce53471bedd1be"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      }
+    ],
+    "evidence": [
+      {
+        "effect_estimate": 0.5,
+        "experiment_id": "wave9-integrity-invalid",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "invalid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 1e-07,
+        "registry_freeze_hash": "d23257bcdc177abca0b685d94d1adda5961af6c872e9b0274fb152faae3783de",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "9a1d7ce782e7d0b441c8c69f1331b8d205f3fcd0999414bc235ef0a2f9633d29",
+        "sequential_valid_p_value": 4e-07,
+        "source_kind": "synthetic_randomized_assignment"
+      }
+    ]
+  },
+  "many_null_experiments": {
+    "entries": [
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "c6961c85c339865c9a42584b17f5e52e85f47a6be0359247f2cafb6ffa8f7b94",
+        "experiment_id": "wave9-null-01",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "1b6c3410a37973b2b7999ac823e3ef7e06f13e68fafd0303c6da11bad4abaeb0",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 1.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-01:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "8b0f87ac4f5867e525b81dbbc1a31905daed63d38d9e1b7e0ca23edc78648192"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "c49dafb4dd54b9461e6b1d9ccaf92ad8064da8044b16d591fa96c4801898a283",
+        "experiment_id": "wave9-null-02",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "5fec8b4b7ea0e3e53822ac0be611383f3a91e99fef0ef8c9dc72a70cd20daf0e",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 2.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-02:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "28f0d46a5652bf551fe5865983b252e720aaf27cfbc7fa2c29db77819df60d81"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "3a9fa02bf81bc811a1e249575eb6e1bca6587adb0e207e884842e667a4229fc6",
+        "experiment_id": "wave9-null-03",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "bad9039bb8b5f963ad738eb7716f1f7edbf70b9699ac01ecf1235b37b9676656",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 3.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-03:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "22846b67611b346ed104e5c347075abe04b4bee41c1bf88208ee7bbf1054d807"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "81fb332ae4544a1b88d97f79ad2cdfcc97c211ff3991303e36e32ea8b9a5b8c5",
+        "experiment_id": "wave9-null-04",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "b79b995d9febd0a67d38ef61023f8f7f537333fbfeb890ccc921af7cd322c4f3",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 4.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-04:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "c295e6961180657c074e1981d95b6859ac7bb2947ac01b18b497f2ae8ad29f7c"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "852bec70cdb6f68baa29928d52602b2e653688bbf6df542b4931655fc23a1395",
+        "experiment_id": "wave9-null-05",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "fdb2628aec6390380b8870054d6a8a1928e063f613af3ba1fed5e6016a71f68c",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 5.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-05:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "468ffbc7099d4d4a6c65955ef1357e4ad7eaa6d510d5a23eb609041608ae16a5"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "8b480bba2091f466bc9ece3f694649a2936c202304875a0d59830018c25b5004",
+        "experiment_id": "wave9-null-06",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "1cebfeb6839318dd3bc04706d5e121aaa8fa72a67d10aef3ffa17b718ab87b97",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 6.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-06:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "53c6ef9dca48327f7e162d7c4d5002e507c5db83ec4e15a3f1e3a1766c992ad3"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "36e8d645862a41240150523420c7c618db4d4f8a91fef70d7ff11df958787a54",
+        "experiment_id": "wave9-null-07",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "ac825d2c4033dfeabea488c04c40c3dc21f2f89b907199eea3c831a25bdb63cb",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 7.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-07:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "591a734c88ddaf13aa0ceaa5a50cad3d042501157ec33039129d4495f5cecf74"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "7d7dab75283a94028205653ff119b6b9be45ab604a6232c06bdabb4583fe9484",
+        "experiment_id": "wave9-null-08",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "c9aba8f4305e705c581992b69c3f410dc5b29d357bdb89d4515612ced0e8788e",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 8.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-08:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "d8d8291f52e36f04f9335022ea4f81c64dddc973dedb94434d98aeaacd9d3756"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "ecf3043ad7f56b4f7a06ffae3e66f2548c1da2773eca724ae69c1a187f8c7441",
+        "experiment_id": "wave9-null-09",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "1c343d2ee21d3b8280884c73f7d2a11bd7637cc1d52db7fd162dc3a990f610a3",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 9.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-09:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "cac595683fc933cb34e4b9bcb4aa0392676851daf3aed8c4e8a52c4cfb6c61c0"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "8c3604dc9801c10cdd371d0716976d2580d73d1bdf59542ce721f875dce52699",
+        "experiment_id": "wave9-null-10",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "29cd2bb00248c3b69183cf7db4321b7e688cba6dd920eefc20819c7230adf20d",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 10.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-10:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "28a8b83785b2a54606c33991656c8c9ff6230b197d73e98df5e2ddeba7d73f81"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "3f6fd13c25390364bf56f8e58ab1cb75dc803be8483e4a881228fcac6cdae6eb",
+        "experiment_id": "wave9-null-11",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "ac001b45ec26f74ce00aa21b35cad65257d688fbb3ee0fe4b2954a44284fb048",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 11.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-11:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "d926440c989a3a9ee607c41a2936f932fa94304d81ae4fd5db0a68ab1897cfae"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "d1ac093c8667f9fb695f58941b0e1e00f1d96a0e764f63aaa22f389f4fe96319",
+        "experiment_id": "wave9-null-12",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "6c1bcf800152da21e49b89371cab02c9997aa005ec8c726b6483d1aa0cc2293c",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 12.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-12:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "ccb83962ac11fd6f620e22029efff5b8b4db2e89af4e6a66f1fdc297bcc6f82b"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "d5e703cfe464e7404bf2d5747176a7f3e68735cae84db323e3fac6cc19b251c8",
+        "experiment_id": "wave9-null-13",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "8f608f6ef5f41198f0594a5e7749fa72371844980f45b0bf595fdcc1541c072d",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 13.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-13:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "7532307007780dde296daa14c888d7c7c8cd1468cc72c34e1318c16e247f18ed"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "62809f53bc7048fe8bc4fdac415c1db188901f9d54765de532b2f511ac11a78c",
+        "experiment_id": "wave9-null-14",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "d9a9389995ff4aef3717fa6fac87b7e48126d687134249439826ecd919a6c3df",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 14.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-14:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "2f27ad6dd928b033ae310b4bc12d223ec35eaaab515eee765129e286a7322130"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "6cc92824e11f27ae213fadcc1fac70d8c5bb1faadd092d878a7ea6ed8c747841",
+        "experiment_id": "wave9-null-15",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "0d82dda256a500fbc5c88670b5fe72708786fdad2f32488fbd859c46234852e6",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 15.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-15:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "18827d899f0906f88c8c38c3696dc5481fb853b964f95491331d1a26c30a7fba"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "81edd265308d07d6a4828b649f46004b03a32cbfc1b97257a524a10c538251d6",
+        "experiment_id": "wave9-null-16",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "0beef1be1afab3d4871ed0e7c930fc8841092c1513b939e863173c92f70a5490",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 16.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-16:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "2039ac328bfef69047bd89ea707801d825f4bf0c5cf3792f295990acafec2e89"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "c4a2f63c5dafb34aaaba50e9a7558b4f7f5684076a944bcf7e34e95a04c3c9a3",
+        "experiment_id": "wave9-null-17",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "1b1b9bacf8c1e62fe13274d126b0e1b0a756c5b994cda93410661679121b8ee9",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 17.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-17:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "e3361fd21b2e3031e75b38ca06c8707f6d3217bd5618657865539bec017d7645"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "e327140852e9ada06a9c78ba6f13874533489c8b667742753f6e0edad9b484f7",
+        "experiment_id": "wave9-null-18",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "5625ecdf0f62da716f2314a1d272e635c2fa5915e97f5270bb44146832a08f89",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 18.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-18:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "8f3f6cc1de0a42cc975ab45f9d4d1558c769056021a540c4245301169d6e16ab"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "abe860ae6327f48462db5d63deb15133fd22a517507cd5e0442e5d36cefafb30",
+        "experiment_id": "wave9-null-19",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "56133122d6c733a9038cc11838ece3e3a2e0dea13a2d8ca274fa83a9f904ac4b",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 19.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-19:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "73a9eb355f1de175b276d764ca81b8dac68dcc892181e757ade7b943a47be50e"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "32d65bf7a55ade4e94288403acf62ee8565e50943226659fd2bcb2cd53931f9a",
+        "experiment_id": "wave9-null-20",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "4c2bf37d132b4bc6ee7c3c7cf90c59e8b632fa078eed49a52f23930a36bb7bf9",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 20.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-20:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "0e8835b76f01a2fab118297043276daa1a2eb71ea3981f0eae196e7c01c233d1"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "1fa44c6832d8aadb84c603c222b7ac3cd82a2bc37f1e685f2547e9f66011c246",
+        "experiment_id": "wave9-null-21",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "8c46998049505cbf59a5304de0dcc3033b06710d10af9f416b687e60c2075608",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 21.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-21:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "03bedb32529c879bd1fe21fc72291706c7197e0c2c185a4b2c4d0259bc914fad"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "551dee54e2ef5b6c8ee73e5ec272b7883fc08cc6b8ee184edb5cadea93692048",
+        "experiment_id": "wave9-null-22",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "8c8d800230239f3653657e2f9513af597e597c746265ceae393b4d3c5ab23e7c",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 22.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-22:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "84602141e086f9e5db74a43a2a68ba820ed13ba817e8e89ac8586f68ec9aa607"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "b136cc00a608add9b5cb550ca89b65f652ccbb094819b787a2fcdf2f727281ef",
+        "experiment_id": "wave9-null-23",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "599ef5758fd1ee6912e46a7ab77a210090d146f9188e96f9abf630e4930a927e",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 23.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-23:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "9d5be229be254abece415203a8a2fd911daa7bb76cdacce0eb7f1e449edebea0"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "270ab99eb4822e4723ef48af47988a99ec435b79917d05fd460966f79f77eaad",
+        "experiment_id": "wave9-null-24",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "ac053be05a8560ebc79e6c953fcbb426c13d242880bb960af78c521f8c928a4a",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 24.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-24:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "0f47d25f7c20439338fae122500bbed482d5ef09ff5be8cefeef226acc379a18"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "ca34acad5a1416f88fde2b6b796847f44eba99ef55346b146928599c583f5a38",
+        "experiment_id": "wave9-null-25",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "b9e8b5a4c48e5bced0046fa8605c99c9856120767b0893ab3229a45d6becbc58",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 25.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-25:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "90fc3a7fa9f7f773ebbd0cbdf22c991babb556febf635784846896d1b7073553"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "b93ae147a69c8fb39922660e3f1e99291ee9b84aef4061c19b24508f35932f1a",
+        "experiment_id": "wave9-null-26",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "eca207226e6ba691d109e45747947858af9b952c0f503c15a9f8b65bc0f190f5",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 26.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-26:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "dbc9b9266cf1a693c95cd7e1e4a3f8bc15d8bdb166a17c68c0b11335201272d3"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "b77adbcffdd20a1552f12c17d6556069101cd582820b5c41665dddf12e17bfe2",
+        "experiment_id": "wave9-null-27",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "1086b91442d0b0cce9c2c6c8a1a9c673a4a7c27f18f52c89acca780fdc68ea38",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 27.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-27:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "8729474e2d7f29a79dfde71176c6fc612924e8f24ac820438c065d7427f8ea9f"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "17922a929e94a6857f889f972c81699018a75e90beaed76dd46210eeda117f3d",
+        "experiment_id": "wave9-null-28",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "38afc3bf1b6bedf9f2cecd721dd094d80f80674d885658ea6e0d007418a24d6c",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 28.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-28:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "32369d18409567c3de383d794d620d68bb3d554130bbad32e0ec9441b9dd153d"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "cf9afa529ead6dddadc359cd159bb49e6bb8c63ddb8f3740caeff6c6e260ceb7",
+        "experiment_id": "wave9-null-29",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "a94dd5f72cc0d75bf247c7acd132aa6a8222810cb57815fc14ca9f4287683538",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 29.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-29:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "cb4607c3586aa1f16b8e7ab29a614bc4dfca6bc1216d7974fcb52359f2422d8b"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "004ec696b9fe4b20ca0e667e053a056cdb669dcc3bcd8d6630bba0b3ed05f4ac",
+        "experiment_id": "wave9-null-30",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "ab5f939d67c004be0439fc378dd239e146f7ee99cb515d3277ef571b8d488e58",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 30.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-30:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "cd5d2db690479327f0017eb2a762df71cebce201eee494f0556aae9fb6fd9008"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "ecbf50bd07a573e5d23ddc0a7043ee0298df76ef842f3348d3d63d0df1dd2e6a",
+        "experiment_id": "wave9-null-31",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "aec6f64625aafbf6651a124a00b0fd51def68f4f2496d078d942d68662a29e87",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 31.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-31:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "e4e980e4f93b38b9eb5ff31867824ac89dd65812efd195054d13e38fcd8dbad9"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "3a8c3cae5c260fdb18166658d3a7ef0476849b0208bb3c0b2adccd47d0b1e1cc",
+        "experiment_id": "wave9-null-32",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "1c4a66030704f0076fe3b592a70178e889c62e7bebe05bcb3a841274aa67dd19",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 32.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-32:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "be0cabb96493837fa157a84c4de370850fa53ef90442d0f9f1676ed6838655f4"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "7db02fdec16a7eb08280fa6c81f38466db5b4bf0ecc7d43b8be770729b3a4b29",
+        "experiment_id": "wave9-null-33",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "380a563e8e421692d70f6db73500cb670e36d4bfa5717e5d4cedfb071ea65f0e",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 33.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-33:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "bde0c197b3f4c3a3d2a10773b71fa0ae04abe9642f65b91fa92c75337c7c355b"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "fec10fd8245c326891b4257fbe006036b14ab9290edd6d817ea608ecf1a59774",
+        "experiment_id": "wave9-null-34",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "4ac6ba49184a5288107b226e5534ae5b477396c790a609219b1f7ff9501f33ba",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 34.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-34:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "bc91d2dc17aaa46e227b4b004f4dd69616f21a0baa3ed371b32867c6eccd1d56"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "4f6bfdb0c5ffb71a47b49dd7deaeb6730ab93f4964d73beb7fb45283826348a5",
+        "experiment_id": "wave9-null-35",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "b6fb4af707ec0774c1e679d7b841f762b11630ec32a8681c1e6e89cab36ac515",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 35.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-35:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "00df79412d4cc14d79f2d3287254e4ad038c076bfdadf7f3e851a009c016bb44"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "b74485f7a8bebd0cc9c59fa4554c29d3c8d296ff6533dd1b6b876e7b87311fb9",
+        "experiment_id": "wave9-null-36",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "1ec958052a4bb889f5bd74fb7a4fcd098ea6a5e19fef2ecf80ca1a6a6c8b7187",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 36.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-36:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "ede1c592b14802592e58ae8f401b20ca9138b18b6e10cc7e7f249d2d217fd2de"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "836fbdad2c1d44a23cc68599a21ac47486ce4a692ffd2b775524671ee6a69359",
+        "experiment_id": "wave9-null-37",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "078687f68f76000043102936ba902a584123faea91c1948d78b78beb36c11dc6",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 37.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-37:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "7af4484b24324456d89c5c21d8245be93b0071bbb88c84377366a792029e0c46"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "beae61ee2947ca884ef609349be25365976adc67fd6066b1e6a0a8a818cbe36b",
+        "experiment_id": "wave9-null-38",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "5b96e4ce73b98380c9310bb75e5e198aa31a2d007082b3e7cb57918bcc985422",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 38.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-38:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "61da806577842b7ebbf0bfdc3fe1f2ad8b2eec53bbb44fd3e16b672f7b048e92"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "983d9b742e6cf06d65ea25ede8f5b8622f7d28017a4799fc51fcf90fd80c803f",
+        "experiment_id": "wave9-null-39",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "465ae9ea91d7ddd0675153eafc0356e093e50910f445b268356fe51c66b7851b",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 39.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-39:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "aef85fdc3bd3c4aa0a94cb3ec8d46d5b5c8bdb5cebf5746642a94b897c7afee7"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "41f83d2dcf2700c5933af4692807fd709f04f5a1623af18118010e80e3181a25",
+        "experiment_id": "wave9-null-40",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-many-null-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "1eed0426e334ee9e89306de1a2bd4d224ce50e9be4e05c287fad4902902c5e4a",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Null-family preregistered hypothesis 40.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-null-40:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "f1e4c129e5f6c204a88508b9923ef70fefdb3139b73bb14af99db88cee315835"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      }
+    ],
+    "evidence": [
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-01",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.942711518405,
+        "registry_freeze_hash": "1b6c3410a37973b2b7999ac823e3ef7e06f13e68fafd0303c6da11bad4abaeb0",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "bc9f299c3207c19a829d3f0422ad145316c999b3848c70c2a929cc82fa93cb81",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-02",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.431240646918,
+        "registry_freeze_hash": "5fec8b4b7ea0e3e53822ac0be611383f3a91e99fef0ef8c9dc72a70cd20daf0e",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "5ef976a48e9c23e23660840f3427db75485d01b46307f4e4437af870ae7aba9e",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-03",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.647569244103,
+        "registry_freeze_hash": "bad9039bb8b5f963ad738eb7716f1f7edbf70b9699ac01ecf1235b37b9676656",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "a32cfd17708e465662dfe5cd961f58e7065149a9b612708b2b6795908909e6a2",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-04",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.046503615155,
+        "registry_freeze_hash": "b79b995d9febd0a67d38ef61023f8f7f537333fbfeb890ccc921af7cd322c4f3",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "c63d7c28933b0942cba4edeaaf4cc7d7c71d2856a8f7cdd5a1a83cacdd015ac7",
+        "sequential_valid_p_value": 0.18601446062,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-05",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.529303763923,
+        "registry_freeze_hash": "fdb2628aec6390380b8870054d6a8a1928e063f613af3ba1fed5e6016a71f68c",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "70d6606d049a1e9fd1c3dae392aec67cea9defe673515ebab8afcfa34a9d863e",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-06",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.238943748478,
+        "registry_freeze_hash": "1cebfeb6839318dd3bc04706d5e121aaa8fa72a67d10aef3ffa17b718ab87b97",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "6ae3c3d2f05b23803c2462dc225631a77b029463621a14bbbe17fa96e45f43ab",
+        "sequential_valid_p_value": 0.955774993912,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-07",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.347808023187,
+        "registry_freeze_hash": "ac825d2c4033dfeabea488c04c40c3dc21f2f89b907199eea3c831a25bdb63cb",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "53bbae21226ef6edf990ad69f62ff0e83c94bd5d9185d82a377599a9061b54b4",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-08",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.434298670728,
+        "registry_freeze_hash": "c9aba8f4305e705c581992b69c3f410dc5b29d357bdb89d4515612ced0e8788e",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "d3823d013361de4a32973a84b998e3ac61ca2e75ff6eeb597924f42c788879f1",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-09",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.006274370812,
+        "registry_freeze_hash": "1c343d2ee21d3b8280884c73f7d2a11bd7637cc1d52db7fd162dc3a990f610a3",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "b67e998ad658124fd7191d52ba52e34ecf77b9d87db62aa0d79c6ed2be84d190",
+        "sequential_valid_p_value": 0.02509748325,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-10",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.539897044981,
+        "registry_freeze_hash": "29cd2bb00248c3b69183cf7db4321b7e688cba6dd920eefc20819c7230adf20d",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "d011f9d0838dc59e74416702eca14257d16016237d7329ba4dcc1703b029429f",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-11",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.627216063967,
+        "registry_freeze_hash": "ac001b45ec26f74ce00aa21b35cad65257d688fbb3ee0fe4b2954a44284fb048",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "547c16ef93ef6f5b174900cc33cbaa9358a7159af2de8d7284b7b0c83457bf3c",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-12",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.597730672299,
+        "registry_freeze_hash": "6c1bcf800152da21e49b89371cab02c9997aa005ec8c726b6483d1aa0cc2293c",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "83449a9ad4a04ee8d0188f0ed4180789d8581a8ca006558c7bde2f5ed41a9d63",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-13",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.493266090486,
+        "registry_freeze_hash": "8f608f6ef5f41198f0594a5e7749fa72371844980f45b0bf595fdcc1541c072d",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "82a872e25ac767f7d887819eff5c8d4ac7a777abfe2fdc61ee434d753014810c",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-14",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.951273495337,
+        "registry_freeze_hash": "d9a9389995ff4aef3717fa6fac87b7e48126d687134249439826ecd919a6c3df",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "4fc0cd26e11772eada5a4eacb29ba6015eb165ef561b35f4e0b1159127ac3806",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-15",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.141774941901,
+        "registry_freeze_hash": "0d82dda256a500fbc5c88670b5fe72708786fdad2f32488fbd859c46234852e6",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "8b2f368bebc8f2400a58512b06a5e3305036fef60fca695eb2f9fbfb9aa8b7fa",
+        "sequential_valid_p_value": 0.567099767603,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-16",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.591255406363,
+        "registry_freeze_hash": "0beef1be1afab3d4871ed0e7c930fc8841092c1513b939e863173c92f70a5490",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "930d1ed6bb9234eec2515951e0ccee5c1c29ab2b6655850f30abea32defa8be2",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-17",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.978171032046,
+        "registry_freeze_hash": "1b1b9bacf8c1e62fe13274d126b0e1b0a756c5b994cda93410661679121b8ee9",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "a9c40296bb62e051a3d4db8a91dcb86b8523fd4b3ee4b6795c3244a3d3967829",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-18",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.132335080163,
+        "registry_freeze_hash": "5625ecdf0f62da716f2314a1d272e635c2fa5915e97f5270bb44146832a08f89",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "f2bc4cada9ac373f305495a620b78017d82072953ec203c3396cf5710005b948",
+        "sequential_valid_p_value": 0.529340320653,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-19",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.761875689108,
+        "registry_freeze_hash": "56133122d6c733a9038cc11838ece3e3a2e0dea13a2d8ca274fa83a9f904ac4b",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "00c041fa6c15981a90d2f8041ed91ab0d75e2355d2054108250e623ef8370c11",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-20",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.196036987531,
+        "registry_freeze_hash": "4c2bf37d132b4bc6ee7c3c7cf90c59e8b632fa078eed49a52f23930a36bb7bf9",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "6df5dac0f33407ed88392e4ac4b0a5bb8ed192452228718705a90fe44ad9da0e",
+        "sequential_valid_p_value": 0.784147950122,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-21",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.03762366733,
+        "registry_freeze_hash": "8c46998049505cbf59a5304de0dcc3033b06710d10af9f416b687e60c2075608",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "1446c45ebab6cd4875370cf7f93d7e3060a151af9b1e3c272027c631f09b5d23",
+        "sequential_valid_p_value": 0.15049466932,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-22",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.150901716012,
+        "registry_freeze_hash": "8c8d800230239f3653657e2f9513af597e597c746265ceae393b4d3c5ab23e7c",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "e8bab94b134679a3a1da1e76668e7780f0f419655c753b3a582044f638f6a6de",
+        "sequential_valid_p_value": 0.603606864048,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-23",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.295629972121,
+        "registry_freeze_hash": "599ef5758fd1ee6912e46a7ab77a210090d146f9188e96f9abf630e4930a927e",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "2273784124b84c9897a4efdd882d6e570d5432000200412678e560c063b925d2",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-24",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.855719417731,
+        "registry_freeze_hash": "ac053be05a8560ebc79e6c953fcbb426c13d242880bb960af78c521f8c928a4a",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "c15c50b83ec5d35550feb1ce75f28c91f7f4dec1be3b06f7cceff270547624a8",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-25",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.928459897979,
+        "registry_freeze_hash": "b9e8b5a4c48e5bced0046fa8605c99c9856120767b0893ab3229a45d6becbc58",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "1b2e93a87cc8379e40fce378941043157f798579db95c4501d6cd79e011f47df",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-26",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.669971983885,
+        "registry_freeze_hash": "eca207226e6ba691d109e45747947858af9b952c0f503c15a9f8b65bc0f190f5",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "7e2c3d6da789cbde3c9dc19ded647efcb8d533fae32bb4baf6946d0d246db586",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-27",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.245362701844,
+        "registry_freeze_hash": "1086b91442d0b0cce9c2c6c8a1a9c673a4a7c27f18f52c89acca780fdc68ea38",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "3e3a4230bf7e6755dd13a0d459f05d4f9077ae7a7f4f77d78b2aad37d7131bdb",
+        "sequential_valid_p_value": 0.981450807374,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-28",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.331012661813,
+        "registry_freeze_hash": "38afc3bf1b6bedf9f2cecd721dd094d80f80674d885658ea6e0d007418a24d6c",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "7f7c4d715859d7c695cff2a86a1fc3f0796e7058ae700b9df0fc90aa2492cf47",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-29",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.932158496031,
+        "registry_freeze_hash": "a94dd5f72cc0d75bf247c7acd132aa6a8222810cb57815fc14ca9f4287683538",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "8240c97a8940823a6084540502be404dc759651741ad5725d6b32cf2b23c40c0",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-30",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.933601567399,
+        "registry_freeze_hash": "ab5f939d67c004be0439fc378dd239e146f7ee99cb515d3277ef571b8d488e58",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "1c2aec0bc9aed31d8bc418b1a62f60db7f6a98066cdd5d991181e57b75d89508",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-31",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.423489293488,
+        "registry_freeze_hash": "aec6f64625aafbf6651a124a00b0fd51def68f4f2496d078d942d68662a29e87",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "2f66326a710c767dfbdb91d719ad33333e3eeb784db521c17ef454371174c149",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-32",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.058110002834,
+        "registry_freeze_hash": "1c4a66030704f0076fe3b592a70178e889c62e7bebe05bcb3a841274aa67dd19",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "9825322fb0d78a32eeec1e6d7e99179f4ca239cfcf713b3708c142832b79d1b3",
+        "sequential_valid_p_value": 0.232440011335,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-33",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.669086628669,
+        "registry_freeze_hash": "380a563e8e421692d70f6db73500cb670e36d4bfa5717e5d4cedfb071ea65f0e",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "92e80fc9f2a731ca308b8dd40081ca3f8958bd59cc0482e4c3fabd57a4e21c03",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-34",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.028655259663,
+        "registry_freeze_hash": "4ac6ba49184a5288107b226e5534ae5b477396c790a609219b1f7ff9501f33ba",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "3ff0193332afec8b5870bdc398191e3461ad47a8f1771b2f382d3fdd1e02fb2d",
+        "sequential_valid_p_value": 0.114621038654,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-35",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.509989386974,
+        "registry_freeze_hash": "b6fb4af707ec0774c1e679d7b841f762b11630ec32a8681c1e6e89cab36ac515",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "cd7872e7a536cf1b18a6310610a9bc799953b9412501cb05de27c549dfbf2dc7",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-36",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.227923054409,
+        "registry_freeze_hash": "1ec958052a4bb889f5bd74fb7a4fcd098ea6a5e19fef2ecf80ca1a6a6c8b7187",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "c54a280c88c5ff7fcba542d28da7176627293ef4bdb49209d40835fff9e1ada1",
+        "sequential_valid_p_value": 0.911692217635,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-37",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.756534922727,
+        "registry_freeze_hash": "078687f68f76000043102936ba902a584123faea91c1948d78b78beb36c11dc6",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "2c52a98371ecbd2ca2d1acf9f71b6c540e214bcb2a02c6d570e17b03452bcfdd",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-38",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.743634912498,
+        "registry_freeze_hash": "5b96e4ce73b98380c9310bb75e5e198aa31a2d007082b3e7cb57918bcc985422",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "177c5a1ef438e56eee4c763b0a6c4d488c3bfbafc6227f83016438bd755cea54",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-39",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.132150789347,
+        "registry_freeze_hash": "465ae9ea91d7ddd0675153eafc0356e093e50910f445b268356fe51c66b7851b",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "66a763ea48eaed2f216d0ce6518cddcd01203ae61184dfb2e6f4a217aeb369ee",
+        "sequential_valid_p_value": 0.528603157387,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.0,
+        "experiment_id": "wave9-null-40",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.266656942636,
+        "registry_freeze_hash": "1eed0426e334ee9e89306de1a2bd4d224ce50e9be4e05c287fad4902902c5e4a",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "9cfba6ec6969bc884c6c4c74702bbb6f019224e4c83d0dff00a59312f64c7bd6",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      }
+    ],
+    "naive_raw_below_0_05_count": 4
+  },
+  "metric_swap_after_results": {
+    "entries": [
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "87c461f411c81d2af9d15aa890e137076b7a499e171a08b99df0044b58573a22",
+        "experiment_id": "wave9-metric-swap",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-metric-swap-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "1f42e7ec28456dfa5deb6ab77d25276008d73b56221a4b89b4fd54ec2d12a5ba",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Only the preregistered primary metric is confirmatory.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-metric-swap:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "cd811eac169543b32483c62953a38f0f255f6f9ed1cfcf9fee4febb5567675c2"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      }
+    ],
+    "evidence": [
+      {
+        "effect_estimate": 0.01,
+        "experiment_id": "wave9-metric-swap",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.4,
+        "registry_freeze_hash": "1f42e7ec28456dfa5deb6ab77d25276008d73b56221a4b89b4fd54ec2d12a5ba",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "5c7c07ec1a4c427851535d012ee41b60d6f2053fd708d441d4859f1176aea212",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.2,
+        "experiment_id": "wave9-metric-swap",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "posthoc_metric_after_results",
+        "raw_two_sided_p_value": 1e-06,
+        "registry_freeze_hash": "1f42e7ec28456dfa5deb6ab77d25276008d73b56221a4b89b4fd54ec2d12a5ba",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "2032ba23ae881b5afdceb900885ee09f6aa88ebce0cad800346c170ad15e6402",
+        "sequential_valid_p_value": 4e-06,
+        "source_kind": "synthetic_randomized_assignment"
+      }
+    ]
+  },
+  "seed": 920260927,
+  "sequential_family_budget_interaction": {
+    "entries": [
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "79b840a7b3f940392d5b1c39010d42caeb5f39ef348e88131967a0a542eabcb4",
+        "experiment_id": "wave9-seq-family-1",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-sequential-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "69a563c421c27b031517af5c1e77ef1772195116e63454df811dbd46b0ee2619",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Sequential-family hypothesis 1.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-seq-family-1:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "d0ac3c107c746ef75ef4cae838910e744ea5dd4cc7d7981fdd22beea23ffe019"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "31d6f21ea7d30ffd8a9a4fb367a976e449503048deeca13c82fd3cbed3dfc98f",
+        "experiment_id": "wave9-seq-family-2",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-sequential-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "ee055cfc573a8b47835ada2f287b331cbdec98c6768de020c1929b7780ed75c5",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Sequential-family hypothesis 2.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-seq-family-2:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "ca20b707461a085693e8f9159172b067ae9c2045f495fd856f13864f4a78250a"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "4633d16dd15b72c8c8099c4e2509e112dac933a230ec4d30445d9a55e7a02c9e",
+        "experiment_id": "wave9-seq-family-3",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-sequential-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "df648024ea4f996e6b66ec3f0fe97c646a99096fd80459b161fccc60cb7064d8",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Sequential-family hypothesis 3.",
+        "planned_analyses": [
+          {
+            "analysis_id": "wave9-seq-family-3:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "780cc4f78c3eb10acbb9885faa0181cfa8ca60fc554e8d85b9ac40a36f84afca"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      }
+    ],
+    "evidence": [
+      {
+        "effect_estimate": 0.05,
+        "experiment_id": "wave9-seq-family-1",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.004,
+        "registry_freeze_hash": "69a563c421c27b031517af5c1e77ef1772195116e63454df811dbd46b0ee2619",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "d28a0fdac0ff30e1df64c60bb1036ccaca1cf66481f95aa319a3e46d1cfd825f",
+        "sequential_valid_p_value": 0.016,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.05,
+        "experiment_id": "wave9-seq-family-2",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.008,
+        "registry_freeze_hash": "ee055cfc573a8b47835ada2f287b331cbdec98c6768de020c1929b7780ed75c5",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "d8eff39fb11bce32620b0a953b64ae26baac7b295a89d10053426d77ef2d291c",
+        "sequential_valid_p_value": 0.032,
+        "source_kind": "synthetic_randomized_assignment"
+      },
+      {
+        "effect_estimate": 0.05,
+        "experiment_id": "wave9-seq-family-3",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.02,
+        "registry_freeze_hash": "df648024ea4f996e6b66ec3f0fe97c646a99096fd80459b161fccc60cb7064d8",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "1330263f01aa0fb4d253dd8e2ca2e08188134fff18da31c05713a0be1c05a63d",
+        "sequential_valid_p_value": 0.08,
+        "source_kind": "synthetic_randomized_assignment"
+      }
+    ]
+  },
+  "valid_preregistered": {
+    "entries": [
+      {
+        "amendment_reason": null,
+        "arms": [
+          {
+            "variant_id": "control",
+            "weight": 0.5
+          },
+          {
+            "variant_id": "treatment",
+            "weight": 0.5
+          }
+        ],
+        "auto_publish": false,
+        "created_at": "2026-08-20T00:00:00Z",
+        "creation_hash": "6ea2ef0b08f293e597ace2eff12e130f7699d8a81920715942b6aa1efc48d6ca",
+        "experiment_id": "synthetic-growth-exp-v1",
+        "external_mutation": false,
+        "family": {
+          "family_alpha": 0.05,
+          "family_id": "wave9-valid-family",
+          "multiplicity_method": "holm_bonferroni_v1"
+        },
+        "freeze_hash": "5bc0a1c9c7f54d2b6da38ffdb78f219a950c6958f1535b998c68916628f0f07e",
+        "frozen_at": "2026-08-20T01:00:00Z",
+        "guardrail_metrics": [
+          "sample_ratio_mismatch",
+          "missing_rate",
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "hypothesis": "Treatment changes the preregistered synthetic primary success rate.",
+        "planned_analyses": [
+          {
+            "analysis_id": "synthetic-growth-exp-v1:synthetic_primary_success_rate:treatment_vs_control",
+            "contrast": "treatment_vs_control",
+            "metric": "synthetic_primary_success_rate",
+            "sidedness": "two_sided"
+          }
+        ],
+        "population": {
+          "assignment_unit": "synthetic_viewer_id",
+          "eligibility": "synthetic_preregistered_population_v1",
+          "stratification_keys": [
+            "region",
+            "device"
+          ]
+        },
+        "predecessor_freeze_hash": null,
+        "primary_metrics": [
+          "synthetic_primary_success_rate"
+        ],
+        "registry_version": "experiment_registry.v1",
+        "revision": 1,
+        "sequential_policy": {
+          "familywise_alpha": 0.05,
+          "look_sample_sizes": [
+            400,
+            800,
+            1200,
+            1600
+          ],
+          "max_looks": 4,
+          "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+          "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558"
+        },
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      }
+    ],
+    "evidence": [
+      {
+        "effect_estimate": 0.01528748,
+        "experiment_id": "synthetic-growth-exp-v1",
+        "integrity_reference": {
+          "integrity_version": "experiment_integrity.v1",
+          "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+          "status": "valid"
+        },
+        "metric": "synthetic_primary_success_rate",
+        "raw_two_sided_p_value": 0.294121658111,
+        "registry_freeze_hash": "5bc0a1c9c7f54d2b6da38ffdb78f219a950c6958f1535b998c68916628f0f07e",
+        "registry_revision": 1,
+        "sequential_multiplicity_scope": 4,
+        "sequential_report_sha256": "d8b0206b1d9bfd716a0ec6cf39fec91019386e683159b4fe2c3db9daea0d2d11",
+        "sequential_valid_p_value": 1.0,
+        "source_kind": "synthetic_randomized_assignment"
+      }
+    ]
+  }
+}

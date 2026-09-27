@@ -1,0 +1,12 @@
+{
+  "auto_publish": false,
+  "external_mutation": false,
+  "freeze_revision_1": "frozen",
+  "freeze_revision_2_before_outcome": "frozen",
+  "latest_revision_after_restart": 2,
+  "ledger_sha256": "ffe4e13bca2530989592464305aea01a08d6585684b2e7235c43eb2ec40c42ac",
+  "outcome_consumed": true,
+  "record_outcome": "recorded",
+  "registry_governance_fixture_version": "experiment_registry_governance.v1",
+  "restart_row_count": 3
+}
