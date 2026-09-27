@@ -82,6 +82,31 @@ class DecisionHandoffWave11Tests(unittest.TestCase):
         )
         expected = self.canonical_handoff()
         self.assertEqual(actual, expected)
+        def first_type_diff(left, right, path="$"):
+            if type(left) is not type(right):
+                return (path, type(left).__name__, type(right).__name__, left, right)
+            if isinstance(left, dict):
+                for key in sorted(left):
+                    found = first_type_diff(
+                        left[key], right[key], path + "." + key
+                    )
+                    if found is not None:
+                        return found
+                return None
+            if isinstance(left, list):
+                for index, (a, b) in enumerate(zip(left, right)):
+                    found = first_type_diff(
+                        a, b, path + f"[{index}]"
+                    )
+                    if found is not None:
+                        return found
+                return None
+            return None
+        type_difference = first_type_diff(actual, expected)
+        self.assertIsNone(
+            type_difference,
+            msg=repr(type_difference),
+        )
         digest_material = dict(actual)
         provided_digest = digest_material.pop("handoff_digest")
         recomputed_digest = audit_sha256_json(digest_material)
