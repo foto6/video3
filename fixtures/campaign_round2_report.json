@@ -1,0 +1,1041 @@
+{
+  "campaign_id": "round2-learning-demo",
+  "causal": false,
+  "causality_notice": "Observational analytics describe associations only; they do not establish causal effects.",
+  "channel_id": "channel-demo",
+  "event_count": 12,
+  "experiment_count": 2,
+  "experiments": [
+    {
+      "experiment_id": "exp-thumbnail",
+      "hypothesis_id": "hyp-thumbnail-contrast",
+      "latest_trend": [
+        {
+          "absolute": 0.00463527,
+          "current": 0.06026667,
+          "metric": "ctr",
+          "previous": 0.0556314,
+          "relative": 0.08332106
+        },
+        {
+          "absolute": 1.32343234,
+          "current": 32.83333333,
+          "metric": "average_watch_time_seconds",
+          "previous": 31.50990099,
+          "relative": 0.04200052
+        },
+        {
+          "absolute": 0.03333333,
+          "current": 0.65958333,
+          "metric": "retention_auc",
+          "previous": 0.62625,
+          "relative": 0.05322688
+        }
+      ],
+      "observational": true,
+      "primary_metric": "ctr",
+      "status": "completed",
+      "variant_count": 3,
+      "windows": [
+        {
+          "aggregate": {
+            "average_watch_time_seconds": 31.50990099,
+            "clicks": 163,
+            "ctr": 0.0556314,
+            "impressions": 2930,
+            "retention": [
+              {
+                "position": 0.0,
+                "retained": 1.0
+              },
+              {
+                "position": 0.25,
+                "retained": 0.76333333
+              },
+              {
+                "position": 0.5,
+                "retained": 0.57666667
+              },
+              {
+                "position": 1.0,
+                "retained": 0.37666667
+              }
+            ],
+            "retention_auc": 0.62625,
+            "views": 1515,
+            "watch_time_seconds": 47737.5
+          },
+          "end": "2026-09-08T00:00:00Z",
+          "label": "baseline",
+          "ranking": [
+            "thumb-b",
+            "thumb-c",
+            "thumb-a"
+          ],
+          "start": "2026-09-01T00:00:00Z",
+          "variants": [
+            {
+              "ctr_uncertainty": {
+                "causal": false,
+                "confidence": 0.95,
+                "estimate": 0.05,
+                "half_width": 0.01359203,
+                "interpretation": "observational_association_only",
+                "lower": 0.03813007,
+                "method": "wilson",
+                "sample_size": 1000,
+                "upper": 0.06531414
+              },
+              "evidence_event_ids": [
+                "thumb-a-base"
+              ],
+              "metrics": {
+                "average_watch_time_seconds": 30.0,
+                "clicks": 50,
+                "ctr": 0.05,
+                "impressions": 1000,
+                "retention": [
+                  {
+                    "position": 0.0,
+                    "retained": 1.0
+                  },
+                  {
+                    "position": 0.25,
+                    "retained": 0.75
+                  },
+                  {
+                    "position": 0.5,
+                    "retained": 0.55
+                  },
+                  {
+                    "position": 1.0,
+                    "retained": 0.35
+                  }
+                ],
+                "retention_auc": 0.60625,
+                "views": 500,
+                "watch_time_seconds": 15000.0
+              },
+              "score": 0.531875,
+              "score_uncertainty": {
+                "causal": false,
+                "estimate": 0.531875,
+                "half_width": 0.07664099,
+                "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+                "lower": 0.45523401,
+                "method": "component_observational_bound_v2",
+                "sample_size": 1000,
+                "upper": 0.60851599
+              },
+              "variant_id": "thumb-a"
+            },
+            {
+              "ctr_uncertainty": {
+                "causal": false,
+                "confidence": 0.95,
+                "estimate": 0.06105263,
+                "half_width": 0.01529715,
+                "interpretation": "observational_association_only",
+                "lower": 0.04752334,
+                "method": "wilson",
+                "sample_size": 950,
+                "upper": 0.07811764
+              },
+              "evidence_event_ids": [
+                "thumb-b-base"
+              ],
+              "metrics": {
+                "average_watch_time_seconds": 33.0,
+                "clicks": 58,
+                "ctr": 0.06105263,
+                "impressions": 950,
+                "retention": [
+                  {
+                    "position": 0.0,
+                    "retained": 1.0
+                  },
+                  {
+                    "position": 0.25,
+                    "retained": 0.78
+                  },
+                  {
+                    "position": 0.5,
+                    "retained": 0.6
+                  },
+                  {
+                    "position": 1.0,
+                    "retained": 0.4
+                  }
+                ],
+                "retention_auc": 0.645,
+                "views": 510,
+                "watch_time_seconds": 16830.0
+              },
+              "score": 0.59968421,
+              "score_uncertainty": {
+                "causal": false,
+                "estimate": 0.59968421,
+                "half_width": 0.08232251,
+                "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+                "lower": 0.5173617,
+                "method": "component_observational_bound_v2",
+                "sample_size": 950,
+                "upper": 0.68200672
+              },
+              "variant_id": "thumb-b"
+            },
+            {
+              "ctr_uncertainty": {
+                "causal": false,
+                "confidence": 0.95,
+                "estimate": 0.05612245,
+                "half_width": 0.01448607,
+                "interpretation": "observational_association_only",
+                "lower": 0.04336958,
+                "method": "wilson",
+                "sample_size": 980,
+                "upper": 0.07234173
+              },
+              "evidence_event_ids": [
+                "thumb-c-base"
+              ],
+              "metrics": {
+                "average_watch_time_seconds": 31.5,
+                "clicks": 55,
+                "ctr": 0.05612245,
+                "impressions": 980,
+                "retention": [
+                  {
+                    "position": 0.0,
+                    "retained": 1.0
+                  },
+                  {
+                    "position": 0.25,
+                    "retained": 0.76
+                  },
+                  {
+                    "position": 0.5,
+                    "retained": 0.58
+                  },
+                  {
+                    "position": 1.0,
+                    "retained": 0.38
+                  }
+                ],
+                "retention_auc": 0.6275,
+                "views": 505,
+                "watch_time_seconds": 15907.5
+              },
+              "score": 0.56842857,
+              "score_uncertainty": {
+                "causal": false,
+                "estimate": 0.56842857,
+                "half_width": 0.07962587,
+                "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+                "lower": 0.4888027,
+                "method": "component_observational_bound_v2",
+                "sample_size": 980,
+                "upper": 0.64805444
+              },
+              "variant_id": "thumb-c"
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "average_watch_time_seconds": 32.83333333,
+            "clicks": 226,
+            "ctr": 0.06026667,
+            "impressions": 3750,
+            "retention": [
+              {
+                "position": 0.0,
+                "retained": 1.0
+              },
+              {
+                "position": 0.25,
+                "retained": 0.79333333
+              },
+              {
+                "position": 0.5,
+                "retained": 0.62333333
+              },
+              {
+                "position": 1.0,
+                "retained": 0.41
+              }
+            ],
+            "retention_auc": 0.65958333,
+            "views": 1980,
+            "watch_time_seconds": 65010.0
+          },
+          "end": "2026-09-15T00:00:00Z",
+          "label": "followup",
+          "ranking": [
+            "thumb-b",
+            "thumb-c",
+            "thumb-a"
+          ],
+          "start": "2026-09-08T00:00:00Z",
+          "variants": [
+            {
+              "ctr_uncertainty": {
+                "causal": false,
+                "confidence": 0.95,
+                "estimate": 0.05,
+                "half_width": 0.01239517,
+                "interpretation": "observational_association_only",
+                "lower": 0.03904084,
+                "method": "wilson",
+                "sample_size": 1200,
+                "upper": 0.06383117
+              },
+              "evidence_event_ids": [
+                "thumb-a-follow"
+              ],
+              "metrics": {
+                "average_watch_time_seconds": 30.0,
+                "clicks": 60,
+                "ctr": 0.05,
+                "impressions": 1200,
+                "retention": [
+                  {
+                    "position": 0.0,
+                    "retained": 1.0
+                  },
+                  {
+                    "position": 0.25,
+                    "retained": 0.74
+                  },
+                  {
+                    "position": 0.5,
+                    "retained": 0.54
+                  },
+                  {
+                    "position": 1.0,
+                    "retained": 0.34
+                  }
+                ],
+                "retention_auc": 0.5975,
+                "views": 590,
+                "watch_time_seconds": 17700.0
+              },
+              "score": 0.52925,
+              "score_uncertainty": {
+                "causal": false,
+                "estimate": 0.52925,
+                "half_width": 0.07014317,
+                "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+                "lower": 0.45910683,
+                "method": "component_observational_bound_v2",
+                "sample_size": 1200,
+                "upper": 0.59939317
+              },
+              "variant_id": "thumb-a"
+            },
+            {
+              "ctr_uncertainty": {
+                "causal": false,
+                "confidence": 0.95,
+                "estimate": 0.07,
+                "half_width": 0.01390733,
+                "interpretation": "observational_association_only",
+                "lower": 0.05735961,
+                "method": "wilson",
+                "sample_size": 1300,
+                "upper": 0.08517427
+              },
+              "evidence_event_ids": [
+                "thumb-b-follow"
+              ],
+              "metrics": {
+                "average_watch_time_seconds": 35.0,
+                "clicks": 91,
+                "ctr": 0.07,
+                "impressions": 1300,
+                "retention": [
+                  {
+                    "position": 0.0,
+                    "retained": 1.0
+                  },
+                  {
+                    "position": 0.25,
+                    "retained": 0.84
+                  },
+                  {
+                    "position": 0.5,
+                    "retained": 0.69
+                  },
+                  {
+                    "position": 1.0,
+                    "retained": 0.47
+                  }
+                ],
+                "retention_auc": 0.71125,
+                "views": 720,
+                "watch_time_seconds": 25200.0
+              },
+              "score": 0.66254167,
+              "score_uncertainty": {
+                "causal": false,
+                "estimate": 0.66254167,
+                "half_width": 0.07289972,
+                "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+                "lower": 0.58964195,
+                "method": "component_observational_bound_v2",
+                "sample_size": 1300,
+                "upper": 0.73544139
+              },
+              "variant_id": "thumb-b"
+            },
+            {
+              "ctr_uncertainty": {
+                "causal": false,
+                "confidence": 0.95,
+                "estimate": 0.06,
+                "half_width": 0.01321436,
+                "interpretation": "observational_association_only",
+                "lower": 0.04813374,
+                "method": "wilson",
+                "sample_size": 1250,
+                "upper": 0.07456246
+              },
+              "evidence_event_ids": [
+                "thumb-c-follow"
+              ],
+              "metrics": {
+                "average_watch_time_seconds": 33.0,
+                "clicks": 75,
+                "ctr": 0.06,
+                "impressions": 1250,
+                "retention": [
+                  {
+                    "position": 0.0,
+                    "retained": 1.0
+                  },
+                  {
+                    "position": 0.25,
+                    "retained": 0.8
+                  },
+                  {
+                    "position": 0.5,
+                    "retained": 0.64
+                  },
+                  {
+                    "position": 1.0,
+                    "retained": 0.42
+                  }
+                ],
+                "retention_auc": 0.67,
+                "views": 670,
+                "watch_time_seconds": 22110.0
+              },
+              "score": 0.6035,
+              "score_uncertainty": {
+                "causal": false,
+                "estimate": 0.6035,
+                "half_width": 0.07136195,
+                "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+                "lower": 0.53213805,
+                "method": "component_observational_bound_v2",
+                "sample_size": 1250,
+                "upper": 0.67486195
+              },
+              "variant_id": "thumb-c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_id": "exp-hook",
+      "hypothesis_id": "hyp-opening-hook",
+      "latest_trend": [
+        {
+          "absolute": -0.00064963,
+          "current": 0.05585831,
+          "metric": "ctr",
+          "previous": 0.05650794,
+          "relative": -0.01149619
+        },
+        {
+          "absolute": 1.86788732,
+          "current": 29.31455399,
+          "metric": "average_watch_time_seconds",
+          "previous": 27.44666667,
+          "relative": 0.06805516
+        },
+        {
+          "absolute": 0.045,
+          "current": 0.66958333,
+          "metric": "retention_auc",
+          "previous": 0.62458333,
+          "relative": 0.07204803
+        }
+      ],
+      "observational": true,
+      "primary_metric": "retention_auc",
+      "status": "completed",
+      "variant_count": 3,
+      "windows": [
+        {
+          "aggregate": {
+            "average_watch_time_seconds": 27.44666667,
+            "clicks": 178,
+            "ctr": 0.05650794,
+            "impressions": 3150,
+            "retention": [
+              {
+                "position": 0.0,
+                "retained": 1.0
+              },
+              {
+                "position": 0.25,
+                "retained": 0.76666667
+              },
+              {
+                "position": 0.5,
+                "retained": 0.57666667
+              },
+              {
+                "position": 1.0,
+                "retained": 0.36666667
+              }
+            ],
+            "retention_auc": 0.62458333,
+            "views": 1800,
+            "watch_time_seconds": 49404.0
+          },
+          "end": "2026-09-08T00:00:00Z",
+          "label": "baseline",
+          "ranking": [
+            "hook-b",
+            "hook-c",
+            "hook-a"
+          ],
+          "start": "2026-09-01T00:00:00Z",
+          "variants": [
+            {
+              "ctr_uncertainty": {
+                "causal": false,
+                "confidence": 0.95,
+                "estimate": 0.05,
+                "half_width": 0.01295232,
+                "interpretation": "observational_association_only",
+                "lower": 0.03861377,
+                "method": "wilson",
+                "sample_size": 1100,
+                "upper": 0.06451841
+              },
+              "evidence_event_ids": [
+                "hook-a-base"
+              ],
+              "metrics": {
+                "average_watch_time_seconds": 25.5,
+                "clicks": 55,
+                "ctr": 0.05,
+                "impressions": 1100,
+                "retention": [
+                  {
+                    "position": 0.0,
+                    "retained": 1.0
+                  },
+                  {
+                    "position": 0.25,
+                    "retained": 0.72
+                  },
+                  {
+                    "position": 0.5,
+                    "retained": 0.5
+                  },
+                  {
+                    "position": 1.0,
+                    "retained": 0.3
+                  }
+                ],
+                "retention_auc": 0.5675,
+                "views": 580,
+                "watch_time_seconds": 14790.0
+              },
+              "score": 0.54358333,
+              "score_uncertainty": {
+                "causal": false,
+                "estimate": 0.54358333,
+                "half_width": 0.0723229,
+                "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+                "lower": 0.47126043,
+                "method": "component_observational_bound_v2",
+                "sample_size": 1100,
+                "upper": 0.61590623
+              },
+              "variant_id": "hook-a"
+            },
+            {
+              "ctr_uncertainty": {
+                "causal": false,
+                "confidence": 0.95,
+                "estimate": 0.06,
+                "half_width": 0.01478758,
+                "interpretation": "observational_association_only",
+                "lower": 0.04689626,
+                "method": "wilson",
+                "sample_size": 1000,
+                "upper": 0.07647141
+              },
+              "evidence_event_ids": [
+                "hook-b-base"
+              ],
+              "metrics": {
+                "average_watch_time_seconds": 29.7,
+                "clicks": 60,
+                "ctr": 0.06,
+                "impressions": 1000,
+                "retention": [
+                  {
+                    "position": 0.0,
+                    "retained": 1.0
+                  },
+                  {
+                    "position": 0.25,
+                    "retained": 0.82
+                  },
+                  {
+                    "position": 0.5,
+                    "retained": 0.66
+                  },
+                  {
+                    "position": 1.0,
+                    "retained": 0.44
+                  }
+                ],
+                "retention_auc": 0.6875,
+                "views": 620,
+                "watch_time_seconds": 18414.0
+              },
+              "score": 0.64725,
+              "score_uncertainty": {
+                "causal": false,
+                "estimate": 0.64725,
+                "half_width": 0.07786116,
+                "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+                "lower": 0.56938884,
+                "method": "component_observational_bound_v2",
+                "sample_size": 1000,
+                "upper": 0.72511116
+              },
+              "variant_id": "hook-b"
+            },
+            {
+              "ctr_uncertainty": {
+                "causal": false,
+                "confidence": 0.95,
+                "estimate": 0.06,
+                "half_width": 0.01442807,
+                "interpretation": "observational_association_only",
+                "lower": 0.04717587,
+                "method": "wilson",
+                "sample_size": 1050,
+                "upper": 0.07603202
+              },
+              "evidence_event_ids": [
+                "hook-c-base"
+              ],
+              "metrics": {
+                "average_watch_time_seconds": 27.0,
+                "clicks": 63,
+                "ctr": 0.06,
+                "impressions": 1050,
+                "retention": [
+                  {
+                    "position": 0.0,
+                    "retained": 1.0
+                  },
+                  {
+                    "position": 0.25,
+                    "retained": 0.76
+                  },
+                  {
+                    "position": 0.5,
+                    "retained": 0.57
+                  },
+                  {
+                    "position": 1.0,
+                    "retained": 0.36
+                  }
+                ],
+                "retention_auc": 0.61875,
+                "views": 600,
+                "watch_time_seconds": 16200.0
+              },
+              "score": 0.605625,
+              "score_uncertainty": {
+                "causal": false,
+                "estimate": 0.605625,
+                "half_width": 0.07703438,
+                "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+                "lower": 0.52859062,
+                "method": "component_observational_bound_v2",
+                "sample_size": 1050,
+                "upper": 0.68265938
+              },
+              "variant_id": "hook-c"
+            }
+          ]
+        },
+        {
+          "aggregate": {
+            "average_watch_time_seconds": 29.31455399,
+            "clicks": 205,
+            "ctr": 0.05585831,
+            "impressions": 3670,
+            "retention": [
+              {
+                "position": 0.0,
+                "retained": 1.0
+              },
+              {
+                "position": 0.25,
+                "retained": 0.80333333
+              },
+              {
+                "position": 0.5,
+                "retained": 0.63666667
+              },
+              {
+                "position": 1.0,
+                "retained": 0.42
+              }
+            ],
+            "retention_auc": 0.66958333,
+            "views": 2130,
+            "watch_time_seconds": 62440.0
+          },
+          "end": "2026-09-15T00:00:00Z",
+          "label": "followup",
+          "ranking": [
+            "hook-b",
+            "hook-c",
+            "hook-a"
+          ],
+          "start": "2026-09-08T00:00:00Z",
+          "variants": [
+            {
+              "ctr_uncertainty": {
+                "causal": false,
+                "confidence": 0.95,
+                "estimate": 0.05,
+                "half_width": 0.01239517,
+                "interpretation": "observational_association_only",
+                "lower": 0.03904084,
+                "method": "wilson",
+                "sample_size": 1200,
+                "upper": 0.06383117
+              },
+              "evidence_event_ids": [
+                "hook-a-follow"
+              ],
+              "metrics": {
+                "average_watch_time_seconds": 26.0,
+                "clicks": 60,
+                "ctr": 0.05,
+                "impressions": 1200,
+                "retention": [
+                  {
+                    "position": 0.0,
+                    "retained": 1.0
+                  },
+                  {
+                    "position": 0.25,
+                    "retained": 0.73
+                  },
+                  {
+                    "position": 0.5,
+                    "retained": 0.52
+                  },
+                  {
+                    "position": 1.0,
+                    "retained": 0.31
+                  }
+                ],
+                "retention_auc": 0.58,
+                "views": 650,
+                "watch_time_seconds": 16900.0
+              },
+              "score": 0.55122222,
+              "score_uncertainty": {
+                "causal": false,
+                "estimate": 0.55122222,
+                "half_width": 0.06887819,
+                "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+                "lower": 0.48234403,
+                "method": "component_observational_bound_v2",
+                "sample_size": 1200,
+                "upper": 0.62010041
+              },
+              "variant_id": "hook-a"
+            },
+            {
+              "ctr_uncertainty": {
+                "causal": false,
+                "confidence": 0.95,
+                "estimate": 0.06,
+                "half_width": 0.01321436,
+                "interpretation": "observational_association_only",
+                "lower": 0.04813374,
+                "method": "wilson",
+                "sample_size": 1250,
+                "upper": 0.07456246
+              },
+              "evidence_event_ids": [
+                "hook-b-follow"
+              ],
+              "metrics": {
+                "average_watch_time_seconds": 31.5,
+                "clicks": 75,
+                "ctr": 0.06,
+                "impressions": 1250,
+                "retention": [
+                  {
+                    "position": 0.0,
+                    "retained": 1.0
+                  },
+                  {
+                    "position": 0.25,
+                    "retained": 0.86
+                  },
+                  {
+                    "position": 0.5,
+                    "retained": 0.72
+                  },
+                  {
+                    "position": 1.0,
+                    "retained": 0.5
+                  }
+                ],
+                "retention_auc": 0.735,
+                "views": 760,
+                "watch_time_seconds": 23940.0
+              },
+              "score": 0.6755,
+              "score_uncertainty": {
+                "causal": false,
+                "estimate": 0.6755,
+                "half_width": 0.06982824,
+                "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+                "lower": 0.60567176,
+                "method": "component_observational_bound_v2",
+                "sample_size": 1250,
+                "upper": 0.74532824
+              },
+              "variant_id": "hook-b"
+            },
+            {
+              "ctr_uncertainty": {
+                "causal": false,
+                "confidence": 0.95,
+                "estimate": 0.05737705,
+                "half_width": 0.01310348,
+                "interpretation": "observational_association_only",
+                "lower": 0.04566295,
+                "method": "wilson",
+                "sample_size": 1220,
+                "upper": 0.07186991
+              },
+              "evidence_event_ids": [
+                "hook-c-follow"
+              ],
+              "metrics": {
+                "average_watch_time_seconds": 30.0,
+                "clicks": 70,
+                "ctr": 0.05737705,
+                "impressions": 1220,
+                "retention": [
+                  {
+                    "position": 0.0,
+                    "retained": 1.0
+                  },
+                  {
+                    "position": 0.25,
+                    "retained": 0.82
+                  },
+                  {
+                    "position": 0.5,
+                    "retained": 0.67
+                  },
+                  {
+                    "position": 1.0,
+                    "retained": 0.45
+                  }
+                ],
+                "retention_auc": 0.69375,
+                "views": 720,
+                "watch_time_seconds": 21600.0
+              },
+              "score": 0.64227801,
+              "score_uncertainty": {
+                "causal": false,
+                "estimate": 0.64227801,
+                "half_width": 0.07008625,
+                "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+                "lower": 0.57219176,
+                "method": "component_observational_bound_v2",
+                "sample_size": 1220,
+                "upper": 0.71236426
+              },
+              "variant_id": "hook-c"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "next_cycle_feedback": [
+    {
+      "channel_id": "channel-demo",
+      "content_job_id": "next-hook-a",
+      "contract_version": "1.0",
+      "evidence_event_ids": [
+        "hook-a-follow"
+      ],
+      "observed": {
+        "average_watch_time_seconds": 26.0,
+        "ctr": 0.05,
+        "retention_auc": 0.58
+      },
+      "recommendations": [
+        "preserve_current_pattern"
+      ],
+      "score": 0.55122222,
+      "uncertainty": 0.02886751,
+      "variant_id": "hook-a",
+      "video_id": "video-hook"
+    },
+    {
+      "channel_id": "channel-demo",
+      "content_job_id": "next-hook-b",
+      "contract_version": "1.0",
+      "evidence_event_ids": [
+        "hook-b-follow"
+      ],
+      "observed": {
+        "average_watch_time_seconds": 31.5,
+        "ctr": 0.06,
+        "retention_auc": 0.735
+      },
+      "recommendations": [
+        "preserve_current_pattern"
+      ],
+      "score": 0.6755,
+      "uncertainty": 0.02828427,
+      "variant_id": "hook-b",
+      "video_id": "video-hook"
+    },
+    {
+      "channel_id": "channel-demo",
+      "content_job_id": "next-hook-c",
+      "contract_version": "1.0",
+      "evidence_event_ids": [
+        "hook-c-follow"
+      ],
+      "observed": {
+        "average_watch_time_seconds": 30.0,
+        "ctr": 0.05737705,
+        "retention_auc": 0.69375
+      },
+      "recommendations": [
+        "preserve_current_pattern"
+      ],
+      "score": 0.64227801,
+      "uncertainty": 0.02862992,
+      "variant_id": "hook-c",
+      "video_id": "video-hook"
+    },
+    {
+      "channel_id": "channel-demo",
+      "content_job_id": "next-thumb-a",
+      "contract_version": "1.0",
+      "evidence_event_ids": [
+        "thumb-a-follow"
+      ],
+      "observed": {
+        "average_watch_time_seconds": 30.0,
+        "ctr": 0.05,
+        "retention_auc": 0.5975
+      },
+      "recommendations": [
+        "preserve_current_pattern"
+      ],
+      "score": 0.52925,
+      "uncertainty": 0.02886751,
+      "variant_id": "thumb-a",
+      "video_id": "video-thumb"
+    },
+    {
+      "channel_id": "channel-demo",
+      "content_job_id": "next-thumb-b",
+      "contract_version": "1.0",
+      "evidence_event_ids": [
+        "thumb-b-follow"
+      ],
+      "observed": {
+        "average_watch_time_seconds": 35.0,
+        "ctr": 0.07,
+        "retention_auc": 0.71125
+      },
+      "recommendations": [
+        "preserve_current_pattern"
+      ],
+      "score": 0.66254167,
+      "uncertainty": 0.02773501,
+      "variant_id": "thumb-b",
+      "video_id": "video-thumb"
+    },
+    {
+      "channel_id": "channel-demo",
+      "content_job_id": "next-thumb-c",
+      "contract_version": "1.0",
+      "evidence_event_ids": [
+        "thumb-c-follow"
+      ],
+      "observed": {
+        "average_watch_time_seconds": 33.0,
+        "ctr": 0.06,
+        "retention_auc": 0.67
+      },
+      "recommendations": [
+        "preserve_current_pattern"
+      ],
+      "score": 0.6035,
+      "uncertainty": 0.02828427,
+      "variant_id": "thumb-c",
+      "video_id": "video-thumb"
+    }
+  ],
+  "recommendation_ranking": [
+    {
+      "content_job_ids": [
+        "next-hook-a",
+        "next-hook-b",
+        "next-hook-c",
+        "next-thumb-a",
+        "next-thumb-b",
+        "next-thumb-c"
+      ],
+      "mean_uncertainty": 0.02844475,
+      "priority": 0.5933603,
+      "support_count": 6,
+      "token": "preserve_current_pattern",
+      "variant_ids": [
+        "hook-a",
+        "hook-b",
+        "hook-c",
+        "thumb-a",
+        "thumb-b",
+        "thumb-c"
+      ]
+    }
+  ],
+  "report_version": "campaign.report.v2",
+  "variant_count": 6,
+  "window_count": 2
+}
