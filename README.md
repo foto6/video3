@@ -75,3 +75,10 @@ Wave 3 adds a replay-safe Growth -> Creator handoff without changing CreatorFeed
 Growth owns feedback generation and durable export identity. Creator owns persisting and applying the seed to a new cycle, using the exported `idempotency_key` for persist-once behavior.
 
 See `docs/FEEDBACK_DELIVERY_REPLAY.md` for batch identity, ledger commit semantics, crash/replay behavior, and ownership.
+
+
+## Creator consumer conformance pack
+
+Wave 4 freezes strict `growth.feedback_batch.v1` and `growth.creator_seed.v1` transport parsing and publishes a hash-manifested producer corpus under `fixtures/creator_consumer_conformance_v1/`.
+
+The pack is cross-checked against Creator `foto6/video1 @ 7ece5182bdf0791eadda28f10e7316f3a496ded4`. Creator currently accepts strict individual `growth_feedback` seed metadata using CreatorFeedback `1.0`; it does not yet parse the outer batch/seed envelopes. The exact persist-once adapter algorithm is documented in `docs/CREATOR_CONSUMER_CONFORMANCE_V1.md`.
