@@ -13,12 +13,12 @@
   "creator_feedback_contract_version": "1.0",
   "guardrails": {
     "breaches": [],
-    "distribution_shift": 0,
-    "missing_rate": 0,
-    "recommendation_churn": 0,
+    "distribution_shift": 0.0,
+    "missing_rate": 0.0,
+    "recommendation_churn": 0.0,
     "status": "pass"
   },
-  "handoff_digest": "890ecd0cb5bbb82a7f041bfc84a90c2d790b7b94d750bb159292db4038064fbf",
+  "handoff_digest": "d788cfad7ae5ad7e627fa2aadf6aaa529e7e17b8911742f859428d1e030e93c3",
   "handoff_id": "gdh1:4437df437a6f92b0c1f68fca5c7657bfdef37a4978039db3a8a9a9cbec9cf04a",
   "handoff_version": "growth.decision_handoff.v1",
   "integrity": {
@@ -94,8 +94,8 @@
     },
     "guardrails": {
       "breaches": [],
-      "distribution_shift": 0,
-      "missing_rate": 0,
+      "distribution_shift": 0.0,
+      "missing_rate": 0.0,
       "recommendation_churn": 0
     },
     "preserved_when_blocked": true,
