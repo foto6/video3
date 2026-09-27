@@ -136,3 +136,12 @@ Wave 10 adds experiment_audit_bundle.v1 as a content-addressed, read-only recons
 The canonical bundle is fixtures/experiment_audit_bundle_v1.json and independently verifies from durable fixtures only. Equivalent replay/order permutations produce the same logical audit digest; tampered or conflicting component references fail closed.
 
 See docs/EXPERIMENT_AUDIT_BUNDLE_V1.md.
+
+
+## Audit-bound Creator decision handoff
+
+Wave 11 adds growth.decision_handoff.v1, a read-only Creator-facing handoff bound to one exact experiment_audit_bundle.v1 digest. Recommendation content is separate from authority: auto-publish, external mutation, release authorization and publish authorization are always false.
+
+Invalid integrity and exploratory-only evidence cannot emit confirmatory recommendations. Guardrail regressions and integrity warnings conservatively downgrade stronger audit outcomes. Exact duplicate handoff replay is an idempotent no-op through the durable handoff ledger.
+
+See docs/DECISION_HANDOFF_V1.md.
