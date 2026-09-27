@@ -1,0 +1,137 @@
+{
+  "audit_bundle_digest": "788eca36cd305ff62209bec4ff76ce5b3531589234cc698d4c774844694ca5c3",
+  "audit_classification": "confirmatory_not_supported",
+  "authority": {
+    "auto_publish": false,
+    "external_mutation": false,
+    "notice": "This analytics handoff is advisory evidence only and never authorizes Creator release or publishing by itself.",
+    "publish_authorized": false,
+    "release_authorized": false,
+    "requires_creator_release_authorization": true
+  },
+  "classification": "confirmatory_not_supported",
+  "creator_feedback_contract_version": "1.0",
+  "guardrails": {
+    "breaches": [],
+    "distribution_shift": 0,
+    "missing_rate": 0,
+    "recommendation_churn": 0,
+    "status": "pass"
+  },
+  "handoff_digest": "890ecd0cb5bbb82a7f041bfc84a90c2d790b7b94d750bb159292db4038064fbf",
+  "handoff_id": "gdh1:4437df437a6f92b0c1f68fca5c7657bfdef37a4978039db3a8a9a9cbec9cf04a",
+  "handoff_version": "growth.decision_handoff.v1",
+  "integrity": {
+    "reasons": {
+      "invalid": [],
+      "warning": []
+    },
+    "result_digest": "e2be2db3d1b201297d9d2bccc3b19aa16975d3e465d028d2829b33c171264226",
+    "status": "valid"
+  },
+  "multiplicity": {
+    "decision": false,
+    "decision_reason": "holm_adjusted_above_family_alpha",
+    "family_adjusted_p_value": 1.0,
+    "family_alpha": 0.05,
+    "family_id": "wave9-valid-family",
+    "method": "holm_bonferroni_v1",
+    "raw_two_sided_p_value": 0.294121658111,
+    "sequential_valid_p_value": 1.0
+  },
+  "primary_metric": {
+    "confidence_lower": -0.02110829,
+    "confidence_upper": 0.05168324,
+    "control_n": 828,
+    "control_rate": 0.08574879,
+    "control_variant": "control",
+    "effect_estimate": 0.01528748,
+    "name": "synthetic_primary_success_rate",
+    "standard_error": 0.01457168,
+    "treatment_n": 772,
+    "treatment_rate": 0.10103627,
+    "treatment_variant": "treatment"
+  },
+  "provenance": {
+    "event_window_corpus_digest": "be82e5f8339f3c384f6e7a450c11e68826cbcdec583d4813bd0d46dda0fb2e43",
+    "family_report_digest": "e7b1425cb45aa98ae8f200e885cd238fa752a56a25f96130892e1f826a4abb95",
+    "randomization_digest": "93213ea319ddb3eab151f150e4e7a4cf74a571038fdc9fd807a1e8e84dff1903",
+    "sample_counts": {
+      "look_observations": 1600,
+      "missing": 0,
+      "nonmissing": 1600
+    },
+    "sequential_result_digest": "5927a735c1e52aa2633e5c75d92ce3e973ba60389f3e35b0bbf1157ffe9c24a7",
+    "window": {
+      "start": "2026-09-01T00:00:00Z",
+      "stop": "2026-10-01T00:00:00Z"
+    }
+  },
+  "raw_metrics": {
+    "family_confirmatory": {
+      "analysis_id": "synthetic-growth-exp-v1:synthetic_primary_success_rate:treatment_vs_control",
+      "confirmatory": true,
+      "decision": false,
+      "decision_reason": "holm_adjusted_above_family_alpha",
+      "experiment_id": "synthetic-growth-exp-v1",
+      "family_adjusted_p_value": 1.0,
+      "family_input_p_value": 1.0,
+      "holm_multiplier": 1,
+      "holm_rank": 1,
+      "integrity_reference": {
+        "integrity_version": "experiment_integrity.v1",
+        "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+        "status": "valid"
+      },
+      "label": "confirmatory",
+      "metric": "synthetic_primary_success_rate",
+      "raw_two_sided_p_value": 0.294121658111,
+      "registry_freeze_hash": "5bc0a1c9c7f54d2b6da38ffdb78f219a950c6958f1535b998c68916628f0f07e",
+      "registry_revision": 1,
+      "sequential_valid_p_value": 1.0,
+      "slot_id": "synthetic-growth-exp-v1@1:synthetic-growth-exp-v1:synthetic_primary_success_rate:treatment_vs_control",
+      "treatment_effect_interpretation_allowed": false
+    },
+    "guardrails": {
+      "breaches": [],
+      "distribution_shift": 0,
+      "missing_rate": 0,
+      "recommendation_churn": 0
+    },
+    "preserved_when_blocked": true,
+    "primary_comparison": {
+      "confidence_lower": -0.02110829,
+      "confidence_upper": 0.05168324,
+      "control_n": 828,
+      "control_rate": 0.08574879,
+      "control_variant": "control",
+      "critical_z": 2.49770547,
+      "crosses_negative_boundary": false,
+      "crosses_positive_boundary": false,
+      "effect": 0.01528748,
+      "look_index": 4,
+      "per_comparison_look_alpha": 0.0125,
+      "standard_error": 0.01457168,
+      "treatment_n": 772,
+      "treatment_rate": 0.10103627,
+      "treatment_variant": "treatment"
+    }
+  },
+  "recommendation": {
+    "confirmatory": false,
+    "data": {
+      "effect_estimate": 0.01528748,
+      "preferred_variant": null,
+      "source_classification": "confirmatory_not_supported"
+    },
+    "mode": "blocked",
+    "text": "Multiplicity-adjusted confirmatory evidence does not support a Creator recommendation for the tested change."
+  },
+  "registry": {
+    "experiment_id": "synthetic-growth-exp-v1",
+    "freeze_hash": "5bc0a1c9c7f54d2b6da38ffdb78f219a950c6958f1535b998c68916628f0f07e",
+    "hypothesis": "Treatment changes the preregistered synthetic primary success rate.",
+    "hypothesis_id": "9031dc453088b7da357767f82a45410a96bf04a680d1fdfe5987752c76ff255a",
+    "revision": 1
+  }
+}
