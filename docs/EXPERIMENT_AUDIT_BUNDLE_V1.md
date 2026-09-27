@@ -41,7 +41,7 @@ Bundle fixture: fixtures/experiment_audit_bundle_v1.json
 
 Independent verification: fixtures/experiment_audit_verification_v1.json
 
-Bundle digest: dca894fb13d07d2e11c117206fd1ffc75ff9754b578448b365523ff07f4946d7
+Bundle digest: 788eca36cd305ff62209bec4ff76ce5b3531589234cc698d4c774844694ca5c3
 
 Classification: confirmatory_not_supported
 
