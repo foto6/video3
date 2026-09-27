@@ -181,7 +181,17 @@ def simulate_campaign(payload: Mapping[str, Any]) -> dict[str, Any]:
         "causal": False,
         "causality_notice": CAUSALITY_NOTICE,
         "experiments": experiment_reports,
-        "recommendation_ranking": [asdict(item) for item in recommendation_ranking],
+        "recommendation_ranking": [
+            {
+                "token": item.token,
+                "priority": item.priority,
+                "support_count": item.support_count,
+                "content_job_ids": list(item.content_job_ids),
+                "variant_ids": list(item.variant_ids),
+                "mean_uncertainty": item.mean_uncertainty,
+            }
+            for item in recommendation_ranking
+        ],
         "next_cycle_feedback": [_feedback_dict(item) for item in feedbacks],
     }
 
