@@ -1,0 +1,1241 @@
+{
+  "auto_publish": false,
+  "cases": {
+    "guardrail_breach": {
+      "allocation": {
+        "by_variant": [
+          {
+            "expected": 200.0,
+            "observed": 201,
+            "relative_deviation": 0.005,
+            "variant_id": "control"
+          },
+          {
+            "expected": 200.0,
+            "observed": 199,
+            "relative_deviation": 0.005,
+            "variant_id": "treatment"
+          }
+        ],
+        "max_relative_deviation": 0.005,
+        "sample_ratio_mismatch": false,
+        "threshold": 0.15,
+        "total_nonmissing": 400,
+        "variant_coverage": 1.0
+      },
+      "auto_publish": false,
+      "available_observations": 800,
+      "comparisons": [
+        {
+          "confidence_lower": -0.09562885,
+          "confidence_upper": 0.06807816,
+          "control_n": 201,
+          "control_rate": 0.12935323,
+          "control_variant": "control",
+          "critical_z": 2.49770547,
+          "crosses_negative_boundary": false,
+          "crosses_positive_boundary": false,
+          "effect": -0.01377534,
+          "look_index": 1,
+          "per_comparison_look_alpha": 0.0125,
+          "standard_error": 0.03277148,
+          "treatment_n": 199,
+          "treatment_rate": 0.11557789,
+          "treatment_variant": "treatment"
+        }
+      ],
+      "evidence_digest": "4cce43f310dfe0cd5bf9ddd3a3dbfcb9d80d571566d69346e93907f5b6ccbc81",
+      "evidence_source_kind": "synthetic_randomized_assignment",
+      "experiment_id": "synthetic-growth-exp-v1",
+      "external_mutation": false,
+      "final_look_number": 1,
+      "final_look_sample_size": 400,
+      "guardrails": {
+        "breaches": [
+          "distribution_shift",
+          "recommendation_churn"
+        ],
+        "distribution_shift": 0.35,
+        "missing_rate": 0.0,
+        "recommendation_churn": 0.8
+      },
+      "interpretation": "Synthetic randomized-assignment evidence evaluated under a predeclared multiple-look-safe protocol.",
+      "look_history": [
+        {
+          "allocation": {
+            "by_variant": [
+              {
+                "expected": 200.0,
+                "observed": 201,
+                "relative_deviation": 0.005,
+                "variant_id": "control"
+              },
+              {
+                "expected": 200.0,
+                "observed": 199,
+                "relative_deviation": 0.005,
+                "variant_id": "treatment"
+              }
+            ],
+            "max_relative_deviation": 0.005,
+            "sample_ratio_mismatch": false,
+            "threshold": 0.15,
+            "total_nonmissing": 400,
+            "variant_coverage": 1.0
+          },
+          "comparisons": [
+            {
+              "confidence_lower": -0.09562885,
+              "confidence_upper": 0.06807816,
+              "control_n": 201,
+              "control_rate": 0.12935323,
+              "control_variant": "control",
+              "critical_z": 2.49770547,
+              "crosses_negative_boundary": false,
+              "crosses_positive_boundary": false,
+              "effect": -0.01377534,
+              "look_index": 1,
+              "per_comparison_look_alpha": 0.0125,
+              "standard_error": 0.03277148,
+              "treatment_n": 199,
+              "treatment_rate": 0.11557789,
+              "treatment_variant": "treatment"
+            }
+          ],
+          "guardrails": {
+            "breaches": [
+              "distribution_shift",
+              "recommendation_churn"
+            ],
+            "distribution_shift": 0.35,
+            "missing_rate": 0.0,
+            "recommendation_churn": 0.8
+          },
+          "look_number": 1,
+          "look_sample_size": 400,
+          "sample_counts": {
+            "look_observations": 400,
+            "missing": 0,
+            "nonmissing": 400
+          },
+          "state": "stop_for_guardrail"
+        }
+      ],
+      "method": {
+        "familywise_alpha": 0.05,
+        "max_looks": 4,
+        "multiplicity_scope": 4,
+        "name": "bonferroni_fixed_max_looks_two_sided_z_v1",
+        "per_comparison_look_alpha": 0.0125
+      },
+      "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+      "randomized_experiment_evidence": true,
+      "result_version": "experiment.sequential_result.v1",
+      "sample_counts": {
+        "look_observations": 400,
+        "missing": 0,
+        "nonmissing": 400
+      },
+      "state": "stop_for_guardrail"
+    },
+    "late_replay": {
+      "allocation": {
+        "by_variant": [
+          {
+            "expected": 800.0,
+            "observed": 828,
+            "relative_deviation": 0.035,
+            "variant_id": "control"
+          },
+          {
+            "expected": 800.0,
+            "observed": 772,
+            "relative_deviation": 0.035,
+            "variant_id": "treatment"
+          }
+        ],
+        "max_relative_deviation": 0.035,
+        "sample_ratio_mismatch": false,
+        "threshold": 0.15,
+        "total_nonmissing": 1600,
+        "variant_coverage": 1.0
+      },
+      "auto_publish": false,
+      "available_observations": 1600,
+      "comparisons": [
+        {
+          "confidence_lower": -0.02110829,
+          "confidence_upper": 0.05168324,
+          "control_n": 828,
+          "control_rate": 0.08574879,
+          "control_variant": "control",
+          "critical_z": 2.49770547,
+          "crosses_negative_boundary": false,
+          "crosses_positive_boundary": false,
+          "effect": 0.01528748,
+          "look_index": 4,
+          "per_comparison_look_alpha": 0.0125,
+          "standard_error": 0.01457168,
+          "treatment_n": 772,
+          "treatment_rate": 0.10103627,
+          "treatment_variant": "treatment"
+        }
+      ],
+      "evidence_digest": "44e1d9a31a8cd57dce8a1ec5ada96949e6ec237340c5f8e1d02038e2e7a8c096",
+      "evidence_source_kind": "synthetic_randomized_assignment",
+      "experiment_id": "synthetic-growth-exp-v1",
+      "external_mutation": false,
+      "final_look_number": 4,
+      "final_look_sample_size": 1600,
+      "guardrails": {
+        "breaches": [],
+        "distribution_shift": 0.0,
+        "missing_rate": 0.0,
+        "recommendation_churn": 0.0
+      },
+      "interpretation": "Synthetic randomized-assignment evidence evaluated under a predeclared multiple-look-safe protocol.",
+      "look_history": [
+        {
+          "allocation": {
+            "by_variant": [
+              {
+                "expected": 200.0,
+                "observed": 201,
+                "relative_deviation": 0.005,
+                "variant_id": "control"
+              },
+              {
+                "expected": 200.0,
+                "observed": 199,
+                "relative_deviation": 0.005,
+                "variant_id": "treatment"
+              }
+            ],
+            "max_relative_deviation": 0.005,
+            "sample_ratio_mismatch": false,
+            "threshold": 0.15,
+            "total_nonmissing": 400,
+            "variant_coverage": 1.0
+          },
+          "comparisons": [
+            {
+              "confidence_lower": -0.03087344,
+              "confidence_upper": 0.09217497,
+              "control_n": 201,
+              "control_rate": 0.04975124,
+              "control_variant": "control",
+              "critical_z": 2.49770547,
+              "crosses_negative_boundary": false,
+              "crosses_positive_boundary": false,
+              "effect": 0.03065077,
+              "look_index": 1,
+              "per_comparison_look_alpha": 0.0125,
+              "standard_error": 0.02463229,
+              "treatment_n": 199,
+              "treatment_rate": 0.08040201,
+              "treatment_variant": "treatment"
+            }
+          ],
+          "guardrails": {
+            "breaches": [],
+            "distribution_shift": 0.0,
+            "missing_rate": 0.0,
+            "recommendation_churn": 0.0
+          },
+          "look_number": 1,
+          "look_sample_size": 400,
+          "sample_counts": {
+            "look_observations": 400,
+            "missing": 0,
+            "nonmissing": 400
+          },
+          "state": "continue"
+        },
+        {
+          "allocation": {
+            "by_variant": [
+              {
+                "expected": 400.0,
+                "observed": 395,
+                "relative_deviation": 0.0125,
+                "variant_id": "control"
+              },
+              {
+                "expected": 400.0,
+                "observed": 405,
+                "relative_deviation": 0.0125,
+                "variant_id": "treatment"
+              }
+            ],
+            "max_relative_deviation": 0.0125,
+            "sample_ratio_mismatch": false,
+            "threshold": 0.15,
+            "total_nonmissing": 800,
+            "variant_coverage": 1.0
+          },
+          "comparisons": [
+            {
+              "confidence_lower": -0.01471095,
+              "confidence_upper": 0.08072127,
+              "control_n": 395,
+              "control_rate": 0.06329114,
+              "control_variant": "control",
+              "critical_z": 2.49770547,
+              "crosses_negative_boundary": false,
+              "crosses_positive_boundary": false,
+              "effect": 0.03300516,
+              "look_index": 2,
+              "per_comparison_look_alpha": 0.0125,
+              "standard_error": 0.01910398,
+              "treatment_n": 405,
+              "treatment_rate": 0.0962963,
+              "treatment_variant": "treatment"
+            }
+          ],
+          "guardrails": {
+            "breaches": [],
+            "distribution_shift": 0.0,
+            "missing_rate": 0.0,
+            "recommendation_churn": 0.0
+          },
+          "look_number": 2,
+          "look_sample_size": 800,
+          "sample_counts": {
+            "look_observations": 800,
+            "missing": 0,
+            "nonmissing": 800
+          },
+          "state": "continue"
+        },
+        {
+          "allocation": {
+            "by_variant": [
+              {
+                "expected": 600.0,
+                "observed": 619,
+                "relative_deviation": 0.03166667,
+                "variant_id": "control"
+              },
+              {
+                "expected": 600.0,
+                "observed": 581,
+                "relative_deviation": 0.03166667,
+                "variant_id": "treatment"
+              }
+            ],
+            "max_relative_deviation": 0.03166667,
+            "sample_ratio_mismatch": false,
+            "threshold": 0.15,
+            "total_nonmissing": 1200,
+            "variant_coverage": 1.0
+          },
+          "comparisons": [
+            {
+              "confidence_lower": -0.02209871,
+              "confidence_upper": 0.05999226,
+              "control_n": 619,
+              "control_rate": 0.07915994,
+              "control_variant": "control",
+              "critical_z": 2.49770547,
+              "crosses_negative_boundary": false,
+              "crosses_positive_boundary": false,
+              "effect": 0.01894678,
+              "look_index": 3,
+              "per_comparison_look_alpha": 0.0125,
+              "standard_error": 0.01643328,
+              "treatment_n": 581,
+              "treatment_rate": 0.09810671,
+              "treatment_variant": "treatment"
+            }
+          ],
+          "guardrails": {
+            "breaches": [],
+            "distribution_shift": 0.0,
+            "missing_rate": 0.0,
+            "recommendation_churn": 0.0
+          },
+          "look_number": 3,
+          "look_sample_size": 1200,
+          "sample_counts": {
+            "look_observations": 1200,
+            "missing": 0,
+            "nonmissing": 1200
+          },
+          "state": "continue"
+        },
+        {
+          "allocation": {
+            "by_variant": [
+              {
+                "expected": 800.0,
+                "observed": 828,
+                "relative_deviation": 0.035,
+                "variant_id": "control"
+              },
+              {
+                "expected": 800.0,
+                "observed": 772,
+                "relative_deviation": 0.035,
+                "variant_id": "treatment"
+              }
+            ],
+            "max_relative_deviation": 0.035,
+            "sample_ratio_mismatch": false,
+            "threshold": 0.15,
+            "total_nonmissing": 1600,
+            "variant_coverage": 1.0
+          },
+          "comparisons": [
+            {
+              "confidence_lower": -0.02110829,
+              "confidence_upper": 0.05168324,
+              "control_n": 828,
+              "control_rate": 0.08574879,
+              "control_variant": "control",
+              "critical_z": 2.49770547,
+              "crosses_negative_boundary": false,
+              "crosses_positive_boundary": false,
+              "effect": 0.01528748,
+              "look_index": 4,
+              "per_comparison_look_alpha": 0.0125,
+              "standard_error": 0.01457168,
+              "treatment_n": 772,
+              "treatment_rate": 0.10103627,
+              "treatment_variant": "treatment"
+            }
+          ],
+          "guardrails": {
+            "breaches": [],
+            "distribution_shift": 0.0,
+            "missing_rate": 0.0,
+            "recommendation_churn": 0.0
+          },
+          "look_number": 4,
+          "look_sample_size": 1600,
+          "sample_counts": {
+            "look_observations": 1600,
+            "missing": 0,
+            "nonmissing": 1600
+          },
+          "state": "analysis_complete"
+        }
+      ],
+      "method": {
+        "familywise_alpha": 0.05,
+        "max_looks": 4,
+        "multiplicity_scope": 4,
+        "name": "bonferroni_fixed_max_looks_two_sided_z_v1",
+        "per_comparison_look_alpha": 0.0125
+      },
+      "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+      "randomized_experiment_evidence": true,
+      "result_version": "experiment.sequential_result.v1",
+      "sample_counts": {
+        "look_observations": 1600,
+        "missing": 0,
+        "nonmissing": 1600
+      },
+      "state": "analysis_complete"
+    },
+    "null_effect": {
+      "allocation": {
+        "by_variant": [
+          {
+            "expected": 800.0,
+            "observed": 828,
+            "relative_deviation": 0.035,
+            "variant_id": "control"
+          },
+          {
+            "expected": 800.0,
+            "observed": 772,
+            "relative_deviation": 0.035,
+            "variant_id": "treatment"
+          }
+        ],
+        "max_relative_deviation": 0.035,
+        "sample_ratio_mismatch": false,
+        "threshold": 0.15,
+        "total_nonmissing": 1600,
+        "variant_coverage": 1.0
+      },
+      "auto_publish": false,
+      "available_observations": 1600,
+      "comparisons": [
+        {
+          "confidence_lower": -0.02110829,
+          "confidence_upper": 0.05168324,
+          "control_n": 828,
+          "control_rate": 0.08574879,
+          "control_variant": "control",
+          "critical_z": 2.49770547,
+          "crosses_negative_boundary": false,
+          "crosses_positive_boundary": false,
+          "effect": 0.01528748,
+          "look_index": 4,
+          "per_comparison_look_alpha": 0.0125,
+          "standard_error": 0.01457168,
+          "treatment_n": 772,
+          "treatment_rate": 0.10103627,
+          "treatment_variant": "treatment"
+        }
+      ],
+      "evidence_digest": "44e1d9a31a8cd57dce8a1ec5ada96949e6ec237340c5f8e1d02038e2e7a8c096",
+      "evidence_source_kind": "synthetic_randomized_assignment",
+      "experiment_id": "synthetic-growth-exp-v1",
+      "external_mutation": false,
+      "final_look_number": 4,
+      "final_look_sample_size": 1600,
+      "guardrails": {
+        "breaches": [],
+        "distribution_shift": 0.0,
+        "missing_rate": 0.0,
+        "recommendation_churn": 0.0
+      },
+      "interpretation": "Synthetic randomized-assignment evidence evaluated under a predeclared multiple-look-safe protocol.",
+      "look_history": [
+        {
+          "allocation": {
+            "by_variant": [
+              {
+                "expected": 200.0,
+                "observed": 201,
+                "relative_deviation": 0.005,
+                "variant_id": "control"
+              },
+              {
+                "expected": 200.0,
+                "observed": 199,
+                "relative_deviation": 0.005,
+                "variant_id": "treatment"
+              }
+            ],
+            "max_relative_deviation": 0.005,
+            "sample_ratio_mismatch": false,
+            "threshold": 0.15,
+            "total_nonmissing": 400,
+            "variant_coverage": 1.0
+          },
+          "comparisons": [
+            {
+              "confidence_lower": -0.03087344,
+              "confidence_upper": 0.09217497,
+              "control_n": 201,
+              "control_rate": 0.04975124,
+              "control_variant": "control",
+              "critical_z": 2.49770547,
+              "crosses_negative_boundary": false,
+              "crosses_positive_boundary": false,
+              "effect": 0.03065077,
+              "look_index": 1,
+              "per_comparison_look_alpha": 0.0125,
+              "standard_error": 0.02463229,
+              "treatment_n": 199,
+              "treatment_rate": 0.08040201,
+              "treatment_variant": "treatment"
+            }
+          ],
+          "guardrails": {
+            "breaches": [],
+            "distribution_shift": 0.0,
+            "missing_rate": 0.0,
+            "recommendation_churn": 0.0
+          },
+          "look_number": 1,
+          "look_sample_size": 400,
+          "sample_counts": {
+            "look_observations": 400,
+            "missing": 0,
+            "nonmissing": 400
+          },
+          "state": "continue"
+        },
+        {
+          "allocation": {
+            "by_variant": [
+              {
+                "expected": 400.0,
+                "observed": 395,
+                "relative_deviation": 0.0125,
+                "variant_id": "control"
+              },
+              {
+                "expected": 400.0,
+                "observed": 405,
+                "relative_deviation": 0.0125,
+                "variant_id": "treatment"
+              }
+            ],
+            "max_relative_deviation": 0.0125,
+            "sample_ratio_mismatch": false,
+            "threshold": 0.15,
+            "total_nonmissing": 800,
+            "variant_coverage": 1.0
+          },
+          "comparisons": [
+            {
+              "confidence_lower": -0.01471095,
+              "confidence_upper": 0.08072127,
+              "control_n": 395,
+              "control_rate": 0.06329114,
+              "control_variant": "control",
+              "critical_z": 2.49770547,
+              "crosses_negative_boundary": false,
+              "crosses_positive_boundary": false,
+              "effect": 0.03300516,
+              "look_index": 2,
+              "per_comparison_look_alpha": 0.0125,
+              "standard_error": 0.01910398,
+              "treatment_n": 405,
+              "treatment_rate": 0.0962963,
+              "treatment_variant": "treatment"
+            }
+          ],
+          "guardrails": {
+            "breaches": [],
+            "distribution_shift": 0.0,
+            "missing_rate": 0.0,
+            "recommendation_churn": 0.0
+          },
+          "look_number": 2,
+          "look_sample_size": 800,
+          "sample_counts": {
+            "look_observations": 800,
+            "missing": 0,
+            "nonmissing": 800
+          },
+          "state": "continue"
+        },
+        {
+          "allocation": {
+            "by_variant": [
+              {
+                "expected": 600.0,
+                "observed": 619,
+                "relative_deviation": 0.03166667,
+                "variant_id": "control"
+              },
+              {
+                "expected": 600.0,
+                "observed": 581,
+                "relative_deviation": 0.03166667,
+                "variant_id": "treatment"
+              }
+            ],
+            "max_relative_deviation": 0.03166667,
+            "sample_ratio_mismatch": false,
+            "threshold": 0.15,
+            "total_nonmissing": 1200,
+            "variant_coverage": 1.0
+          },
+          "comparisons": [
+            {
+              "confidence_lower": -0.02209871,
+              "confidence_upper": 0.05999226,
+              "control_n": 619,
+              "control_rate": 0.07915994,
+              "control_variant": "control",
+              "critical_z": 2.49770547,
+              "crosses_negative_boundary": false,
+              "crosses_positive_boundary": false,
+              "effect": 0.01894678,
+              "look_index": 3,
+              "per_comparison_look_alpha": 0.0125,
+              "standard_error": 0.01643328,
+              "treatment_n": 581,
+              "treatment_rate": 0.09810671,
+              "treatment_variant": "treatment"
+            }
+          ],
+          "guardrails": {
+            "breaches": [],
+            "distribution_shift": 0.0,
+            "missing_rate": 0.0,
+            "recommendation_churn": 0.0
+          },
+          "look_number": 3,
+          "look_sample_size": 1200,
+          "sample_counts": {
+            "look_observations": 1200,
+            "missing": 0,
+            "nonmissing": 1200
+          },
+          "state": "continue"
+        },
+        {
+          "allocation": {
+            "by_variant": [
+              {
+                "expected": 800.0,
+                "observed": 828,
+                "relative_deviation": 0.035,
+                "variant_id": "control"
+              },
+              {
+                "expected": 800.0,
+                "observed": 772,
+                "relative_deviation": 0.035,
+                "variant_id": "treatment"
+              }
+            ],
+            "max_relative_deviation": 0.035,
+            "sample_ratio_mismatch": false,
+            "threshold": 0.15,
+            "total_nonmissing": 1600,
+            "variant_coverage": 1.0
+          },
+          "comparisons": [
+            {
+              "confidence_lower": -0.02110829,
+              "confidence_upper": 0.05168324,
+              "control_n": 828,
+              "control_rate": 0.08574879,
+              "control_variant": "control",
+              "critical_z": 2.49770547,
+              "crosses_negative_boundary": false,
+              "crosses_positive_boundary": false,
+              "effect": 0.01528748,
+              "look_index": 4,
+              "per_comparison_look_alpha": 0.0125,
+              "standard_error": 0.01457168,
+              "treatment_n": 772,
+              "treatment_rate": 0.10103627,
+              "treatment_variant": "treatment"
+            }
+          ],
+          "guardrails": {
+            "breaches": [],
+            "distribution_shift": 0.0,
+            "missing_rate": 0.0,
+            "recommendation_churn": 0.0
+          },
+          "look_number": 4,
+          "look_sample_size": 1600,
+          "sample_counts": {
+            "look_observations": 1600,
+            "missing": 0,
+            "nonmissing": 1600
+          },
+          "state": "analysis_complete"
+        }
+      ],
+      "method": {
+        "familywise_alpha": 0.05,
+        "max_looks": 4,
+        "multiplicity_scope": 4,
+        "name": "bonferroni_fixed_max_looks_two_sided_z_v1",
+        "per_comparison_look_alpha": 0.0125
+      },
+      "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+      "randomized_experiment_evidence": true,
+      "result_version": "experiment.sequential_result.v1",
+      "sample_counts": {
+        "look_observations": 1600,
+        "missing": 0,
+        "nonmissing": 1600
+      },
+      "state": "analysis_complete"
+    },
+    "positive_synthetic_effect": {
+      "allocation": {
+        "by_variant": [
+          {
+            "expected": 200.0,
+            "observed": 201,
+            "relative_deviation": 0.005,
+            "variant_id": "control"
+          },
+          {
+            "expected": 200.0,
+            "observed": 199,
+            "relative_deviation": 0.005,
+            "variant_id": "treatment"
+          }
+        ],
+        "max_relative_deviation": 0.005,
+        "sample_ratio_mismatch": false,
+        "threshold": 0.15,
+        "total_nonmissing": 400,
+        "variant_coverage": 1.0
+      },
+      "auto_publish": false,
+      "available_observations": 1600,
+      "comparisons": [
+        {
+          "confidence_lower": 0.00199273,
+          "confidence_upper": 0.16031133,
+          "control_n": 201,
+          "control_rate": 0.07462687,
+          "control_variant": "control",
+          "critical_z": 2.49770547,
+          "crosses_negative_boundary": false,
+          "crosses_positive_boundary": true,
+          "effect": 0.08115203,
+          "look_index": 1,
+          "per_comparison_look_alpha": 0.0125,
+          "standard_error": 0.03169281,
+          "treatment_n": 199,
+          "treatment_rate": 0.15577889,
+          "treatment_variant": "treatment"
+        }
+      ],
+      "evidence_digest": "640fc1dfe80fc45b01b47e9c6a27c9393ca0c385de036a08e2586896d7c58ab2",
+      "evidence_source_kind": "synthetic_randomized_assignment",
+      "experiment_id": "synthetic-growth-exp-v1",
+      "external_mutation": false,
+      "final_look_number": 1,
+      "final_look_sample_size": 400,
+      "guardrails": {
+        "breaches": [],
+        "distribution_shift": 0.0,
+        "missing_rate": 0.0,
+        "recommendation_churn": 0.0
+      },
+      "interpretation": "Synthetic randomized-assignment evidence evaluated under a predeclared multiple-look-safe protocol.",
+      "look_history": [
+        {
+          "allocation": {
+            "by_variant": [
+              {
+                "expected": 200.0,
+                "observed": 201,
+                "relative_deviation": 0.005,
+                "variant_id": "control"
+              },
+              {
+                "expected": 200.0,
+                "observed": 199,
+                "relative_deviation": 0.005,
+                "variant_id": "treatment"
+              }
+            ],
+            "max_relative_deviation": 0.005,
+            "sample_ratio_mismatch": false,
+            "threshold": 0.15,
+            "total_nonmissing": 400,
+            "variant_coverage": 1.0
+          },
+          "comparisons": [
+            {
+              "confidence_lower": 0.00199273,
+              "confidence_upper": 0.16031133,
+              "control_n": 201,
+              "control_rate": 0.07462687,
+              "control_variant": "control",
+              "critical_z": 2.49770547,
+              "crosses_negative_boundary": false,
+              "crosses_positive_boundary": true,
+              "effect": 0.08115203,
+              "look_index": 1,
+              "per_comparison_look_alpha": 0.0125,
+              "standard_error": 0.03169281,
+              "treatment_n": 199,
+              "treatment_rate": 0.15577889,
+              "treatment_variant": "treatment"
+            }
+          ],
+          "guardrails": {
+            "breaches": [],
+            "distribution_shift": 0.0,
+            "missing_rate": 0.0,
+            "recommendation_churn": 0.0
+          },
+          "look_number": 1,
+          "look_sample_size": 400,
+          "sample_counts": {
+            "look_observations": 400,
+            "missing": 0,
+            "nonmissing": 400
+          },
+          "state": "analysis_complete"
+        }
+      ],
+      "method": {
+        "familywise_alpha": 0.05,
+        "max_looks": 4,
+        "multiplicity_scope": 4,
+        "name": "bonferroni_fixed_max_looks_two_sided_z_v1",
+        "per_comparison_look_alpha": 0.0125
+      },
+      "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+      "randomized_experiment_evidence": true,
+      "result_version": "experiment.sequential_result.v1",
+      "sample_counts": {
+        "look_observations": 400,
+        "missing": 0,
+        "nonmissing": 400
+      },
+      "state": "analysis_complete"
+    },
+    "sample_ratio_mismatch": {
+      "allocation": {
+        "by_variant": [
+          {
+            "expected": 200.0,
+            "observed": 314,
+            "relative_deviation": 0.57,
+            "variant_id": "control"
+          },
+          {
+            "expected": 200.0,
+            "observed": 86,
+            "relative_deviation": 0.57,
+            "variant_id": "treatment"
+          }
+        ],
+        "max_relative_deviation": 0.57,
+        "sample_ratio_mismatch": true,
+        "threshold": 0.15,
+        "total_nonmissing": 400,
+        "variant_coverage": 0.5
+      },
+      "auto_publish": false,
+      "available_observations": 800,
+      "comparisons": [
+        {
+          "confidence_lower": -0.05287832,
+          "confidence_upper": 0.14308718,
+          "control_n": 314,
+          "control_rate": 0.08280255,
+          "control_variant": "control",
+          "critical_z": 2.49770547,
+          "crosses_negative_boundary": false,
+          "crosses_positive_boundary": false,
+          "effect": 0.04510443,
+          "look_index": 1,
+          "per_comparison_look_alpha": 0.0125,
+          "standard_error": 0.03922911,
+          "treatment_n": 86,
+          "treatment_rate": 0.12790698,
+          "treatment_variant": "treatment"
+        }
+      ],
+      "evidence_digest": "635a422bc063fe44d6ecccbb449fa693b82a126dd07d1756dec70dd0a8c5c16b",
+      "evidence_source_kind": "synthetic_randomized_assignment",
+      "experiment_id": "synthetic-growth-exp-v1",
+      "external_mutation": false,
+      "final_look_number": 1,
+      "final_look_sample_size": 400,
+      "guardrails": {
+        "breaches": [
+          "sample_ratio_mismatch"
+        ],
+        "distribution_shift": 0.0,
+        "missing_rate": 0.0,
+        "recommendation_churn": 0.0
+      },
+      "interpretation": "Synthetic randomized-assignment evidence evaluated under a predeclared multiple-look-safe protocol.",
+      "look_history": [
+        {
+          "allocation": {
+            "by_variant": [
+              {
+                "expected": 200.0,
+                "observed": 314,
+                "relative_deviation": 0.57,
+                "variant_id": "control"
+              },
+              {
+                "expected": 200.0,
+                "observed": 86,
+                "relative_deviation": 0.57,
+                "variant_id": "treatment"
+              }
+            ],
+            "max_relative_deviation": 0.57,
+            "sample_ratio_mismatch": true,
+            "threshold": 0.15,
+            "total_nonmissing": 400,
+            "variant_coverage": 0.5
+          },
+          "comparisons": [
+            {
+              "confidence_lower": -0.05287832,
+              "confidence_upper": 0.14308718,
+              "control_n": 314,
+              "control_rate": 0.08280255,
+              "control_variant": "control",
+              "critical_z": 2.49770547,
+              "crosses_negative_boundary": false,
+              "crosses_positive_boundary": false,
+              "effect": 0.04510443,
+              "look_index": 1,
+              "per_comparison_look_alpha": 0.0125,
+              "standard_error": 0.03922911,
+              "treatment_n": 86,
+              "treatment_rate": 0.12790698,
+              "treatment_variant": "treatment"
+            }
+          ],
+          "guardrails": {
+            "breaches": [
+              "sample_ratio_mismatch"
+            ],
+            "distribution_shift": 0.0,
+            "missing_rate": 0.0,
+            "recommendation_churn": 0.0
+          },
+          "look_number": 1,
+          "look_sample_size": 400,
+          "sample_counts": {
+            "look_observations": 400,
+            "missing": 0,
+            "nonmissing": 400
+          },
+          "state": "stop_for_guardrail"
+        }
+      ],
+      "method": {
+        "familywise_alpha": 0.05,
+        "max_looks": 4,
+        "multiplicity_scope": 4,
+        "name": "bonferroni_fixed_max_looks_two_sided_z_v1",
+        "per_comparison_look_alpha": 0.0125
+      },
+      "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+      "randomized_experiment_evidence": true,
+      "result_version": "experiment.sequential_result.v1",
+      "sample_counts": {
+        "look_observations": 400,
+        "missing": 0,
+        "nonmissing": 400
+      },
+      "state": "stop_for_guardrail"
+    },
+    "sparse_data": {
+      "allocation": {
+        "by_variant": [
+          {
+            "expected": 60.0,
+            "observed": 65,
+            "relative_deviation": 0.08333333,
+            "variant_id": "control"
+          },
+          {
+            "expected": 60.0,
+            "observed": 55,
+            "relative_deviation": 0.08333333,
+            "variant_id": "treatment"
+          }
+        ],
+        "max_relative_deviation": 0.08333333,
+        "sample_ratio_mismatch": false,
+        "threshold": 0.15,
+        "total_nonmissing": 120,
+        "variant_coverage": 0.0
+      },
+      "auto_publish": false,
+      "available_observations": 120,
+      "comparisons": [
+        {
+          "confidence_lower": -0.16485834,
+          "confidence_upper": 0.09492827,
+          "control_n": 65,
+          "control_rate": 0.10769231,
+          "control_variant": "control",
+          "critical_z": 2.49770547,
+          "crosses_negative_boundary": false,
+          "crosses_positive_boundary": false,
+          "effect": -0.03496503,
+          "look_index": 1,
+          "per_comparison_look_alpha": 0.0125,
+          "standard_error": 0.05200505,
+          "treatment_n": 55,
+          "treatment_rate": 0.07272727,
+          "treatment_variant": "treatment"
+        }
+      ],
+      "evidence_digest": "dcaab7c4f9d024f08b8b270f799c8976cde62ad47f7e78c7c7320b043c7284f9",
+      "evidence_source_kind": "synthetic_randomized_assignment",
+      "experiment_id": "synthetic-growth-exp-v1",
+      "external_mutation": false,
+      "final_look_number": 1,
+      "final_look_sample_size": 120,
+      "guardrails": {
+        "breaches": [],
+        "distribution_shift": 0.0,
+        "missing_rate": 0.0,
+        "recommendation_churn": 0.0
+      },
+      "interpretation": "Synthetic randomized-assignment evidence evaluated under a predeclared multiple-look-safe protocol.",
+      "look_history": [
+        {
+          "allocation": {
+            "by_variant": [
+              {
+                "expected": 60.0,
+                "observed": 65,
+                "relative_deviation": 0.08333333,
+                "variant_id": "control"
+              },
+              {
+                "expected": 60.0,
+                "observed": 55,
+                "relative_deviation": 0.08333333,
+                "variant_id": "treatment"
+              }
+            ],
+            "max_relative_deviation": 0.08333333,
+            "sample_ratio_mismatch": false,
+            "threshold": 0.15,
+            "total_nonmissing": 120,
+            "variant_coverage": 0.0
+          },
+          "comparisons": [
+            {
+              "confidence_lower": -0.16485834,
+              "confidence_upper": 0.09492827,
+              "control_n": 65,
+              "control_rate": 0.10769231,
+              "control_variant": "control",
+              "critical_z": 2.49770547,
+              "crosses_negative_boundary": false,
+              "crosses_positive_boundary": false,
+              "effect": -0.03496503,
+              "look_index": 1,
+              "per_comparison_look_alpha": 0.0125,
+              "standard_error": 0.05200505,
+              "treatment_n": 55,
+              "treatment_rate": 0.07272727,
+              "treatment_variant": "treatment"
+            }
+          ],
+          "guardrails": {
+            "breaches": [],
+            "distribution_shift": 0.0,
+            "missing_rate": 0.0,
+            "recommendation_churn": 0.0
+          },
+          "look_number": 1,
+          "look_sample_size": 120,
+          "sample_counts": {
+            "look_observations": 120,
+            "missing": 0,
+            "nonmissing": 120
+          },
+          "state": "insufficient_evidence"
+        }
+      ],
+      "method": {
+        "familywise_alpha": 0.05,
+        "max_looks": 4,
+        "multiplicity_scope": 4,
+        "name": "bonferroni_fixed_max_looks_two_sided_z_v1",
+        "per_comparison_look_alpha": 0.0125
+      },
+      "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+      "randomized_experiment_evidence": true,
+      "result_version": "experiment.sequential_result.v1",
+      "sample_counts": {
+        "look_observations": 120,
+        "missing": 0,
+        "nonmissing": 120
+      },
+      "state": "insufficient_evidence"
+    }
+  },
+  "corpus_sha256": "cf77b5ab80e12e6d67553b2d62b87f26ab24b995fdf3b92731fbb918b08724b1",
+  "creator_feedback_contract_version": "1.0",
+  "creator_seed_version": "growth.creator_seed.v1",
+  "evidence_version": "experiment.evidence.v1",
+  "experiment_evidence_separate_from_creator_payload": true,
+  "external_mutation": false,
+  "feedback_batch_version": "growth.feedback_batch.v1",
+  "historical_observational_policy": {
+    "experiment_inference_allowed": false,
+    "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+    "source_kind": "historical_observational"
+  },
+  "method": "bonferroni_fixed_max_looks_two_sided_z_v1",
+  "plan_digest": "ca76de53164fa40ac9dccc26e3d86a17ca47d9a789a8584de3bb672c9a268558",
+  "plan_sha256": "6e3b42c01107bbaeab34a59dc55b2fc556714b768232a2aa46ca9ec2b016e517",
+  "plan_version": "experiment.plan.v1",
+  "report_interpretation": "Only synthetic deterministic randomized-assignment fixtures are treated as experiment evidence. Historical analytics remain observational.",
+  "report_version": "experiment.sequential_report.v1",
+  "seed": 720260927,
+  "summary": {
+    "guardrail_breach": {
+      "available_observations": 800,
+      "confidence_lower": -0.09562885,
+      "confidence_upper": 0.06807816,
+      "effect": -0.01377534,
+      "final_look_number": 1,
+      "final_look_sample_size": 400,
+      "guardrail_breaches": [
+        "distribution_shift",
+        "recommendation_churn"
+      ],
+      "max_allocation_relative_deviation": 0.005,
+      "sample_ratio_mismatch": false,
+      "state": "stop_for_guardrail",
+      "variant_coverage": 1.0
+    },
+    "late_replay": {
+      "available_observations": 1600,
+      "confidence_lower": -0.02110829,
+      "confidence_upper": 0.05168324,
+      "effect": 0.01528748,
+      "final_look_number": 4,
+      "final_look_sample_size": 1600,
+      "guardrail_breaches": [],
+      "max_allocation_relative_deviation": 0.035,
+      "sample_ratio_mismatch": false,
+      "state": "analysis_complete",
+      "variant_coverage": 1.0
+    },
+    "null_effect": {
+      "available_observations": 1600,
+      "confidence_lower": -0.02110829,
+      "confidence_upper": 0.05168324,
+      "effect": 0.01528748,
+      "final_look_number": 4,
+      "final_look_sample_size": 1600,
+      "guardrail_breaches": [],
+      "max_allocation_relative_deviation": 0.035,
+      "sample_ratio_mismatch": false,
+      "state": "analysis_complete",
+      "variant_coverage": 1.0
+    },
+    "positive_synthetic_effect": {
+      "available_observations": 1600,
+      "confidence_lower": 0.00199273,
+      "confidence_upper": 0.16031133,
+      "effect": 0.08115203,
+      "final_look_number": 1,
+      "final_look_sample_size": 400,
+      "guardrail_breaches": [],
+      "max_allocation_relative_deviation": 0.005,
+      "sample_ratio_mismatch": false,
+      "state": "analysis_complete",
+      "variant_coverage": 1.0
+    },
+    "sample_ratio_mismatch": {
+      "available_observations": 800,
+      "confidence_lower": -0.05287832,
+      "confidence_upper": 0.14308718,
+      "effect": 0.04510443,
+      "final_look_number": 1,
+      "final_look_sample_size": 400,
+      "guardrail_breaches": [
+        "sample_ratio_mismatch"
+      ],
+      "max_allocation_relative_deviation": 0.57,
+      "sample_ratio_mismatch": true,
+      "state": "stop_for_guardrail",
+      "variant_coverage": 0.5
+    },
+    "sparse_data": {
+      "available_observations": 120,
+      "confidence_lower": -0.16485834,
+      "confidence_upper": 0.09492827,
+      "effect": -0.03496503,
+      "final_look_number": 1,
+      "final_look_sample_size": 120,
+      "guardrail_breaches": [],
+      "max_allocation_relative_deviation": 0.08333333,
+      "sample_ratio_mismatch": false,
+      "state": "insufficient_evidence",
+      "variant_coverage": 0.0
+    }
+  }
+}

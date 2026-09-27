@@ -100,3 +100,12 @@ Wave 6 adds a deterministic historical/replay evaluation layer over finalized re
 The canonical report is fixtures/offline_evaluation_report_v1.json; scenarios are in fixtures/offline_evaluation_scenarios_v1.json. The primary fixture gates unstable because uncertainty coverage fails despite stable ranking, while sparse evidence gates insufficient_evidence.
 
 See docs/OFFLINE_EVALUATION_V1.md.
+
+
+## Deterministic experiment protocol
+
+Wave 7 adds strict experiment.plan.v1 assignment and experiment.evidence.v1 sequential evaluation as a separate read-only artifact path. Stable unit+seed+strata hashing drives assignment; allocation diagnostics cover SRM/coverage/imbalance; sequential looks use a predeclared Bonferroni family-wise-error-safe boundary.
+
+The canonical synthetic corpus covers null, positive synthetic effect, SRM, sparse evidence, late/replay, and guardrail breach. Historical analytics remain observational and are rejected by randomized experiment inference.
+
+See docs/EXPERIMENT_PROTOCOL_V1.md.

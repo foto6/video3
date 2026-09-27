@@ -1,0 +1,48 @@
+{
+  "assignment_unit": "synthetic_viewer_id",
+  "decision_rules": {
+    "alpha": 0.05,
+    "distribution_reference_mean": 0.5,
+    "look_sample_sizes": [
+      400,
+      800,
+      1200,
+      1600
+    ],
+    "max_allocation_relative_deviation": 0.15,
+    "max_distribution_shift": 0.15,
+    "max_looks": 4,
+    "max_missing_rate": 0.15,
+    "max_recommendation_churn": 0.35,
+    "min_per_variant": 150,
+    "min_total_sample": 400
+  },
+  "eligible_variants": [
+    {
+      "variant_id": "control",
+      "weight": 0.5
+    },
+    {
+      "variant_id": "treatment",
+      "weight": 0.5
+    }
+  ],
+  "experiment_id": "synthetic-growth-exp-v1",
+  "experiment_seed": 720260927,
+  "guardrail_metrics": [
+    "sample_ratio_mismatch",
+    "missing_rate",
+    "distribution_shift",
+    "recommendation_churn"
+  ],
+  "plan_version": "experiment.plan.v1",
+  "primary_metric": "synthetic_primary_success_rate",
+  "stratification_keys": [
+    "region",
+    "device"
+  ],
+  "window": {
+    "start": "2026-09-01T00:00:00Z",
+    "stop": "2026-10-01T00:00:00Z"
+  }
+}

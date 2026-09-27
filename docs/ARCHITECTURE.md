@@ -114,3 +114,12 @@ Wave 6 adds growth_analytics.evaluation as a read-only offline layer. It consume
 Evaluation output is separate metadata. It is never serialized into CreatorFeedback 1.0, growth.feedback_batch.v1, or growth.creator_seed.v1, and it cannot dispatch or publish. The gate can only describe evidence as insufficient, unstable, or stable enough for an experiment.
 
 See docs/OFFLINE_EVALUATION_V1.md.
+
+
+## Deterministic experiment protocol boundary
+
+Wave 7 adds growth_analytics.experiment_protocol as a pure read-only assignment/evaluation layer. experiment.plan.v1 freezes eligible variants, weighted allocation, stable assignment identity, strata, experiment window, metrics, guardrails and sequential decision rules.
+
+Experiment evidence is separate from Growth-to-Creator feedback delivery. Only validated synthetic randomized-assignment fixtures enter sequential experiment inference; historical analytics remain explicitly observational. Replay is canonicalized by event time and stable ids, and no experiment result can authorize publishing or account mutation.
+
+See docs/EXPERIMENT_PROTOCOL_V1.md.
