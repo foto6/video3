@@ -96,7 +96,7 @@
       "breaches": [],
       "distribution_shift": 0.0,
       "missing_rate": 0.0,
-      "recommendation_churn": 0
+      "recommendation_churn": 0.0
     },
     "preserved_when_blocked": true,
     "primary_comparison": {
