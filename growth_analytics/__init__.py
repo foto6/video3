@@ -175,6 +175,18 @@ from .experiment_registry import (
     evidence_from_sequential_result,
     generate_registry_synthetic_corpus,
 )
+from .decision_handoff import (
+    DECISION_HANDOFF_LEDGER_VERSION,
+    DECISION_HANDOFF_VERSION,
+    DecisionHandoffConflictError,
+    DecisionHandoffError,
+    DecisionHandoffLedger,
+    build_decision_handoff,
+    classification_strength,
+    decision_handoff_json,
+    parse_decision_handoff,
+    registry_hypothesis_id,
+)
 from .experiment_audit import (
     AUDIT_BUNDLE_VERSION as EXPERIMENT_AUDIT_BUNDLE_VERSION,
     PRIMARY_METRIC_DEFINITION_VERSION as EXPERIMENT_PRIMARY_METRIC_DEFINITION_VERSION,
@@ -202,6 +214,16 @@ from .experiment import (
 
 __all__ = [
     "AccountMutationDisabled",
+    "DECISION_HANDOFF_LEDGER_VERSION",
+    "DECISION_HANDOFF_VERSION",
+    "DecisionHandoffConflictError",
+    "DecisionHandoffError",
+    "DecisionHandoffLedger",
+    "build_decision_handoff",
+    "classification_strength",
+    "decision_handoff_json",
+    "parse_decision_handoff",
+    "registry_hypothesis_id",
     "EXPERIMENT_AUDIT_BUNDLE_VERSION",
     "EXPERIMENT_PRIMARY_METRIC_DEFINITION_VERSION",
     "EXPERIMENT_AUDIT_VERIFICATION_VERSION",
