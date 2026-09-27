@@ -176,15 +176,26 @@ class FeedbackDeliveryReplayTests(unittest.TestCase):
 
     def test_event_replay_duplicate_and_late_event_produce_one_logical_handoff(self) -> None:
         payload = self.campaign_payload()
+        delivery_fixture = json.loads(
+            (self.fixture_dir / "campaign_round2_delivery.json").read_text(
+                encoding="utf-8"
+            )
+        )
         events = tuple(analytics_event_from_dict(item) for item in payload["events"])
+        by_id = {event.event_id: event for event in events}
 
         with tempfile.TemporaryDirectory() as tmp:
             stream_path = Path(tmp) / "events.jsonl"
             stream = DurableAnalyticsEventStream(stream_path)
             receipts = stream.append_many(events)
-            self.assertTrue(any(receipt.late for receipt in receipts))
-            self.assertEqual(stream.append(events[0]).status, "duplicate")
-            self.assertEqual(stream.append(events[-1]).status, "duplicate")
+            late_ids = tuple(
+                event.event_id
+                for event, receipt in zip(events, receipts)
+                if receipt.late
+            )
+            self.assertEqual(late_ids, tuple(delivery_fixture["late_event_ids"]))
+            for event_id in delivery_fixture["duplicate_replay_event_ids"]:
+                self.assertEqual(stream.append(by_id[event_id]).status, "duplicate")
 
             reopened = DurableAnalyticsEventStream(stream_path)
             replayed_events = reopened.replay(order="captured_at")
