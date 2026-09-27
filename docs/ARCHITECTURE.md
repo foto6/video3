@@ -85,3 +85,12 @@ The cycle-N -> cycle-N+1 integration boundary is additive to CreatorFeedback 1.0
 Batch identity is derived from campaign/window/evidence inputs; a separate payload digest protects the canonical v1 payload set. This allows identical replay after restart to collapse to one logical delivery while a reused identity with changed feedback fails closed.
 
 Growth generates and exports feedback only. Creator owns persisting/applying the exported seed to the next cycle. No Growth component posts content, mutates provider accounts, or mutates Creator workflow state.
+
+
+## Creator seed consumer conformance
+
+Wave 4 freezes strict producer parsers/serializers for `growth.feedback_batch.v1` and `growth.creator_seed.v1`. The canonical corpus is stored in `fixtures/creator_consumer_conformance_v1/` with exact file SHA-256 hashes, batch/payload/seed digests, duplicate/conflict expectations, Growth producer provenance, and the inspected Creator consumer SHA.
+
+The Creator cross-check is against `foto6/video1 @ 7ece5182bdf0791eadda28f10e7316f3a496ded4`: its current public integration boundary accepts exact CreatorFeedback `1.0` as `growth_feedback` seed metadata but has no outer batch/seed parser. Growth does not edit or mutate Creator state; Creator owns persist-once application using `idempotency_key=batch_id`.
+
+See `docs/CREATOR_CONSUMER_CONFORMANCE_V1.md`.
