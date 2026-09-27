@@ -141,3 +141,12 @@ Wave 9 adds growth_analytics.experiment_registry above experiment protocol and i
 An append-only fsynced ledger prevents same-revision mutation and post-outcome amendments. Family inference composes the existing sequential multiplicity scope with Holm-Bonferroni across preregistered confirmatory analyses. Integrity-invalid or historical-observational evidence cannot produce treatment-effect conclusions, and non-preregistered metrics remain exploratory.
 
 CreatorFeedback/delivery contracts and provider read-only boundaries are unchanged. See docs/EXPERIMENT_REGISTRY_V1.md.
+
+
+## Reproducible experiment audit boundary
+
+Wave 10 adds growth_analytics.experiment_audit as an offline-only verification layer. It reconstructs a conclusion from durable plan, registry, randomized evidence, integrity, sequential and family-report fixtures, then emits experiment_audit_bundle.v1 with exact content hashes and a canonical bundle digest.
+
+The audit layer fails closed on registry mutation, source hash mismatch, assignment/corpus mismatch, integrity conflict, stopping-policy drift and wrong family references. It preserves raw decision evidence even when interpretation is blocked, keeps amendment lineage and exploratory metrics visible, and never changes CreatorFeedback or provider state.
+
+See docs/EXPERIMENT_AUDIT_BUNDLE_V1.md.
