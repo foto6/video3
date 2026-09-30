@@ -1,0 +1,51 @@
+{
+  "report_version": "growth.decision_delivery_recovery_report.v1",
+  "producer_git_sha": "5c01ae8a402342ebef1d8b30b4c763e78ef61751",
+  "source_class": "synthetic_fixture",
+  "live_performance_claim_allowed": false,
+  "source_snapshot_digest": "5c038cc32def1f5bb799ab2a782bee7b0e31d5071e17968fbe6eb08d5b694449",
+  "source_event_set_digest": "cb60e052b61f58e5327e6c90b8196f1e4410943e77a12027fee6244d6471613d",
+  "signed_audit_content_digest": "51d5ab9e3f67e0aa2b1f4a11b9b72e7a9d7c52e96df2cd6239b5ae453ba51539",
+  "signed_audit_bundle_digest": "743f7f5c691454327c3bb6805e595b5587e4672078ea539ae1a9187b87086d47",
+  "creator_delivery_id": "gcd1:a2883171c82d5b8285aefb3d455d39cfd5e0740980ab362a8535dab277c0ea21",
+  "creator_seed_digest": "116728c98d100a3d496ce190b0fe18ed3d3a2a50251fcdb4efa90723fbf59b1b",
+  "canonical_metrics": {
+    "denominators": {
+      "impressions": 8330,
+      "views": 3575,
+      "retention_views": 3575,
+      "event_count": 8
+    },
+    "ctr": 0.08187275,
+    "average_watch_time_seconds": 30.86433566,
+    "retention_auc": 0.55992657,
+    "ctr_wilson_95": {
+      "lower": 0.07617587,
+      "upper": 0.08795511,
+      "half_width": 0.00588962
+    },
+    "watch_time_uncertainty": "aggregate_export_not_estimable",
+    "retention_uncertainty": "aggregate_export_not_estimable"
+  },
+  "multiplicity": {
+    "method": "holm_bonferroni_v1",
+    "decision": false,
+    "decision_reason": "holm_adjusted_above_family_alpha",
+    "family_adjusted_p_value": 1
+  },
+  "deterministic_recovery_proofs": {
+    "duplicate_out_of_order_provider_events": "same_source_snapshot_same_signed_audit_same_seed",
+    "partial_export": "blocked_before_source_snapshot_or_seed",
+    "process_restart": "prepared_outbox_reopens_with_one_pending_seed",
+    "stale_experiment_revision": "blocked_fail_closed",
+    "lost_acknowledgement": "same_seed_replayed_creator_returns_duplicate_outbox_then_acks",
+    "logical_creator_acceptance_count": 1,
+    "logical_growth_delivery_count": 1
+  },
+  "authority": {
+    "auto_publish": false,
+    "external_mutation": false,
+    "release_authorized": false,
+    "publish_authorized": false
+  }
+}
