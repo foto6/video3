@@ -736,6 +736,7 @@ def build_metric_snapshot(
     impressions = raw["impressions"]
     watch = raw["watch_time_seconds"]
     completed = raw["completed_views"]
+    direct_completion = raw["completion_rate"]
     retention_points = raw["retention_points"]
     retention_denominator = raw["retention_denominator_views"]
     link_clicks = raw["link_clicks"]
