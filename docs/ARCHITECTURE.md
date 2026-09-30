@@ -159,3 +159,18 @@ Wave 11 adds growth_analytics.decision_handoff after experiment_audit_bundle.v1.
 The handoff classification cannot outrank the bound audit classification. Invalid integrity is always blocked; integrity warnings and guardrail regressions can only downgrade authority. Raw metrics remain inspectable. A durable fsynced handoff ledger makes exact replay idempotent and rejects conflicting reuse of the same handoff identity.
 
 CreatorFeedback 1.0 and provider read-only boundaries are unchanged. See docs/DECISION_HANDOFF_V1.md.
+
+
+## Durable Growth -> Creator decision delivery boundary
+
+The decision-delivery layer sits after `growth.decision_handoff.v1`.
+
+A complete read-only export becomes a canonical `growth.decision_source_snapshot.v1`. The snapshot binds provider receipts, event identities, event-set digest, denominators, CTR/watch-time/retention metrics and conservative uncertainty metadata. Duplicate/out-of-order input is canonicalized; partial exports and conflicting identities fail closed.
+
+Growth authenticates the source-bound decision with `growth.decision_delivery_audit.v1` using HMAC-SHA256 and a key id supplied by external key management. A public `fixture:` key exists only for conformance; live provider exports reject fixture keys.
+
+The Creator transport is `growth.creator_decision_seed.v1`. Growth writes the full seed to an fsynced prepare/ack outbox before transmission. Creator validation checks exact fields, all nested digests, the HMAC, active registry revision, source class and authority flags before an fsynced exactly-once consume record. Lost acknowledgement therefore causes replay of the identical content-addressed seed rather than creation of a new decision.
+
+Production validation rejects `synthetic_fixture` by default. Live source class is limited to the existing read-only Metricool/vidIQ provider boundary. No release/publish authority is conveyed by the handoff.
+
+See `docs/DECISION_DELIVERY_AUDIT_V1.md`.
