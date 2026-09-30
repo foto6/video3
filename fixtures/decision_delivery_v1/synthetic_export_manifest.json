@@ -1,0 +1,20 @@
+{
+  "manifest_version": "growth.readonly_export_manifest.v1",
+  "source_class": "synthetic_fixture",
+  "experiment_id": "synthetic-growth-exp-v1",
+  "registry_revision": 1,
+  "window": {
+    "start": "2026-09-01T00:00:00Z",
+    "stop": "2026-10-01T00:00:00Z"
+  },
+  "complete": true,
+  "exports": [
+    {
+      "provider": "fixture",
+      "export_id": "decision-delivery-conformance-v1",
+      "captured_through": "2026-10-01T00:00:00Z",
+      "complete": true
+    }
+  ],
+  "fixture_source_sha256": "70f27bdda88f35892bb403925053e11a11a5457e1b2ed2742c704733f5c27079"
+}
