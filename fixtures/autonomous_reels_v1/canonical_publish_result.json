@@ -1,0 +1,25 @@
+{
+  "account_id": "fixture-account",
+  "artifact": {
+    "creative_artifact_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "creative_artifact_id": "creative-r10-001",
+    "media_artifact_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "media_artifact_id": "media-r10-001",
+    "media_duration_seconds": 30,
+    "media_render_fingerprint": "render-r10-fixture"
+  },
+  "captured_at": "2026-10-01T00:05:00Z",
+  "contract_version": "growth.shortform_publish_result.v1",
+  "cycle_revision": 1,
+  "platform": "instagram_reels",
+  "post_id": "fixture-post-instagram_reels",
+  "provenance": {
+    "fixture_source_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "live_performance_claim_allowed": false,
+    "provider_receipt_digest": null
+  },
+  "publish_result_digest": "b668690575ed058e6c5d158c2c9abe9cf1b491d0f0dfdc7da1a7948f94cbeb72",
+  "publish_result_id": "spr1:8115ea58219ad9e37d4edd56d7e7277dd990f0eed702456a792621a68e01702b",
+  "published_at": "2026-10-01T00:00:00Z",
+  "source_class": "synthetic_fixture"
+}
