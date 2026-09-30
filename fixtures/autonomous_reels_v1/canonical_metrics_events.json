@@ -1,0 +1,146 @@
+[
+  {
+    "account_id": "fixture-account",
+    "available_metrics": [
+      "average_watch_duration_seconds",
+      "comments",
+      "completed_views",
+      "completion_rate",
+      "follows",
+      "impressions",
+      "likes",
+      "link_clicks",
+      "retention_denominator_views",
+      "retention_points",
+      "saves",
+      "shares",
+      "views",
+      "watch_time_seconds"
+    ],
+    "captured_at": "2026-10-01T12:00:00Z",
+    "complete": false,
+    "contract_version": "growth.shortform_platform_metrics.v1",
+    "cycle_revision": 1,
+    "metrics": {
+      "impressions": 10000,
+      "views": 5000,
+      "watch_time_seconds": 90000,
+      "average_watch_duration_seconds": 18,
+      "completed_views": 1500,
+      "completion_rate": 0.3,
+      "retention_points": [
+        {
+          "position": 0,
+          "retained": 1
+        },
+        {
+          "position": 0.25,
+          "retained": 0.65
+        },
+        {
+          "position": 0.5,
+          "retained": 0.45
+        },
+        {
+          "position": 1,
+          "retained": 0.25
+        }
+      ],
+      "retention_denominator_views": 5000,
+      "likes": 400,
+      "comments": 50,
+      "shares": 150,
+      "saves": 75,
+      "follows": 20,
+      "link_clicks": 50
+    },
+    "metrics_event_digest": "0b177b908c912f13f6e5aff735f92c916bda144129be4d50e22428e17f9ab3fa",
+    "metrics_event_id": "spm1:5aea4659f6f11744f815efc2dd01be3a472c50b6c01e678400c5308941f41ede",
+    "platform": "instagram_reels",
+    "post_id": "fixture-post-instagram_reels",
+    "provenance": {
+      "export_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "export_id": "fixture-export-partial",
+      "fixture_source_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "live_performance_claim_allowed": false,
+      "provider": "fixture"
+    },
+    "source_class": "synthetic_fixture",
+    "window": {
+      "end": "2026-10-01T11:55:00Z",
+      "start": "2026-10-01T00:00:00Z"
+    }
+  },
+  {
+    "account_id": "fixture-account",
+    "available_metrics": [
+      "average_watch_duration_seconds",
+      "comments",
+      "completed_views",
+      "completion_rate",
+      "follows",
+      "impressions",
+      "likes",
+      "link_clicks",
+      "retention_denominator_views",
+      "retention_points",
+      "saves",
+      "shares",
+      "views",
+      "watch_time_seconds"
+    ],
+    "captured_at": "2026-10-02T00:05:00Z",
+    "complete": true,
+    "contract_version": "growth.shortform_platform_metrics.v1",
+    "cycle_revision": 1,
+    "metrics": {
+      "impressions": 10000,
+      "views": 5000,
+      "watch_time_seconds": 90000,
+      "average_watch_duration_seconds": 18,
+      "completed_views": 1500,
+      "completion_rate": 0.3,
+      "retention_points": [
+        {
+          "position": 0,
+          "retained": 1
+        },
+        {
+          "position": 0.25,
+          "retained": 0.65
+        },
+        {
+          "position": 0.5,
+          "retained": 0.45
+        },
+        {
+          "position": 1,
+          "retained": 0.25
+        }
+      ],
+      "retention_denominator_views": 5000,
+      "likes": 400,
+      "comments": 50,
+      "shares": 150,
+      "saves": 75,
+      "follows": 20,
+      "link_clicks": 50
+    },
+    "metrics_event_digest": "0c321af1337105f6aa3f990ba27b2d9ac52c6324be09b640e522c82b1bbd7ac9",
+    "metrics_event_id": "spm1:1e0af6689eadbea84a2c11104b79a862de8d812093d59962e5c82baebd27d656",
+    "platform": "instagram_reels",
+    "post_id": "fixture-post-instagram_reels",
+    "provenance": {
+      "export_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "export_id": "fixture-export-complete",
+      "fixture_source_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "live_performance_claim_allowed": false,
+      "provider": "fixture"
+    },
+    "source_class": "synthetic_fixture",
+    "window": {
+      "end": "2026-10-02T00:00:00Z",
+      "start": "2026-10-01T00:00:00Z"
+    }
+  }
+]
