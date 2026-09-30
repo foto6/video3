@@ -634,15 +634,61 @@ class AutonomousReelsR10Tests(unittest.TestCase):
             baseline["idempotency_key"],
             replayed["idempotency_key"],
         )
-        print("R10_CANONICAL_PUBLISH=" + json.dumps(
-            publish, ensure_ascii=False, sort_keys=True, separators=(",", ":")
-        ))
-        print("R10_CANONICAL_SNAPSHOT=" + json.dumps(
-            baseline_snapshot, ensure_ascii=False, sort_keys=True, separators=(",", ":")
-        ))
-        print("R10_CANONICAL_SEED=" + json.dumps(
-            baseline, ensure_ascii=False, sort_keys=True, separators=(",", ":")
-        ))
+        fixture_dir = (
+            self.root / "fixtures" / "autonomous_reels_v1"
+        )
+        self.assertEqual(
+            publish,
+            json.loads(
+                (fixture_dir / "canonical_publish_result.json")
+                .read_text(encoding="utf-8")
+            ),
+        )
+        self.assertEqual(
+            [partial, complete],
+            json.loads(
+                (fixture_dir / "canonical_metrics_events.json")
+                .read_text(encoding="utf-8")
+            ),
+        )
+        self.assertEqual(
+            baseline_snapshot,
+            json.loads(
+                (fixture_dir / "canonical_metric_snapshot.json")
+                .read_text(encoding="utf-8")
+            ),
+        )
+        self.assertEqual(
+            baseline,
+            json.loads(
+                (fixture_dir / "canonical_next_cycle_seed.json")
+                .read_text(encoding="utf-8")
+            ),
+        )
+        replay_report = json.loads(
+            (fixture_dir / "replay_report.json")
+            .read_text(encoding="utf-8")
+        )
+        self.assertEqual(
+            replay_report["metric_snapshot_digest"],
+            baseline_snapshot["snapshot_digest"],
+        )
+        self.assertEqual(
+            replay_report["seed_digest"],
+            baseline["seed_digest"],
+        )
+        self.assertEqual(
+            replay_report["replay_proofs"][
+                "logical_growth_seed_count"
+            ],
+            1,
+        )
+        self.assertEqual(
+            replay_report["replay_proofs"][
+                "logical_creator_acceptance_count"
+            ],
+            1,
+        )
 
     def test_provider_adapters_remain_read_only(self):
         class Client:
