@@ -1,0 +1,72 @@
+{
+  "contract_document_version": "growth.creator_decision_delivery_contract.v1",
+  "seed_contract_version": "growth.creator_decision_seed.v1",
+  "delivery_audit_version": "growth.decision_delivery_audit.v1",
+  "source_snapshot_version": "growth.decision_source_snapshot.v1",
+  "source_manifest_version": "growth.readonly_export_manifest.v1",
+  "signature_algorithm": "hmac-sha256",
+  "root_fields": [
+    "authority",
+    "contract_version",
+    "decision_classification",
+    "decision_handoff_digest",
+    "delivery_audit_bundle_digest",
+    "delivery_audit_content_digest",
+    "delivery_id",
+    "experiment_audit_bundle_digest",
+    "experiment_id",
+    "idempotency_key",
+    "live_performance_claim_allowed",
+    "payload",
+    "registry_revision",
+    "seed_digest",
+    "signature",
+    "source_class"
+  ],
+  "classifications": [
+    "confirmatory_supported",
+    "confirmatory_not_supported",
+    "exploratory_only",
+    "invalid_integrity",
+    "insufficient_evidence"
+  ],
+  "authority": {
+    "auto_publish": false,
+    "external_mutation": false,
+    "release_authorized": false,
+    "publish_authorized": false,
+    "requires_creator_release_authorization": true
+  },
+  "invariants": [
+    "unknown_or_missing_fields_fail_closed",
+    "idempotency_key_equals_delivery_id",
+    "seed_digest_matches_canonical_payload_without_seed_digest",
+    "delivery_id_is_content_addressed_from_audit_handoff_experiment_revision",
+    "embedded_delivery_audit_bundle_digest_matches_seed",
+    "embedded_delivery_audit_content_digest_matches_seed",
+    "embedded_decision_handoff_digest_matches_seed",
+    "embedded_experiment_audit_bundle_digest_matches_seed",
+    "embedded_experiment_id_and_registry_revision_match_seed",
+    "embedded_signature_matches_seed_signature",
+    "signed_delivery_audit_hmac_must_verify_against_trusted_key_id",
+    "stale_registry_revision_fails_closed",
+    "synthetic_fixture_is_rejected_by_default",
+    "fixture_key_ids_cannot_authenticate_live_provider_exports",
+    "live_provider_exports_accept_only_metricool_or_vidiq_receipts",
+    "partial_exports_fail_before_seed_creation",
+    "handoff_never_authorizes_release_or_publish"
+  ],
+  "production_defaults": {
+    "allow_synthetic_fixture": false,
+    "permitted_live_providers": [
+      "metricool",
+      "vidiq"
+    ]
+  },
+  "conformance_fixture": {
+    "source_class": "synthetic_fixture",
+    "key_id": "fixture:decision-delivery-v1",
+    "key_scope": "public_conformance_only_not_live",
+    "live_performance_claim_allowed": false
+  }
+}
