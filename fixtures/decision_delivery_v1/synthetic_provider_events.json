@@ -1,0 +1,242 @@
+[
+  {
+    "captured_at": "2026-09-02T00:00:00Z",
+    "channel_id": "synthetic-channel",
+    "clicks": 80,
+    "event_id": "delivery-e01",
+    "impressions": 1000,
+    "provider": "fixture",
+    "retention": [
+      {
+        "position": 0,
+        "retained": 1
+      },
+      {
+        "position": 0.25,
+        "retained": 0.7
+      },
+      {
+        "position": 0.5,
+        "retained": 0.5
+      },
+      {
+        "position": 1,
+        "retained": 0.25
+      }
+    ],
+    "variant_id": "control",
+    "video_id": "synthetic-video",
+    "views": 420,
+    "watch_time_seconds": 12600
+  },
+  {
+    "captured_at": "2026-09-02T01:00:00Z",
+    "channel_id": "synthetic-channel",
+    "clicks": 83,
+    "event_id": "delivery-e02",
+    "impressions": 980,
+    "provider": "fixture",
+    "retention": [
+      {
+        "position": 0,
+        "retained": 1
+      },
+      {
+        "position": 0.25,
+        "retained": 0.72
+      },
+      {
+        "position": 0.5,
+        "retained": 0.53
+      },
+      {
+        "position": 1,
+        "retained": 0.28
+      }
+    ],
+    "variant_id": "treatment",
+    "video_id": "synthetic-video",
+    "views": 430,
+    "watch_time_seconds": 13760
+  },
+  {
+    "captured_at": "2026-09-05T00:00:00Z",
+    "channel_id": "synthetic-channel",
+    "clicks": 85,
+    "event_id": "delivery-e03",
+    "impressions": 1100,
+    "provider": "fixture",
+    "retention": [
+      {
+        "position": 0,
+        "retained": 1
+      },
+      {
+        "position": 0.25,
+        "retained": 0.69
+      },
+      {
+        "position": 0.5,
+        "retained": 0.49
+      },
+      {
+        "position": 1,
+        "retained": 0.24
+      }
+    ],
+    "variant_id": "control",
+    "video_id": "synthetic-video",
+    "views": 450,
+    "watch_time_seconds": 13050
+  },
+  {
+    "captured_at": "2026-09-05T01:00:00Z",
+    "channel_id": "synthetic-channel",
+    "clicks": 92,
+    "event_id": "delivery-e04",
+    "impressions": 1050,
+    "provider": "fixture",
+    "retention": [
+      {
+        "position": 0,
+        "retained": 1
+      },
+      {
+        "position": 0.25,
+        "retained": 0.73
+      },
+      {
+        "position": 0.5,
+        "retained": 0.55
+      },
+      {
+        "position": 1,
+        "retained": 0.3
+      }
+    ],
+    "variant_id": "treatment",
+    "video_id": "synthetic-video",
+    "views": 470,
+    "watch_time_seconds": 15040
+  },
+  {
+    "captured_at": "2026-09-10T00:00:00Z",
+    "channel_id": "synthetic-channel",
+    "clicks": 72,
+    "event_id": "delivery-e05",
+    "impressions": 900,
+    "provider": "fixture",
+    "retention": [
+      {
+        "position": 0,
+        "retained": 1
+      },
+      {
+        "position": 0.25,
+        "retained": 0.68
+      },
+      {
+        "position": 0.5,
+        "retained": 0.48
+      },
+      {
+        "position": 1,
+        "retained": 0.23
+      }
+    ],
+    "variant_id": "control",
+    "video_id": "synthetic-video",
+    "views": 380,
+    "watch_time_seconds": 11020
+  },
+  {
+    "captured_at": "2026-09-10T01:00:00Z",
+    "channel_id": "synthetic-channel",
+    "clicks": 79,
+    "event_id": "delivery-e06",
+    "impressions": 920,
+    "provider": "fixture",
+    "retention": [
+      {
+        "position": 0,
+        "retained": 1
+      },
+      {
+        "position": 0.25,
+        "retained": 0.71
+      },
+      {
+        "position": 0.5,
+        "retained": 0.52
+      },
+      {
+        "position": 1,
+        "retained": 0.27
+      }
+    ],
+    "variant_id": "treatment",
+    "video_id": "synthetic-video",
+    "views": 405,
+    "watch_time_seconds": 12960
+  },
+  {
+    "captured_at": "2026-09-15T00:00:00Z",
+    "channel_id": "synthetic-channel",
+    "clicks": 90,
+    "event_id": "delivery-e07",
+    "impressions": 1200,
+    "provider": "fixture",
+    "retention": [
+      {
+        "position": 0,
+        "retained": 1
+      },
+      {
+        "position": 0.25,
+        "retained": 0.67
+      },
+      {
+        "position": 0.5,
+        "retained": 0.47
+      },
+      {
+        "position": 1,
+        "retained": 0.22
+      }
+    ],
+    "variant_id": "control",
+    "video_id": "synthetic-video",
+    "views": 500,
+    "watch_time_seconds": 14750
+  },
+  {
+    "captured_at": "2026-09-15T01:00:00Z",
+    "channel_id": "synthetic-channel",
+    "clicks": 101,
+    "event_id": "delivery-e08",
+    "impressions": 1180,
+    "provider": "fixture",
+    "retention": [
+      {
+        "position": 0,
+        "retained": 1
+      },
+      {
+        "position": 0.25,
+        "retained": 0.74
+      },
+      {
+        "position": 0.5,
+        "retained": 0.56
+      },
+      {
+        "position": 1,
+        "retained": 0.31
+      }
+    ],
+    "variant_id": "treatment",
+    "video_id": "synthetic-video",
+    "views": 520,
+    "watch_time_seconds": 17160
+  }
+]
