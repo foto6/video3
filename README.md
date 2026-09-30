@@ -145,3 +145,12 @@ Wave 11 adds growth.decision_handoff.v1, a read-only Creator-facing handoff boun
 Invalid integrity and exploratory-only evidence cannot emit confirmatory recommendations. Guardrail regressions and integrity warnings conservatively downgrade stronger audit outcomes. Exact duplicate handoff replay is an idempotent no-op through the durable handoff ledger.
 
 See docs/DECISION_HANDOFF_V1.md.
+
+
+## Durable decision delivery audit
+
+The Growth -> Creator decision path now has a signed, source-bound, exactly-once delivery gate. `growth.decision_delivery_audit.v1` binds the existing experiment audit/decision handoff to complete read-only provider evidence, metric denominators, CTR/watch-time/retention, uncertainty metadata, integrity and multiplicity safeguards.
+
+`growth.creator_decision_seed.v1` is self-contained and fail-closed. Synthetic fixtures are rejected by default, release/publish authority is always false, and a durable prepare/ack outbox plus Creator reference consumer makes lost acknowledgements replay-safe without producing a second logical decision.
+
+See `docs/DECISION_DELIVERY_AUDIT_V1.md` and `conformance/growth.creator_decision_seed.v1/contract.json`.
