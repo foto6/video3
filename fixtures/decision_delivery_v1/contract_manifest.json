@@ -21,5 +21,7 @@
   "auto_publish": false,
   "external_mutation": false,
   "release_authorized": false,
-  "publish_authorized": false
+  "publish_authorized": false,
+  "fixture_hmac_key_utf8": "growth-decision-delivery-fixture-key-v1",
+  "fixture_hmac_key_warning": "PUBLIC CONFORMANCE KEY ONLY; NEVER TRUST FOR LIVE PERFORMANCE"
 }
