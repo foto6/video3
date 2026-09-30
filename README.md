@@ -145,3 +145,14 @@ Wave 11 adds growth.decision_handoff.v1, a read-only Creator-facing handoff boun
 Invalid integrity and exploratory-only evidence cannot emit confirmatory recommendations. Guardrail regressions and integrity warnings conservatively downgrade stronger audit outcomes. Exact duplicate handoff replay is an idempotent no-op through the durable handoff ledger.
 
 See docs/DECISION_HANDOFF_V1.md.
+
+
+## Autonomous short-form feedback loop
+
+R10 adds a read-only post-publication loop for Instagram Reels, TikTok, and YouTube Shorts style outputs. Versioned publish-result and platform-metrics events are normalized into a source-bound metric snapshot and a durable `growth.reels_next_cycle_seed.v1`.
+
+The seed links Creative/Media artifact identity to platform post identity, metric snapshot, experiment/decision evidence, and machine-readable next-cycle recommendations. Synthetic fixtures are rejected by default and can never become live/Creator-cycle eligible by changing outer seed fields.
+
+Exactly-once ingestion, prepare/ack delivery, process restart, duplicate/out-of-order metrics, partial exports, stale cycle revisions, and lost acknowledgements are covered by deterministic replay tests.
+
+See `docs/AUTONOMOUS_REELS_FEEDBACK_V1.md` and `conformance/growth.autonomous_reels.v1/contract.json`.
