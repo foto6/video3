@@ -1,0 +1,291 @@
+{
+  "bundle_digest": "743f7f5c691454327c3bb6805e595b5587e4672078ea539ae1a9187b87086d47",
+  "content_digest": "51d5ab9e3f67e0aa2b1f4a11b9b72e7a9d7c52e96df2cd6239b5ae453ba51539",
+  "decision": {
+    "audit_bundle_digest": "788eca36cd305ff62209bec4ff76ce5b3531589234cc698d4c774844694ca5c3",
+    "classification": "confirmatory_not_supported",
+    "handoff_digest": "d788cfad7ae5ad7e627fa2aadf6aaa529e7e17b8911742f859428d1e030e93c3",
+    "handoff_id": "gdh1:4437df437a6f92b0c1f68fca5c7657bfdef37a4978039db3a8a9a9cbec9cf04a",
+    "handoff_version": "growth.decision_handoff.v1",
+    "registry_freeze_hash": "5bc0a1c9c7f54d2b6da38ffdb78f219a950c6958f1535b998c68916628f0f07e",
+    "registry_revision": 1
+  },
+  "delivery_audit_version": "growth.decision_delivery_audit.v1",
+  "producer": {
+    "producer_sha": "5c01ae8a402342ebef1d8b30b4c763e78ef61751",
+    "repository": "foto6/video3"
+  },
+  "safeguards": {
+    "auto_publish": false,
+    "external_mutation": false,
+    "guardrails": {
+      "breaches": [],
+      "distribution_shift": 0,
+      "missing_rate": 0,
+      "recommendation_churn": 0,
+      "status": "pass"
+    },
+    "integrity": {
+      "reasons": {
+        "invalid": [],
+        "warning": []
+      },
+      "result_digest": "e2be2db3d1b201297d9d2bccc3b19aa16975d3e465d028d2829b33c171264226",
+      "status": "valid"
+    },
+    "multiplicity": {
+      "decision": false,
+      "decision_reason": "holm_adjusted_above_family_alpha",
+      "family_adjusted_p_value": 1,
+      "family_alpha": 0.05,
+      "family_id": "wave9-valid-family",
+      "method": "holm_bonferroni_v1",
+      "raw_two_sided_p_value": 0.294121658111,
+      "sequential_valid_p_value": 1
+    },
+    "publish_authorized": false,
+    "release_authorized": false
+  },
+  "signature": {
+    "algorithm": "hmac-sha256",
+    "key_id": "fixture:decision-delivery-v1",
+    "value": "309190f59faa6e2c2b3cb444088a6d1a0081f65a90489cd0e5c944269804ad69"
+  },
+  "source_snapshot": {
+    "by_variant": {
+      "control": {
+        "denominators": {
+          "event_count": 4,
+          "impressions": 4200,
+          "retention_views": 1750,
+          "views": 1750
+        },
+        "metrics": {
+          "average_watch_time_seconds": 29.38285714,
+          "ctr": 0.07785714,
+          "retention_auc": 0.53645,
+          "retention_curve": [
+            {
+              "position": 0,
+              "retained": 1
+            },
+            {
+              "position": 0.25,
+              "retained": 0.68451429
+            },
+            {
+              "position": 0.5,
+              "retained": 0.48451429
+            },
+            {
+              "position": 1,
+              "retained": 0.23451429
+            }
+          ]
+        },
+        "numerators": {
+          "clicks": 327,
+          "watch_time_seconds": 51420
+        },
+        "uncertainty": {
+          "average_watch_time_seconds": {
+            "denominator": "views",
+            "lower": null,
+            "method": "aggregate_export_not_estimable",
+            "metric": "average_watch_time_seconds",
+            "reason": "Read-only aggregate exports do not contain individual-level samples required for a defensible interval.",
+            "upper": null
+          },
+          "ctr": {
+            "causal": false,
+            "confidence": 0.95,
+            "estimate": 0.07785714,
+            "half_width": 0.00810911,
+            "interpretation": "observational_association_only",
+            "lower": 0.0701338,
+            "method": "wilson",
+            "sample_size": 4200,
+            "upper": 0.08635202
+          },
+          "retention_auc": {
+            "denominator": "retention_views",
+            "lower": null,
+            "method": "aggregate_export_not_estimable",
+            "metric": "retention_auc",
+            "reason": "Read-only aggregate exports do not contain individual-level samples required for a defensible interval.",
+            "upper": null
+          }
+        }
+      },
+      "treatment": {
+        "denominators": {
+          "event_count": 4,
+          "impressions": 4130,
+          "retention_views": 1825,
+          "views": 1825
+        },
+        "metrics": {
+          "average_watch_time_seconds": 32.28493151,
+          "ctr": 0.08595642,
+          "retention_auc": 0.58243836,
+          "retention_curve": [
+            {
+              "position": 0,
+              "retained": 1
+            },
+            {
+              "position": 0.25,
+              "retained": 0.72605479
+            },
+            {
+              "position": 0.5,
+              "retained": 0.54147945
+            },
+            {
+              "position": 1,
+              "retained": 0.29147945
+            }
+          ]
+        },
+        "numerators": {
+          "clicks": 355,
+          "watch_time_seconds": 58920
+        },
+        "uncertainty": {
+          "average_watch_time_seconds": {
+            "denominator": "views",
+            "lower": null,
+            "method": "aggregate_export_not_estimable",
+            "metric": "average_watch_time_seconds",
+            "reason": "Read-only aggregate exports do not contain individual-level samples required for a defensible interval.",
+            "upper": null
+          },
+          "ctr": {
+            "causal": false,
+            "confidence": 0.95,
+            "estimate": 0.08595642,
+            "half_width": 0.00855346,
+            "interpretation": "observational_association_only",
+            "lower": 0.07778773,
+            "method": "wilson",
+            "sample_size": 4130,
+            "upper": 0.09489465
+          },
+          "retention_auc": {
+            "denominator": "retention_views",
+            "lower": null,
+            "method": "aggregate_export_not_estimable",
+            "metric": "retention_auc",
+            "reason": "Read-only aggregate exports do not contain individual-level samples required for a defensible interval.",
+            "upper": null
+          }
+        }
+      }
+    },
+    "event_set": {
+      "event_count": 8,
+      "event_keys": [
+        "fixture:delivery-e01",
+        "fixture:delivery-e02",
+        "fixture:delivery-e03",
+        "fixture:delivery-e04",
+        "fixture:delivery-e05",
+        "fixture:delivery-e06",
+        "fixture:delivery-e07",
+        "fixture:delivery-e08"
+      ],
+      "event_set_digest": "cb60e052b61f58e5327e6c90b8196f1e4410943e77a12027fee6244d6471613d"
+    },
+    "experiment_id": "synthetic-growth-exp-v1",
+    "overall": {
+      "denominators": {
+        "event_count": 8,
+        "impressions": 8330,
+        "retention_views": 3575,
+        "views": 3575
+      },
+      "metrics": {
+        "average_watch_time_seconds": 30.86433566,
+        "ctr": 0.08187275,
+        "retention_auc": 0.55992657,
+        "retention_curve": [
+          {
+            "position": 0,
+            "retained": 1
+          },
+          {
+            "position": 0.25,
+            "retained": 0.70572028
+          },
+          {
+            "position": 0.5,
+            "retained": 0.51359441
+          },
+          {
+            "position": 1,
+            "retained": 0.26359441
+          }
+        ]
+      },
+      "numerators": {
+        "clicks": 682,
+        "watch_time_seconds": 110340
+      },
+      "uncertainty": {
+        "average_watch_time_seconds": {
+          "denominator": "views",
+          "lower": null,
+          "method": "aggregate_export_not_estimable",
+          "metric": "average_watch_time_seconds",
+          "reason": "Read-only aggregate exports do not contain individual-level samples required for a defensible interval.",
+          "upper": null
+        },
+        "ctr": {
+          "causal": false,
+          "confidence": 0.95,
+          "estimate": 0.08187275,
+          "half_width": 0.00588962,
+          "interpretation": "observational_association_only",
+          "lower": 0.07617587,
+          "method": "wilson",
+          "sample_size": 8330,
+          "upper": 0.08795511
+        },
+        "retention_auc": {
+          "denominator": "retention_views",
+          "lower": null,
+          "method": "aggregate_export_not_estimable",
+          "metric": "retention_auc",
+          "reason": "Read-only aggregate exports do not contain individual-level samples required for a defensible interval.",
+          "upper": null
+        }
+      }
+    },
+    "registry_revision": 1,
+    "snapshot_digest": "5c038cc32def1f5bb799ab2a782bee7b0e31d5071e17968fbe6eb08d5b694449",
+    "snapshot_version": "growth.decision_source_snapshot.v1",
+    "source": {
+      "export_manifest_digest": "a156dcffc6c76ae62ba888471d46e301d16f6ac913847adab59b4dc098dd9d52",
+      "exports": [
+        {
+          "captured_through": "2026-10-01T00:00:00Z",
+          "complete": true,
+          "export_id": "decision-delivery-conformance-v1",
+          "provider": "fixture"
+        }
+      ],
+      "fixture_source_sha256": "2f3d83b9443a3d90dfd3dc0f4e62d103a7115ac8c6864ba2e4613f9dee8d698d",
+      "interpretation": "Observational analytics describe associations only; they do not establish causal effects.",
+      "live_performance_claim_allowed": false,
+      "observational": true,
+      "providers": [
+        "fixture"
+      ],
+      "source_class": "synthetic_fixture"
+    },
+    "window": {
+      "start": "2026-09-01T00:00:00Z",
+      "stop": "2026-10-01T00:00:00Z"
+    }
+  }
+}
