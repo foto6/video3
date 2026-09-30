@@ -690,6 +690,48 @@ class AutonomousReelsR10Tests(unittest.TestCase):
             1,
         )
 
+    def test_machine_contract_locks_synthetic_and_authority_boundaries(self):
+        contract = json.loads(
+            (
+                self.root
+                / "conformance"
+                / "growth.autonomous_reels.v1"
+                / "contract.json"
+            ).read_text(encoding="utf-8")
+        )
+        seed_contract = contract["contracts"]["next_cycle_seed"]
+        self.assertEqual(
+            seed_contract["version"],
+            "growth.reels_next_cycle_seed.v1",
+        )
+        self.assertFalse(
+            seed_contract["authority"]["auto_publish"]
+        )
+        self.assertFalse(
+            seed_contract["authority"]["external_mutation"]
+        )
+        self.assertFalse(
+            seed_contract["authority"]["release_authorized"]
+        )
+        self.assertIn(
+            "synthetic_seed_rejected_by_default",
+            contract["provenance_invariants"],
+        )
+        self.assertFalse(
+            contract["canonical_fixture"][
+                "live_performance_claim_allowed"
+            ]
+        )
+        self.assertFalse(
+            contract["canonical_fixture"][
+                "creator_cycle_eligible"
+            ]
+        )
+        self.assertEqual(
+            contract["canonical_fixture"]["seed_digest"],
+            "5c3efe0f6db7bba8d7d0ac3f4e5855559c31b1bdc7b60830957f58424b989774",
+        )
+
     def test_provider_adapters_remain_read_only(self):
         class Client:
             def fetch_analytics(self, **kwargs):
