@@ -1205,7 +1205,11 @@ def _recommendations(
                 "certainty": "directional_not_causal",
                 "evidence_refs": [
                     ref + "#normalized_metrics.average_watch_duration_seconds",
-                    ref + "#lineage.media_duration_seconds",
+                    (
+                        "publish_result:"
+                        + snapshot["publish_result_digest"]
+                        + "#artifact.media_duration_seconds"
+                    ),
                 ],
                 "rationale": (
                     f"average_watch_ratio={watch_ratio:.8f} below 0.35 heuristic"
@@ -1381,6 +1385,13 @@ def build_next_cycle_seed(
         "evidence": {
             "publish_result": json.loads(canonical_json(published)),
             "metric_snapshot": json.loads(canonical_json(snapshot)),
+            "decision_handoff": (
+                json.loads(canonical_json(
+                    parse_decision_handoff(decision_handoff)
+                ))
+                if decision_handoff is not None
+                else None
+            ),
         },
         "metrics": {
             "normalized": json.loads(canonical_json(
@@ -1507,7 +1518,8 @@ def validate_next_cycle_seed(
     evidence = payload["evidence"]
     if (
         not isinstance(evidence, Mapping)
-        or set(evidence) != {"publish_result", "metric_snapshot"}
+        or set(evidence)
+        != {"publish_result", "metric_snapshot", "decision_handoff"}
     ):
         raise AutonomousReelsError(
             "next-cycle seed evidence fields invalid"
@@ -1536,16 +1548,161 @@ def validate_next_cycle_seed(
         raise StaleCycleRevisionError(
             "embedded evidence revision is stale"
         )
+    lineage_fields = {
+        "creative_artifact_id",
+        "creative_artifact_digest",
+        "media_artifact_id",
+        "media_artifact_digest",
+        "media_render_fingerprint",
+        "media_duration_seconds",
+        "publish_result_id",
+        "publish_result_digest",
+        "platform",
+        "account_id",
+        "post_id",
+        "published_at",
+        "metric_snapshot_digest",
+        "metric_window",
+        "decision",
+    }
+    if set(lineage) != lineage_fields:
+        raise AutonomousReelsError(
+            "next-cycle lineage fields must match v1 exactly"
+        )
     if (
         lineage.get("publish_result_id") != published["publish_result_id"]
         or lineage.get("publish_result_digest")
         != published["publish_result_digest"]
         or lineage.get("metric_snapshot_digest")
         != snapshot["snapshot_digest"]
+        or lineage.get("creative_artifact_digest")
+        != published["artifact"]["creative_artifact_digest"]
+        or lineage.get("media_artifact_digest")
+        != published["artifact"]["media_artifact_digest"]
+        or lineage.get("platform") != published["platform"]
+        or lineage.get("account_id") != published["account_id"]
+        or lineage.get("post_id") != published["post_id"]
+        or lineage.get("published_at") != published["published_at"]
+        or lineage.get("metric_window") != snapshot["window"]
     ):
         raise AutonomousReelsError(
-            "seed lineage digests do not match embedded evidence"
+            "seed lineage does not match embedded evidence"
         )
+    decision_ref = lineage.get("decision")
+    if not isinstance(decision_ref, Mapping):
+        raise AutonomousReelsError(
+            "next-cycle decision reference missing"
+        )
+    decision_payload = evidence["decision_handoff"]
+    if decision_ref.get("state") == "bound":
+        if decision_payload is None:
+            raise AutonomousReelsError(
+                "bound decision reference lacks embedded handoff"
+            )
+        parsed_decision = parse_decision_handoff(decision_payload)
+        if (
+            decision_ref.get("handoff_digest")
+            != parsed_decision["handoff_digest"]
+            or decision_ref.get("audit_bundle_digest")
+            != parsed_decision["audit_bundle_digest"]
+            or decision_ref.get("classification")
+            != parsed_decision["classification"]
+            or decision_ref.get("experiment_id")
+            != parsed_decision["registry"]["experiment_id"]
+            or decision_ref.get("registry_revision")
+            != parsed_decision["registry"]["revision"]
+        ):
+            raise AutonomousReelsError(
+                "decision reference does not match embedded handoff"
+            )
+    elif decision_ref.get("state") == "none":
+        if decision_payload is not None:
+            raise AutonomousReelsError(
+                "unbound decision reference contains a handoff"
+            )
+    else:
+        raise AutonomousReelsError(
+            "unsupported decision reference state"
+        )
+
+    metrics = payload["metrics"]
+    if (
+        not isinstance(metrics, Mapping)
+        or set(metrics)
+        != {
+            "normalized",
+            "normalization_sources",
+            "denominators",
+            "uncertainty",
+            "available_metrics",
+        }
+    ):
+        raise AutonomousReelsError(
+            "next-cycle metrics fields must match v1 exactly"
+        )
+    if (
+        metrics["normalized"] != snapshot["normalized_metrics"]
+        or metrics["normalization_sources"]
+        != snapshot["normalization_sources"]
+        or metrics["denominators"] != snapshot["denominators"]
+        or metrics["uncertainty"] != snapshot["uncertainty"]
+        or metrics["available_metrics"] != snapshot["available_metrics"]
+    ):
+        raise AutonomousReelsError(
+            "next-cycle metrics do not match embedded snapshot"
+        )
+
+    if payload["evidence_state"] not in {
+        "insufficient_data",
+        "directional_observational",
+    }:
+        raise AutonomousReelsError(
+            "unsupported next-cycle evidence_state"
+        )
+    recommendations = payload["recommendations"]
+    if not isinstance(recommendations, list) or not recommendations:
+        raise AutonomousReelsError(
+            "next-cycle recommendations must be non-empty"
+        )
+    for item in recommendations:
+        if (
+            not isinstance(item, Mapping)
+            or set(item)
+            != {
+                "action", "state", "certainty",
+                "evidence_refs", "rationale",
+            }
+        ):
+            raise AutonomousReelsError(
+                "recommendation fields must match v1 exactly"
+            )
+        _string(item["action"], "recommendation.action")
+        _string(item["rationale"], "recommendation.rationale")
+        if item["state"] not in {
+            "insufficient_data",
+            "observational_signal",
+        }:
+            raise AutonomousReelsError(
+                "unsupported recommendation state"
+            )
+        if item["certainty"] not in {
+            "insufficient",
+            "directional_not_causal",
+        }:
+            raise AutonomousReelsError(
+                "unsupported recommendation certainty"
+            )
+        if (
+            not isinstance(item["evidence_refs"], list)
+            or not item["evidence_refs"]
+            or any(
+                not isinstance(ref, str) or not ref
+                for ref in item["evidence_refs"]
+            )
+        ):
+            raise AutonomousReelsError(
+                "recommendation evidence_refs must be non-empty strings"
+            )
     expected_id = "grs1:" + sha256_json({
         "next_cycle_id": payload["next_cycle_id"],
         "cycle_revision": revision,
