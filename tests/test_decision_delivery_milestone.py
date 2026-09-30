@@ -195,7 +195,13 @@ class DurableDecisionDeliveryMilestoneTests(unittest.TestCase):
         )
 
     def test_signed_audit_binds_handoff_source_and_multiplicity(self):
-        audit, _ = self.signed_seed()
+        audit, seed = self.signed_seed()
+        print("CANONICAL_DELIVERY_AUDIT=" + json.dumps(
+            audit, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+        ))
+        print("CANONICAL_CREATOR_SEED=" + json.dumps(
+            seed, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+        ))
         verified = verify_signed_delivery_audit(
             audit,
             verification_keys={
