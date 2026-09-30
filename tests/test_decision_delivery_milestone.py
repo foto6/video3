@@ -483,6 +483,54 @@ class DurableDecisionDeliveryMilestoneTests(unittest.TestCase):
             "synthetic_fixture",
         )
 
+    def test_consumer_contract_and_recovery_report_are_fail_closed(self):
+        contract = self.load(
+            "conformance/growth.creator_decision_seed.v1/contract.json"
+        )
+        self.assertEqual(
+            contract["seed_contract_version"],
+            "growth.creator_decision_seed.v1",
+        )
+        self.assertFalse(
+            contract["production_defaults"]["allow_synthetic_fixture"]
+        )
+        self.assertIn(
+            "stale_registry_revision_fails_closed",
+            contract["invariants"],
+        )
+        self.assertFalse(
+            contract["authority"]["release_authorized"]
+        )
+        report = self.load(
+            "fixtures/decision_delivery_v1/recovery_report.json"
+        )
+        self.assertEqual(
+            report["creator_seed_digest"],
+            "116728c98d100a3d496ce190b0fe18ed3d3a2a50251fcdb4efa90723fbf59b1b",
+        )
+        self.assertEqual(
+            report["deterministic_recovery_proofs"][
+                "logical_creator_acceptance_count"
+            ],
+            1,
+        )
+        self.assertEqual(
+            report["deterministic_recovery_proofs"][
+                "logical_growth_delivery_count"
+            ],
+            1,
+        )
+
+    def test_fixture_manifest_cannot_be_relabelled_provider_export(self):
+        manifest = self.manifest()
+        manifest["source_class"] = "provider_export"
+        manifest["fixture_source_sha256"] = None
+        with self.assertRaises(SourceProvenanceError):
+            build_source_snapshot(
+                events=self.events(),
+                export_manifest=manifest,
+            )
+
     def test_creator_feedback_bytes_and_provider_boundaries_remain_unchanged(self):
         corpus = (
             self.root
