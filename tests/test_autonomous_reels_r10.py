@@ -68,7 +68,9 @@ class AutonomousReelsR10Tests(unittest.TestCase):
                 "impressions": None,
                 "views": 40,
                 "watch_time_seconds": 480.0,
+                "average_watch_duration_seconds": 12.0,
                 "completed_views": None,
+                "completion_rate": None,
                 "retention_points": None,
                 "retention_denominator_views": None,
                 "likes": 2,
@@ -82,7 +84,9 @@ class AutonomousReelsR10Tests(unittest.TestCase):
             "impressions": 10000,
             "views": 5000,
             "watch_time_seconds": 90000.0,
+            "average_watch_duration_seconds": 18.0,
             "completed_views": 1500,
+            "completion_rate": 0.3,
             "retention_points": [
                 {"position": 0.0, "retained": 1.0},
                 {"position": 0.25, "retained": 0.65},
@@ -255,7 +259,7 @@ class AutonomousReelsR10Tests(unittest.TestCase):
             snapshot["normalized_metrics"][
                 "retention_auc"
             ],
-            0.4875,
+            0.51875,
         )
         self.assertEqual(
             snapshot["normalized_metrics"]["link_ctr"],
@@ -470,6 +474,19 @@ class AutonomousReelsR10Tests(unittest.TestCase):
             accepted["source_class"],
             "synthetic_fixture",
         )
+        relabelled = copy.deepcopy(seed)
+        relabelled["source_class"] = "platform_export"
+        relabelled["live_performance_claim_allowed"] = True
+        relabelled["creator_cycle_eligible"] = True
+        from growth_analytics.autonomous_reels import sha256_json
+        material = dict(relabelled)
+        material.pop("seed_digest")
+        relabelled["seed_digest"] = sha256_json(material)
+        with self.assertRaises(SyntheticEvidenceRejected):
+            validate_next_cycle_seed(
+                relabelled,
+                expected_cycle_revision=1,
+            )
 
     def test_durable_ingest_accepts_metrics_before_publish_and_restarts(self):
         publish = self.publish_result()
