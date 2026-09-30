@@ -930,6 +930,16 @@ def _validate_seed_shape(
         raise DecisionDeliveryError(
             "seed decision handoff digest mismatch"
         )
+    if decision.get("classification") != payload[
+        "decision_classification"
+    ]:
+        raise DecisionDeliveryError(
+            "seed decision classification mismatch"
+        )
+    if audit.get("signature") != payload["signature"]:
+        raise DecisionDeliveryError(
+            "seed signature does not match signed audit"
+        )
     if decision.get("audit_bundle_digest") != payload[
         "experiment_audit_bundle_digest"
     ]:
