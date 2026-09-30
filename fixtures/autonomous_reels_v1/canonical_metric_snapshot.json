@@ -1,0 +1,157 @@
+{
+  "account_id": "fixture-account",
+  "available_metrics": [
+    "average_watch_duration_seconds",
+    "comments",
+    "completed_views",
+    "completion_rate",
+    "follows",
+    "impressions",
+    "likes",
+    "link_clicks",
+    "retention_denominator_views",
+    "retention_points",
+    "saves",
+    "shares",
+    "views",
+    "watch_time_seconds"
+  ],
+  "contract_version": "growth.shortform_metric_snapshot.v1",
+  "cycle_revision": 1,
+  "denominators": {
+    "average_watch_duration_seconds": {
+      "metric": "provider_defined",
+      "value": null
+    },
+    "completion_rate": {
+      "metric": "provider_defined_views",
+      "value": 5000
+    },
+    "engagement_rates": {
+      "metric": "views",
+      "value": 5000
+    },
+    "link_ctr": {
+      "metric": "impressions",
+      "value": 10000
+    },
+    "retention_auc": {
+      "metric": "retention_denominator_views",
+      "value": 5000
+    }
+  },
+  "live_performance_claim_allowed": false,
+  "normalization_sources": {
+    "average_watch_duration_seconds": "provider_export",
+    "completion_rate": "provider_export",
+    "link_ctr": "derived_link_clicks_over_impressions",
+    "retention_auc": "derived_from_platform_retention_curve"
+  },
+  "normalized_metrics": {
+    "average_watch_duration_seconds": 18,
+    "comments": 50,
+    "completion_rate": 0.3,
+    "follows": 20,
+    "impressions": 10000,
+    "likes": 400,
+    "link_clicks": 50,
+    "link_ctr": 0.005,
+    "retention_auc": 0.51875,
+    "saves": 75,
+    "shares": 150,
+    "views": 5000,
+    "watch_time_seconds": 90000
+  },
+  "platform": "instagram_reels",
+  "post_id": "fixture-post-instagram_reels",
+  "provenance": {
+    "candidate_event_count": 2,
+    "complete_event_count": 1,
+    "complete_export": true,
+    "export_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "export_id": "fixture-export-complete",
+    "fixture_source_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "interpretation": "Platform performance metrics are observational and do not establish causal effects.",
+    "observational": true,
+    "provider": "fixture"
+  },
+  "publish_result_digest": "b668690575ed058e6c5d158c2c9abe9cf1b491d0f0dfdc7da1a7948f94cbeb72",
+  "publish_result_id": "spr1:8115ea58219ad9e37d4edd56d7e7277dd990f0eed702456a792621a68e01702b",
+  "raw_metrics": {
+    "average_watch_duration_seconds": 18,
+    "comments": 50,
+    "completed_views": 1500,
+    "completion_rate": 0.3,
+    "follows": 20,
+    "impressions": 10000,
+    "likes": 400,
+    "link_clicks": 50,
+    "retention_denominator_views": 5000,
+    "retention_points": [
+      {
+        "position": 0,
+        "retained": 1
+      },
+      {
+        "position": 0.25,
+        "retained": 0.65
+      },
+      {
+        "position": 0.5,
+        "retained": 0.45
+      },
+      {
+        "position": 1,
+        "retained": 0.25
+      }
+    ],
+    "saves": 75,
+    "shares": 150,
+    "views": 5000,
+    "watch_time_seconds": 90000
+  },
+  "selected_metrics_event_digest": "0c321af1337105f6aa3f990ba27b2d9ac52c6324be09b640e522c82b1bbd7ac9",
+  "selected_metrics_event_id": "spm1:1e0af6689eadbea84a2c11104b79a862de8d812093d59962e5c82baebd27d656",
+  "snapshot_digest": "9b218a3a827a170e6065377d45d771c1fde731e9184469c89b6c24f6086b6cf6",
+  "source_class": "synthetic_fixture",
+  "uncertainty": {
+    "average_watch_duration_seconds": {
+      "reason": "individual watch-duration samples are unavailable",
+      "state": "not_estimable_from_aggregate_export"
+    },
+    "completion_rate": {
+      "causal": false,
+      "confidence": 0.95,
+      "estimate": 0.3,
+      "half_width": 0.0126983,
+      "interpretation": "observational_association_only",
+      "lower": 0.28745524,
+      "method": "wilson",
+      "sample_size": 5000,
+      "upper": 0.31285185
+    },
+    "engagement_counts": {
+      "reason": "platform count semantics are not assumed to be Bernoulli trials",
+      "state": "descriptive_only"
+    },
+    "link_ctr": {
+      "causal": false,
+      "confidence": 0.95,
+      "estimate": 0.005,
+      "half_width": 0.0013952,
+      "interpretation": "observational_association_only",
+      "lower": 0.00379488,
+      "method": "wilson",
+      "sample_size": 10000,
+      "upper": 0.00658529
+    },
+    "retention_auc": {
+      "reason": "retention curve is aggregate platform output",
+      "state": "not_estimable_from_aggregate_export"
+    }
+  },
+  "window": {
+    "end": "2026-10-02T00:00:00Z",
+    "start": "2026-10-01T00:00:00Z"
+  }
+}
