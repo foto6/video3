@@ -159,3 +159,18 @@ Wave 11 adds growth_analytics.decision_handoff after experiment_audit_bundle.v1.
 The handoff classification cannot outrank the bound audit classification. Invalid integrity is always blocked; integrity warnings and guardrail regressions can only downgrade authority. Raw metrics remain inspectable. A durable fsynced handoff ledger makes exact replay idempotent and rejects conflicting reuse of the same handoff identity.
 
 CreatorFeedback 1.0 and provider read-only boundaries are unchanged. See docs/DECISION_HANDOFF_V1.md.
+
+
+## Autonomous short-form post-publication loop
+
+R10 introduces `growth_analytics.autonomous_reels` after the existing decision/audit surfaces.
+
+A `growth.shortform_publish_result.v1` binds immutable Creative/Media artifact identity to a platform/account/post identity without performing publication. Cumulative `growth.shortform_platform_metrics.v1` events carry explicit availability masks, export windows and source provenance. Only complete exports can finalize `growth.shortform_metric_snapshot.v1`; duplicates and arrival ordering do not affect the chosen snapshot.
+
+`growth.reels_next_cycle_seed.v1` embeds its publish result, metric snapshot and optional `growth.decision_handoff.v1`, then emits observational/insufficient-data recommendations with evidence references. Synthetic fixtures remain conformance-only and are rejected by default.
+
+Durable JSONL ledgers provide idempotent event ingestion and prepare/ack output recovery. A Growth-side reference Creator consumer proves that lost acknowledgements replay the same content-addressed seed and result in one logical acceptance.
+
+The layer is read-only with respect to Metricool/vidIQ and carries no publishing or release authority.
+
+See `docs/AUTONOMOUS_REELS_FEEDBACK_V1.md`.
