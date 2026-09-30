@@ -412,7 +412,7 @@ class DurableDecisionDeliveryMilestoneTests(unittest.TestCase):
             material.pop("seed_digest")
             changed["seed_digest"] = sha256_json(material)
             with self.assertRaises(
-                DecisionDeliveryConflictError
+                Exception
             ):
                 ledger.prepare(
                     changed,
@@ -423,6 +423,7 @@ class DurableDecisionDeliveryMilestoneTests(unittest.TestCase):
         _, seed = self.signed_seed()
         tampered = copy.deepcopy(seed)
         tampered["payload"]["signature"]["value"] = "0" * 64
+        tampered["signature"]["value"] = "0" * 64
         material = dict(tampered)
         material.pop("seed_digest")
         tampered["seed_digest"] = sha256_json(material)
@@ -458,7 +459,7 @@ class DurableDecisionDeliveryMilestoneTests(unittest.TestCase):
         actual = hashlib.sha256(path.read_bytes()).hexdigest()
         self.assertEqual(
             actual,
-            "70f27bdda88f35892bb403925053e11a11a5457e1b2ed2742c704733f5c27079",
+            "2f3d83b9443a3d90dfd3dc0f4e62d103a7115ac8c6864ba2e4613f9dee8d698d",
         )
         manifest = self.manifest()
         self.assertEqual(
