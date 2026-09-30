@@ -634,6 +634,15 @@ class AutonomousReelsR10Tests(unittest.TestCase):
             baseline["idempotency_key"],
             replayed["idempotency_key"],
         )
+        print("R10_CANONICAL_PUBLISH=" + json.dumps(
+            publish, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+        ))
+        print("R10_CANONICAL_SNAPSHOT=" + json.dumps(
+            baseline_snapshot, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+        ))
+        print("R10_CANONICAL_SEED=" + json.dumps(
+            baseline, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+        ))
 
     def test_provider_adapters_remain_read_only(self):
         class Client:
