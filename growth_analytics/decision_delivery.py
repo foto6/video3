@@ -88,6 +88,18 @@ def _require_digest(value: Any, field: str) -> str:
     return value
 
 
+def _require_git_sha(value: Any, field: str) -> str:
+    if (
+        not isinstance(value, str)
+        or len(value) != 40
+        or any(ch not in "0123456789abcdef" for ch in value)
+    ):
+        raise DecisionDeliveryError(
+            f"{field} must be a 40-character lowercase Git SHA"
+        )
+    return value
+
+
 def _require_string(value: Any, field: str) -> str:
     if not isinstance(value, str) or not value:
         raise DecisionDeliveryError(
@@ -541,7 +553,7 @@ def build_signed_delivery_audit(
     snapshot = _validate_source_snapshot(
         source_snapshot
     )
-    _require_digest(producer_sha, "producer_sha")
+    _require_git_sha(producer_sha, "producer_sha")
     _require_string(key_id, "key_id")
     if (
         not isinstance(signing_key, bytes)
