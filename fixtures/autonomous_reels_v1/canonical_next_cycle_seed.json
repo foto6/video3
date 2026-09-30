@@ -1,0 +1,504 @@
+{
+  "authority": {
+    "auto_publish": false,
+    "external_mutation": false,
+    "publish_authorized": false,
+    "release_authorized": false,
+    "requires_creator_release_authorization": true
+  },
+  "contract_version": "growth.reels_next_cycle_seed.v1",
+  "creator_cycle_eligible": false,
+  "cycle_revision": 1,
+  "evidence": {
+    "decision_handoff": {
+      "audit_bundle_digest": "788eca36cd305ff62209bec4ff76ce5b3531589234cc698d4c774844694ca5c3",
+      "audit_classification": "confirmatory_not_supported",
+      "authority": {
+        "auto_publish": false,
+        "external_mutation": false,
+        "notice": "This analytics handoff is advisory evidence only and never authorizes Creator release or publishing by itself.",
+        "publish_authorized": false,
+        "release_authorized": false,
+        "requires_creator_release_authorization": true
+      },
+      "classification": "confirmatory_not_supported",
+      "creator_feedback_contract_version": "1.0",
+      "guardrails": {
+        "breaches": [],
+        "distribution_shift": 0,
+        "missing_rate": 0,
+        "recommendation_churn": 0,
+        "status": "pass"
+      },
+      "handoff_digest": "d788cfad7ae5ad7e627fa2aadf6aaa529e7e17b8911742f859428d1e030e93c3",
+      "handoff_id": "gdh1:4437df437a6f92b0c1f68fca5c7657bfdef37a4978039db3a8a9a9cbec9cf04a",
+      "handoff_version": "growth.decision_handoff.v1",
+      "integrity": {
+        "reasons": {
+          "invalid": [],
+          "warning": []
+        },
+        "result_digest": "e2be2db3d1b201297d9d2bccc3b19aa16975d3e465d028d2829b33c171264226",
+        "status": "valid"
+      },
+      "multiplicity": {
+        "decision": false,
+        "decision_reason": "holm_adjusted_above_family_alpha",
+        "family_adjusted_p_value": 1,
+        "family_alpha": 0.05,
+        "family_id": "wave9-valid-family",
+        "method": "holm_bonferroni_v1",
+        "raw_two_sided_p_value": 0.294121658111,
+        "sequential_valid_p_value": 1
+      },
+      "primary_metric": {
+        "confidence_lower": -0.02110829,
+        "confidence_upper": 0.05168324,
+        "control_n": 828,
+        "control_rate": 0.08574879,
+        "control_variant": "control",
+        "effect_estimate": 0.01528748,
+        "name": "synthetic_primary_success_rate",
+        "standard_error": 0.01457168,
+        "treatment_n": 772,
+        "treatment_rate": 0.10103627,
+        "treatment_variant": "treatment"
+      },
+      "provenance": {
+        "event_window_corpus_digest": "be82e5f8339f3c384f6e7a450c11e68826cbcdec583d4813bd0d46dda0fb2e43",
+        "family_report_digest": "e7b1425cb45aa98ae8f200e885cd238fa752a56a25f96130892e1f826a4abb95",
+        "randomization_digest": "93213ea319ddb3eab151f150e4e7a4cf74a571038fdc9fd807a1e8e84dff1903",
+        "sample_counts": {
+          "look_observations": 1600,
+          "missing": 0,
+          "nonmissing": 1600
+        },
+        "sequential_result_digest": "5927a735c1e52aa2633e5c75d92ce3e973ba60389f3e35b0bbf1157ffe9c24a7",
+        "window": {
+          "start": "2026-09-01T00:00:00Z",
+          "stop": "2026-10-01T00:00:00Z"
+        }
+      },
+      "raw_metrics": {
+        "family_confirmatory": {
+          "analysis_id": "synthetic-growth-exp-v1:synthetic_primary_success_rate:treatment_vs_control",
+          "confirmatory": true,
+          "decision": false,
+          "decision_reason": "holm_adjusted_above_family_alpha",
+          "experiment_id": "synthetic-growth-exp-v1",
+          "family_adjusted_p_value": 1,
+          "family_input_p_value": 1,
+          "holm_multiplier": 1,
+          "holm_rank": 1,
+          "integrity_reference": {
+            "integrity_version": "experiment_integrity.v1",
+            "report_sha256": "8dd771136474b183c0aed58bc5ec7f28ae24d2b60b4f1fd2e5331fcbc46c9e70",
+            "status": "valid"
+          },
+          "label": "confirmatory",
+          "metric": "synthetic_primary_success_rate",
+          "raw_two_sided_p_value": 0.294121658111,
+          "registry_freeze_hash": "5bc0a1c9c7f54d2b6da38ffdb78f219a950c6958f1535b998c68916628f0f07e",
+          "registry_revision": 1,
+          "sequential_valid_p_value": 1,
+          "slot_id": "synthetic-growth-exp-v1@1:synthetic-growth-exp-v1:synthetic_primary_success_rate:treatment_vs_control",
+          "treatment_effect_interpretation_allowed": false
+        },
+        "guardrails": {
+          "breaches": [],
+          "distribution_shift": 0,
+          "missing_rate": 0,
+          "recommendation_churn": 0
+        },
+        "preserved_when_blocked": true,
+        "primary_comparison": {
+          "confidence_lower": -0.02110829,
+          "confidence_upper": 0.05168324,
+          "control_n": 828,
+          "control_rate": 0.08574879,
+          "control_variant": "control",
+          "critical_z": 2.49770547,
+          "crosses_negative_boundary": false,
+          "crosses_positive_boundary": false,
+          "effect": 0.01528748,
+          "look_index": 4,
+          "per_comparison_look_alpha": 0.0125,
+          "standard_error": 0.01457168,
+          "treatment_n": 772,
+          "treatment_rate": 0.10103627,
+          "treatment_variant": "treatment"
+        }
+      },
+      "recommendation": {
+        "confirmatory": false,
+        "data": {
+          "effect_estimate": 0.01528748,
+          "preferred_variant": null,
+          "source_classification": "confirmatory_not_supported"
+        },
+        "mode": "blocked",
+        "text": "Multiplicity-adjusted confirmatory evidence does not support a Creator recommendation for the tested change."
+      },
+      "registry": {
+        "experiment_id": "synthetic-growth-exp-v1",
+        "freeze_hash": "5bc0a1c9c7f54d2b6da38ffdb78f219a950c6958f1535b998c68916628f0f07e",
+        "hypothesis": "Treatment changes the preregistered synthetic primary success rate.",
+        "hypothesis_id": "9031dc453088b7da357767f82a45410a96bf04a680d1fdfe5987752c76ff255a",
+        "revision": 1
+      }
+    },
+    "metric_snapshot": {
+      "account_id": "fixture-account",
+      "available_metrics": [
+        "average_watch_duration_seconds",
+        "comments",
+        "completed_views",
+        "completion_rate",
+        "follows",
+        "impressions",
+        "likes",
+        "link_clicks",
+        "retention_denominator_views",
+        "retention_points",
+        "saves",
+        "shares",
+        "views",
+        "watch_time_seconds"
+      ],
+      "contract_version": "growth.shortform_metric_snapshot.v1",
+      "cycle_revision": 1,
+      "denominators": {
+        "average_watch_duration_seconds": {
+          "metric": "provider_defined",
+          "value": null
+        },
+        "completion_rate": {
+          "metric": "provider_defined_views",
+          "value": 5000
+        },
+        "engagement_rates": {
+          "metric": "views",
+          "value": 5000
+        },
+        "link_ctr": {
+          "metric": "impressions",
+          "value": 10000
+        },
+        "retention_auc": {
+          "metric": "retention_denominator_views",
+          "value": 5000
+        }
+      },
+      "live_performance_claim_allowed": false,
+      "normalization_sources": {
+        "average_watch_duration_seconds": "provider_export",
+        "completion_rate": "provider_export",
+        "link_ctr": "derived_link_clicks_over_impressions",
+        "retention_auc": "derived_from_platform_retention_curve"
+      },
+      "normalized_metrics": {
+        "average_watch_duration_seconds": 18,
+        "comments": 50,
+        "completion_rate": 0.3,
+        "follows": 20,
+        "impressions": 10000,
+        "likes": 400,
+        "link_clicks": 50,
+        "link_ctr": 0.005,
+        "retention_auc": 0.51875,
+        "saves": 75,
+        "shares": 150,
+        "views": 5000,
+        "watch_time_seconds": 90000
+      },
+      "platform": "instagram_reels",
+      "post_id": "fixture-post-instagram_reels",
+      "provenance": {
+        "candidate_event_count": 2,
+        "complete_event_count": 1,
+        "complete_export": true,
+        "export_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "export_id": "fixture-export-complete",
+        "fixture_source_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "interpretation": "Platform performance metrics are observational and do not establish causal effects.",
+        "observational": true,
+        "provider": "fixture"
+      },
+      "publish_result_digest": "b668690575ed058e6c5d158c2c9abe9cf1b491d0f0dfdc7da1a7948f94cbeb72",
+      "publish_result_id": "spr1:8115ea58219ad9e37d4edd56d7e7277dd990f0eed702456a792621a68e01702b",
+      "raw_metrics": {
+        "average_watch_duration_seconds": 18,
+        "comments": 50,
+        "completed_views": 1500,
+        "completion_rate": 0.3,
+        "follows": 20,
+        "impressions": 10000,
+        "likes": 400,
+        "link_clicks": 50,
+        "retention_denominator_views": 5000,
+        "retention_points": [
+          {
+            "position": 0,
+            "retained": 1
+          },
+          {
+            "position": 0.25,
+            "retained": 0.65
+          },
+          {
+            "position": 0.5,
+            "retained": 0.45
+          },
+          {
+            "position": 1,
+            "retained": 0.25
+          }
+        ],
+        "saves": 75,
+        "shares": 150,
+        "views": 5000,
+        "watch_time_seconds": 90000
+      },
+      "selected_metrics_event_digest": "0c321af1337105f6aa3f990ba27b2d9ac52c6324be09b640e522c82b1bbd7ac9",
+      "selected_metrics_event_id": "spm1:1e0af6689eadbea84a2c11104b79a862de8d812093d59962e5c82baebd27d656",
+      "snapshot_digest": "9b218a3a827a170e6065377d45d771c1fde731e9184469c89b6c24f6086b6cf6",
+      "source_class": "synthetic_fixture",
+      "uncertainty": {
+        "average_watch_duration_seconds": {
+          "reason": "individual watch-duration samples are unavailable",
+          "state": "not_estimable_from_aggregate_export"
+        },
+        "completion_rate": {
+          "causal": false,
+          "confidence": 0.95,
+          "estimate": 0.3,
+          "half_width": 0.0126983,
+          "interpretation": "observational_association_only",
+          "lower": 0.28745524,
+          "method": "wilson",
+          "sample_size": 5000,
+          "upper": 0.31285185
+        },
+        "engagement_counts": {
+          "reason": "platform count semantics are not assumed to be Bernoulli trials",
+          "state": "descriptive_only"
+        },
+        "link_ctr": {
+          "causal": false,
+          "confidence": 0.95,
+          "estimate": 0.005,
+          "half_width": 0.0013952,
+          "interpretation": "observational_association_only",
+          "lower": 0.00379488,
+          "method": "wilson",
+          "sample_size": 10000,
+          "upper": 0.00658529
+        },
+        "retention_auc": {
+          "reason": "retention curve is aggregate platform output",
+          "state": "not_estimable_from_aggregate_export"
+        }
+      },
+      "window": {
+        "end": "2026-10-02T00:00:00Z",
+        "start": "2026-10-01T00:00:00Z"
+      }
+    },
+    "publish_result": {
+      "account_id": "fixture-account",
+      "artifact": {
+        "creative_artifact_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "creative_artifact_id": "creative-r10-001",
+        "media_artifact_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "media_artifact_id": "media-r10-001",
+        "media_duration_seconds": 30,
+        "media_render_fingerprint": "render-r10-fixture"
+      },
+      "captured_at": "2026-10-01T00:05:00Z",
+      "contract_version": "growth.shortform_publish_result.v1",
+      "cycle_revision": 1,
+      "platform": "instagram_reels",
+      "post_id": "fixture-post-instagram_reels",
+      "provenance": {
+        "fixture_source_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "live_performance_claim_allowed": false,
+        "provider_receipt_digest": null
+      },
+      "publish_result_digest": "b668690575ed058e6c5d158c2c9abe9cf1b491d0f0dfdc7da1a7948f94cbeb72",
+      "publish_result_id": "spr1:8115ea58219ad9e37d4edd56d7e7277dd990f0eed702456a792621a68e01702b",
+      "published_at": "2026-10-01T00:00:00Z",
+      "source_class": "synthetic_fixture"
+    }
+  },
+  "evidence_state": "directional_observational",
+  "idempotency_key": "grs1:8fa672e1c2ba79d55dd71f8912e1f0a0ad9dc0b0794354ecb92584dd4c6edc5d",
+  "interpretation": "Next-cycle recommendations are observational heuristics derived from source-bound platform metrics. They are not causal claims and do not authorize publishing.",
+  "lineage": {
+    "account_id": "fixture-account",
+    "creative_artifact_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "creative_artifact_id": "creative-r10-001",
+    "decision": {
+      "audit_bundle_digest": "788eca36cd305ff62209bec4ff76ce5b3531589234cc698d4c774844694ca5c3",
+      "classification": "confirmatory_not_supported",
+      "experiment_id": "synthetic-growth-exp-v1",
+      "handoff_digest": "d788cfad7ae5ad7e627fa2aadf6aaa529e7e17b8911742f859428d1e030e93c3",
+      "handoff_version": "growth.decision_handoff.v1",
+      "registry_revision": 1,
+      "state": "bound"
+    },
+    "media_artifact_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "media_artifact_id": "media-r10-001",
+    "media_duration_seconds": 30,
+    "media_render_fingerprint": "render-r10-fixture",
+    "metric_snapshot_digest": "9b218a3a827a170e6065377d45d771c1fde731e9184469c89b6c24f6086b6cf6",
+    "metric_window": {
+      "end": "2026-10-02T00:00:00Z",
+      "start": "2026-10-01T00:00:00Z"
+    },
+    "platform": "instagram_reels",
+    "post_id": "fixture-post-instagram_reels",
+    "publish_result_digest": "b668690575ed058e6c5d158c2c9abe9cf1b491d0f0dfdc7da1a7948f94cbeb72",
+    "publish_result_id": "spr1:8115ea58219ad9e37d4edd56d7e7277dd990f0eed702456a792621a68e01702b",
+    "published_at": "2026-10-01T00:00:00Z"
+  },
+  "live_performance_claim_allowed": false,
+  "metrics": {
+    "available_metrics": [
+      "average_watch_duration_seconds",
+      "comments",
+      "completed_views",
+      "completion_rate",
+      "follows",
+      "impressions",
+      "likes",
+      "link_clicks",
+      "retention_denominator_views",
+      "retention_points",
+      "saves",
+      "shares",
+      "views",
+      "watch_time_seconds"
+    ],
+    "denominators": {
+      "average_watch_duration_seconds": {
+        "metric": "provider_defined",
+        "value": null
+      },
+      "completion_rate": {
+        "metric": "provider_defined_views",
+        "value": 5000
+      },
+      "engagement_rates": {
+        "metric": "views",
+        "value": 5000
+      },
+      "link_ctr": {
+        "metric": "impressions",
+        "value": 10000
+      },
+      "retention_auc": {
+        "metric": "retention_denominator_views",
+        "value": 5000
+      }
+    },
+    "normalization_sources": {
+      "average_watch_duration_seconds": "provider_export",
+      "completion_rate": "provider_export",
+      "link_ctr": "derived_link_clicks_over_impressions",
+      "retention_auc": "derived_from_platform_retention_curve"
+    },
+    "normalized": {
+      "average_watch_duration_seconds": 18,
+      "comments": 50,
+      "completion_rate": 0.3,
+      "follows": 20,
+      "impressions": 10000,
+      "likes": 400,
+      "link_clicks": 50,
+      "link_ctr": 0.005,
+      "retention_auc": 0.51875,
+      "saves": 75,
+      "shares": 150,
+      "views": 5000,
+      "watch_time_seconds": 90000
+    },
+    "uncertainty": {
+      "average_watch_duration_seconds": {
+        "reason": "individual watch-duration samples are unavailable",
+        "state": "not_estimable_from_aggregate_export"
+      },
+      "completion_rate": {
+        "causal": false,
+        "confidence": 0.95,
+        "estimate": 0.3,
+        "half_width": 0.0126983,
+        "interpretation": "observational_association_only",
+        "lower": 0.28745524,
+        "method": "wilson",
+        "sample_size": 5000,
+        "upper": 0.31285185
+      },
+      "engagement_counts": {
+        "reason": "platform count semantics are not assumed to be Bernoulli trials",
+        "state": "descriptive_only"
+      },
+      "link_ctr": {
+        "causal": false,
+        "confidence": 0.95,
+        "estimate": 0.005,
+        "half_width": 0.0013952,
+        "interpretation": "observational_association_only",
+        "lower": 0.00379488,
+        "method": "wilson",
+        "sample_size": 10000,
+        "upper": 0.00658529
+      },
+      "retention_auc": {
+        "reason": "retention curve is aggregate platform output",
+        "state": "not_estimable_from_aggregate_export"
+      }
+    }
+  },
+  "next_cycle_id": "creator-cycle-r10-next",
+  "recommendations": [
+    {
+      "action": "preserve_shareable_hook",
+      "certainty": "directional_not_causal",
+      "evidence_refs": [
+        "metric_snapshot:9b218a3a827a170e6065377d45d771c1fde731e9184469c89b6c24f6086b6cf6#raw_metrics.shares"
+      ],
+      "rationale": "shares_per_view=0.03000000 at or above 0.02 heuristic",
+      "state": "observational_signal"
+    },
+    {
+      "action": "preserve_saveable_value",
+      "certainty": "directional_not_causal",
+      "evidence_refs": [
+        "metric_snapshot:9b218a3a827a170e6065377d45d771c1fde731e9184469c89b6c24f6086b6cf6#raw_metrics.saves"
+      ],
+      "rationale": "saves_per_view=0.01500000 at or above 0.01 heuristic",
+      "state": "observational_signal"
+    },
+    {
+      "action": "test_follow_call_to_action",
+      "certainty": "directional_not_causal",
+      "evidence_refs": [
+        "metric_snapshot:9b218a3a827a170e6065377d45d771c1fde731e9184469c89b6c24f6086b6cf6#raw_metrics.follows"
+      ],
+      "rationale": "follows_per_view=0.00400000 below 0.005 heuristic",
+      "state": "observational_signal"
+    },
+    {
+      "action": "test_link_call_to_action",
+      "certainty": "directional_not_causal",
+      "evidence_refs": [
+        "metric_snapshot:9b218a3a827a170e6065377d45d771c1fde731e9184469c89b6c24f6086b6cf6#normalized_metrics.link_ctr",
+        "metric_snapshot:9b218a3a827a170e6065377d45d771c1fde731e9184469c89b6c24f6086b6cf6#uncertainty.link_ctr"
+      ],
+      "rationale": "link_ctr=0.00500000 below 0.01 heuristic",
+      "state": "observational_signal"
+    }
+  ],
+  "seed_digest": "5c3efe0f6db7bba8d7d0ac3f4e5855559c31b1bdc7b60830957f58424b989774",
+  "source_class": "synthetic_fixture"
+}
