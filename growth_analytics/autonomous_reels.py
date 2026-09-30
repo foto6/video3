@@ -36,7 +36,9 @@ OPTIONAL_METRICS = frozenset({
     "impressions",
     "views",
     "watch_time_seconds",
+    "average_watch_duration_seconds",
     "completed_views",
+    "completion_rate",
     "retention_points",
     "retention_denominator_views",
     "likes",
@@ -444,10 +446,6 @@ def build_platform_metrics_event(
         )
 
     normalized: dict[str, Any] = {}
-    count_fields = OPTIONAL_METRICS - {
-        "watch_time_seconds",
-        "retention_points",
-    }
     for name in sorted(OPTIONAL_METRICS):
         value = metrics[name]
         should_exist = name in available
@@ -462,9 +460,17 @@ def build_platform_metrics_event(
             raise PlatformMetricsError(
                 f"{name} is declared available but null"
             )
-        if name == "watch_time_seconds":
+        if name in {
+            "watch_time_seconds",
+            "average_watch_duration_seconds",
+        }:
             normalized[name] = round(
                 _number(value, name, minimum=0.0),
+                8,
+            )
+        elif name == "completion_rate":
+            normalized[name] = round(
+                _number(value, name, minimum=0.0, maximum=1.0),
                 8,
             )
         elif name == "retention_points":
@@ -478,6 +484,7 @@ def build_platform_metrics_event(
 
     views = normalized.get("views")
     completed = normalized.get("completed_views")
+    direct_completion = normalized.get("completion_rate")
     if completed is not None and views is not None and completed > views:
         raise PlatformMetricsError(
             "completed_views cannot exceed views"
@@ -733,15 +740,26 @@ def build_metric_snapshot(
     retention_denominator = raw["retention_denominator_views"]
     link_clicks = raw["link_clicks"]
 
-    average_watch = (
+    direct_average_watch = raw["average_watch_duration_seconds"]
+    derived_average_watch = (
         round(watch / views, 8)
         if watch is not None and views not in (None, 0)
         else None
     )
-    completion_rate = (
+    average_watch = (
+        direct_average_watch
+        if direct_average_watch is not None
+        else derived_average_watch
+    )
+    derived_completion = (
         round(completed / views, 8)
         if completed is not None and views not in (None, 0)
         else None
+    )
+    completion_rate = (
+        direct_completion
+        if direct_completion is not None
+        else derived_completion
     )
     link_ctr = (
         round(link_clicks / impressions, 8)
@@ -765,13 +783,31 @@ def build_metric_snapshot(
     }
     denominators = {
         "average_watch_duration_seconds": (
-            {"metric": "views", "value": views}
-            if watch is not None and views is not None
+            {
+                "metric": (
+                    "provider_defined"
+                    if direct_average_watch is not None
+                    else "views"
+                ),
+                "value": (
+                    None
+                    if direct_average_watch is not None
+                    else views
+                ),
+            }
+            if average_watch is not None
             else None
         ),
         "completion_rate": (
-            {"metric": "views", "value": views}
-            if completed is not None and views is not None
+            {
+                "metric": (
+                    "provider_defined_views"
+                    if direct_completion is not None
+                    else "views"
+                ),
+                "value": views,
+            }
+            if completion_rate is not None
             else None
         ),
         "retention_auc": (
@@ -826,6 +862,36 @@ def build_metric_snapshot(
         "available_metrics": list(selected["available_metrics"]),
         "raw_metrics": json.loads(canonical_json(raw)),
         "normalized_metrics": normalized,
+        "normalization_sources": {
+            "average_watch_duration_seconds": (
+                "provider_export"
+                if direct_average_watch is not None
+                else (
+                    "derived_watch_time_over_views"
+                    if derived_average_watch is not None
+                    else "unavailable"
+                )
+            ),
+            "completion_rate": (
+                "provider_export"
+                if direct_completion is not None
+                else (
+                    "derived_completed_views_over_views"
+                    if derived_completion is not None
+                    else "unavailable"
+                )
+            ),
+            "retention_auc": (
+                "derived_from_platform_retention_curve"
+                if retention_points is not None
+                else "unavailable"
+            ),
+            "link_ctr": (
+                "derived_link_clicks_over_impressions"
+                if link_ctr is not None
+                else "unavailable"
+            ),
+        },
         "denominators": denominators,
         "uncertainty": uncertainty,
         "provenance": {
@@ -867,6 +933,7 @@ def parse_metric_snapshot(
         "available_metrics",
         "raw_metrics",
         "normalized_metrics",
+        "normalization_sources",
         "denominators",
         "uncertainty",
         "provenance",
@@ -1310,9 +1377,16 @@ def build_next_cycle_seed(
             "metric_window": dict(snapshot["window"]),
             "decision": decision,
         },
+        "evidence": {
+            "publish_result": json.loads(canonical_json(published)),
+            "metric_snapshot": json.loads(canonical_json(snapshot)),
+        },
         "metrics": {
             "normalized": json.loads(canonical_json(
                 snapshot["normalized_metrics"]
+            )),
+            "normalization_sources": json.loads(canonical_json(
+                snapshot["normalization_sources"]
             )),
             "denominators": json.loads(canonical_json(
                 snapshot["denominators"]
@@ -1363,6 +1437,7 @@ def validate_next_cycle_seed(
         "creator_cycle_eligible",
         "evidence_state",
         "lineage",
+        "evidence",
         "metrics",
         "recommendations",
         "authority",
@@ -1428,6 +1503,48 @@ def validate_next_cycle_seed(
     lineage = payload["lineage"]
     if not isinstance(lineage, Mapping):
         raise AutonomousReelsError("seed lineage missing")
+    evidence = payload["evidence"]
+    if (
+        not isinstance(evidence, Mapping)
+        or set(evidence) != {"publish_result", "metric_snapshot"}
+    ):
+        raise AutonomousReelsError(
+            "next-cycle seed evidence fields invalid"
+        )
+    published = parse_publish_result(evidence["publish_result"])
+    snapshot = parse_metric_snapshot(evidence["metric_snapshot"])
+    if (
+        snapshot["publish_result_id"] != published["publish_result_id"]
+        or snapshot["publish_result_digest"]
+        != published["publish_result_digest"]
+    ):
+        raise AutonomousReelsError(
+            "embedded metric snapshot is not bound to embedded publish result"
+        )
+    if (
+        published["source_class"] != payload["source_class"]
+        or snapshot["source_class"] != payload["source_class"]
+    ):
+        raise SyntheticEvidenceRejected(
+            "seed source_class conflicts with embedded evidence"
+        )
+    if (
+        published["cycle_revision"] != revision
+        or snapshot["cycle_revision"] != revision
+    ):
+        raise StaleCycleRevisionError(
+            "embedded evidence revision is stale"
+        )
+    if (
+        lineage.get("publish_result_id") != published["publish_result_id"]
+        or lineage.get("publish_result_digest")
+        != published["publish_result_digest"]
+        or lineage.get("metric_snapshot_digest")
+        != snapshot["snapshot_digest"]
+    ):
+        raise AutonomousReelsError(
+            "seed lineage digests do not match embedded evidence"
+        )
     expected_id = "grs1:" + sha256_json({
         "next_cycle_id": payload["next_cycle_id"],
         "cycle_revision": revision,
