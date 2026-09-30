@@ -1,0 +1,178 @@
+{
+  "contract_document_version": "growth.autonomous_reels_feedback_loop.v1",
+  "contracts": {
+    "publish_result": {
+      "version": "growth.shortform_publish_result.v1",
+      "platforms": [
+        "instagram_reels",
+        "tiktok",
+        "youtube_shorts"
+      ],
+      "source_classes": [
+        "platform_export",
+        "synthetic_fixture"
+      ],
+      "required_root_fields": [
+        "contract_version",
+        "publish_result_id",
+        "publish_result_digest",
+        "source_class",
+        "platform",
+        "account_id",
+        "post_id",
+        "published_at",
+        "captured_at",
+        "cycle_revision",
+        "artifact",
+        "provenance"
+      ],
+      "artifact_fields": [
+        "creative_artifact_id",
+        "creative_artifact_digest",
+        "media_artifact_id",
+        "media_artifact_digest",
+        "media_render_fingerprint",
+        "media_duration_seconds"
+      ],
+      "provenance_fields": [
+        "provider_receipt_digest",
+        "fixture_source_sha256",
+        "live_performance_claim_allowed"
+      ]
+    },
+    "platform_metrics": {
+      "version": "growth.shortform_platform_metrics.v1",
+      "required_root_fields": [
+        "contract_version",
+        "metrics_event_id",
+        "metrics_event_digest",
+        "source_class",
+        "platform",
+        "account_id",
+        "post_id",
+        "cycle_revision",
+        "captured_at",
+        "window",
+        "complete",
+        "available_metrics",
+        "metrics",
+        "provenance"
+      ],
+      "optional_metric_keys": [
+        "impressions",
+        "views",
+        "watch_time_seconds",
+        "average_watch_duration_seconds",
+        "completed_views",
+        "completion_rate",
+        "retention_points",
+        "retention_denominator_views",
+        "likes",
+        "comments",
+        "shares",
+        "saves",
+        "follows",
+        "link_clicks"
+      ],
+      "availability_rule": "metric value is non-null iff declared available",
+      "partial_export_policy": "durable_ingest_allowed_but_snapshot_finalization_blocked_without_complete_export"
+    },
+    "metric_snapshot": {
+      "version": "growth.shortform_metric_snapshot.v1",
+      "selection": "latest complete export by window.end then captured_at then metrics_event_id",
+      "observational": true,
+      "normalized_metrics": [
+        "views",
+        "watch_time_seconds",
+        "average_watch_duration_seconds",
+        "completion_rate",
+        "retention_auc",
+        "likes",
+        "comments",
+        "shares",
+        "saves",
+        "follows",
+        "impressions",
+        "link_clicks",
+        "link_ctr"
+      ],
+      "uncertainty": {
+        "completion_rate": "wilson_when_completed_views_and_views_available",
+        "link_ctr": "wilson_when_link_clicks_and_impressions_available",
+        "average_watch_duration_seconds": "not_estimable_from_aggregate_export",
+        "retention_auc": "not_estimable_from_aggregate_export",
+        "engagement_counts": "descriptive_only"
+      }
+    },
+    "next_cycle_seed": {
+      "version": "growth.reels_next_cycle_seed.v1",
+      "required_root_fields": [
+        "contract_version",
+        "next_cycle_id",
+        "cycle_revision",
+        "source_class",
+        "live_performance_claim_allowed",
+        "creator_cycle_eligible",
+        "evidence_state",
+        "lineage",
+        "evidence",
+        "metrics",
+        "recommendations",
+        "authority",
+        "interpretation",
+        "idempotency_key",
+        "seed_digest"
+      ],
+      "evidence_states": [
+        "insufficient_data",
+        "directional_observational"
+      ],
+      "recommendation_states": [
+        "insufficient_data",
+        "observational_signal"
+      ],
+      "certainty_states": [
+        "insufficient",
+        "directional_not_causal"
+      ],
+      "authority": {
+        "auto_publish": false,
+        "external_mutation": false,
+        "release_authorized": false,
+        "publish_authorized": false,
+        "requires_creator_release_authorization": true
+      }
+    }
+  },
+  "exactly_once": {
+    "ingest_ledger_version": "growth.reels_feedback_ledger.v1",
+    "outbox_version": "growth.reels_next_cycle_outbox.v1",
+    "consumer_ledger_version": "growth.reels_creator_consumer_ledger.v1",
+    "duplicate_rule": "same identity and same digest is idempotent duplicate",
+    "conflict_rule": "same identity and changed payload fails closed",
+    "lost_ack_rule": "replay identical pending seed after restart; Creator duplicate does not create second logical acceptance"
+  },
+  "provenance_invariants": [
+    "artifact_identity_binds_publish_result",
+    "publish_result_binds_platform_post_identity",
+    "metric_snapshot_binds_publish_result_digest",
+    "seed_embeds_publish_result_and_metric_snapshot",
+    "decision_reference_matches_embedded_growth.decision_handoff.v1_when_present",
+    "synthetic_fixture_has_live_performance_claim_allowed_false",
+    "synthetic_fixture_has_creator_cycle_eligible_false",
+    "synthetic_seed_rejected_by_default",
+    "platform_export_cannot_carry_fixture_provenance",
+    "partial_export_cannot_finalize_metric_snapshot",
+    "stale_cycle_revision_fails_closed",
+    "provider_mutation_is_out_of_scope"
+  ],
+  "canonical_fixture": {
+    "source_class": "synthetic_fixture",
+    "live_performance_claim_allowed": false,
+    "creator_cycle_eligible": false,
+    "publish_result_digest": "b668690575ed058e6c5d158c2c9abe9cf1b491d0f0dfdc7da1a7948f94cbeb72",
+    "metric_snapshot_digest": "9b218a3a827a170e6065377d45d771c1fde731e9184469c89b6c24f6086b6cf6",
+    "seed_digest": "5c3efe0f6db7bba8d7d0ac3f4e5855559c31b1bdc7b60830957f58424b989774",
+    "idempotency_key": "grs1:8fa672e1c2ba79d55dd71f8912e1f0a0ad9dc0b0794354ecb92584dd4c6edc5d"
+  }
+}
