@@ -331,6 +331,30 @@ from .visual_critic import (
     parse_visual_critic_report,
 )
 
+from .gemini_transport import (
+    DEFAULT_GEMINI_MODEL,
+    GEMINI_PROVIDER_NAME,
+    GeminiNativeVideoConfig,
+    GeminiNativeVideoDisabled,
+    GeminiNativeVideoError,
+    GeminiNativeVideoMalformedOutput,
+    GeminiNativeVideoTransportError,
+    GeminiRuntime,
+    UrllibGeminiTransport,
+    ffprobe_duration_seconds,
+)
+from .gemini_visual_critic import (
+    GEMINI_NATIVE_VIDEO_CRITIC_VERSION,
+    GeminiNativeVideoCriticAdapter,
+    compact_critic_context,
+    critique_candidate_with_gemini_native_video,
+    gemini_provider_from_environment,
+)
+from .gemini_pairwise import (
+    GEMINI_NATIVE_VIDEO_PAIRWISE_VERSION,
+    GeminiNativeVideoPairwiseEvaluator,
+)
+
 from .experiment import (
     ExperimentLifecycleError,
     ExperimentStatus,
@@ -344,6 +368,23 @@ from .experiment import (
 
 __all__ = [
     "AccountMutationDisabled",
+    "DEFAULT_GEMINI_MODEL",
+    "GEMINI_PROVIDER_NAME",
+    "GeminiNativeVideoConfig",
+    "GeminiNativeVideoDisabled",
+    "GeminiNativeVideoError",
+    "GeminiNativeVideoMalformedOutput",
+    "GeminiNativeVideoTransportError",
+    "GeminiRuntime",
+    "UrllibGeminiTransport",
+    "ffprobe_duration_seconds",
+    "GEMINI_NATIVE_VIDEO_CRITIC_VERSION",
+    "GeminiNativeVideoCriticAdapter",
+    "compact_critic_context",
+    "critique_candidate_with_gemini_native_video",
+    "gemini_provider_from_environment",
+    "GEMINI_NATIVE_VIDEO_PAIRWISE_VERSION",
+    "GeminiNativeVideoPairwiseEvaluator",
     "VISUAL_CRITIC_CALIBRATION_VERSION",
     "HUMAN_BENCHMARK_CORPUS_READY",
     "VISUAL_CRITIC_HUMAN_LABEL_VERSION",
