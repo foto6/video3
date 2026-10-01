@@ -1,0 +1,126 @@
+{
+  "manifest_version": "growth.closed_loop_feedback_conformance.r20.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r20-feedback-bundle-20261001",
+    "r20_starting_commit": "a802a1c0eed5ae564e7e67236e986bff560c58a9",
+    "validated_candidate_commit": "f7f8e7ed2086d14093d73aec2f07344cfec8e99c"
+  },
+  "contracts": {
+    "feedback": "growth.closed_loop_feedback.v1",
+    "brief_seed": "growth.closed_loop_brief_seed.v1",
+    "ledger": "growth.closed_loop_feedback_ledger.v1",
+    "replay": "growth.closed_loop_feedback_replay.r20.v1",
+    "r18_preserved": "growth.candidate_decision.v1",
+    "r19_preserved": "growth.post_publish_learning.v1",
+    "r19_brief_seed_preserved": "growth.post_publish_brief_seed.v1"
+  },
+  "source_bound_dependencies": {
+    "r18_manifest_blob_sha1": "05e778e7a67556b66cb407e2c65a2f7bb391dbab",
+    "r19_manifest_blob_sha1": "ee1864329ff80c243e8f2b653a715091374316c8"
+  },
+  "evidence_classes": {
+    "objective_defects": "R18 machine hard-failure evidence",
+    "model_aesthetic_judgment": "R18 model/VLM advisory evidence; human_ground_truth=false",
+    "human_evidence": "R18 actual human labels only",
+    "observed_provider_metrics": "R19 direct provider values only",
+    "derived_analytics": "R19 explicit derived/normalized analytics",
+    "speculative_hypotheses": "R20 bounded next-cycle test hypotheses"
+  },
+  "invariants": {
+    "model_scores_infer_human_labels": false,
+    "synthetic_metrics_count_as_live": false,
+    "observational_or_historical_metrics_prove_causality": false,
+    "candidate_decision_required": true,
+    "post_publish_learning_optional": true,
+    "r19_requires_exact_r18_decision_digest_when_present": true,
+    "r19_cycle_must_match_r18": true,
+    "r19_render_must_exist_in_r18_candidate_set": true
+  },
+  "degraded_feedback": {
+    "no_r19": "candidate_decision_only",
+    "stale_r19": "candidate_decision_only",
+    "backoff_or_terminal_r19": "candidate_decision_only",
+    "partial_r19": "unavailable_evidence propagated and candidate guidance preserved",
+    "clock_skew_or_out_of_order": "not treated as fresh/live guidance"
+  },
+  "next_cycle_hypothesis_contract": {
+    "bounded_max": 8,
+    "target_segment": true,
+    "concrete_directive": true,
+    "expected_observable": true,
+    "falsification_criterion": true,
+    "target_metric_when_applicable": true,
+    "causal_claim": false,
+    "human_preference_inferred": false
+  },
+  "durability": {
+    "same_revision_same_digest": "duplicate",
+    "same_revision_changed_payload": "conflict",
+    "lower_revision": "out_of_order_rejected",
+    "restart_safe": true
+  },
+  "deterministic_replay": {
+    "path": "fixtures/closed_loop_feedback_v1/replay_report.json",
+    "git_blob_sha1": "1c0b1e04c3bca13016d8a750a08adb5f6ad374c7",
+    "hypotheses": 6,
+    "live_platform_metrics": false,
+    "creator_cycle_eligible": false,
+    "synthetic_metrics_as_live": false,
+    "model_inferred_human_labels": false,
+    "provider_mutation": false
+  },
+  "readiness": {
+    "path": "fixtures/closed_loop_feedback_v1/readiness_report.json",
+    "git_blob_sha1": "37c81539edbdd4384f455ae6db9097ccd30ffe97"
+  },
+  "pinned_r20_blobs": {
+    "implementation": {
+      "path": "growth_analytics/closed_loop_feedback.py",
+      "git_blob_sha1": "aef0ce606b09366ff61b1017be872738a7c04957"
+    },
+    "replay_runner": {
+      "path": "growth_analytics/closed_loop_feedback_replay.py",
+      "git_blob_sha1": "bfbd286a0079a1ef32a6d6080242dec1f96623d4"
+    },
+    "tests": {
+      "path": "tests/test_closed_loop_feedback_r20.py",
+      "git_blob_sha1": "567031f00e0cf6d9b4fb8694c73d07b79fe1b559"
+    },
+    "documentation": {
+      "path": "docs/CLOSED_LOOP_FEEDBACK_R20.md",
+      "git_blob_sha1": "dfa2f303d8203c3a776ece3ff131055acfacf105"
+    },
+    "schema": {
+      "path": "conformance/growth.closed_loop_feedback.v1/schema.json",
+      "git_blob_sha1": "24b4adbdcac3d3660c5410e3d693bade9d7c362f"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "4834dee54c61111e4acab9d4d341ce3c6861ff27"
+    },
+    "ci_workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "00f5ac441ef66bd97f8e33602390bae373c7872d"
+    }
+  },
+  "validated_candidate_ci": {
+    "run_id": 36864380945,
+    "head_sha": "f7f8e7ed2086d14093d73aec2f07344cfec8e99c",
+    "conclusion": "success",
+    "focused_r20_tests": 12,
+    "full_tests": 273
+  },
+  "authority": {
+    "advisory_only": true,
+    "provider_mutation": false,
+    "publish": false,
+    "credentials": false,
+    "creator_mutation": false,
+    "media_mutation": false,
+    "merge_release": false
+  },
+  "manifest_self": {
+    "rule": "report exact committed Git blob SHA-1 separately; self-hash is not recursively embedded"
+  }
+}

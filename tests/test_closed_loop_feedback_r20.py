@@ -513,25 +513,8 @@ class GrowthR20ClosedLoopFeedbackTests(unittest.TestCase):
             / "closed_loop_feedback_v1"
             / "readiness_report.json"
         )
-        if (
-            not replay_path.exists()
-            or not readiness_path.exists()
-        ):
-            with tempfile.TemporaryDirectory() as temp:
-                replay = (
-                    run_closed_loop_feedback_replay(
-                        temp
-                    )
-                )
-            print(
-                "R20_REPLAY_JSON="
-                + json.dumps(
-                    replay,
-                    sort_keys=True,
-                    separators=(",", ":"),
-                )
-            )
-            return
+        self.assertTrue(replay_path.exists())
+        self.assertTrue(readiness_path.exists())
         replay = json.loads(
             replay_path.read_text(
                 encoding="utf-8"
@@ -560,6 +543,18 @@ class GrowthR20ClosedLoopFeedbackTests(unittest.TestCase):
                 )
             )
         self.assertEqual(replay, rebuilt)
+        self.assertEqual(
+            replay_path.read_bytes(),
+            (
+                json.dumps(
+                    rebuilt,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                    ensure_ascii=False,
+                )
+                + "\n"
+            ).encode("utf-8"),
+        )
 
 
 if __name__ == "__main__":

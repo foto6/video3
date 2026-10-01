@@ -5,6 +5,13 @@
   "repository": "foto6/video3",
   "branch": "agent/growth-r20-feedback-bundle-20261001",
   "starting_head": "a802a1c0eed5ae564e7e67236e986bff560c58a9",
+  "validated_candidate_head": "f7f8e7ed2086d14093d73aec2f07344cfec8e99c",
+  "validated_candidate_ci": {
+    "run_id": 36864380945,
+    "conclusion": "success",
+    "focused_r20_tests": 12,
+    "full_tests": 273
+  },
   "source_bound_dependencies": {
     "r18": {
       "contract": "growth.candidate_decision.v1",
@@ -14,6 +21,17 @@
       "contract": "growth.post_publish_learning.v1",
       "manifest_blob_sha1": "ee1864329ff80c243e8f2b653a715091374316c8"
     }
+  },
+  "lineage_requirements": {
+    "exact_source_id_sha": true,
+    "exact_cycle_revision": true,
+    "exact_r18_decision_digest": true,
+    "optional_exact_r19_learning_digest": true,
+    "r19_publish_result_digest": true,
+    "r19_provider_receipt_digest_when_available": true,
+    "r19_media_render_sha256": true,
+    "r19_metric_snapshot_digest_when_available": true,
+    "r19_observation_window_when_available": true
   },
   "evidence_separation": {
     "objective_defects": true,
@@ -29,7 +47,7 @@
     "r19_missing": "candidate_decision_only plus unavailable_evidence",
     "r19_stale": "candidate_decision_only plus unavailable_evidence",
     "r19_backoff_or_terminal": "candidate_decision_only plus unavailable_evidence",
-    "r19_partial": "preserve namespaced unavailable_evidence and candidate-decision guidance",
+    "r19_partial": "namespaced unavailable_evidence plus candidate-decision guidance",
     "clock_skew_or_out_of_order": "not fresh; candidate-decision guidance retained"
   },
   "hypotheses": {
@@ -42,10 +60,21 @@
     "human_preference_inferred": false
   },
   "durability": {
+    "ledger_version": "growth.closed_loop_feedback_ledger.v1",
     "duplicate_same_revision": "idempotent",
     "changed_payload_same_revision": "conflict",
     "lower_revision": "out_of_order_rejected",
     "restart_safe": true
+  },
+  "replay": {
+    "path": "fixtures/closed_loop_feedback_v1/replay_report.json",
+    "git_blob_sha1": "1c0b1e04c3bca13016d8a750a08adb5f6ad374c7",
+    "source_class": "synthetic_fixture",
+    "live_platform_metrics": false,
+    "creator_cycle_eligible": false,
+    "synthetic_metrics_as_live": false,
+    "model_inferred_human_labels": false,
+    "provider_mutation": false
   },
   "authority": {
     "advisory_only": true,
