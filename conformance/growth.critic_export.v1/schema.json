@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.critic_export.v1",
+  "title": "Growth canonical critic export v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "repository",
+    "commit_sha",
+    "source_id",
+    "render_sha256",
+    "critic_mode",
+    "model_or_rule_identity",
+    "dimension_observations",
+    "timecoded_evidence",
+    "hard_failure_observations",
+    "pairwise_if_used",
+    "human_ground_truth"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "growth.critic_export.v1"
+    },
+    "repository": {
+      "const": "foto6/video3"
+    },
+    "commit_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "source_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "render_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "critic_mode": {
+      "enum": [
+        "structural_rule",
+        "vlm_augmented",
+        "gemini_native_video"
+      ]
+    },
+    "model_or_rule_identity": {
+      "type": "object"
+    },
+    "dimension_observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hook",
+        "pacing",
+        "semantic_cut_correctness",
+        "framing_crop",
+        "broll_relevance",
+        "captions",
+        "continuity",
+        "motion_appropriateness",
+        "audio_balance",
+        "payoff_cta_loop"
+      ],
+      "properties": {
+        "hook": {"$ref": "#/$defs/dimensionObservation"},
+        "pacing": {"$ref": "#/$defs/dimensionObservation"},
+        "semantic_cut_correctness": {"$ref": "#/$defs/dimensionObservation"},
+        "framing_crop": {"$ref": "#/$defs/dimensionObservation"},
+        "broll_relevance": {"$ref": "#/$defs/dimensionObservation"},
+        "captions": {"$ref": "#/$defs/dimensionObservation"},
+        "continuity": {"$ref": "#/$defs/dimensionObservation"},
+        "motion_appropriateness": {"$ref": "#/$defs/dimensionObservation"},
+        "audio_balance": {"$ref": "#/$defs/dimensionObservation"},
+        "payoff_cta_loop": {"$ref": "#/$defs/dimensionObservation"}
+      }
+    },
+    "timecoded_evidence": {
+      "type": "array",
+      "items": {"type": "object"}
+    },
+    "hard_failure_observations": {
+      "type": "array",
+      "items": {"type": "object"}
+    },
+    "pairwise_if_used": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "object"}
+      ]
+    },
+    "human_ground_truth": {
+      "const": false
+    }
+  },
+  "$defs": {
+    "dimensionObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_dimension",
+        "rule_observation",
+        "vlm_observations",
+        "unavailable"
+      ],
+      "properties": {
+        "source_dimension": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rule_observation": {
+          "type": "object"
+        },
+        "vlm_observations": {
+          "type": "array"
+        },
+        "unavailable": {
+          "type": ["string", "null"]
+        }
+      }
+    }
+  }
+}

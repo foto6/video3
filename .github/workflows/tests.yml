@@ -21,5 +21,6 @@ jobs:
           python -m unittest discover -s tests -p "test_creator_batch_handoff_r14.py" -v
           python -m unittest discover -s tests -p "test_visual_critic_r15.py" -v
           python -m unittest discover -s tests -p "test_gemini_visual_critic_r15b.py" -v
+          python -m unittest discover -s tests -p "test_critic_export_r16.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v

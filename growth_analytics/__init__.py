@@ -355,6 +355,22 @@ from .gemini_pairwise import (
     GeminiNativeVideoPairwiseEvaluator,
 )
 
+from .critic_export import (
+    BENCHMARK_AUTHORITY_COMMIT,
+    BENCHMARK_AUTHORITY_REPOSITORY,
+    BENCHMARK_DIMENSION_MAP,
+    BENCHMARK_DIMENSIONS,
+    BENCHMARK_PROTOCOL,
+    CRITIC_EXPORT_FILENAME,
+    CRITIC_EXPORT_VERSION,
+    GROWTH_REPOSITORY,
+    CriticExportError,
+    CriticExportHumanBoundaryError,
+    build_critic_export,
+    validate_critic_export,
+    write_critic_export,
+)
+
 from .experiment import (
     ExperimentLifecycleError,
     ExperimentStatus,
@@ -368,6 +384,19 @@ from .experiment import (
 
 __all__ = [
     "AccountMutationDisabled",
+    "BENCHMARK_AUTHORITY_COMMIT",
+    "BENCHMARK_AUTHORITY_REPOSITORY",
+    "BENCHMARK_DIMENSION_MAP",
+    "BENCHMARK_DIMENSIONS",
+    "BENCHMARK_PROTOCOL",
+    "CRITIC_EXPORT_FILENAME",
+    "CRITIC_EXPORT_VERSION",
+    "GROWTH_REPOSITORY",
+    "CriticExportError",
+    "CriticExportHumanBoundaryError",
+    "build_critic_export",
+    "validate_critic_export",
+    "write_critic_export",
     "DEFAULT_GEMINI_MODEL",
     "GEMINI_PROVIDER_NAME",
     "GeminiNativeVideoConfig",
