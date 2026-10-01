@@ -1,0 +1,31 @@
+{
+  "report_version": "growth.provider_metrics_ingest_report.v1",
+  "seed": "growth-r11-provider-ingest-20261001",
+  "scenarios": {
+    "rate_limit_restart": {
+      "expected": "backoff_then_accept"
+    },
+    "partial_page_restart": {
+      "expected": "resume_from_durable_cursor"
+    },
+    "duplicate_page": {
+      "expected": "dedupe_metrics_preserve_raw_page_lineage"
+    },
+    "stale_export_revision": {
+      "expected": "fail_closed"
+    },
+    "out_of_order_windows": {
+      "expected": "accept_independent_windows"
+    },
+    "lost_acknowledgement": {
+      "expected": "r10_duplicate_then_provider_ack"
+    }
+  },
+  "invariants": {
+    "provider_mutation": false,
+    "unsupported_metrics_are_null": true,
+    "mock_fixture_live_performance_claim_allowed": false,
+    "credential_secrets_durable": false,
+    "r10_contract_version": "growth.shortform_platform_metrics.v1"
+  }
+}

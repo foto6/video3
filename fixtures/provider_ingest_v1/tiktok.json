@@ -1,0 +1,20 @@
+{
+  "provider_export_id": "tt-export-20261001T0100Z",
+  "revision": 8,
+  "captured_at": "2026-10-01T01:06:00Z",
+  "window": {
+    "start": "2026-10-01T00:00:00Z",
+    "end": "2026-10-01T01:00:00Z"
+  },
+  "complete": true,
+  "next_cursor": null,
+  "metrics": {
+    "video_views": 2400,
+    "total_play_time_seconds": 28800,
+    "average_time_watched_seconds": 12.0,
+    "full_video_watched_rate": 0.31,
+    "likes": 210,
+    "comments": 19,
+    "shares": 44
+  }
+}

@@ -13,6 +13,8 @@ jobs:
         with:
           python-version: "3.11"
       - name: Focused autonomous reels tests
-        run: python -m unittest discover -s tests -p "test_autonomous_reels_r10.py" -v
+        run: |
+          python -m unittest discover -s tests -p "test_autonomous_reels_r10.py" -v
+          python -m unittest discover -s tests -p "test_provider_ingest_r11.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v

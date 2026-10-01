@@ -1,0 +1,85 @@
+{
+  "manifest_version": "growth.provider_metrics_ingest_conformance.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r11-provider-ingest-20261001",
+    "r10_starting_commit": "7209a2a9033c4ced0690b8311e6f1661681e7ca2"
+  },
+  "contracts": {
+    "adapter": "growth.provider_metrics_adapter.v1",
+    "provider_ledger": "growth.provider_metrics_ingest_ledger.v1",
+    "normalized_output": "growth.shortform_platform_metrics.v1",
+    "r10_feedback_ledger": "growth.reels_feedback_ledger.v1"
+  },
+  "platforms": [
+    "instagram_reels",
+    "tiktok",
+    "youtube_shorts"
+  ],
+  "safety": {
+    "provider_access": "read_only",
+    "publish": false,
+    "delete": false,
+    "edit": false,
+    "account_mutation": false,
+    "durable_secret_material": false,
+    "credential_reference_prefix": "credential-ref:",
+    "authorization_lineage_prefix": "authz:",
+    "mock_fixture_may_claim_live_evidence": false
+  },
+  "reliability": {
+    "pagination": "durable_cursor_per_page",
+    "rate_limit": "durable_not_before_backoff",
+    "partial_window": "durable_r10_event_complete_false",
+    "delayed_metrics": "higher_provider_revision",
+    "duplicate_page": "content_deduped_for_metrics_raw_lineage_preserved",
+    "stale_revision": "fail_closed_per_exact_window",
+    "out_of_order_windows": "accepted_independently",
+    "lost_acknowledgement": "replay_identical_prepared_event_into_r10_exactly_once_ledger"
+  },
+  "pinned_git_blobs": {
+    "r10_contract": {
+      "path": "conformance/growth.autonomous_reels.v1/contract.json",
+      "git_blob_sha1": "0a63ebece0fe8620a57e635143cc3ea16d095f59"
+    },
+    "implementation": {
+      "path": "growth_analytics/provider_ingest.py",
+      "git_blob_sha1": "3fde5ed6fbae9356cc232613a8a81ea442c74315"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "cc449fcc8757e56dcadf4abbcaec05fc6ae12bc2"
+    },
+    "tests": {
+      "path": "tests/test_provider_ingest_r11.py",
+      "git_blob_sha1": "61086c97c30ea19215a5278a61ce5f9210ccb35e"
+    },
+    "documentation": {
+      "path": "docs/PROVIDER_METRICS_INGESTION_V1.md",
+      "git_blob_sha1": "25cdddffe75f2c8fb7cc164f566427c002cedf74"
+    },
+    "ci_workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "12ec603b75a691330e9bc0b06c0dca484d768b78"
+    },
+    "instagram_fixture": {
+      "path": "fixtures/provider_ingest_v1/instagram_reels.json",
+      "git_blob_sha1": "9c411453e66a59d0388a142a4b874348f4d0f1d8"
+    },
+    "tiktok_fixture": {
+      "path": "fixtures/provider_ingest_v1/tiktok.json",
+      "git_blob_sha1": "3e5fe2212ab8b120209bd73abf509bf9eab188b8"
+    },
+    "youtube_fixture": {
+      "path": "fixtures/provider_ingest_v1/youtube_shorts.json",
+      "git_blob_sha1": "95bb85583cbed8e7d04d54d71c13d7b75fa53ef9"
+    },
+    "replay_report": {
+      "path": "fixtures/provider_ingest_v1/replay_report.json",
+      "git_blob_sha1": "b60df5539416caa9f1ba72adacf6c37f4aeadde2"
+    }
+  },
+  "manifest_self": {
+    "rule": "report exact Git blob SHA-1 from committed tree; self-hash is not recursively embedded"
+  }
+}
