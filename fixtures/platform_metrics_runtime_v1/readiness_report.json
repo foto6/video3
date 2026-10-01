@@ -1,0 +1,239 @@
+{
+  "report_version": "growth.platform_metrics_readiness.r17.v1",
+  "verified_at": "2026-10-01",
+  "repository": "foto6/video3",
+  "starting_head": "cb50a3d78a18e6db1ebef1be69fdf11ff2e27385",
+  "verification_policy": {
+    "official_sources_checked_before_adapter_implementation": true,
+    "live_account_probe_performed": false,
+    "reason_live_probe_not_performed": "No credentials are committed or available to CI; production capability is conditional on account authorization and API/app permissions.",
+    "unsupported_metrics_are_zero": false,
+    "unsupported_metrics_are_unavailable_evidence": true
+  },
+  "platforms": {
+    "instagram_reels": {
+      "runtime_status": "production_capable_conditional",
+      "api_family": "Instagram Platform media insights",
+      "api_version": "v26.0",
+      "read_only_endpoint": "GET /{ig-media-id}/insights",
+      "official_sources": [
+        {
+          "url": "https://www.postman.com/meta/instagram/overview",
+          "owner": "Meta",
+          "source_kind": "official_api_workspace",
+          "observed_current_at": "2026-09-18",
+          "verified_at": "2026-10-01",
+          "note": "Official Instagram API workspace states the API supports professional accounts and gathering insights."
+        },
+        {
+          "url": "https://developers.facebook.com/docs/graph-api/changelog/",
+          "owner": "Meta",
+          "source_kind": "official_changelog",
+          "verified_at": "2026-10-01",
+          "note": "Current Graph API line is v26.0, released 2026-07-29; v20.0 was removed 2026-09-24."
+        },
+        {
+          "url": "https://developers.facebook.com/docs/instagram-platform/reference/instagram-media/insights",
+          "owner": "Meta",
+          "source_kind": "official_reference",
+          "verified_at": "2026-10-01",
+          "note": "Canonical media-insights reference. Automated retrieval is blocked in this environment, so runtime uses capability probing and fails closed per metric rather than assuming every listed metric exists for every login path/account/media."
+        }
+      ],
+      "authorization": {
+        "instagram_login": [
+          "instagram_business_basic",
+          "instagram_business_manage_insights"
+        ],
+        "facebook_login": [
+          "instagram_basic",
+          "instagram_manage_insights",
+          "pages_read_engagement"
+        ],
+        "professional_account_required": true
+      },
+      "normalized_when_exposed": [
+        "views",
+        "likes",
+        "comments",
+        "shares",
+        "saves",
+        "watch_time_seconds",
+        "average_watch_duration_seconds"
+      ],
+      "provider_observed_not_in_growth_v1_boundary": [
+        "reach",
+        "total_interactions"
+      ],
+      "explicitly_unavailable_or_conditional": {
+        "impressions": "Deprecated/removed from current media-insights path; views is not treated as the same metric.",
+        "completed_views": "No direct completed-view count is assumed.",
+        "completion_rate": "Not synthesized.",
+        "retention_points": "No current per-reel retention curve is normalized by this adapter.",
+        "follows": "Per-reel follows availability varies by login path/media and is not assumed.",
+        "link_clicks": "Not a Reel metric in this adapter."
+      },
+      "production_blockers": [
+        "Meta app/account authorization and required insight permissions",
+        "Business or Creator professional account",
+        "Metric availability varies by login flow, media age/type and account eligibility"
+      ]
+    },
+    "tiktok": {
+      "runtime_status": "production_capable_conditional",
+      "api_family": "TikTok Content Display API v2",
+      "read_only_endpoint": "POST /v2/video/query/",
+      "official_sources": [
+        {
+          "url": "https://developers.tiktok.com/docs/en/tiktok-api-v2-video-query",
+          "owner": "TikTok",
+          "source_kind": "official_reference",
+          "last_updated": "2026-08-24",
+          "verified_at": "2026-10-01",
+          "note": "Query Videos verifies IDs belong to the authorized user, supports up to 20 IDs and requires video.list."
+        },
+        {
+          "url": "https://developers.tiktok.com/docs/en/tiktok-api-v2-video-object",
+          "owner": "TikTok",
+          "source_kind": "official_reference",
+          "last_updated": "2026-08-24",
+          "verified_at": "2026-10-01",
+          "note": "Current Content Display Video Object exposes view_count, like_count, comment_count and share_count."
+        },
+        {
+          "url": "https://developers.tiktok.com/docs/en/oauth-user-access-token-management",
+          "owner": "TikTok",
+          "source_kind": "official_auth_reference",
+          "last_updated": "2026-08-04",
+          "verified_at": "2026-10-01",
+          "note": "User access token is 24h; refresh token is 365d. Tokens remain external to Growth durable evidence."
+        }
+      ],
+      "authorization": {
+        "required_scope": "video.list",
+        "user_authorization_required": true,
+        "public_owned_videos_only": true
+      },
+      "normalized_when_exposed": [
+        "views",
+        "likes",
+        "comments",
+        "shares"
+      ],
+      "explicitly_unavailable_or_conditional": {
+        "impressions": "Not exposed by Content Display Video Object.",
+        "watch_time_seconds": "Not exposed by Content Display Video Object.",
+        "average_watch_duration_seconds": "Not exposed by Content Display Video Object.",
+        "completed_views": "Not exposed by Content Display Video Object.",
+        "completion_rate": "Not exposed by Content Display Video Object.",
+        "retention_points": "Not exposed by Content Display Video Object.",
+        "saves": "Favorites/saves are not exposed by the current Content Display Video Object.",
+        "follows": "Per-video follower conversion is not exposed.",
+        "link_clicks": "Not exposed."
+      },
+      "production_blockers": [
+        "TikTok app approval for video.list",
+        "User must authorize video.list",
+        "Video must belong to the authorized user and be publicly queryable"
+      ]
+    },
+    "youtube_shorts": {
+      "runtime_status": "production_capable_conditional",
+      "api_family": "YouTube Data API v3 plus YouTube Analytics API v2",
+      "read_only_endpoints": [
+        "GET /youtube/v3/videos?part=statistics&id={video_id}",
+        "GET https://youtubeanalytics.googleapis.com/v2/reports"
+      ],
+      "official_sources": [
+        {
+          "url": "https://developers.google.com/youtube/v3/docs/videos",
+          "owner": "Google",
+          "source_kind": "official_reference",
+          "verified_at": "2026-10-01",
+          "note": "Video statistics exposes viewCount, likeCount and commentCount. Starting 2026-08-24, viewCount for all formats including Shorts counts when playback begins, including autoplay/hover/click/tap."
+        },
+        {
+          "url": "https://developers.google.com/youtube/analytics/metrics",
+          "owner": "Google",
+          "source_kind": "official_reference",
+          "verified_at": "2026-10-01",
+          "note": "Current core metrics include engagedViews, views, estimatedMinutesWatched, averageViewDuration, likes, comments, shares and subscribersGained."
+        },
+        {
+          "url": "https://developers.google.com/youtube/analytics/reference/reports/query",
+          "owner": "Google",
+          "source_kind": "official_reference",
+          "verified_at": "2026-10-01",
+          "note": "reports.query is authorized, supports video filters, and currently requires youtube.readonly access; yt-analytics.readonly grants analytics report access."
+        }
+      ],
+      "authorization": {
+        "base_scope": "https://www.googleapis.com/auth/youtube.readonly",
+        "analytics_scope": "https://www.googleapis.com/auth/yt-analytics.readonly",
+        "base_counts_without_analytics_scope": true
+      },
+      "normalized_when_exposed": [
+        "views",
+        "likes",
+        "comments",
+        "shares",
+        "follows",
+        "watch_time_seconds",
+        "average_watch_duration_seconds"
+      ],
+      "provider_observed_not_in_growth_v1_boundary": [
+        "engagedViews"
+      ],
+      "explicitly_unavailable_or_conditional": {
+        "watch_time_seconds": "Requires analytics authorization and data availability.",
+        "average_watch_duration_seconds": "Requires analytics authorization and data availability.",
+        "shares": "Requires analytics authorization and data availability.",
+        "follows": "Mapped from subscribersGained when analytics authorization/data are available.",
+        "completed_views": "No direct completed-view count is assumed.",
+        "completion_rate": "Not synthesized.",
+        "retention_points": "A separate audience-retention report shape is not normalized in R17.",
+        "saves": "No selected API metric maps to Growth saves.",
+        "link_clicks": "No selected API metric maps to post link clicks."
+      },
+      "production_blockers": [
+        "OAuth consent and youtube.readonly",
+        "yt-analytics.readonly for watch/share/subscriber analytics",
+        "Analytics data can lag Data API counters"
+      ]
+    }
+  },
+  "runtime_semantics": {
+    "credential_storage": "external resolver only",
+    "durable_identity": [
+      "opaque credential_ref_id",
+      "authorization_lineage",
+      "provider account id",
+      "provider post id",
+      "optional provider post URL",
+      "publish_result digest",
+      "provider receipt digest",
+      "Media render SHA-256"
+    ],
+    "http_error_classification": {
+      "401": "authorization_expired_or_revoked",
+      "403": "permission_denied unless provider quota reason",
+      "404": "post_deleted_or_unavailable",
+      "429": "bounded retry using Retry-After",
+      "5xx": "temporary provider outage with bounded backoff"
+    },
+    "partial_metrics": "available metrics are normalized; omitted/unsupported metrics remain null with unavailable_evidence",
+    "counter_revisions": "higher provider capture revisions may legitimately change counters; older revisions are rejected as stale",
+    "clock_skew": "collections fail into bounded temporary retry when local clock is materially behind the requested window",
+    "synthetic_live_separation": "mock_fixture becomes synthetic_fixture and can never claim live platform performance"
+  },
+  "invariants": {
+    "read_only": true,
+    "provider_mutation": false,
+    "posting": false,
+    "deleting": false,
+    "editing": false,
+    "captcha_or_2fa_automation": false,
+    "credentials_in_git_or_durable_evidence": false,
+    "unknown_live_lineage_allowed": false
+  }
+}

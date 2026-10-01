@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable, Mapping, Protocol, Sequence
@@ -57,6 +57,18 @@ class BackoffActive(ProviderIngestError):
     def __init__(self, not_before: str) -> None:
         super().__init__(f"provider backoff active until {not_before}")
         self.not_before = not_before
+
+
+class ProviderAuthenticationError(ProviderIngestError):
+    pass
+
+
+class ProviderPermissionDenied(ProviderIngestError):
+    pass
+
+
+class ProviderPostUnavailable(ProviderIngestError):
+    pass
 
 
 class ProviderRateLimited(ProviderIngestError):
@@ -165,6 +177,9 @@ class ProviderMetricsPage:
     content_digest: str
     evidence_origin: str
     fixture_source_sha256: str | None
+    unavailable_evidence: Mapping[str, str] = field(
+        default_factory=dict
+    )
 
     @property
     def source_identity(self) -> str:
@@ -442,6 +457,23 @@ class _MappedReadOnlyAdapter(ReadOnlyProviderBase):
             "complete": raw["complete"],
             "metrics": dict(provider_metrics),
         })
+        unavailable_raw = raw.get("unavailable_evidence", {})
+        if not isinstance(unavailable_raw, Mapping):
+            raise ProviderContractError(
+                "unavailable_evidence must be a mapping when supplied"
+            )
+        unavailable: dict[str, str] = {}
+        for name in OPTIONAL_METRICS:
+            if normalized[name] is not None:
+                continue
+            reason = unavailable_raw.get(name)
+            if reason is None:
+                reason = "provider_response_omitted_metric"
+            if not isinstance(reason, str) or not reason or len(reason) > 240:
+                raise ProviderContractError(
+                    f"unavailable_evidence.{name} must be bounded text"
+                )
+            unavailable[name] = reason
         return ProviderMetricsPage(
             platform=self.platform,
             provider_export_id=provider_export_id,
@@ -458,6 +490,7 @@ class _MappedReadOnlyAdapter(ReadOnlyProviderBase):
             content_digest=content_digest,
             evidence_origin=self.client.evidence_origin,
             fixture_source_sha256=self.client.fixture_source_sha256,
+            unavailable_evidence=unavailable,
         )
 
     @staticmethod
@@ -489,6 +522,7 @@ class InstagramReelsMetricsAdapter(_MappedReadOnlyAdapter):
     ) -> dict[str, Any]:
         out = self._empty_metrics()
         for provider_name, normalized_name in (
+            ("views", "views"),
             ("plays", "views"),
             ("likes", "likes"),
             ("comments", "comments"),
@@ -505,19 +539,27 @@ class InstagramReelsMetricsAdapter(_MappedReadOnlyAdapter):
                 normalized_name,
                 _int_metric,
             )
-        if metrics.get("total_watch_time_ms") is not None:
+        total_watch_ms = metrics.get("total_watch_time_ms")
+        if total_watch_ms is None:
+            total_watch_ms = metrics.get(
+                "ig_reels_video_view_total_time"
+            )
+        if total_watch_ms is not None:
             out["watch_time_seconds"] = round(
                 _number_metric(
-                    metrics["total_watch_time_ms"],
-                    "total_watch_time_ms",
+                    total_watch_ms,
+                    "instagram_total_watch_time_ms",
                 ) / 1000.0,
                 8,
             )
-        if metrics.get("average_watch_time_ms") is not None:
+        average_watch_ms = metrics.get("average_watch_time_ms")
+        if average_watch_ms is None:
+            average_watch_ms = metrics.get("ig_reels_avg_watch_time")
+        if average_watch_ms is not None:
             out["average_watch_duration_seconds"] = round(
                 _number_metric(
-                    metrics["average_watch_time_ms"],
-                    "average_watch_time_ms",
+                    average_watch_ms,
+                    "instagram_average_watch_time_ms",
                 ) / 1000.0,
                 8,
             )
@@ -567,9 +609,13 @@ class TikTokMetricsAdapter(_MappedReadOnlyAdapter):
     ) -> dict[str, Any]:
         out = self._empty_metrics()
         for provider_name, normalized_name in (
+            ("view_count", "views"),
             ("video_views", "views"),
+            ("like_count", "likes"),
             ("likes", "likes"),
+            ("comment_count", "comments"),
             ("comments", "comments"),
+            ("share_count", "shares"),
             ("shares", "shares"),
             ("profile_follows", "follows"),
         ):
@@ -814,6 +860,8 @@ class ProviderIngestLedger:
             "evidence_origin": page.evidence_origin,
             "fixture_source_sha256":
                 page.fixture_source_sha256,
+            "unavailable_evidence":
+                dict(page.unavailable_evidence),
         }
         self._append("page", request.ingest_key, payload)
         return "duplicate_content" if duplicate_of else "accepted"
@@ -971,6 +1019,32 @@ class ProviderIngestLedger:
             ):
                 return row["payload"]
         return None
+
+    def latest_page_for_post(
+        self,
+        *,
+        platform: str,
+        account_id: str,
+        post_id: str,
+    ) -> dict[str, Any] | None:
+        latest: dict[str, Any] | None = None
+        for row in self._rows:
+            if row["event_type"] != "page":
+                continue
+            begin = self._begin_for(row["ingest_key"])
+            if begin is None:
+                continue
+            if (
+                begin["platform"] == platform
+                and begin["account_id"] == account_id
+                and begin["post_id"] == post_id
+            ):
+                latest = row["payload"]
+        return (
+            None
+            if latest is None
+            else json.loads(canonical_json(latest))
+        )
 
     @property
     def row_count(self) -> int:

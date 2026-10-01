@@ -23,7 +23,10 @@ from .provider_ingest import (
     BackoffActive,
     CredentialReference,
     ProviderContractError,
+    ProviderAuthenticationError,
     ProviderIngestError,
+    ProviderPermissionDenied,
+    ProviderPostUnavailable,
     ProviderIngestLedger,
     ProviderLedgerConflictError,
     ProviderMetricsAdapter,
@@ -685,6 +688,24 @@ class DurableMetricsCollectionScheduler:
                 provider_not_before=parse_timestamp(
                     exc.not_before
                 ),
+            )
+        except ProviderAuthenticationError:
+            return self._terminal_failure(
+                state,
+                now,
+                "authorization_expired_or_revoked",
+            )
+        except ProviderPermissionDenied:
+            return self._terminal_failure(
+                state,
+                now,
+                "provider_permission_denied",
+            )
+        except ProviderPostUnavailable:
+            return self._terminal_failure(
+                state,
+                now,
+                "provider_post_deleted_or_unavailable",
             )
         except StaleProviderRevision:
             return self._retry(

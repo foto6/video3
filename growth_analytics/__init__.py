@@ -371,6 +371,31 @@ from .critic_export import (
     write_critic_export,
 )
 
+from .platform_metrics_runtime import (
+    PLATFORM_METRICS_READINESS_VERSION,
+    PLATFORM_METRICS_RUNTIME_LEDGER_VERSION,
+    PLATFORM_METRICS_RUNTIME_VERSION,
+    CredentialResolutionError,
+    CredentialResolver,
+    HttpResponse,
+    InstagramLiveMetricsClient,
+    LiveLineageError,
+    PlatformMetricsRuntimeError,
+    PlatformMetricsRuntimeLedger,
+    ProductionPlatformMetricsRuntime,
+    ProviderTransientError,
+    ReadOnlyHttpTransport,
+    ResolvedProviderCredential,
+    TikTokLiveMetricsClient,
+    UrllibReadOnlyTransport,
+    YouTubeLiveMetricsClient,
+    build_live_adapters,
+)
+from .platform_metrics_replay import (
+    REPLAY_VERSION as PLATFORM_METRICS_REPLAY_VERSION,
+    run_sandbox_replay,
+)
+
 from .experiment import (
     ExperimentLifecycleError,
     ExperimentStatus,
@@ -384,6 +409,26 @@ from .experiment import (
 
 __all__ = [
     "AccountMutationDisabled",
+    "PLATFORM_METRICS_READINESS_VERSION",
+    "PLATFORM_METRICS_RUNTIME_LEDGER_VERSION",
+    "PLATFORM_METRICS_RUNTIME_VERSION",
+    "CredentialResolutionError",
+    "CredentialResolver",
+    "HttpResponse",
+    "InstagramLiveMetricsClient",
+    "LiveLineageError",
+    "PlatformMetricsRuntimeError",
+    "PlatformMetricsRuntimeLedger",
+    "ProductionPlatformMetricsRuntime",
+    "ProviderTransientError",
+    "ReadOnlyHttpTransport",
+    "ResolvedProviderCredential",
+    "TikTokLiveMetricsClient",
+    "UrllibReadOnlyTransport",
+    "YouTubeLiveMetricsClient",
+    "build_live_adapters",
+    "PLATFORM_METRICS_REPLAY_VERSION",
+    "run_sandbox_replay",
     "BENCHMARK_AUTHORITY_COMMIT",
     "BENCHMARK_AUTHORITY_REPOSITORY",
     "BENCHMARK_DIMENSION_MAP",
