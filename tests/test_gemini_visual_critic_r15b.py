@@ -937,8 +937,7 @@ class GrowthR15BGeminiNativeVideoTests(unittest.TestCase):
             / "visual_critic_r15b"
             / "replay_report.json"
         )
-        if not replay.exists():
-            self.skipTest("R15B replay pinned in final commit")
+        self.assertTrue(replay.exists())
         data = json.loads(replay.read_text(encoding="utf-8"))
         self.assertEqual(
             data["human_benchmark_readiness"],

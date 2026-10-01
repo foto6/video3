@@ -1,0 +1,49 @@
+{
+  "report_version": "growth.visual_critic_gemini_replay.r15b.v1",
+  "seed": "growth-r15b-gemini-native-video-20261001",
+  "starting_head": "c881932dd90f14d4fd0a090d1809192873e95177",
+  "intermediate_ci": {
+    "run_id": 36808413030,
+    "head_sha": "524295fc04d99f529df19c2a33a1ef75eb22f342",
+    "conclusion": "success",
+    "focused_r15b_tests": 12,
+    "focused_skipped_before_fixture_pin": 1,
+    "full_tests": 213
+  },
+  "native_video": {
+    "provider": "google_gemini",
+    "enabled_only_with_explicit_gemini_api_key": true,
+    "model_configurable_via": "GEMINI_MODEL",
+    "default_model": "gemini-3.8-flash",
+    "files_api_upload": true,
+    "interactions_native_video_part": true,
+    "compact_context_excludes_primary_contact_sheet_judging": true,
+    "ffprobe_duration_validation": true,
+    "bounded_upload_retries_timeouts_polling": true,
+    "cleanup_after_success_or_failure": true,
+    "credential_material_in_artifacts": false
+  },
+  "pairwise_fixture": {
+    "structural_tie_before_gemini": true,
+    "blind_selection": "candidate_1",
+    "mapped_selection": "B",
+    "final_selection": "B",
+    "gemini_confidence": 0.91,
+    "evidence_strength": "sufficient",
+    "weak_case_structural": "insufficient_evidence",
+    "weak_case_final": "insufficient_evidence",
+    "weak_case_confidence": 0.2
+  },
+  "human_benchmark_readiness": "HUMAN_LEVEL_UNPROVEN",
+  "human_labels": 0,
+  "agreement_metrics": null,
+  "credentials_committed": false,
+  "authority": {
+    "advisory_only": true,
+    "publish": false,
+    "provider_mutation": false,
+    "media_mutation": false,
+    "creator_mutation": false,
+    "merge_release": false
+  }
+}

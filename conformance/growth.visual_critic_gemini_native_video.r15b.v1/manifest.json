@@ -1,0 +1,137 @@
+{
+  "manifest_version": "growth.visual_critic_gemini_native_video_conformance.r15b.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r15-visual-critic-20261001",
+    "r15b_starting_commit": "c881932dd90f14d4fd0a090d1809192873e95177"
+  },
+  "contracts": {
+    "base_critic": "growth.visual_critic.r15.v1",
+    "gemini_native_video_critic": "growth.visual_critic_gemini_native_video.r15b.v1",
+    "gemini_pairwise": "growth.visual_critic_gemini_native_video_pairwise.r15b.v1",
+    "base_vlm_observation": "growth.visual_critic_vlm_observation.v1"
+  },
+  "enablement": {
+    "live_disabled_by_default": true,
+    "required_environment": "GEMINI_API_KEY",
+    "model_environment": "GEMINI_MODEL",
+    "processing_mode_environment": "GEMINI_VIDEO_MODE",
+    "static_fps_environment": "GEMINI_VIDEO_FPS",
+    "ci_transport": "fake_only"
+  },
+  "native_video": {
+    "actual_mp4_required": true,
+    "render_sha256_must_match_file_bytes": true,
+    "ffprobe_duration_must_match_input": true,
+    "files_api_upload": true,
+    "interactions_video_part": true,
+    "primary_judging_text_only": false,
+    "primary_judging_contact_sheet_only": false,
+    "compact_grounding_context": [
+      "source_semantic_timeline",
+      "cuts",
+      "captions",
+      "overlays",
+      "audio_probe",
+      "media_qa"
+    ]
+  },
+  "structured_output": {
+    "all_r15_dimensions_required": true,
+    "timecode_required_per_dimension": true,
+    "timestamp_validated_against_ffprobe_duration": true,
+    "malformed_output": "fail_closed",
+    "vlm_human_ground_truth": false
+  },
+  "pairwise": {
+    "blinded_labels": ["candidate_1", "candidate_2"],
+    "order_seed": "sha256(structural_comparison_digest)",
+    "mapping_to_a_b": "after_model_output_validation_only",
+    "generic_upload_display_name": "native-video.mp4",
+    "strong_fixture_structural_before": "tie",
+    "strong_fixture_gemini_mapped": "B",
+    "strong_fixture_final": "B",
+    "weak_fixture_structural_before": "insufficient_evidence",
+    "weak_fixture_final": "insufficient_evidence"
+  },
+  "reliability": {
+    "default_max_upload_bytes": 104857600,
+    "default_max_retries": 2,
+    "default_request_timeout_seconds": 75.0,
+    "default_upload_timeout_seconds": 75.0,
+    "default_max_poll_attempts": 45,
+    "default_ffprobe_timeout_seconds": 8.0,
+    "uploaded_file_cleanup": "finally",
+    "credentials_in_report_or_fixture": false
+  },
+  "human_benchmark": {
+    "readiness": "HUMAN_LEVEL_UNPROVEN",
+    "fixture_human_labels": 0,
+    "fixture_agreement_metrics": null,
+    "gemini_preference_is_human_label": false
+  },
+  "authority": {
+    "advisory_only": true,
+    "publish": false,
+    "provider_mutation": false,
+    "media_mutation": false,
+    "creator_mutation": false,
+    "release_authorized": false
+  },
+  "pinned_provenance": {
+    "r15_commit": "c881932dd90f14d4fd0a090d1809192873e95177",
+    "r15_manifest": {
+      "path": "conformance/growth.visual_critic.r15.v1/manifest.json",
+      "git_blob_sha1": "20ba04c5d6cbcdce36099d62caeb74760eb85250"
+    },
+    "r15_fixture_pack": {
+      "path": "fixtures/visual_critic_r15/fixture_pack.json",
+      "git_blob_sha1": "c5d52eac7301a2363a911234685568bbb0d31a53"
+    }
+  },
+  "pinned_r15b_blobs": {
+    "transport": {
+      "path": "growth_analytics/gemini_transport.py",
+      "git_blob_sha1": "9ec13a0a5801e5df6d01a7ba9733555e1ab21aaa"
+    },
+    "single_critic": {
+      "path": "growth_analytics/gemini_visual_critic.py",
+      "git_blob_sha1": "02839697daf8c13e0122fce349c85c0323ae8ce6"
+    },
+    "pairwise": {
+      "path": "growth_analytics/gemini_pairwise.py",
+      "git_blob_sha1": "e9257467aa10e15b57a0b0547d3a220af4c0e04e"
+    },
+    "live_smoke": {
+      "path": "growth_analytics/gemini_visual_critic_smoke.py",
+      "git_blob_sha1": "15fbccb0de3cfa4a39698a4c28f1ea189ca69ad7"
+    },
+    "tests": {
+      "path": "tests/test_gemini_visual_critic_r15b.py",
+      "git_blob_sha1": "3ebf772109da79041d2d9939859285f231ca17c5"
+    },
+    "documentation": {
+      "path": "docs/GEMINI_NATIVE_VIDEO_CRITIC_R15B.md",
+      "git_blob_sha1": "8504a71620bba5c73a26c2ea414ee782b0a6a3bd"
+    },
+    "pairwise_fixture": {
+      "path": "fixtures/visual_critic_r15b/pairwise_fixture.json",
+      "git_blob_sha1": "9868c381438526c82242ab3c6fdf67b054962cbf"
+    },
+    "replay_report": {
+      "path": "fixtures/visual_critic_r15b/replay_report.json",
+      "git_blob_sha1": "568c183ba3427074758b10aa10d50a1cae8ff5d0"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "5e499e82f940eddaeef5364ce02b13bdc6264d32"
+    },
+    "ci_workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "10bb60d64e25a00530c3735d25475bce82f6c5d4"
+    }
+  },
+  "manifest_self": {
+    "rule": "report exact committed Git blob SHA-1 separately; self-hash is not recursively embedded"
+  }
+}
