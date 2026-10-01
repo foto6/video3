@@ -1,0 +1,171 @@
+{
+  "manifest_version": "growth.real_artifact_decision_conformance.r21.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r21-real-artifact-decision-20261001",
+    "r21_starting_commit": "65ddf2aadfdb1eb8d3d7f3590331c1a5ea0b44bd",
+    "validated_candidate_commit": "222b2e07d6709606fe502b3de109aa534104619f"
+  },
+  "contracts": {
+    "real_artifact_pack": "growth.real_artifact_decision_pack.v1",
+    "verification": "growth.real_artifact_verification.r21.v1",
+    "ledger": "growth.real_artifact_decision_ledger.r21.v1",
+    "critic_export": "growth.critic_export.v1",
+    "candidate_decision": "growth.candidate_decision.v1",
+    "closed_loop_feedback": "growth.closed_loop_feedback.v1"
+  },
+  "media_authority": {
+    "repository": "foto6/video2",
+    "producer_sha": "231a0680c8939cfec77aaa283e507e93f383ad73",
+    "exact_head_ci": 36865890506,
+    "artifact_id": 11163920921,
+    "artifact_name": "media-r16-candidate-batch-demo",
+    "archive_sha256": "d929b592c76ec93e41b54701376f4b02366a3bdbd127d3472d73ae277d450d0f"
+  },
+  "exact_source": {
+    "source_id": "r16-demo-source",
+    "sha256": "7b484abef5de1569e1b7f91a5d780f17c6d687ef68b3c42c9e54375f4e5e434b",
+    "size": 763377
+  },
+  "exact_candidate_refs": [
+    {
+      "candidate_id": "candidate-1",
+      "render_sha256": "3bd12d999264cb932cb3ef15dfbd96e002ede517f2273795b593553b9642d864",
+      "render_size": 575465,
+      "render_export_sha256": "2b5177c00bb054184a239c7eddb1383ad253922e8eb686f5aa2e56c91a1335ac",
+      "critic_report_digest": "53d2bdf94b6ea1a75fbd30e49643d6a866561c1ea30f884ee240f3198f43861a",
+      "critic_export_digest": "a4fa1ad415d86848d6df5a85372bee15927749f593fd3fac2b04e56689f7bade"
+    },
+    {
+      "candidate_id": "candidate-2",
+      "render_sha256": "cdae63d5ccce67332e607af7fd87b18c31da8dc77c2f0ce5182550321767286c",
+      "render_size": 576763,
+      "render_export_sha256": "b349b897f8f86bc9257e2622f564d6430f3864ff605ae4b82ba0cb09c59298f6",
+      "critic_report_digest": "a84bc471420bdcf33846ab688188e64e8b33e194cae9305e7f21610332f32116",
+      "critic_export_digest": "1fff31640c5c1794fe3784b06cbc2eebd4d71cbae857fe7f52b19ed44d445587"
+    },
+    {
+      "candidate_id": "candidate-3",
+      "render_sha256": "3bd12d999264cb932cb3ef15dfbd96e002ede517f2273795b593553b9642d864",
+      "render_size": 575465,
+      "render_export_sha256": "26fe61f0644e263ce047869334ba65c5973eba809ff45f76286490f573d61b8e",
+      "critic_report_digest": "ede4665db66899b242d60efcc7acd51fead6326580e9423fe3f0d934f87bdd0a",
+      "critic_export_digest": "2839ba704807aaa4824bd7aa50b15a4cda3be1d92cac7690d4d1da3d80e24aa7",
+      "duplicate_of_candidate_id": "candidate-1"
+    }
+  ],
+  "distinct_render_semantics": {
+    "r18_representatives": [
+      "candidate-1",
+      "candidate-2"
+    ],
+    "duplicate_aliases": {
+      "candidate-3": "candidate-1"
+    },
+    "reason": "R18 rejects duplicate render hashes; all three Media candidates remain visible in the R21 pack."
+  },
+  "decision_evidence": {
+    "decision_digest": "5f577349d028198d48bb74e27ea808d183d35fba5874eca9e92c845b9bb6b36e",
+    "decision_revision": 1,
+    "decision": "insufficient_evidence",
+    "reason": "too_few_comparable_rule_dimensions",
+    "winner_candidate_id": null,
+    "targeted_reedit_guidance_count": 0
+  },
+  "feedback_evidence": {
+    "bundle_digest": "7fea726ef1ae1741adfcfc30644d707ba365c759d92cb905475dce5239f26e0c",
+    "bundle_revision": 1,
+    "r19_learning": null
+  },
+  "evidence_boundaries": {
+    "objective_media_qa": true,
+    "production_vlm": false,
+    "human_labels": false,
+    "human_ground_truth": false,
+    "live_platform_metrics": false,
+    "synthetic_metrics_as_live": false
+  },
+  "source_bound_upstreams": {
+    "r15_visual_critic_manifest_blob_sha1": "20ba04c5d6cbcdce36099d62caeb74760eb85250",
+    "r15b_gemini_manifest_blob_sha1": "dd7c2fdcc9962fd5d5bb46ed2ff743c72b95fcab",
+    "r16_critic_export_manifest_blob_sha1": "8f76d27c893658b3838eb2dcbe696a926a60dab3",
+    "r18_candidate_decision_manifest_blob_sha1": "05e778e7a67556b66cb407e2c65a2f7bb391dbab",
+    "r20_closed_loop_feedback_manifest_blob_sha1": "5499a041b6895c479de195d4d3bf9f17fd15a091"
+  },
+  "candidate_validation": {
+    "run_id": 36876333683,
+    "head_sha": "222b2e07d6709606fe502b3de109aa534104619f",
+    "conclusion": "success",
+    "focused_r21_tests": 12,
+    "full_tests": 285,
+    "workflow_artifact": {
+      "id": 11169406955,
+      "name": "growth-r21-real-artifact-decision",
+      "size_in_bytes": 14940,
+      "zip_sha256": "45a39ed43fe09f45347095134b71488299471696e57c90c8df3b67ecec8ba01e",
+      "pack_id": "gradp21:05199e5e143c92fff89043bf98410f4842cabab8adb753f1393aa81e174a5e6b",
+      "pack_digest": "e35a8337ecf5b869fabcd90ad1c99875b47e0e50fedc0873e29599175d999277"
+    }
+  },
+  "tamper_tests": [
+    "archive_digest_mismatch",
+    "candidate_hash_mismatch",
+    "wrong_render_export_hash",
+    "wrong_source",
+    "duplicate_or_missing_candidate",
+    "stale_producer_pin",
+    "model_as_human",
+    "synthetic_as_live",
+    "duplicate_revision",
+    "revision_conflict",
+    "out_of_order_revision"
+  ],
+  "pinned_r21_blobs": {
+    "implementation": {
+      "path": "growth_analytics/real_artifact_decision.py",
+      "git_blob_sha1": "74f6badd5dab8553aefc6bd5c8488de700712d97"
+    },
+    "tests": {
+      "path": "tests/test_real_artifact_decision_r21.py",
+      "git_blob_sha1": "55ca1afce59d949c06605e91fbdad1e9620bc7c7"
+    },
+    "independent_media_verification": {
+      "path": "fixtures/real_artifact_decision_r21/independent_media_r16_verification.json",
+      "git_blob_sha1": "9f126e6f3e78705c5d2c9d8e6795b9c8115ed32c"
+    },
+    "readiness": {
+      "path": "fixtures/real_artifact_decision_r21/readiness_report.json",
+      "git_blob_sha1": "2a0ec5ab17b04444340dc9215cfc43f9793822c8"
+    },
+    "docs": {
+      "path": "docs/REAL_ARTIFACT_DECISION_R21.md",
+      "git_blob_sha1": "30ed17e558c91137c1361dee685692aab24b75fe"
+    },
+    "schema": {
+      "path": "conformance/growth.real_artifact_decision_pack.v1/schema.json",
+      "git_blob_sha1": "07e32c4fdd81b59b1090a0b28a7be9560a338dba"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "0dddab8573ae08fb1be69831226b935b2433d006"
+    },
+    "workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "5e5baf72537ca427765c0768b807abaa98d9fb40"
+    }
+  },
+  "authority": {
+    "advisory_only": true,
+    "provider_mutation": false,
+    "live_publish": false,
+    "credentials": false,
+    "creator_mutation": false,
+    "media_mutation": false,
+    "cross_repo_mutation": false,
+    "fake_human_ratings": false,
+    "merge_release": false
+  },
+  "manifest_self": {
+    "rule": "The exact committed manifest blob SHA-1 is reported externally; the manifest does not recursively embed its own hash."
+  }
+}

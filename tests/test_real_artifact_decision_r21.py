@@ -744,6 +744,69 @@ class GrowthR21RealArtifactDecisionTests(
             ):
                 restarted.record(changed)
 
+    def test_readiness_and_conformance_pin_real_candidate_evidence(self):
+        readiness = json.loads(
+            (
+                self.root
+                / "fixtures"
+                / "real_artifact_decision_r21"
+                / "readiness_report.json"
+            ).read_text(encoding="utf-8")
+        )
+        manifest = json.loads(
+            (
+                self.root
+                / "conformance"
+                / "growth.real_artifact_decision_pack.v1"
+                / "manifest.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual(
+            readiness["media_authority"]["archive_sha256"],
+            MEDIA_ARCHIVE_SHA256,
+        )
+        self.assertEqual(
+            readiness["validated_candidate_ci"]["run_id"],
+            36876333683,
+        )
+        self.assertEqual(
+            readiness["candidate_workflow_artifact"]["artifact_id"],
+            11169406955,
+        )
+        self.assertEqual(
+            readiness["decision"]["decision"],
+            "insufficient_evidence",
+        )
+        self.assertIsNone(
+            readiness["decision"]["winner_candidate_id"]
+        )
+        self.assertFalse(
+            readiness["evidence_separation"]["human_ground_truth"]
+        )
+        self.assertFalse(
+            readiness["evidence_separation"]["synthetic_metrics_as_live"]
+        )
+        self.assertEqual(
+            manifest["media_authority"]["producer_sha"],
+            MEDIA_PRODUCER_SHA,
+        )
+        self.assertEqual(
+            manifest["exact_source"]["sha256"],
+            MEDIA_SOURCE_SHA256,
+        )
+        self.assertEqual(
+            manifest["decision_evidence"]["decision_digest"],
+            "5f577349d028198d48bb74e27ea808d183d35fba5874eca9e92c845b9bb6b36e",
+        )
+        self.assertEqual(
+            manifest["candidate_validation"]["workflow_artifact"]["zip_sha256"],
+            "45a39ed43fe09f45347095134b71488299471696e57c90c8df3b67ecec8ba01e",
+        )
+        self.assertEqual(
+            manifest["distinct_render_semantics"]["duplicate_aliases"],
+            {"candidate-3": "candidate-1"},
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

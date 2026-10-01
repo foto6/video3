@@ -1,73 +1,117 @@
 {
   "report_version": "growth.real_artifact_decision_readiness.r21.v1",
   "contract_version": "growth.real_artifact_decision_pack.v1",
+  "verification_version": "growth.real_artifact_verification.r21.v1",
   "repository": "foto6/video3",
   "branch": "agent/growth-r21-real-artifact-decision-20261001",
   "starting_head": "65ddf2aadfdb1eb8d3d7f3590331c1a5ea0b44bd",
+  "validated_candidate_head": "222b2e07d6709606fe502b3de109aa534104619f",
+  "validated_candidate_ci": {
+    "run_id": 36876333683,
+    "conclusion": "success",
+    "focused_r21_tests": 12,
+    "full_tests": 285
+  },
   "media_authority": {
     "repository": "foto6/video2",
     "producer_sha": "231a0680c8939cfec77aaa283e507e93f383ad73",
-    "run_id": 36865890506,
+    "exact_head_ci": 36865890506,
     "artifact_id": 11163920921,
     "artifact_name": "media-r16-candidate-batch-demo",
-    "archive_sha256": "d929b592c76ec93e41b54701376f4b02366a3bdbd127d3472d73ae277d450d0f"
+    "archive_sha256": "d929b592c76ec93e41b54701376f4b02366a3bdbd127d3472d73ae277d450d0f",
+    "downloaded_archive_size": 2459049
   },
   "source": {
     "source_id": "r16-demo-source",
     "sha256": "7b484abef5de1569e1b7f91a5d780f17c6d687ef68b3c42c9e54375f4e5e434b",
-    "size": 763377
+    "size": 763377,
+    "source_bytes_verified": true
   },
-  "independently_verified_candidate_refs": [
+  "exact_candidates": [
     {
       "candidate_id": "candidate-1",
       "render_sha256": "3bd12d999264cb932cb3ef15dfbd96e002ede517f2273795b593553b9642d864",
-      "size": 575465,
-      "render_export_sha256": "2b5177c00bb054184a239c7eddb1383ad253922e8eb686f5aa2e56c91a1335ac"
+      "render_size": 575465,
+      "render_export_sha256": "2b5177c00bb054184a239c7eddb1383ad253922e8eb686f5aa2e56c91a1335ac",
+      "critic_report_digest": "53d2bdf94b6ea1a75fbd30e49643d6a866561c1ea30f884ee240f3198f43861a",
+      "critic_export_digest": "a4fa1ad415d86848d6df5a85372bee15927749f593fd3fac2b04e56689f7bade",
+      "r18_representative": true
     },
     {
       "candidate_id": "candidate-2",
       "render_sha256": "cdae63d5ccce67332e607af7fd87b18c31da8dc77c2f0ce5182550321767286c",
-      "size": 576763,
-      "render_export_sha256": "b349b897f8f86bc9257e2622f564d6430f3864ff605ae4b82ba0cb09c59298f6"
+      "render_size": 576763,
+      "render_export_sha256": "b349b897f8f86bc9257e2622f564d6430f3864ff605ae4b82ba0cb09c59298f6",
+      "critic_report_digest": "a84bc471420bdcf33846ab688188e64e8b33e194cae9305e7f21610332f32116",
+      "critic_export_digest": "1fff31640c5c1794fe3784b06cbc2eebd4d71cbae857fe7f52b19ed44d445587",
+      "r18_representative": true
     },
     {
       "candidate_id": "candidate-3",
       "render_sha256": "3bd12d999264cb932cb3ef15dfbd96e002ede517f2273795b593553b9642d864",
-      "size": 575465,
-      "render_export_sha256": "26fe61f0644e263ce047869334ba65c5973eba809ff45f76286490f573d61b8e"
+      "render_size": 575465,
+      "render_export_sha256": "26fe61f0644e263ce047869334ba65c5973eba809ff45f76286490f573d61b8e",
+      "critic_report_digest": "ede4665db66899b242d60efcc7acd51fead6326580e9423fe3f0d934f87bdd0a",
+      "critic_export_digest": "2839ba704807aaa4824bd7aa50b15a4cda3be1d92cac7690d4d1da3d80e24aa7",
+      "r18_representative": false,
+      "duplicate_of_candidate_id": "candidate-1"
     }
   ],
-  "duplicate_render_semantics": {
-    "candidate_3_duplicate_of": "candidate-1",
-    "r18_distinct_representatives": [
-      "candidate-1",
-      "candidate-2"
-    ]
+  "decision": {
+    "contract_version": "growth.candidate_decision.v1",
+    "decision_digest": "5f577349d028198d48bb74e27ea808d183d35fba5874eca9e92c845b9bb6b36e",
+    "decision_revision": 1,
+    "decision": "insufficient_evidence",
+    "reason": "too_few_comparable_rule_dimensions",
+    "winner_candidate_id": null,
+    "targeted_reedit_guidance_count": 0
   },
-  "evidence_policy": {
-    "media_objective_qa": "real artifact evidence",
-    "production_vlm": "unavailable",
-    "human_labels": "unavailable",
-    "live_platform_metrics": "unavailable",
-    "model_output_human_ground_truth": false,
-    "synthetic_metrics_live": false,
-    "winner_must_satisfy_r18_policy": true
+  "feedback": {
+    "contract_version": "growth.closed_loop_feedback.v1",
+    "bundle_digest": "7fea726ef1ae1741adfcfc30644d707ba365c759d92cb905475dce5239f26e0c",
+    "bundle_revision": 1,
+    "post_publish_learning_present": false
   },
-  "expected_current_decision": "insufficient_evidence",
-  "workflow_artifact_required": {
-    "name": "growth-r21-real-artifact-decision",
-    "nonzero": true,
-    "bound_to_github_sha": true,
-    "bound_to_github_run_id": true
+  "evidence_separation": {
+    "objective_media_qa_present": true,
+    "production_vlm_present": false,
+    "human_labels_present": false,
+    "human_ground_truth": false,
+    "live_platform_metrics_present": false,
+    "synthetic_metrics_as_live": false
   },
+  "candidate_workflow_artifact": {
+    "run_id": 36876333683,
+    "growth_head_sha": "222b2e07d6709606fe502b3de109aa534104619f",
+    "artifact_id": 11169406955,
+    "artifact_name": "growth-r21-real-artifact-decision",
+    "artifact_size_in_bytes": 14940,
+    "artifact_zip_sha256": "45a39ed43fe09f45347095134b71488299471696e57c90c8df3b67ecec8ba01e",
+    "decision_pack_digest": "e35a8337ecf5b869fabcd90ad1c99875b47e0e50fedc0873e29599175d999277",
+    "decision_pack_id": "gradp21:05199e5e143c92fff89043bf98410f4842cabab8adb753f1393aa81e174a5e6b"
+  },
+  "tamper_coverage": [
+    "archive_digest_mismatch",
+    "candidate_hash_mismatch",
+    "render_export_hash_mismatch",
+    "wrong_source",
+    "duplicate_candidate",
+    "missing_candidate",
+    "stale_producer_pin",
+    "model_as_human",
+    "synthetic_as_live",
+    "duplicate_revision",
+    "changed_payload_same_revision",
+    "out_of_order_revision"
+  ],
   "authority": {
     "advisory_only": true,
     "provider_mutation": false,
-    "publish": false,
+    "live_publish": false,
     "credentials": false,
     "creator_mutation": false,
     "media_mutation": false,
-    "release_authorized": false,
-    "human_ratings_fabricated": false
+    "cross_repo_mutation": false,
+    "fake_human_ratings": false
   }
 }
