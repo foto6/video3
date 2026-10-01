@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.web_video_critic.v1.output",
+  "title": "Growth web-video critic output v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version","message_type","output_id","output_digest",
+    "input_id","input_digest","review_provenance","coverage",
+    "observations","whole_video_summary","creator_reedit_directives",
+    "evidence_boundary","authority"
+  ],
+  "properties": {
+    "contract_version":{"const":"growth.web_video_critic.v1"},
+    "message_type":{"const":"output"},
+    "output_id":{"type":"string","pattern":"^gvwco1:[0-9a-f]{64}$"},
+    "output_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "input_id":{"type":"string","pattern":"^gvwi1:[0-9a-f]{64}$"},
+    "input_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "review_provenance":{"type":"object"},
+    "coverage":{
+      "type":"object",
+      "required":["method","inspected_ranges","uninspected_possible","every_frame_inspected","notes"],
+      "properties":{
+        "uninspected_possible":{"const":true},
+        "every_frame_inspected":{"const":false}
+      }
+    },
+    "observations":{
+      "type":"array",
+      "items":{
+        "type":"object",
+        "required":[
+          "observation_id","scope","start_ms","end_ms","defect_category",
+          "severity","evidence","description","proposed_edit","confidence",
+          "uncertainty","evidence_kind","human_ground_truth","human_label",
+          "live_platform_evidence"
+        ],
+        "properties":{
+          "scope":{"enum":["local","whole_video"]},
+          "defect_category":{"enum":[
+            "hook_clarity","pacing_coherence","semantic_cut_correctness",
+            "subject_framing_crop_quality","broll_relevance",
+            "caption_readability_emphasis_relevance","visual_continuity",
+            "motion_zoom_appropriateness","audio_voice_music_balance",
+            "payoff_cta_loop_coherence","awkward_dead_moment"
+          ]},
+          "severity":{"enum":["info","minor","major","hard_failure"]},
+          "human_ground_truth":{"const":false},
+          "human_label":{"const":false},
+          "live_platform_evidence":{"const":false}
+        }
+      }
+    },
+    "whole_video_summary":{"type":"object"},
+    "creator_reedit_directives":{"type":"array"},
+    "evidence_boundary":{"type":"object"},
+    "authority":{"type":"object"}
+  }
+}

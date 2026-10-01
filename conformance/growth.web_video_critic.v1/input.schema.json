@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.web_video_critic.v1.input",
+  "title": "Growth web-video critic input v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version","message_type","input_id","input_digest",
+    "integration_state","source","media","candidate","review_bundle",
+    "attachment","brief","evidence_boundary"
+  ],
+  "properties": {
+    "contract_version":{"const":"growth.web_video_critic.v1"},
+    "message_type":{"const":"input"},
+    "input_id":{"type":"string","pattern":"^gvwi1:[0-9a-f]{64}$"},
+    "input_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "integration_state":{"const":"WAITING_FOR_ATTACHMENT_TRANSPORT"},
+    "source":{
+      "type":"object","additionalProperties":false,
+      "required":["source_id","sha256","size"],
+      "properties":{
+        "source_id":{"type":"string","minLength":1},
+        "sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+        "size":{"type":"integer","minimum":1}
+      }
+    },
+    "media":{
+      "type":"object","additionalProperties":false,
+      "required":["repository","producer_sha"],
+      "properties":{
+        "repository":{"type":"string","minLength":1},
+        "producer_sha":{"type":"string","pattern":"^[0-9a-f]{40}$"}
+      }
+    },
+    "candidate":{
+      "type":"object","additionalProperties":false,
+      "required":["candidate_id","render_sha256","render_size","render_export_sha256"],
+      "properties":{
+        "candidate_id":{"type":"string","minLength":1},
+        "render_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+        "render_size":{"type":"integer","minimum":1},
+        "render_export_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+      }
+    },
+    "review_bundle":{
+      "type":"object","additionalProperties":false,
+      "required":["contract_version","digest"],
+      "properties":{
+        "contract_version":{"const":"growth.real_artifact_decision_pack.v1"},
+        "digest":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+      }
+    },
+    "attachment":{
+      "type":"object","additionalProperties":false,
+      "required":["sha256","size","mime_type","attachment_identity"],
+      "properties":{
+        "sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+        "size":{"type":"integer","minimum":1},
+        "mime_type":{"const":"video/mp4"},
+        "attachment_identity":{"type":"string","pattern":"^gvwa1:[0-9a-f]{64}$"}
+      }
+    },
+    "brief":{"type":"object"},
+    "evidence_boundary":{"type":"object"}
+  }
+}

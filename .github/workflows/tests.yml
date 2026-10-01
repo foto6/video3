@@ -27,6 +27,7 @@ jobs:
           python -m unittest discover -s tests -p "test_post_publish_learning_r19.py" -v
           python -m unittest discover -s tests -p "test_closed_loop_feedback_r20.py" -v
           python -m unittest discover -s tests -p "test_real_artifact_decision_r21.py" -v
+          python -m unittest discover -s tests -p "test_web_video_critic_r22.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Fetch exact Media R16 candidate batch artifact

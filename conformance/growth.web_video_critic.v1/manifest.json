@@ -1,0 +1,111 @@
+{
+  "manifest_version": "growth.web_video_critic_conformance.r22.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r22-direct-video-critic-20261001",
+    "starting_commit": "be45ddf026f4a18cd40c9f9ddb43e9628a796ef7"
+  },
+  "contracts": {
+    "critic": "growth.web_video_critic.v1",
+    "pairwise": "growth.web_video_critic_pairwise.v1",
+    "review_bundle": "growth.real_artifact_decision_pack.v1"
+  },
+  "integration": {
+    "state": "WAITING_FOR_ATTACHMENT_TRANSPORT",
+    "live_web_video_execution_claimed": false,
+    "fixture_validation_only": true,
+    "bridge_r25_independent_green_required_to_advance": true
+  },
+  "invariants": {
+    "exact_source_sha_required": true,
+    "exact_media_producer_sha_required": true,
+    "exact_render_sha_size_required": true,
+    "attachment_must_equal_render_identity": true,
+    "review_bundle_digest_required": true,
+    "local_defects_require_timestamps": true,
+    "every_frame_inspected_claim_forbidden": true,
+    "explicit_coverage_uncertainty": true,
+    "model_as_human_forbidden": true,
+    "model_as_live_platform_evidence_forbidden": true,
+    "human_parity_advancement_forbidden": true,
+    "creator_reedit_directives_are_deterministic_projection": true
+  },
+  "pairwise": {
+    "exact_candidate_count": 2,
+    "distinct_render_hashes": true,
+    "same_source": true,
+    "same_review_bundle": true,
+    "deterministic_order_from_comparison_digest": true,
+    "producer_identity_blinding_supported": true,
+    "selections": [
+      "A",
+      "B",
+      "tie",
+      "insufficient_evidence"
+    ],
+    "human_ground_truth": false
+  },
+  "source_bound_r21": {
+    "exact_head": "be45ddf026f4a18cd40c9f9ddb43e9628a796ef7",
+    "ci": 36877213747,
+    "artifact_id": 11169687540,
+    "artifact_digest": "sha256:d7699871ece68ba733f858b419ae0c501a8c743f1d675a1600fd8087d2d3611c",
+    "decision_pack_digest": "d415659c4a24dfd4198c6d08bb0fecf524086b0c2031d68395b739bf0dd631d3"
+  },
+  "fixture_policy": {
+    "path": "fixtures/web_video_critic_r22/fixture_spec.json",
+    "git_blob_sha1": "b239a4bcba8dd85925f194dd651df150e22224bf",
+    "live_review_claim": false,
+    "purpose": "schema_and_validator_only"
+  },
+  "pinned_r22_blobs": {
+    "implementation": {
+      "path": "growth_analytics/web_video_critic.py",
+      "git_blob_sha1": "5c56ba926a87c836f60289be067d23864f98a74a"
+    },
+    "tests": {
+      "path": "tests/test_web_video_critic_r22.py",
+      "git_blob_sha1": "9efcc986c295ef37b33f26429430875c2b208ff5"
+    },
+    "docs": {
+      "path": "docs/WEB_VIDEO_CRITIC_R22.md",
+      "git_blob_sha1": "97ae728b207fb93c96b0e8bccbaf7a85456c4bbb"
+    },
+    "readiness": {
+      "path": "fixtures/web_video_critic_r22/readiness_report.json",
+      "git_blob_sha1": "5f4b92c0971604a9ed71871261b99681da3e98de"
+    },
+    "input_schema": {
+      "path": "conformance/growth.web_video_critic.v1/input.schema.json",
+      "git_blob_sha1": "4dff6d02e1f3ff4edfbd0ed0e3f1aab555d2bd1c"
+    },
+    "output_schema": {
+      "path": "conformance/growth.web_video_critic.v1/output.schema.json",
+      "git_blob_sha1": "2ad66e751bb6e9c8a034db35055129de225e7eed"
+    },
+    "pairwise_schema": {
+      "path": "conformance/growth.web_video_critic.v1/pairwise.schema.json",
+      "git_blob_sha1": "12ebb0e76ddb5bfc039c124d050372174d19bf2c"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "77c11a0ffd42088750df5e7b087a46f5b3061f09"
+    },
+    "workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "900cd8876e1b9de891b917edc5e2ea2b04598285"
+    }
+  },
+  "authority": {
+    "advisory_only": true,
+    "provider_mutation": false,
+    "publish": false,
+    "creator_mutation": false,
+    "media_mutation": false,
+    "credentials": false,
+    "merge_release": false
+  },
+  "manifest_self": {
+    "rule": "Exact committed manifest Git blob SHA-1 is reported separately; the manifest does not recursively hash itself."
+  }
+}

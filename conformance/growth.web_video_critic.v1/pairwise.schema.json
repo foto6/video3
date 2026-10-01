@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.web_video_critic_pairwise.v1",
+  "title": "Growth web-video critic pairwise v1",
+  "oneOf": [
+    {
+      "type":"object",
+      "required":[
+        "contract_version","message_type","comparison_id","comparison_digest",
+        "input_digest","integration_state","comparison_goal",
+        "producer_identity_blinded","candidate_bindings","review_presentation",
+        "evidence_boundary"
+      ],
+      "properties":{
+        "contract_version":{"const":"growth.web_video_critic_pairwise.v1"},
+        "message_type":{"const":"input"},
+        "integration_state":{"const":"WAITING_FOR_ATTACHMENT_TRANSPORT"},
+        "candidate_bindings":{"type":"array","minItems":2,"maxItems":2},
+        "review_presentation":{"type":"array","minItems":2,"maxItems":2}
+      }
+    },
+    {
+      "type":"object",
+      "required":[
+        "contract_version","message_type","output_id","output_digest",
+        "comparison_id","comparison_digest","input_digest","selection",
+        "mapped_candidate_id","rationale","evidence_observation_ids",
+        "confidence","uncertainty","producer_identity_blinded",
+        "human_ground_truth","human_label","live_platform_evidence",
+        "human_parity_gate_eligible","authority"
+      ],
+      "properties":{
+        "contract_version":{"const":"growth.web_video_critic_pairwise.v1"},
+        "message_type":{"const":"output"},
+        "selection":{"enum":["A","B","tie","insufficient_evidence"]},
+        "human_ground_truth":{"const":false},
+        "human_label":{"const":false},
+        "live_platform_evidence":{"const":false},
+        "human_parity_gate_eligible":{"const":false}
+      }
+    }
+  ]
+}
