@@ -77,7 +77,7 @@
   "pinned_r13_blobs": {
     "implementation": {
       "path": "growth_analytics/experiment_allocator.py",
-      "git_blob_sha1": "249fe1bdebeca12d62872d7590afcb39d4807b09"
+      "git_blob_sha1": "ea3eecd7605936fc7dc1c0414f8b448f50f7ef55"
     },
     "tests": {
       "path": "tests/test_experiment_allocator_r13.py",

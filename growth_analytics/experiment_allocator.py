@@ -292,7 +292,12 @@ def parse_allocator_evidence(
         payload["metric_snapshot_digest"],
         "metric_snapshot_digest",
     )
-    snapshot = parse_metric_snapshot(payload["metric_snapshot"])
+    try:
+        snapshot = parse_metric_snapshot(payload["metric_snapshot"])
+    except ValueError as exc:
+        raise ExperimentAllocatorError(
+            "allocator evidence contains invalid metric snapshot"
+        ) from exc
     if (
         snapshot["snapshot_digest"]
         != payload["metric_snapshot_digest"]
