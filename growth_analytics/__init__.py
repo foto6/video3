@@ -264,6 +264,25 @@ from .collection_scheduler import (
     normalized_evidence_revision_digest,
 )
 
+from .experiment_allocator import (
+    ALLOCATOR_EVIDENCE_VERSION,
+    ALLOCATOR_LEDGER_VERSION,
+    ALLOCATOR_PLAN_VERSION,
+    ALLOCATOR_REPLAY_VERSION,
+    DIMENSIONS,
+    DIMENSION_VALUES,
+    AllocatorConflictError,
+    DurableExperimentAllocator,
+    ExperimentAllocatorError,
+    ExperimentAllocatorLedger,
+    ExperimentAllocatorPolicy,
+    InjectedAllocatorFault,
+    build_allocator_evidence,
+    build_experiment_plan,
+    parse_allocator_evidence,
+    parse_experiment_plan,
+)
+
 from .experiment import (
     ExperimentLifecycleError,
     ExperimentStatus,
@@ -277,6 +296,22 @@ from .experiment import (
 
 __all__ = [
     "AccountMutationDisabled",
+    "ALLOCATOR_EVIDENCE_VERSION",
+    "ALLOCATOR_LEDGER_VERSION",
+    "ALLOCATOR_PLAN_VERSION",
+    "ALLOCATOR_REPLAY_VERSION",
+    "DIMENSIONS",
+    "DIMENSION_VALUES",
+    "AllocatorConflictError",
+    "DurableExperimentAllocator",
+    "ExperimentAllocatorError",
+    "ExperimentAllocatorLedger",
+    "ExperimentAllocatorPolicy",
+    "InjectedAllocatorFault",
+    "build_allocator_evidence",
+    "build_experiment_plan",
+    "parse_allocator_evidence",
+    "parse_experiment_plan",
     "COLLECTION_SCHEDULE_LEDGER_VERSION",
     "COLLECTION_SCHEDULER_VERSION",
     "COLLECTION_TICK_REPORT_VERSION",

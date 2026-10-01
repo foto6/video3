@@ -1,0 +1,45 @@
+{
+  "report_version": "growth.shortform_experiment_allocator_replay.v1",
+  "seed": "growth-r13-experiment-allocator-20261001",
+  "history": {
+    "post_count": 100,
+    "source_class": "synthetic_fixture",
+    "observational_count": 90,
+    "randomized_count": 10,
+    "primary_metric": "completion_rate"
+  },
+  "next_batch": {
+    "reel_count": 12,
+    "max_cells": 4,
+    "expected_cells": 3,
+    "control_target": 3,
+    "directional_target": 6,
+    "exploration_target": 3,
+    "directional_dimension": "hook_type",
+    "directional_value": "result_first"
+  },
+  "overfitting_controls": {
+    "minimum_history_posts": 30,
+    "minimum_value_observations": 5,
+    "minimum_randomized_observations": 8,
+    "holdback_fraction": 0.25,
+    "exploration_fraction": 0.25,
+    "max_reissues_per_signature": 2
+  },
+  "evidence_semantics": {
+    "observational": "directional_not_causal",
+    "randomized": "assignment_supported_but_allocator_does_not_reestimate_causal_effect",
+    "synthetic_remains_synthetic": true
+  },
+  "restart": {
+    "after_seed_consume": "replay_consumption_then_prepare_one_plan",
+    "after_plan_prepare": "return_exact_existing_plan",
+    "one_seed_multiple_batches": "fail_closed"
+  },
+  "authority": {
+    "advisory_only": true,
+    "publish": false,
+    "provider_mutation": false,
+    "external_mutation": false
+  }
+}

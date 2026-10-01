@@ -1,0 +1,106 @@
+{
+  "manifest_version": "growth.shortform_experiment_allocator_conformance.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r13-experiment-allocator-20261001",
+    "r13_starting_commit": "2633aee487b126ce97bbd0fa79b9b8b1fd76f2e7"
+  },
+  "contracts": {
+    "allocator_plan": "growth.shortform_experiment_plan.v1",
+    "allocator_evidence": "growth.shortform_allocator_evidence.v1",
+    "allocator_ledger": "growth.shortform_experiment_allocator_ledger.v1",
+    "input_seed": "growth.reels_next_cycle_seed.v1",
+    "metric_snapshot": "growth.shortform_metric_snapshot.v1"
+  },
+  "dimensions": [
+    "hook_type",
+    "first_3s_pacing",
+    "caption_density",
+    "cta",
+    "duration_bucket",
+    "loop_ending",
+    "broll_density",
+    "edit_style"
+  ],
+  "overfitting_controls": {
+    "minimum_history_posts": 30,
+    "minimum_value_observations": 5,
+    "minimum_randomized_observations": 8,
+    "control_holdback_fraction": 0.25,
+    "exploration_fraction": 0.25,
+    "max_cells": 4,
+    "max_reissues_per_signature": 2
+  },
+  "evidence_semantics": {
+    "observational": "directional_not_causal",
+    "randomized": "assignment_reference_required_and_labeled_separately",
+    "allocator_reestimates_causal_lift": false,
+    "mixed_source_classes": "rejected",
+    "synthetic_promoted_to_live": false
+  },
+  "exactly_once": {
+    "seed_consumption": "one durable consume row per R10 seed idempotency key",
+    "seed_to_plan_cardinality": "one_to_one",
+    "plan_output": "one durable plan per batch_id",
+    "restart_after_seed_consume": "idempotent_consume_then_prepare",
+    "restart_after_plan_prepare": "return_exact_prepared_plan"
+  },
+  "authority": {
+    "advisory_only": true,
+    "publish": false,
+    "provider_mutation": false,
+    "external_mutation": false,
+    "release_authorized": false
+  },
+  "simulation": {
+    "historical_posts": 100,
+    "next_batch_reels": 12,
+    "expected_control": 3,
+    "expected_directional": 6,
+    "expected_exploration": 3,
+    "history_order_invariant": true
+  },
+  "pinned_provenance": {
+    "r10_contract": {
+      "path": "conformance/growth.autonomous_reels.v1/contract.json",
+      "git_blob_sha1": "0a63ebece0fe8620a57e635143cc3ea16d095f59"
+    },
+    "r11_manifest": {
+      "path": "conformance/growth.provider_metrics_ingest.v1/manifest.json",
+      "git_blob_sha1": "8b47817cb344c4a1670d338fca351c1056e8ba6f"
+    },
+    "r12_manifest": {
+      "path": "conformance/growth.metrics_collection_scheduler.v1/manifest.json",
+      "git_blob_sha1": "c8cee6048c730c4289e573caf05ffaa14b1fefec"
+    }
+  },
+  "pinned_r13_blobs": {
+    "implementation": {
+      "path": "growth_analytics/experiment_allocator.py",
+      "git_blob_sha1": "249fe1bdebeca12d62872d7590afcb39d4807b09"
+    },
+    "tests": {
+      "path": "tests/test_experiment_allocator_r13.py",
+      "git_blob_sha1": "5e9ee9ae45a03bbc3f14e1ddc684077f76320221"
+    },
+    "documentation": {
+      "path": "docs/SHORTFORM_EXPERIMENT_ALLOCATOR_V1.md",
+      "git_blob_sha1": "416b617896496b36bf8aea36655bad70c9f8cb0e"
+    },
+    "replay_report": {
+      "path": "fixtures/experiment_allocator_v1/replay_report.json",
+      "git_blob_sha1": "e509d5dccdb007fe234823ba766fd989af845796"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "781fb8733ae73bc15fc3f39c240a846463977590"
+    },
+    "ci_workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "7f09837455f2447709c8fa538c8c1e8bf33ff4a0"
+    }
+  },
+  "manifest_self": {
+    "rule": "report exact committed Git blob SHA-1 separately; self-hash is not recursively embedded"
+  }
+}
