@@ -251,6 +251,19 @@ from .provider_ingest import (
     YouTubeShortsMetricsAdapter,
 )
 
+from .collection_scheduler import (
+    COLLECTION_SCHEDULE_LEDGER_VERSION,
+    COLLECTION_SCHEDULER_VERSION,
+    COLLECTION_TICK_REPORT_VERSION,
+    CollectionScheduleConflictError,
+    CollectionScheduleLedger,
+    CollectionSchedulePolicy,
+    CollectionSchedulerError,
+    DurableMetricsCollectionScheduler,
+    InjectedCollectionSchedulerFault,
+    normalized_evidence_revision_digest,
+)
+
 from .experiment import (
     ExperimentLifecycleError,
     ExperimentStatus,
@@ -264,6 +277,16 @@ from .experiment import (
 
 __all__ = [
     "AccountMutationDisabled",
+    "COLLECTION_SCHEDULE_LEDGER_VERSION",
+    "COLLECTION_SCHEDULER_VERSION",
+    "COLLECTION_TICK_REPORT_VERSION",
+    "CollectionScheduleConflictError",
+    "CollectionScheduleLedger",
+    "CollectionSchedulePolicy",
+    "CollectionSchedulerError",
+    "DurableMetricsCollectionScheduler",
+    "InjectedCollectionSchedulerFault",
+    "normalized_evidence_revision_digest",
     "PROVIDER_ADAPTER_VERSION",
     "PROVIDER_INGEST_LEDGER_VERSION",
     "PROVIDER_INGEST_REPORT_VERSION",

@@ -1,0 +1,47 @@
+{
+  "report_version": "growth.metrics_collection_scheduler_replay.v1",
+  "seed": "growth-r12-collection-scheduler-20261001",
+  "fleet": {
+    "post_count": 101,
+    "platforms": [
+      "instagram_reels",
+      "tiktok",
+      "youtube_shorts"
+    ],
+    "window_offsets_seconds": [
+      60,
+      180
+    ],
+    "expected_collection_attempts": 202,
+    "expected_logical_seeds": 202,
+    "max_due_per_tick": 17,
+    "expected_tick_count": 12
+  },
+  "restart_scenarios": {
+    "rate_limit": "durable_backoff_no_provider_call_before_not_before",
+    "temporary_failure": "bounded_exponential_backoff_then_terminal",
+    "partial_window": "new_collection_round_same_window_higher_revision",
+    "lost_scheduler_ack": "replay_same_r11_event_and_r10_outbox_seed_identity",
+    "expired_post": "terminal_without_provider_call"
+  },
+  "change_detection": {
+    "revision_basis": [
+      "window",
+      "available_metrics",
+      "normalized_metrics",
+      "normalization_sources",
+      "denominators",
+      "uncertainty"
+    ],
+    "provider_revision_only_change_emits_seed": false,
+    "snapshot_provenance_only_change_emits_seed": false
+  },
+  "invariants": {
+    "provider_mutation": false,
+    "read_only_r11_boundary_preserved": true,
+    "mock_fixture_creator_cycle_eligible": false,
+    "same_post_window_revision_duplicate_seed": false,
+    "queue_is_bounded_by_max_due_per_tick": true,
+    "tight_polling": false
+  }
+}

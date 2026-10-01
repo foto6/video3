@@ -1,0 +1,119 @@
+{
+  "manifest_version": "growth.metrics_collection_scheduler_conformance.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r12-collection-scheduler-20261001",
+    "r12_starting_commit": "c4ed94d3e76b75d36bf8cc8280f6937f455133a6"
+  },
+  "consumes": {
+    "r10_feedback_contract": "growth.shortform_platform_metrics.v1",
+    "r10_seed_contract": "growth.reels_next_cycle_seed.v1",
+    "r10_feedback_ledger": "growth.reels_feedback_ledger.v1",
+    "r10_seed_outbox": "growth.reels_next_cycle_outbox.v1",
+    "r11_adapter_contract": "growth.provider_metrics_adapter.v1",
+    "r11_provider_ledger": "growth.provider_metrics_ingest_ledger.v1"
+  },
+  "scheduler": {
+    "version": "growth.metrics_collection_scheduler.v1",
+    "ledger_version": "growth.metrics_collection_schedule_ledger.v1",
+    "tick_report_version": "growth.metrics_collection_tick_report.v1",
+    "default_window_offsets_seconds": [
+      900,
+      3600,
+      21600,
+      86400,
+      259200
+    ],
+    "default_expiry_seconds": 604800,
+    "default_max_attempts_per_window": 5,
+    "default_max_due_per_tick": 32
+  },
+  "change_detection": {
+    "fields": [
+      "window",
+      "available_metrics",
+      "normalized_metrics",
+      "normalization_sources",
+      "denominators",
+      "uncertainty"
+    ],
+    "provider_revision_only_change_emits_seed": false,
+    "capture_timestamp_only_change_emits_seed": false,
+    "raw_export_digest_only_change_emits_seed": false
+  },
+  "reliability": {
+    "provider_rate_limit": "durable_backoff_honors_provider_not_before",
+    "temporary_failure": "bounded_exponential_backoff",
+    "pagination_restart": "reuse_same_r11_collection_round",
+    "partial_window": "new_r11_collection_round_for_same_window",
+    "delayed_metrics": "higher_provider_revision_can_complete_partial_window",
+    "stale_provider_revision": "bounded_retry_then_fail_closed",
+    "lost_scheduler_ack": "deterministic_seed_id_replays_into_r10_outbox",
+    "terminal_states": [
+      "terminal",
+      "expired"
+    ],
+    "tight_polling": false
+  },
+  "safety": {
+    "provider_access": "read_only",
+    "publish": false,
+    "edit": false,
+    "delete": false,
+    "account_mutation": false,
+    "mock_fixture_creator_cycle_eligible": false
+  },
+  "pinned_r11_provenance": {
+    "commit": "c4ed94d3e76b75d36bf8cc8280f6937f455133a6",
+    "provider_ingest": {
+      "path": "growth_analytics/provider_ingest.py",
+      "git_blob_sha1": "3fde5ed6fbae9356cc232613a8a81ea442c74315"
+    },
+    "conformance_manifest": {
+      "path": "conformance/growth.provider_metrics_ingest.v1/manifest.json",
+      "git_blob_sha1": "8b47817cb344c4a1670d338fca351c1056e8ba6f"
+    },
+    "provider_tests": {
+      "path": "tests/test_provider_ingest_r11.py",
+      "git_blob_sha1": "61086c97c30ea19215a5278a61ce5f9210ccb35e"
+    }
+  },
+  "pinned_r12_blobs": {
+    "implementation": {
+      "path": "growth_analytics/collection_scheduler.py",
+      "git_blob_sha1": "085cb50027bbc73be8477c94423689ba839592be"
+    },
+    "tests": {
+      "path": "tests/test_collection_scheduler_r12.py",
+      "git_blob_sha1": "a2ee726b2659d0e3ac331415d87357ad3aba6aca"
+    },
+    "documentation": {
+      "path": "docs/METRICS_COLLECTION_SCHEDULER_V1.md",
+      "git_blob_sha1": "d3d5445c67997f2d675dbd6774aaf83f1a1d85a7"
+    },
+    "replay_report": {
+      "path": "fixtures/collection_scheduler_v1/replay_report.json",
+      "git_blob_sha1": "42d1785e24f76b15285382ed53204f81650f1d70"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "629849654a90c353eb0aece3d2a5be94fa433ac0"
+    },
+    "ci_workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "2b6fcf04926c00da2bf7a4a01f0e9e5f7df1e9c8"
+    }
+  },
+  "simulation": {
+    "fixture": "fixtures/collection_scheduler_v1/replay_report.json",
+    "posts": 101,
+    "platform_count": 3,
+    "windows_per_post": 2,
+    "expected_collections": 202,
+    "expected_logical_seeds": 202,
+    "max_due_per_tick": 17
+  },
+  "manifest_self": {
+    "rule": "report exact committed Git blob SHA-1 separately; self-hash is not recursively embedded"
+  }
+}
