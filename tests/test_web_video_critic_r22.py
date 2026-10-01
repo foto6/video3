@@ -782,6 +782,66 @@ class GrowthR22WebVideoCriticTests(
                 pair
             )
 
+    def test_readiness_and_conformance_pin_waiting_transport_boundary(self):
+        readiness = json.loads(
+            (
+                self.root
+                / "fixtures"
+                / "web_video_critic_r22"
+                / "readiness_report.json"
+            ).read_text(encoding="utf-8")
+        )
+        manifest = json.loads(
+            (
+                self.root
+                / "conformance"
+                / "growth.web_video_critic.v1"
+                / "manifest.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual(
+            readiness["integration"]["state"],
+            WEB_VIDEO_INTEGRATION_STATE,
+        )
+        self.assertFalse(
+            readiness["integration"][
+                "live_web_video_execution_claimed"
+            ]
+        )
+        self.assertFalse(
+            readiness["integration"][
+                "attached_video_execution_allowed"
+            ]
+        )
+        self.assertEqual(
+            readiness["validated_candidate_ci"]["run_id"],
+            36888813605,
+        )
+        self.assertEqual(
+            manifest["integration"]["state"],
+            WEB_VIDEO_INTEGRATION_STATE,
+        )
+        self.assertFalse(
+            manifest["integration"][
+                "live_web_video_execution_claimed"
+            ]
+        )
+        self.assertTrue(
+            manifest["invariants"][
+                "model_as_human_forbidden"
+            ]
+        )
+        self.assertTrue(
+            manifest["invariants"][
+                "model_as_live_platform_evidence_forbidden"
+            ]
+        )
+        self.assertTrue(
+            manifest["invariants"][
+                "human_parity_advancement_forbidden"
+            ]
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

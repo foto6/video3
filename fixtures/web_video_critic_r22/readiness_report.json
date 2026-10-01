@@ -5,6 +5,13 @@
   "repository": "foto6/video3",
   "branch": "agent/growth-r22-direct-video-critic-20261001",
   "starting_head": "be45ddf026f4a18cd40c9f9ddb43e9628a796ef7",
+  "validated_candidate_head": "3e5679331419247b2334471ac003c0f45cb6c244",
+  "validated_candidate_ci": {
+    "run_id": 36888813605,
+    "conclusion": "success",
+    "focused_r22_tests": 15,
+    "full_tests": 301
+  },
   "upstream_r21": {
     "ci": 36877213747,
     "artifact_id": 11169687540,
@@ -56,6 +63,12 @@
       "insufficient_evidence"
     ],
     "human_ground_truth": false
+  },
+  "fixture_evidence": {
+    "path": "fixtures/web_video_critic_r22/fixture_spec.json",
+    "purpose": "schema_and_validator_only",
+    "live_review_claim": false,
+    "exact_r21_source_and_candidate_metadata": true
   },
   "creator_consumption": {
     "bounded_targeted_reedit": true,

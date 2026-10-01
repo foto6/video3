@@ -3,7 +3,8 @@
   "producer": {
     "repository": "foto6/video3",
     "branch": "agent/growth-r22-direct-video-critic-20261001",
-    "starting_commit": "be45ddf026f4a18cd40c9f9ddb43e9628a796ef7"
+    "starting_commit": "be45ddf026f4a18cd40c9f9ddb43e9628a796ef7",
+    "validated_candidate_commit": "3e5679331419247b2334471ac003c0f45cb6c244"
   },
   "contracts": {
     "critic": "growth.web_video_critic.v1",
@@ -52,6 +53,13 @@
     "artifact_digest": "sha256:d7699871ece68ba733f858b419ae0c501a8c743f1d675a1600fd8087d2d3611c",
     "decision_pack_digest": "d415659c4a24dfd4198c6d08bb0fecf524086b0c2031d68395b739bf0dd631d3"
   },
+  "validated_candidate_ci": {
+    "run_id": 36888813605,
+    "head_sha": "3e5679331419247b2334471ac003c0f45cb6c244",
+    "conclusion": "success",
+    "focused_r22_tests": 15,
+    "full_tests": 301
+  },
   "fixture_policy": {
     "path": "fixtures/web_video_critic_r22/fixture_spec.json",
     "git_blob_sha1": "b239a4bcba8dd85925f194dd651df150e22224bf",
@@ -65,7 +73,7 @@
     },
     "tests": {
       "path": "tests/test_web_video_critic_r22.py",
-      "git_blob_sha1": "9efcc986c295ef37b33f26429430875c2b208ff5"
+      "git_blob_sha1": "1dceeb586f593fb476c0d6b285d0e10a010c43fe"
     },
     "docs": {
       "path": "docs/WEB_VIDEO_CRITIC_R22.md",
@@ -73,7 +81,7 @@
     },
     "readiness": {
       "path": "fixtures/web_video_critic_r22/readiness_report.json",
-      "git_blob_sha1": "5f4b92c0971604a9ed71871261b99681da3e98de"
+      "git_blob_sha1": "042a0f775ef4c0175b0fa107b2f156058cba17cd"
     },
     "input_schema": {
       "path": "conformance/growth.web_video_critic.v1/input.schema.json",
@@ -106,6 +114,6 @@
     "merge_release": false
   },
   "manifest_self": {
-    "rule": "Exact committed manifest Git blob SHA-1 is reported separately; the manifest does not recursively hash itself."
+    "rule": "Exact committed manifest Git blob SHA-1 is reported externally; the manifest does not recursively hash itself."
   }
 }
