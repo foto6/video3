@@ -1,0 +1,126 @@
+{
+  "manifest_version": "growth.creator_batch_experiment_handoff_conformance.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r14-creator-batch-handoff-20261001",
+    "r14_starting_commit": "d4e610e43759c9892309f878d3524220f21be76c"
+  },
+  "contracts": {
+    "handoff": "growth.creator_batch_experiment_handoff.v1",
+    "outbox": "growth.creator_batch_experiment_handoff_outbox.v1",
+    "reference_consumer_ledger": "growth.creator_batch_experiment_consumer_ledger.v1",
+    "source_seed": "growth.reels_next_cycle_seed.v1",
+    "allocator_plan": "growth.shortform_experiment_plan.v1",
+    "allocator_evidence": "growth.shortform_allocator_evidence.v1"
+  },
+  "batch_semantics": {
+    "fixture_batch_size": 12,
+    "fixture_cells": 3,
+    "control_target": 3,
+    "directional_target": 6,
+    "exploration_target": 3,
+    "max_cells": 4,
+    "allowed_dimensions": [
+      "hook_type",
+      "first_3s_pacing",
+      "caption_density",
+      "cta",
+      "duration_bucket",
+      "loop_ending",
+      "broll_density",
+      "edit_style"
+    ],
+    "mutually_exclusive": [
+      "one_cell_per_batch_item",
+      "single_changed_dimension_per_non_control_cell",
+      "exactly_one_control_cell"
+    ]
+  },
+  "eligibility": {
+    "exact_campaign_binding_required": true,
+    "exact_cycle_revision_required": true,
+    "minimum_evidence_gate_required_for_live_eligibility": true,
+    "synthetic_fixture_creator_eligible": false,
+    "synthetic_validation_requires_explicit_opt_in": true
+  },
+  "exactly_once": {
+    "prepare_identity": "handoff.idempotency_key",
+    "duplicate_same_digest": "idempotent",
+    "same_key_changed_bytes": "fail_closed",
+    "consumer_acceptance": "one durable acceptance per idempotency key",
+    "lost_ack": "replay_identical_handoff_consumer_duplicate_then_outbox_ack"
+  },
+  "authority": {
+    "advisory_only": true,
+    "publish": false,
+    "provider_mutation": false,
+    "external_mutation": false,
+    "release_authorized": false
+  },
+  "non_causal": {
+    "observational_history": "directional_not_causal",
+    "randomized_history": "assignment_labeled_separately_no_effect_reestimation"
+  },
+  "pinned_provenance": {
+    "r10_contract": {
+      "path": "conformance/growth.autonomous_reels.v1/contract.json",
+      "git_blob_sha1": "0a63ebece0fe8620a57e635143cc3ea16d095f59"
+    },
+    "r11_manifest": {
+      "path": "conformance/growth.provider_metrics_ingest.v1/manifest.json",
+      "git_blob_sha1": "8b47817cb344c4a1670d338fca351c1056e8ba6f"
+    },
+    "r12_manifest": {
+      "path": "conformance/growth.metrics_collection_scheduler.v1/manifest.json",
+      "git_blob_sha1": "c8cee6048c730c4289e573caf05ffaa14b1fefec"
+    },
+    "r13_manifest": {
+      "path": "conformance/growth.shortform_experiment_allocator.v1/manifest.json",
+      "git_blob_sha1": "42422332400b40fc8c5bd9b6e6ef6f0d408aeb9b"
+    },
+    "r13_allocator_source": {
+      "path": "growth_analytics/experiment_allocator.py",
+      "git_blob_sha1": "ea3eecd7605936fc7dc1c0414f8b448f50f7ef55"
+    },
+    "r13_commit": "d4e610e43759c9892309f878d3524220f21be76c"
+  },
+  "pinned_r14_blobs": {
+    "implementation": {
+      "path": "growth_analytics/creator_batch_handoff.py",
+      "git_blob_sha1": "f363317e2ba26a74ceb17f028efcadbf57566cda"
+    },
+    "tests": {
+      "path": "tests/test_creator_batch_handoff_r14.py",
+      "git_blob_sha1": "ed37843a2dcda132f49d4b7e9af65be6d76aef11"
+    },
+    "documentation": {
+      "path": "docs/CREATOR_BATCH_EXPERIMENT_HANDOFF_V1.md",
+      "git_blob_sha1": "5cbccca05a57f436eb118b4ae3228984d415c4d9"
+    },
+    "canonical_handoff_fixture": {
+      "path": "fixtures/creator_batch_experiment_handoff_v1/canonical_handoff.json",
+      "git_blob_sha1": "876d803e3a217c68a9999af235266538e467c190"
+    },
+    "replay_report": {
+      "path": "fixtures/creator_batch_experiment_handoff_v1/replay_report.json",
+      "git_blob_sha1": "e241acb376052f4c573560ebc17011500e21f855"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "276133a55db54f49de3a354d77d33eff0f513fdb"
+    },
+    "ci_workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "2d4c7620c10b35c2bc810d10bcdb0ce18ab7477e"
+    }
+  },
+  "replay_evidence": {
+    "canonical_handoff": "fixtures/creator_batch_experiment_handoff_v1/canonical_handoff.json",
+    "report": "fixtures/creator_batch_experiment_handoff_v1/replay_report.json",
+    "source_evidence_count": 30,
+    "fixture_source_class": "synthetic_fixture"
+  },
+  "manifest_self": {
+    "rule": "report exact committed Git blob SHA-1 separately; self-hash is not recursively embedded"
+  }
+}

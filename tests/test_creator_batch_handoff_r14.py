@@ -577,15 +577,28 @@ class GrowthR14CreatorBatchHandoffTests(unittest.TestCase):
             report["authority"]["provider_mutation"]
         )
 
-    def test_emit_deterministic_fixture_material(self):
+    def test_canonical_handoff_fixture_is_byte_stable(self):
         handoff = self.handoff()
         self.assertEqual(
             handoff,
             self.handoff(),
         )
-        print(
-            "R14_FIXTURE_JSON="
-            + canonical_json(handoff)
+        root = Path(__file__).resolve().parents[1]
+        fixture_path = (
+            root
+            / "fixtures"
+            / "creator_batch_experiment_handoff_v1"
+            / "canonical_handoff.json"
+        )
+        fixture_bytes = fixture_path.read_bytes()
+        self.assertEqual(
+            fixture_bytes,
+            (canonical_json(handoff) + "\n").encode("utf-8"),
+        )
+        fixture = json.loads(fixture_bytes.decode("utf-8"))
+        self.assertEqual(
+            parse_creator_batch_experiment_handoff(fixture),
+            handoff,
         )
 
 
