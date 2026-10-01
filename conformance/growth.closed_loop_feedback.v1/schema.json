@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.closed_loop_feedback.v1",
+  "title": "Growth closed-loop feedback bundle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "bundle_id",
+    "bundle_digest",
+    "bundle_revision",
+    "source_id",
+    "source_sha256",
+    "cycle_revision",
+    "lineage",
+    "evidence_availability",
+    "evidence",
+    "unavailable_evidence",
+    "next_cycle_brief_seed",
+    "r19_brief_seed",
+    "authority",
+    "interpretation"
+  ],
+  "properties": {
+    "contract_version": {"const": "growth.closed_loop_feedback.v1"},
+    "bundle_id": {"type": "string", "pattern": "^gclf1:[0-9a-f]{64}$"},
+    "bundle_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "bundle_revision": {"type": "integer", "minimum": 1},
+    "source_id": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "cycle_revision": {"type": "integer", "minimum": 1},
+    "lineage": {"type": "object"},
+    "evidence_availability": {"type": "object"},
+    "evidence": {
+      "type": "object",
+      "required": [
+        "objective_defects",
+        "model_aesthetic_judgment",
+        "human_evidence",
+        "observed_provider_metrics",
+        "derived_analytics",
+        "speculative_hypotheses"
+      ]
+    },
+    "unavailable_evidence": {"type": "object"},
+    "next_cycle_brief_seed": {"type": "object"},
+    "r19_brief_seed": {"type": ["object", "null"]},
+    "authority": {
+      "type": "object",
+      "properties": {
+        "advisory_only": {"const": true},
+        "provider_mutation": {"const": false},
+        "publish_authorized": {"const": false},
+        "creator_mutation": {"const": false},
+        "media_mutation": {"const": false},
+        "release_authorized": {"const": false}
+      }
+    },
+    "interpretation": {"type": "string", "minLength": 1}
+  }
+}

@@ -378,6 +378,22 @@ from .post_publish_learning_replay import (
     run_post_publish_learning_replay,
 )
 
+from .closed_loop_feedback import (
+    CLOSED_LOOP_BRIEF_SEED_VERSION,
+    CLOSED_LOOP_FEEDBACK_LEDGER_VERSION,
+    CLOSED_LOOP_FEEDBACK_REPLAY_VERSION,
+    CLOSED_LOOP_FEEDBACK_VERSION,
+    ClosedLoopFeedbackConflictError,
+    ClosedLoopFeedbackError,
+    ClosedLoopFeedbackLedger,
+    ClosedLoopFeedbackOutOfOrder,
+    build_closed_loop_feedback,
+    parse_closed_loop_feedback,
+)
+from .closed_loop_feedback_replay import (
+    run_closed_loop_feedback_replay,
+)
+
 from .candidate_decision import (
     CANDIDATE_DECISION_LEDGER_VERSION,
     CANDIDATE_DECISION_REPLAY_VERSION,
@@ -448,6 +464,17 @@ from .experiment import (
 
 __all__ = [
     "AccountMutationDisabled",
+    "CLOSED_LOOP_BRIEF_SEED_VERSION",
+    "CLOSED_LOOP_FEEDBACK_LEDGER_VERSION",
+    "CLOSED_LOOP_FEEDBACK_REPLAY_VERSION",
+    "CLOSED_LOOP_FEEDBACK_VERSION",
+    "ClosedLoopFeedbackConflictError",
+    "ClosedLoopFeedbackError",
+    "ClosedLoopFeedbackLedger",
+    "ClosedLoopFeedbackOutOfOrder",
+    "build_closed_loop_feedback",
+    "parse_closed_loop_feedback",
+    "run_closed_loop_feedback_replay",
     "POST_PUBLISH_BRIEF_SEED_VERSION",
     "POST_PUBLISH_LEARNING_LEDGER_VERSION",
     "POST_PUBLISH_LEARNING_REPLAY_VERSION",

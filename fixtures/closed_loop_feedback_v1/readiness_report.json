@@ -1,0 +1,59 @@
+{
+  "report_version": "growth.closed_loop_feedback_readiness.r20.v1",
+  "contract_version": "growth.closed_loop_feedback.v1",
+  "brief_seed_version": "growth.closed_loop_brief_seed.v1",
+  "repository": "foto6/video3",
+  "branch": "agent/growth-r20-feedback-bundle-20261001",
+  "starting_head": "a802a1c0eed5ae564e7e67236e986bff560c58a9",
+  "source_bound_dependencies": {
+    "r18": {
+      "contract": "growth.candidate_decision.v1",
+      "manifest_blob_sha1": "05e778e7a67556b66cb407e2c65a2f7bb391dbab"
+    },
+    "r19": {
+      "contract": "growth.post_publish_learning.v1",
+      "manifest_blob_sha1": "ee1864329ff80c243e8f2b653a715091374316c8"
+    }
+  },
+  "evidence_separation": {
+    "objective_defects": true,
+    "model_aesthetic_judgment": true,
+    "human_evidence": true,
+    "observed_provider_metrics": true,
+    "derived_analytics": true,
+    "speculative_hypotheses": true,
+    "model_scores_infer_human_labels": false,
+    "synthetic_metrics_count_as_live": false
+  },
+  "degraded_paths": {
+    "r19_missing": "candidate_decision_only plus unavailable_evidence",
+    "r19_stale": "candidate_decision_only plus unavailable_evidence",
+    "r19_backoff_or_terminal": "candidate_decision_only plus unavailable_evidence",
+    "r19_partial": "preserve namespaced unavailable_evidence and candidate-decision guidance",
+    "clock_skew_or_out_of_order": "not fresh; candidate-decision guidance retained"
+  },
+  "hypotheses": {
+    "bounded_max": 8,
+    "target_segment_required": true,
+    "concrete_directive_required": true,
+    "expected_observable_required": true,
+    "falsification_criterion_required": true,
+    "causal_claim": false,
+    "human_preference_inferred": false
+  },
+  "durability": {
+    "duplicate_same_revision": "idempotent",
+    "changed_payload_same_revision": "conflict",
+    "lower_revision": "out_of_order_rejected",
+    "restart_safe": true
+  },
+  "authority": {
+    "advisory_only": true,
+    "provider_mutation": false,
+    "publish": false,
+    "credentials": false,
+    "creator_mutation": false,
+    "media_mutation": false,
+    "release_authorized": false
+  }
+}
