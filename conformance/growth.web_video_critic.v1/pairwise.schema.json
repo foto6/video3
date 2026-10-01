@@ -14,7 +14,7 @@
       "properties":{
         "contract_version":{"const":"growth.web_video_critic_pairwise.v1"},
         "message_type":{"const":"input"},
-        "integration_state":{"const":"WAITING_FOR_ATTACHMENT_TRANSPORT"},
+        "integration_state":{"const":"READY_FOR_EXPLICIT_LIVE_REHEARSAL"},
         "candidate_bindings":{"type":"array","minItems":2,"maxItems":2},
         "review_presentation":{"type":"array","minItems":2,"maxItems":2}
       }

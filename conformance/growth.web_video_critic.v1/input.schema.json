@@ -7,14 +7,14 @@
   "required": [
     "contract_version","message_type","input_id","input_digest",
     "integration_state","source","media","candidate","review_bundle",
-    "attachment","brief","evidence_boundary"
+    "attachment","attachment_transport","brief","evidence_boundary"
   ],
   "properties": {
     "contract_version":{"const":"growth.web_video_critic.v1"},
     "message_type":{"const":"input"},
     "input_id":{"type":"string","pattern":"^gvwi1:[0-9a-f]{64}$"},
     "input_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
-    "integration_state":{"const":"WAITING_FOR_ATTACHMENT_TRANSPORT"},
+    "integration_state":{"const":"READY_FOR_EXPLICIT_LIVE_REHEARSAL"},
     "source":{
       "type":"object","additionalProperties":false,
       "required":["source_id","sha256","size"],
@@ -38,7 +38,7 @@
       "properties":{
         "candidate_id":{"type":"string","minLength":1},
         "render_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
-        "render_size":{"type":"integer","minimum":1},
+        "render_size":{"type":"integer","minimum":1,"maximum":500000000},
         "render_export_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}
       }
     },
@@ -55,9 +55,34 @@
       "required":["sha256","size","mime_type","attachment_identity"],
       "properties":{
         "sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
-        "size":{"type":"integer","minimum":1},
+        "size":{"type":"integer","minimum":1,"maximum":500000000},
         "mime_type":{"const":"video/mp4"},
         "attachment_identity":{"type":"string","pattern":"^gvwa1:[0-9a-f]{64}$"}
+      }
+    },
+    "attachment_transport":{
+      "type":"object","additionalProperties":false,
+      "required":[
+        "contract_version","repository","branch","source_sha","ci_run_id",
+        "bridge_contract","max_file_bytes","disposition","live_pass",
+        "no_live_deploy","no_cutover","real_user_chat_upload_performed",
+        "readiness_artifacts","binding_digest"
+      ],
+      "properties":{
+        "contract_version":{"const":"growth.web_video_attachment_transport_binding.r22.v1"},
+        "repository":{"const":"foto6/WebAIBridge"},
+        "branch":{"const":"agent/bridge-r25-file-attachment-20261001"},
+        "source_sha":{"const":"bfe6b043460b6c0c3d712cbcc7e0c9772d6bd3af"},
+        "ci_run_id":{"const":36888741188},
+        "bridge_contract":{"const":"bridge.chat_file_attachment.v1"},
+        "max_file_bytes":{"const":500000000},
+        "disposition":{"const":"READY_FOR_EXPLICIT_LIVE_REHEARSAL"},
+        "live_pass":{"const":false},
+        "no_live_deploy":{"const":true},
+        "no_cutover":{"const":true},
+        "real_user_chat_upload_performed":{"const":false},
+        "readiness_artifacts":{"type":"array","minItems":2,"maxItems":2},
+        "binding_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"}
       }
     },
     "brief":{"type":"object"},

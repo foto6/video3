@@ -10,7 +10,34 @@ from .autonomous_reels import canonical_json, sha256_json
 WEB_VIDEO_CRITIC_VERSION = "growth.web_video_critic.v1"
 WEB_VIDEO_PAIRWISE_VERSION = "growth.web_video_critic_pairwise.v1"
 WEB_VIDEO_REVIEW_BUNDLE_VERSION = "growth.real_artifact_decision_pack.v1"
-WEB_VIDEO_INTEGRATION_STATE = "WAITING_FOR_ATTACHMENT_TRANSPORT"
+WEB_VIDEO_TRANSPORT_BINDING_VERSION = (
+    "growth.web_video_attachment_transport_binding.r22.v1"
+)
+BRIDGE_R25_REPOSITORY = "foto6/WebAIBridge"
+BRIDGE_R25_BRANCH = "agent/bridge-r25-file-attachment-20261001"
+BRIDGE_R25_SHA = "bfe6b043460b6c0c3d712cbcc7e0c9772d6bd3af"
+BRIDGE_R25_CI_RUN_ID = 36888741188
+BRIDGE_R25_CONTRACT = "bridge.chat_file_attachment.v1"
+BRIDGE_R25_MAX_FILE_BYTES = 500000000
+BRIDGE_R25_DISPOSITION = "READY_FOR_EXPLICIT_LIVE_REHEARSAL"
+BRIDGE_R25_LIVE_PASS = False
+BRIDGE_R25_READINESS_ARTIFACTS = (
+    {
+        "runner": "ubuntu-latest",
+        "artifact_id": 11176350316,
+        "artifact_name": "r25-readiness-ubuntu-latest",
+        "artifact_digest":
+            "sha256:0c9fcd14e9eae8cc7e19375ddd753e6bc91f0ad71829ad06dde7301690fcfbf6",
+    },
+    {
+        "runner": "windows-latest",
+        "artifact_id": 11176260440,
+        "artifact_name": "r25-readiness-windows-latest",
+        "artifact_digest":
+            "sha256:b28c110abef306c6479043a671f3a4e6ebb875de463f4e59e709f8a3e5746a78",
+    },
+)
+WEB_VIDEO_INTEGRATION_STATE = BRIDGE_R25_DISPOSITION
 WEB_VIDEO_FIXTURE_MODE = "fixture_validation"
 WEB_VIDEO_ATTACHED_MODE = "web_chat_attached_video"
 
@@ -192,6 +219,75 @@ def _string_array(
     return list(value)
 
 
+def build_bridge_r25_transport_binding() -> dict[str, Any]:
+    material = {
+        "contract_version":
+            WEB_VIDEO_TRANSPORT_BINDING_VERSION,
+        "repository":
+            BRIDGE_R25_REPOSITORY,
+        "branch":
+            BRIDGE_R25_BRANCH,
+        "source_sha":
+            BRIDGE_R25_SHA,
+        "ci_run_id":
+            BRIDGE_R25_CI_RUN_ID,
+        "bridge_contract":
+            BRIDGE_R25_CONTRACT,
+        "max_file_bytes":
+            BRIDGE_R25_MAX_FILE_BYTES,
+        "disposition":
+            BRIDGE_R25_DISPOSITION,
+        "live_pass":
+            BRIDGE_R25_LIVE_PASS,
+        "no_live_deploy":
+            True,
+        "no_cutover":
+            True,
+        "real_user_chat_upload_performed":
+            False,
+        "readiness_artifacts": [
+            dict(row)
+            for row in BRIDGE_R25_READINESS_ARTIFACTS
+        ],
+        "binding_digest": "",
+    }
+    digest_material = dict(material)
+    digest_material["binding_digest"] = ""
+    material["binding_digest"] = sha256_json(
+        digest_material
+    )
+    return json.loads(
+        canonical_json(material)
+    )
+
+
+def _validate_bridge_r25_transport_binding(
+    raw: Mapping[str, Any],
+) -> dict[str, Any]:
+    expected = build_bridge_r25_transport_binding()
+    if not isinstance(raw, Mapping):
+        raise WebVideoCriticBoundaryError(
+            "attachment transport binding must be object"
+        )
+    if raw.get("live_pass") is not False:
+        raise WebVideoCriticBoundaryError(
+            "Bridge R25 livePass must remain false for R22 rehearsal readiness"
+        )
+    if raw.get("disposition") != (
+        "READY_FOR_EXPLICIT_LIVE_REHEARSAL"
+    ):
+        raise WebVideoCriticBoundaryError(
+            "Bridge R25 disposition is not rehearsal-ready"
+        )
+    if dict(raw) != expected:
+        raise WebVideoCriticLineageError(
+            "attachment transport does not match exact-green Bridge R25 authority"
+        )
+    return json.loads(
+        canonical_json(dict(raw))
+    )
+
+
 def _input_id_material(
     payload: Mapping[str, Any],
 ) -> dict[str, Any]:
@@ -204,6 +300,9 @@ def _input_id_material(
         ],
         "attachment": payload[
             "attachment"
+        ],
+        "attachment_transport": payload[
+            "attachment_transport"
         ],
         "brief": payload["brief"],
         "integration_state": payload[
@@ -318,6 +417,8 @@ def build_web_video_critic_input(
                 ),
             "attachment_identity": "",
         },
+        "attachment_transport":
+            build_bridge_r25_transport_binding(),
         "brief": {
             "review_goal":
                 _nonempty(
@@ -403,6 +504,7 @@ def parse_web_video_critic_input(
         "candidate",
         "review_bundle",
         "attachment",
+        "attachment_transport",
         "brief",
         "evidence_boundary",
     }
@@ -427,8 +529,11 @@ def parse_web_video_critic_input(
         != WEB_VIDEO_INTEGRATION_STATE
     ):
         raise WebVideoCriticBoundaryError(
-            "attachment transport state must remain WAITING_FOR_ATTACHMENT_TRANSPORT"
+            "attachment transport state must match READY_FOR_EXPLICIT_LIVE_REHEARSAL"
         )
+    _validate_bridge_r25_transport_binding(
+        payload["attachment_transport"]
+    )
 
     source = payload["source"]
     if (
@@ -628,6 +733,13 @@ def parse_web_video_critic_input(
     ):
         raise WebVideoCriticLineageError(
             "attached MP4 identity does not match candidate render"
+        )
+    if (
+        attachment_size
+        > BRIDGE_R25_MAX_FILE_BYTES
+    ):
+        raise WebVideoCriticBoundaryError(
+            "candidate exceeds exact Bridge R25 per-file cap"
         )
     expected_attachment_identity = (
         "gvwa1:"
@@ -1151,6 +1263,16 @@ def build_web_video_critic_output(
                 parsed_input[
                     "review_bundle"
                 ]["digest"],
+            "attachment_transport_digest":
+                parsed_input[
+                    "attachment_transport"
+                ][
+                    "binding_digest"
+                ],
+            "bridge_live_pass":
+                parsed_input[
+                    "attachment_transport"
+                ]["live_pass"],
             "direct_video_primary":
                 execution_mode
                 == WEB_VIDEO_ATTACHED_MODE,
@@ -1320,6 +1442,8 @@ def parse_web_video_critic_output(
             "source_sha256",
             "media_producer_sha",
             "review_bundle_digest",
+            "attachment_transport_digest",
+            "bridge_live_pass",
             "direct_video_primary",
             "transport_evidence_digest",
         }
@@ -1357,13 +1481,14 @@ def parse_web_video_critic_output(
             "unsupported web-video execution mode"
         )
     if (
-        WEB_VIDEO_INTEGRATION_STATE
-        == "WAITING_FOR_ATTACHMENT_TRANSPORT"
-        and mode
+        mode
         == WEB_VIDEO_ATTACHED_MODE
+        and parsed_input[
+            "attachment_transport"
+        ]["live_pass"] is not True
     ):
         raise WebVideoCriticBoundaryError(
-            "cannot claim live attached-video review while attachment transport is unverified"
+            "cannot claim attached-video review while exact Bridge R25 livePass=false"
         )
     if mode == WEB_VIDEO_FIXTURE_MODE:
         if (
@@ -1429,6 +1554,16 @@ def parse_web_video_critic_output(
             parsed_input[
                 "review_bundle"
             ]["digest"],
+        "attachment_transport_digest":
+            parsed_input[
+                "attachment_transport"
+            ][
+                "binding_digest"
+            ],
+        "bridge_live_pass":
+            parsed_input[
+                "attachment_transport"
+            ]["live_pass"],
     }
     if any(
         provenance[key] != value
@@ -1715,6 +1850,12 @@ def _pair_binding(
             parsed[
                 "review_bundle"
             ]["digest"],
+        "attachment_transport_digest":
+            parsed[
+                "attachment_transport"
+            ][
+                "binding_digest"
+            ],
         "critic_input_digest":
             parsed[
                 "input_digest"
@@ -1986,6 +2127,7 @@ def parse_web_video_pairwise_input(
     render_hashes = set()
     sources = set()
     bundles = set()
+    transports = set()
     for index, binding in enumerate(
         bindings
     ):
@@ -2003,6 +2145,7 @@ def parse_web_video_pairwise_input(
                 "render_size",
                 "attachment_identity",
                 "review_bundle_digest",
+                "attachment_transport_digest",
                 "critic_input_digest",
             }
         ):
@@ -2041,6 +2184,14 @@ def parse_web_video_pairwise_input(
                 f"candidate_bindings[{index}].review_bundle_digest",
             )
         )
+        transports.add(
+            _sha256(
+                binding[
+                    "attachment_transport_digest"
+                ],
+                f"candidate_bindings[{index}].attachment_transport_digest",
+            )
+        )
         _sha1(
             binding[
                 "media_producer_sha"
@@ -2061,6 +2212,12 @@ def parse_web_video_pairwise_input(
         )
         _sha256(
             binding[
+                "attachment_transport_digest"
+            ],
+            f"candidate_bindings[{index}].attachment_transport_digest",
+        )
+        _sha256(
+            binding[
                 "critic_input_digest"
             ],
             f"candidate_bindings[{index}].critic_input_digest",
@@ -2070,9 +2227,14 @@ def parse_web_video_pairwise_input(
         or len(render_hashes) != 2
         or len(sources) != 1
         or len(bundles) != 1
+        or len(transports) != 1
+        or next(iter(transports))
+        != build_bridge_r25_transport_binding()[
+            "binding_digest"
+        ]
     ):
         raise WebVideoCriticLineageError(
-            "pairwise candidate lineage must be two distinct renders of one source/review bundle"
+            "pairwise candidate lineage must be two distinct renders of one source/review bundle and exact Bridge R25 transport"
         )
 
     sorted_digests = sorted(

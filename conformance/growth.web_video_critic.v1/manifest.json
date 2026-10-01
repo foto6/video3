@@ -1,103 +1,134 @@
 {
-  "manifest_version": "growth.web_video_critic_conformance.r22.v1",
+  "manifest_version": "growth.web_video_critic_conformance.r22.bridge_r25.v1",
   "producer": {
     "repository": "foto6/video3",
     "branch": "agent/growth-r22-direct-video-critic-20261001",
     "starting_commit": "be45ddf026f4a18cd40c9f9ddb43e9628a796ef7",
-    "validated_candidate_commit": "3e5679331419247b2334471ac003c0f45cb6c244"
+    "prior_substantive_commit": "3e5679331419247b2334471ac003c0f45cb6c244",
+    "prior_exact_head": "bda768dbd9a46d3a4a06c77d6198287d1a4f2435"
   },
   "contracts": {
     "critic": "growth.web_video_critic.v1",
     "pairwise": "growth.web_video_critic_pairwise.v1",
+    "transport_binding": "growth.web_video_attachment_transport_binding.r22.v1",
+    "bridge_attachment": "bridge.chat_file_attachment.v1",
     "review_bundle": "growth.real_artifact_decision_pack.v1"
   },
+  "bridge_r25_authority": {
+    "repository": "foto6/WebAIBridge",
+    "branch": "agent/bridge-r25-file-attachment-20261001",
+    "exact_sha": "bfe6b043460b6c0c3d712cbcc7e0c9772d6bd3af",
+    "exact_head_ci": {
+      "run_id": 36888741188,
+      "conclusion": "success",
+      "head_sha": "bfe6b043460b6c0c3d712cbcc7e0c9772d6bd3af"
+    },
+    "contract": "bridge.chat_file_attachment.v1",
+    "max_file_bytes": 500000000,
+    "disposition": "READY_FOR_EXPLICIT_LIVE_REHEARSAL",
+    "live_pass": false,
+    "no_live_deploy": true,
+    "no_cutover": true,
+    "real_user_chat_upload_performed": false,
+    "readiness_artifacts": [
+      {
+        "runner": "ubuntu-latest",
+        "artifact_id": 11176350316,
+        "artifact_name": "r25-readiness-ubuntu-latest",
+        "github_digest": "sha256:0c9fcd14e9eae8cc7e19375ddd753e6bc91f0ad71829ad06dde7301690fcfbf6",
+        "independently_downloaded_zip_sha256": "0c9fcd14e9eae8cc7e19375ddd753e6bc91f0ad71829ad06dde7301690fcfbf6",
+        "report_source_sha": "bfe6b043460b6c0c3d712cbcc7e0c9772d6bd3af",
+        "report_workflow_run_id": "36888741188",
+        "report_contract": "bridge.chat_file_attachment.v1",
+        "report_live_pass": false
+      },
+      {
+        "runner": "windows-latest",
+        "artifact_id": 11176260440,
+        "artifact_name": "r25-readiness-windows-latest",
+        "github_digest": "sha256:b28c110abef306c6479043a671f3a4e6ebb875de463f4e59e709f8a3e5746a78",
+        "independently_downloaded_zip_sha256": "b28c110abef306c6479043a671f3a4e6ebb875de463f4e59e709f8a3e5746a78",
+        "report_source_sha": "bfe6b043460b6c0c3d712cbcc7e0c9772d6bd3af",
+        "report_workflow_run_id": "36888741188",
+        "report_contract": "bridge.chat_file_attachment.v1",
+        "report_live_pass": false
+      }
+    ]
+  },
   "integration": {
-    "state": "WAITING_FOR_ATTACHMENT_TRANSPORT",
+    "previous_state": "WAITING_FOR_ATTACHMENT_TRANSPORT",
+    "state": "READY_FOR_EXPLICIT_LIVE_REHEARSAL",
+    "live_pass": false,
     "live_web_video_execution_claimed": false,
-    "fixture_validation_only": true,
-    "bridge_r25_independent_green_required_to_advance": true
+    "explicit_live_rehearsal_ready": true,
+    "attached_video_review_claim_allowed": false
   },
   "invariants": {
-    "exact_source_sha_required": true,
-    "exact_media_producer_sha_required": true,
-    "exact_render_sha_size_required": true,
-    "attachment_must_equal_render_identity": true,
-    "review_bundle_digest_required": true,
+    "exact_bridge_sha_required": true,
+    "exact_bridge_ci_required": true,
+    "exact_bridge_artifact_digests_required": true,
+    "exact_bridge_contract_required": true,
+    "bridge_file_cap_enforced": true,
+    "source_render_review_bundle_binding_preserved": true,
     "local_defects_require_timestamps": true,
+    "pairwise_blinding_preserved": true,
     "every_frame_inspected_claim_forbidden": true,
-    "explicit_coverage_uncertainty": true,
     "model_as_human_forbidden": true,
     "model_as_live_platform_evidence_forbidden": true,
     "human_parity_advancement_forbidden": true,
-    "creator_reedit_directives_are_deterministic_projection": true
+    "accidental_live_pass_rejected": true
   },
-  "pairwise": {
-    "exact_candidate_count": 2,
-    "distinct_render_hashes": true,
-    "same_source": true,
-    "same_review_bundle": true,
-    "deterministic_order_from_comparison_digest": true,
-    "producer_identity_blinding_supported": true,
-    "selections": [
-      "A",
-      "B",
-      "tie",
-      "insufficient_evidence"
-    ],
-    "human_ground_truth": false
-  },
-  "source_bound_r21": {
+  "r21_binding": {
     "exact_head": "be45ddf026f4a18cd40c9f9ddb43e9628a796ef7",
     "ci": 36877213747,
     "artifact_id": 11169687540,
     "artifact_digest": "sha256:d7699871ece68ba733f858b419ae0c501a8c743f1d675a1600fd8087d2d3611c",
-    "decision_pack_digest": "d415659c4a24dfd4198c6d08bb0fecf524086b0c2031d68395b739bf0dd631d3"
+    "review_bundle_digest": "d415659c4a24dfd4198c6d08bb0fecf524086b0c2031d68395b739bf0dd631d3"
   },
-  "validated_candidate_ci": {
+  "prior_validation": {
     "run_id": 36888813605,
     "head_sha": "3e5679331419247b2334471ac003c0f45cb6c244",
     "conclusion": "success",
     "focused_r22_tests": 15,
-    "full_tests": 301
+    "full_tests": 301,
+    "scope": "R22 schema/logic prior to Bridge R25 binding follow-up"
   },
-  "fixture_policy": {
-    "path": "fixtures/web_video_critic_r22/fixture_spec.json",
-    "git_blob_sha1": "b239a4bcba8dd85925f194dd651df150e22224bf",
-    "live_review_claim": false,
-    "purpose": "schema_and_validator_only"
-  },
-  "pinned_r22_blobs": {
+  "pinned_followup_blobs": {
     "implementation": {
       "path": "growth_analytics/web_video_critic.py",
-      "git_blob_sha1": "5c56ba926a87c836f60289be067d23864f98a74a"
+      "git_blob_sha1": "fcca4932a583e79358c1e3ec1bf6ac0b190ddb74"
     },
     "tests": {
       "path": "tests/test_web_video_critic_r22.py",
-      "git_blob_sha1": "1dceeb586f593fb476c0d6b285d0e10a010c43fe"
+      "git_blob_sha1": "42b1eeb4e9bd5932cc8af2e8415f000ae53b0354"
     },
     "docs": {
       "path": "docs/WEB_VIDEO_CRITIC_R22.md",
-      "git_blob_sha1": "97ae728b207fb93c96b0e8bccbaf7a85456c4bbb"
+      "git_blob_sha1": "db09fcd5411ef8fa9c000eac4e06e6c5f852c5c1"
+    },
+    "fixture": {
+      "path": "fixtures/web_video_critic_r22/fixture_spec.json",
+      "git_blob_sha1": "a5b90f984b59899ee0f1fd47ac07267c4dd54f46"
     },
     "readiness": {
       "path": "fixtures/web_video_critic_r22/readiness_report.json",
-      "git_blob_sha1": "042a0f775ef4c0175b0fa107b2f156058cba17cd"
+      "git_blob_sha1": "bca5a9005e32118a70deadc0958f6c0960f14988"
     },
     "input_schema": {
       "path": "conformance/growth.web_video_critic.v1/input.schema.json",
-      "git_blob_sha1": "4dff6d02e1f3ff4edfbd0ed0e3f1aab555d2bd1c"
+      "git_blob_sha1": "b81dcc9d503c2d2386ce89538dfca1334f2f9e7c"
     },
     "output_schema": {
       "path": "conformance/growth.web_video_critic.v1/output.schema.json",
-      "git_blob_sha1": "2ad66e751bb6e9c8a034db35055129de225e7eed"
+      "git_blob_sha1": "34c53a1f6159f6a9c21a6218ea706b08b2b23c8c"
     },
     "pairwise_schema": {
       "path": "conformance/growth.web_video_critic.v1/pairwise.schema.json",
-      "git_blob_sha1": "12ebb0e76ddb5bfc039c124d050372174d19bf2c"
+      "git_blob_sha1": "358382bea5147c5b2a893d9b758fa1220efc95a6"
     },
     "package_exports": {
       "path": "growth_analytics/__init__.py",
-      "git_blob_sha1": "77c11a0ffd42088750df5e7b087a46f5b3061f09"
+      "git_blob_sha1": "74ec8e447608a76abf90a5a55645ccc898746fd7"
     },
     "workflow": {
       "path": ".github/workflows/tests.yml",
@@ -106,14 +137,18 @@
   },
   "authority": {
     "advisory_only": true,
+    "live_upload_performed": false,
+    "live_review_claimed": false,
     "provider_mutation": false,
     "publish": false,
     "creator_mutation": false,
     "media_mutation": false,
     "credentials": false,
+    "human_ground_truth": false,
+    "live_platform_evidence": false,
     "merge_release": false
   },
   "manifest_self": {
-    "rule": "Exact committed manifest Git blob SHA-1 is reported externally; the manifest does not recursively hash itself."
+    "rule": "Exact committed manifest Git blob SHA-1 is reported separately; the manifest does not recursively hash itself."
   }
 }

@@ -1,8 +1,36 @@
 {
   "fixture_version": "growth.web_video_critic_fixture.r22.v1",
   "purpose": "schema_and_validator_only",
-  "integration_state": "WAITING_FOR_ATTACHMENT_TRANSPORT",
+  "integration_state": "READY_FOR_EXPLICIT_LIVE_REHEARSAL",
   "live_web_video_execution_claimed": false,
+  "bridge_attachment_transport": {
+    "contract_version": "growth.web_video_attachment_transport_binding.r22.v1",
+    "repository": "foto6/WebAIBridge",
+    "branch": "agent/bridge-r25-file-attachment-20261001",
+    "source_sha": "bfe6b043460b6c0c3d712cbcc7e0c9772d6bd3af",
+    "ci_run_id": 36888741188,
+    "bridge_contract": "bridge.chat_file_attachment.v1",
+    "max_file_bytes": 500000000,
+    "disposition": "READY_FOR_EXPLICIT_LIVE_REHEARSAL",
+    "live_pass": false,
+    "no_live_deploy": true,
+    "no_cutover": true,
+    "real_user_chat_upload_performed": false,
+    "readiness_artifacts": [
+      {
+        "runner": "ubuntu-latest",
+        "artifact_id": 11176350316,
+        "artifact_name": "r25-readiness-ubuntu-latest",
+        "artifact_digest": "sha256:0c9fcd14e9eae8cc7e19375ddd753e6bc91f0ad71829ad06dde7301690fcfbf6"
+      },
+      {
+        "runner": "windows-latest",
+        "artifact_id": 11176260440,
+        "artifact_name": "r25-readiness-windows-latest",
+        "artifact_digest": "sha256:b28c110abef306c6479043a671f3a4e6ebb875de463f4e59e709f8a3e5746a78"
+      }
+    ]
+  },
   "review_bundle": {
     "contract_version": "growth.real_artifact_decision_pack.v1",
     "digest": "d415659c4a24dfd4198c6d08bb0fecf524086b0c2031d68395b739bf0dd631d3"
@@ -45,7 +73,8 @@
     "constraints": [
       "Do not claim every frame was inspected.",
       "Do not infer human preference.",
-      "Do not treat model opinion as live platform evidence."
+      "Do not treat model opinion as live platform evidence.",
+      "Do not claim a real attached-video review until Bridge livePass is independently true."
     ]
   },
   "schema_only_observations": [
@@ -71,7 +100,7 @@
       "description": "Fixture-wide pacing note; not a claim about the real MP4.",
       "proposed_edit": "Fixture directive: preserve current pacing pending real attached-video review.",
       "confidence": 0.2,
-      "uncertainty": "No live video transport evidence is available."
+      "uncertainty": "Bridge is rehearsal-ready but livePass=false; no live video review occurred."
     }
   ]
 }

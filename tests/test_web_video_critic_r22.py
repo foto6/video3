@@ -6,14 +6,24 @@ import unittest
 from pathlib import Path
 
 from growth_analytics.web_video_critic import (
+    BRIDGE_R25_CI_RUN_ID,
+    BRIDGE_R25_CONTRACT,
+    BRIDGE_R25_DISPOSITION,
+    BRIDGE_R25_LIVE_PASS,
+    BRIDGE_R25_MAX_FILE_BYTES,
+    BRIDGE_R25_READINESS_ARTIFACTS,
+    BRIDGE_R25_REPOSITORY,
+    BRIDGE_R25_SHA,
     WEB_VIDEO_ATTACHED_MODE,
     WEB_VIDEO_CRITIC_VERSION,
     WEB_VIDEO_FIXTURE_MODE,
     WEB_VIDEO_INTEGRATION_STATE,
     WEB_VIDEO_PAIRWISE_VERSION,
+    WEB_VIDEO_TRANSPORT_BINDING_VERSION,
     WebVideoCriticBoundaryError,
     WebVideoCriticError,
     WebVideoCriticLineageError,
+    build_bridge_r25_transport_binding,
     build_web_video_critic_input,
     build_web_video_critic_output,
     build_web_video_observation,
@@ -257,6 +267,209 @@ class GrowthR22WebVideoCriticTests(
                 "requested_focus"
             ][0],
         )
+
+    def test_exact_green_bridge_r25_transport_binding(self):
+        payload = self.critic_input()
+        binding = payload[
+            "attachment_transport"
+        ]
+        self.assertEqual(
+            binding[
+                "contract_version"
+            ],
+            WEB_VIDEO_TRANSPORT_BINDING_VERSION,
+        )
+        self.assertEqual(
+            binding["repository"],
+            BRIDGE_R25_REPOSITORY,
+        )
+        self.assertEqual(
+            binding["source_sha"],
+            BRIDGE_R25_SHA,
+        )
+        self.assertEqual(
+            binding["ci_run_id"],
+            BRIDGE_R25_CI_RUN_ID,
+        )
+        self.assertEqual(
+            binding[
+                "bridge_contract"
+            ],
+            BRIDGE_R25_CONTRACT,
+        )
+        self.assertEqual(
+            binding[
+                "max_file_bytes"
+            ],
+            BRIDGE_R25_MAX_FILE_BYTES,
+        )
+        self.assertEqual(
+            binding[
+                "disposition"
+            ],
+            BRIDGE_R25_DISPOSITION,
+        )
+        self.assertIs(
+            binding["live_pass"],
+            BRIDGE_R25_LIVE_PASS,
+        )
+        self.assertFalse(
+            binding["live_pass"]
+        )
+        self.assertEqual(
+            binding[
+                "readiness_artifacts"
+            ],
+            [
+                dict(row)
+                for row
+                in BRIDGE_R25_READINESS_ARTIFACTS
+            ],
+        )
+        self.assertEqual(
+            binding,
+            build_bridge_r25_transport_binding(),
+        )
+
+    def test_wrong_bridge_sha_ci_or_artifact_digest_fails_closed(self):
+        mutations = [
+            (
+                "source_sha",
+                "0" * 40,
+            ),
+            (
+                "ci_run_id",
+                1,
+            ),
+        ]
+        for field, value in mutations:
+            payload = copy.deepcopy(
+                self.critic_input()
+            )
+            payload[
+                "attachment_transport"
+            ][field] = value
+            with self.assertRaises(
+                WebVideoCriticLineageError
+            ):
+                parse_web_video_critic_input(
+                    payload
+                )
+
+        payload = copy.deepcopy(
+            self.critic_input()
+        )
+        payload[
+            "attachment_transport"
+        ][
+            "readiness_artifacts"
+        ][0][
+            "artifact_digest"
+        ] = (
+            "sha256:"
+            + "0" * 64
+        )
+        with self.assertRaises(
+            WebVideoCriticLineageError
+        ):
+            parse_web_video_critic_input(
+                payload
+            )
+
+    def test_accidental_live_pass_is_rejected(self):
+        payload = copy.deepcopy(
+            self.critic_input()
+        )
+        payload[
+            "attachment_transport"
+        ][
+            "live_pass"
+        ] = True
+        with self.assertRaises(
+            WebVideoCriticBoundaryError
+        ):
+            parse_web_video_critic_input(
+                payload
+            )
+
+    def test_bridge_r25_file_cap_fails_closed(self):
+        source = self.fixture[
+            "source"
+        ]
+        media = self.fixture[
+            "media"
+        ]
+        candidate = self.fixture[
+            "candidates"
+        ][0]
+        brief = self.fixture[
+            "brief"
+        ]
+        with self.assertRaises(
+            WebVideoCriticBoundaryError
+        ):
+            build_web_video_critic_input(
+                source_id=
+                    source[
+                        "source_id"
+                    ],
+                source_sha256=
+                    source["sha256"],
+                source_size=
+                    source["size"],
+                media_repository=
+                    media[
+                        "repository"
+                    ],
+                media_producer_sha=
+                    media[
+                        "producer_sha"
+                    ],
+                candidate_id=
+                    candidate[
+                        "candidate_id"
+                    ],
+                render_sha256=
+                    candidate[
+                        "render_sha256"
+                    ],
+                render_size=
+                    BRIDGE_R25_MAX_FILE_BYTES
+                    + 1,
+                render_export_sha256=
+                    candidate[
+                        "render_export_sha256"
+                    ],
+                review_bundle_digest=
+                    self.fixture[
+                        "review_bundle"
+                    ]["digest"],
+                attachment_sha256=
+                    candidate[
+                        "render_sha256"
+                    ],
+                attachment_size=
+                    BRIDGE_R25_MAX_FILE_BYTES
+                    + 1,
+                attachment_mime_type=
+                    "video/mp4",
+                review_goal=
+                    brief[
+                        "review_goal"
+                    ],
+                platform=
+                    brief[
+                        "platform"
+                    ],
+                requested_focus=
+                    brief[
+                        "requested_focus"
+                    ],
+                constraints=
+                    brief[
+                        "constraints"
+                    ],
+            )
 
     def test_wrong_render_sha_or_attachment_size_fails_closed(self):
         candidate = self.fixture[
@@ -572,7 +785,7 @@ class GrowthR22WebVideoCriticTests(
             self.fixture[
                 "integration_state"
             ],
-            "WAITING_FOR_ATTACHMENT_TRANSPORT",
+            WEB_VIDEO_INTEGRATION_STATE,
         )
         self.assertFalse(
             self.fixture[

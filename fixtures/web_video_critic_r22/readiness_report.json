@@ -2,15 +2,72 @@
   "report_version": "growth.web_video_critic_readiness.r22.v1",
   "contract_version": "growth.web_video_critic.v1",
   "pairwise_contract_version": "growth.web_video_critic_pairwise.v1",
+  "transport_binding_version": "growth.web_video_attachment_transport_binding.r22.v1",
   "repository": "foto6/video3",
   "branch": "agent/growth-r22-direct-video-critic-20261001",
   "starting_head": "be45ddf026f4a18cd40c9f9ddb43e9628a796ef7",
-  "validated_candidate_head": "3e5679331419247b2334471ac003c0f45cb6c244",
+  "prior_substantive_head": "3e5679331419247b2334471ac003c0f45cb6c244",
+  "prior_exact_head": "bda768dbd9a46d3a4a06c77d6198287d1a4f2435",
   "validated_candidate_ci": {
     "run_id": 36888813605,
     "conclusion": "success",
     "focused_r22_tests": 15,
-    "full_tests": 301
+    "full_tests": 301,
+    "note": "Prior R22 schema/logic validation before exact Bridge R25 binding follow-up."
+  },
+  "bridge_r25_independent_verification": {
+    "repository": "foto6/WebAIBridge",
+    "branch": "agent/bridge-r25-file-attachment-20261001",
+    "exact_sha": "bfe6b043460b6c0c3d712cbcc7e0c9772d6bd3af",
+    "exact_head_ci": {
+      "run_id": 36888741188,
+      "conclusion": "success",
+      "head_sha": "bfe6b043460b6c0c3d712cbcc7e0c9772d6bd3af"
+    },
+    "contract": "bridge.chat_file_attachment.v1",
+    "max_file_bytes": 500000000,
+    "disposition": "READY_FOR_EXPLICIT_LIVE_REHEARSAL",
+    "live_pass": false,
+    "no_live_deploy": true,
+    "no_cutover": true,
+    "real_user_chat_upload_performed": false,
+    "readiness_artifacts": [
+      {
+        "runner": "ubuntu-latest",
+        "artifact_id": 11176350316,
+        "artifact_name": "r25-readiness-ubuntu-latest",
+        "github_digest": "sha256:0c9fcd14e9eae8cc7e19375ddd753e6bc91f0ad71829ad06dde7301690fcfbf6",
+        "independently_downloaded_zip_sha256": "0c9fcd14e9eae8cc7e19375ddd753e6bc91f0ad71829ad06dde7301690fcfbf6",
+        "report_runner_os": "Linux",
+        "report_source_sha": "bfe6b043460b6c0c3d712cbcc7e0c9772d6bd3af",
+        "report_workflow_run_id": "36888741188",
+        "report_live_pass": false
+      },
+      {
+        "runner": "windows-latest",
+        "artifact_id": 11176260440,
+        "artifact_name": "r25-readiness-windows-latest",
+        "github_digest": "sha256:b28c110abef306c6479043a671f3a4e6ebb875de463f4e59e709f8a3e5746a78",
+        "independently_downloaded_zip_sha256": "b28c110abef306c6479043a671f3a4e6ebb875de463f4e59e709f8a3e5746a78",
+        "report_runner_os": "Windows",
+        "report_source_sha": "bfe6b043460b6c0c3d712cbcc7e0c9772d6bd3af",
+        "report_workflow_run_id": "36888741188",
+        "report_live_pass": false
+      }
+    ],
+    "limitations": [
+      "Bridge CI used a deterministic fake browser rather than the current live ChatGPT upload DOM.",
+      "A separately authorized live rehearsal is still required before LIVE_PASS."
+    ]
+  },
+  "integration": {
+    "state": "READY_FOR_EXPLICIT_LIVE_REHEARSAL",
+    "live_pass": false,
+    "live_web_video_execution_claimed": false,
+    "fixture_schema_validation_allowed": true,
+    "explicit_live_rehearsal_transport_ready": true,
+    "attached_video_review_claim_allowed": false,
+    "attached_video_execution_allowed": false
   },
   "upstream_r21": {
     "ci": 36877213747,
@@ -18,63 +75,14 @@
     "artifact_digest": "sha256:d7699871ece68ba733f858b419ae0c501a8c743f1d675a1600fd8087d2d3611c",
     "final_pack_digest": "d415659c4a24dfd4198c6d08bb0fecf524086b0c2031d68395b739bf0dd631d3"
   },
-  "integration": {
-    "state": "WAITING_FOR_ATTACHMENT_TRANSPORT",
-    "bridge_r25_independently_green": false,
-    "live_web_video_execution_claimed": false,
-    "fixture_schema_validation_allowed": true,
-    "attached_video_execution_allowed": false
-  },
-  "input_binding": {
-    "source_sha": true,
-    "source_size": true,
-    "media_producer_sha": true,
-    "candidate_id": true,
-    "render_sha": true,
-    "render_size": true,
-    "render_export_sha": true,
-    "review_bundle_digest": true,
-    "attachment_identity": true,
-    "brief": true
-  },
-  "output_boundary": {
+  "evidence_boundaries": {
     "timestamped_local_defects": true,
-    "proposed_edit": true,
-    "confidence": true,
-    "uncertainty": true,
-    "whole_video_summary": true,
+    "pairwise_blinding": true,
     "every_frame_inspected": false,
-    "uninspected_possible": true,
     "human_ground_truth": false,
     "human_label": false,
     "live_platform_metrics": false,
     "human_parity_gate_eligible": false
-  },
-  "pairwise": {
-    "exact_two_distinct_renders": true,
-    "same_source_required": true,
-    "same_review_bundle_required": true,
-    "deterministic_presentation_order": true,
-    "producer_identity_blindable": true,
-    "result_values": [
-      "A",
-      "B",
-      "tie",
-      "insufficient_evidence"
-    ],
-    "human_ground_truth": false
-  },
-  "fixture_evidence": {
-    "path": "fixtures/web_video_critic_r22/fixture_spec.json",
-    "purpose": "schema_and_validator_only",
-    "live_review_claim": false,
-    "exact_r21_source_and_candidate_metadata": true
-  },
-  "creator_consumption": {
-    "bounded_targeted_reedit": true,
-    "directives_derived_from_validated_local_observations": true,
-    "publish_authority": false,
-    "release_authority": false
   },
   "authority": {
     "advisory_only": true,
@@ -83,6 +91,7 @@
     "creator_mutation": false,
     "media_mutation": false,
     "credentials": false,
+    "live_upload_performed": false,
     "fake_human_labels": false,
     "fake_live_metrics": false
   }

@@ -1,77 +1,82 @@
-# Growth R22 Direct-Video Web-Chat Critic Contract
+# Growth R22 Direct-Video Web-Chat Critic — Bridge R25 Binding
 
-R22 defines `growth.web_video_critic.v1` for source-bound critique of an actual MP4 attached to a ChatGPT web conversation. It also defines `growth.web_video_critic_pairwise.v1` for deterministic A/B comparison of two exact candidate MP4s.
+R22 defines `growth.web_video_critic.v1` and `growth.web_video_critic_pairwise.v1` for source-bound critique of exact candidate MP4s. This follow-up consumes independently verified Bridge R25 attachment transport evidence.
 
-This milestone defines contracts and validators only. Integration state is pinned to:
+## Exact Bridge R25 authority
 
-`WAITING_FOR_ATTACHMENT_TRANSPORT`
+Growth is pinned to:
 
-No live web-video review is claimed until Bridge R25 attachment transport has independent green evidence.
+- repository: `foto6/WebAIBridge`
+- branch: `agent/bridge-r25-file-attachment-20261001`
+- exact SHA: `bfe6b043460b6c0c3d712cbcc7e0c9772d6bd3af`
+- exact-head CI: `36888741188` — SUCCESS
+- contract: `bridge.chat_file_attachment.v1`
+- per-file cap: `500000000` bytes
+- disposition: `READY_FOR_EXPLICIT_LIVE_REHEARSAL`
+- `livePass=false`
+- `NO_LIVE_DEPLOY`
+- `NO_CUTOVER`
+- no real user-chat upload was performed.
 
-## Input binding
+The two Bridge readiness artifacts were independently downloaded and their ZIP SHA-256 values matched GitHub metadata exactly:
 
-Every single-candidate input binds:
+- Ubuntu artifact `11176350316`, `r25-readiness-ubuntu-latest`, SHA-256 `0c9fcd14e9eae8cc7e19375ddd753e6bc91f0ad71829ad06dde7301690fcfbf6`
+- Windows artifact `11176260440`, `r25-readiness-windows-latest`, SHA-256 `b28c110abef306c6479043a671f3a4e6ebb875de463f4e59e709f8a3e5746a78`
 
-- exact source ID, SHA-256, and size;
-- exact Media repository and producer Git SHA;
+Both readiness reports bind the exact Bridge SHA/run/contract/cap, disposition `READY_FOR_EXPLICIT_LIVE_REHEARSAL`, and `livePass=false`. Both state that the rehearsal used a deterministic fake browser rather than a live ChatGPT upload DOM, so a separately authorized live rehearsal is still required before `LIVE_PASS`.
+
+## Growth transport state
+
+Growth advances only from `WAITING_FOR_ATTACHMENT_TRANSPORT` to:
+
+`READY_FOR_EXPLICIT_LIVE_REHEARSAL`
+
+This is not `LIVE_PASS`. It does not mean a candidate MP4 has been uploaded to or reviewed in ChatGPT.
+
+Every critic input now carries `growth.web_video_attachment_transport_binding.r22.v1`, content-addressed over the exact Bridge repository, branch, SHA, CI run, attachment contract, 500 MB cap, disposition, `live_pass=false`, release/cutover gates, and both readiness artifact IDs/digests.
+
+Wrong Bridge SHA, CI run, readiness artifact digest, disposition, or live-pass value fails closed.
+
+## Exact video lineage
+
+The existing R22 input binding remains unchanged in substance:
+
+- exact source ID/SHA/size;
+- exact Media repository and producer SHA;
 - candidate ID;
-- exact final render SHA-256 and byte size;
+- exact final MP4 SHA-256 and byte size;
 - exact render-export SHA-256;
-- exact R21 real-artifact review-bundle digest;
-- attachment SHA-256, size, MIME type, and content-addressed attachment identity;
-- the review goal, requested focus, platform, and constraints.
+- exact R21 review-bundle digest;
+- exact MP4 attachment identity;
+- review brief.
 
-The attachment SHA/size must exactly equal the candidate render SHA/size. A stale expected source, Media producer, or review-bundle digest fails closed.
+The candidate MP4 SHA/size must equal the attachment SHA/size, and size must not exceed the Bridge R25 500,000,000-byte cap.
 
-## Output
+## Live-pass boundary
 
-A critic output contains:
+`web_chat_attached_video` output is still rejected while the exact bound Bridge transport has `live_pass=false`. R22 may validate fixture/schema logic and is ready for an explicitly authorized transport rehearsal, but it cannot serialize a real direct-video review yet.
 
-- exact input/attachment/render/source/review-bundle lineage;
-- explicit coverage ranges and method;
-- `uninspected_possible=true`;
-- `every_frame_inspected=false`;
-- time-coded observations with defect category, severity, evidence, description, proposed edit, confidence, and uncertainty;
-- whole-video summary with uncertainty;
-- deterministic Creator re-edit directives projected only from local non-info observations;
-- `human_ground_truth=false`;
-- `human_label=false`;
-- `live_platform_metrics=false`;
-- `human_parity_gate_eligible=false`.
+No payload may claim:
+- `LIVE_PASS`;
+- actual attached-video review;
+- human ground truth or human labels;
+- live platform evidence;
+- human-parity eligibility.
 
-A local defect must include `start_ms` and `end_ms`. Whole-video observations may not masquerade as local time-coded evidence.
+## Critic output and Creator directives
 
-Allowed defect categories cover hook clarity, pacing, semantic cuts, framing/crop, B-roll relevance, captions, continuity, motion/zoom, audio balance, payoff/CTA/loop, and awkward/dead moments.
+The timestamped defect schema is preserved. Local defects require bounded `start_ms`/`end_ms`, category, severity, evidence, description, proposed edit, confidence, and uncertainty.
 
-## Coverage and model boundary
+Coverage always preserves uncertainty:
+- `uninspected_possible=true`
+- `every_frame_inspected=false`
 
-The contract explicitly forbids a claim that every frame was inspected. Direct web-video review is model opinion, not human ground truth. It cannot create a human label, count as live platform evidence, or advance a human-parity gate.
-
-While integration state is `WAITING_FOR_ATTACHMENT_TRANSPORT`, only `fixture_validation` execution mode validates. Any payload claiming `web_chat_attached_video` execution fails closed, even if it contains a plausible transport digest.
-
-The fixture pack uses exact R21 source/candidate metadata only to exercise schema and lineage logic. Its observations explicitly state that they are fixtures and are not claims about the actual MP4.
+Creator re-edit directives remain deterministic projections of validated local non-info observations. The critic remains advisory and has no publish/release/provider/Creator/Media mutation authority.
 
 ## Pairwise A/B
 
-Pairwise inputs require exactly two distinct render hashes from the same exact source and review bundle. Presentation order is deterministic from the content-addressed comparison digest.
+Pairwise comparison still requires exactly two distinct render hashes from the same source and review bundle. Candidate bindings now also carry the exact Bridge R25 transport-binding digest, and both candidates must resolve to the same exact transport authority.
 
-When `producer_identity_blinded=true`, producer identity is retained in the source-bound candidate binding but omitted from the review presentation shown to the critic. Pairwise output supports `A`, `B`, `tie`, and `insufficient_evidence`. A/B is mapped back to the exact candidate ID only after the selection is validated.
+Producer identity can remain blinded in critic-facing A/B presentation. Pairwise model preference remains non-human advisory evidence and cannot advance a human-parity gate.
 
-Pairwise model selection is advisory only and is never serialized as a human label or human preference.
-
-## Creator consumption
-
-`creator_reedit_directives` is a bounded deterministic projection of validated local observations. Each directive carries:
-
-- exact time range;
-- defect category;
-- severity;
-- concrete edit directive;
-- evidence text;
-- confidence;
-- uncertainty;
-- source observation ID.
-
-Creator can consume this without interpreting model prose or granting the critic publish/release authority.
-
-R22 does not publish, mutate providers, modify Creator/Media, create credentials, or fabricate a video review.
+No live upload is performed by this milestone.
