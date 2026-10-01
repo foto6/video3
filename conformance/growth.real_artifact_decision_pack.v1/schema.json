@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.real_artifact_decision_pack.v1",
+  "title": "Growth R21 real-artifact decision pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "pack_id",
+    "pack_digest",
+    "pack_revision",
+    "growth_authority",
+    "media_authority",
+    "batch",
+    "source",
+    "candidates",
+    "content_equivalence_groups",
+    "r18_distinct_render_candidate_ids",
+    "r18_duplicate_aliases",
+    "r18_decision",
+    "r20_feedback",
+    "evidence_classes",
+    "targeted_reedit_guidance",
+    "unavailable_evidence",
+    "human_ground_truth",
+    "synthetic_metrics_as_live",
+    "authority",
+    "interpretation"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "growth.real_artifact_decision_pack.v1"
+    },
+    "pack_id": {
+      "type": "string",
+      "pattern": "^gradp21:[0-9a-f]{64}$"
+    },
+    "pack_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pack_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "growth_authority": {
+      "type": "object",
+      "required": ["repository", "commit_sha", "run_id"]
+    },
+    "media_authority": {
+      "type": "object",
+      "required": [
+        "repository",
+        "producer_sha",
+        "run_id",
+        "artifact_id",
+        "artifact_name",
+        "archive_sha256",
+        "archive_size"
+      ]
+    },
+    "batch": {"type": "object"},
+    "source": {
+      "type": "object",
+      "required": ["source_id", "sha256", "size"]
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "content_equivalence_groups": {"type": "array"},
+    "r18_distinct_render_candidate_ids": {
+      "const": ["candidate-1", "candidate-2"]
+    },
+    "r18_duplicate_aliases": {
+      "type": "object"
+    },
+    "r18_decision": {"type": "object"},
+    "r20_feedback": {"type": "object"},
+    "evidence_classes": {"type": "object"},
+    "targeted_reedit_guidance": {"type": "array"},
+    "unavailable_evidence": {"type": "object"},
+    "human_ground_truth": {"const": false},
+    "synthetic_metrics_as_live": {"const": false},
+    "authority": {
+      "type": "object",
+      "properties": {
+        "advisory_only": {"const": true},
+        "provider_mutation": {"const": false},
+        "publish_authorized": {"const": false},
+        "creator_mutation": {"const": false},
+        "media_mutation": {"const": false},
+        "release_authorized": {"const": false}
+      }
+    },
+    "interpretation": {"type": "string", "minLength": 1}
+  }
+}

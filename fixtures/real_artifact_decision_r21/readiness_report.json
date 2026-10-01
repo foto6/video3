@@ -1,0 +1,73 @@
+{
+  "report_version": "growth.real_artifact_decision_readiness.r21.v1",
+  "contract_version": "growth.real_artifact_decision_pack.v1",
+  "repository": "foto6/video3",
+  "branch": "agent/growth-r21-real-artifact-decision-20261001",
+  "starting_head": "65ddf2aadfdb1eb8d3d7f3590331c1a5ea0b44bd",
+  "media_authority": {
+    "repository": "foto6/video2",
+    "producer_sha": "231a0680c8939cfec77aaa283e507e93f383ad73",
+    "run_id": 36865890506,
+    "artifact_id": 11163920921,
+    "artifact_name": "media-r16-candidate-batch-demo",
+    "archive_sha256": "d929b592c76ec93e41b54701376f4b02366a3bdbd127d3472d73ae277d450d0f"
+  },
+  "source": {
+    "source_id": "r16-demo-source",
+    "sha256": "7b484abef5de1569e1b7f91a5d780f17c6d687ef68b3c42c9e54375f4e5e434b",
+    "size": 763377
+  },
+  "independently_verified_candidate_refs": [
+    {
+      "candidate_id": "candidate-1",
+      "render_sha256": "3bd12d999264cb932cb3ef15dfbd96e002ede517f2273795b593553b9642d864",
+      "size": 575465,
+      "render_export_sha256": "2b5177c00bb054184a239c7eddb1383ad253922e8eb686f5aa2e56c91a1335ac"
+    },
+    {
+      "candidate_id": "candidate-2",
+      "render_sha256": "cdae63d5ccce67332e607af7fd87b18c31da8dc77c2f0ce5182550321767286c",
+      "size": 576763,
+      "render_export_sha256": "b349b897f8f86bc9257e2622f564d6430f3864ff605ae4b82ba0cb09c59298f6"
+    },
+    {
+      "candidate_id": "candidate-3",
+      "render_sha256": "3bd12d999264cb932cb3ef15dfbd96e002ede517f2273795b593553b9642d864",
+      "size": 575465,
+      "render_export_sha256": "26fe61f0644e263ce047869334ba65c5973eba809ff45f76286490f573d61b8e"
+    }
+  ],
+  "duplicate_render_semantics": {
+    "candidate_3_duplicate_of": "candidate-1",
+    "r18_distinct_representatives": [
+      "candidate-1",
+      "candidate-2"
+    ]
+  },
+  "evidence_policy": {
+    "media_objective_qa": "real artifact evidence",
+    "production_vlm": "unavailable",
+    "human_labels": "unavailable",
+    "live_platform_metrics": "unavailable",
+    "model_output_human_ground_truth": false,
+    "synthetic_metrics_live": false,
+    "winner_must_satisfy_r18_policy": true
+  },
+  "expected_current_decision": "insufficient_evidence",
+  "workflow_artifact_required": {
+    "name": "growth-r21-real-artifact-decision",
+    "nonzero": true,
+    "bound_to_github_sha": true,
+    "bound_to_github_run_id": true
+  },
+  "authority": {
+    "advisory_only": true,
+    "provider_mutation": false,
+    "publish": false,
+    "credentials": false,
+    "creator_mutation": false,
+    "media_mutation": false,
+    "release_authorized": false,
+    "human_ratings_fabricated": false
+  }
+}
