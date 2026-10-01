@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.candidate_decision.v1",
+  "title": "Growth candidate decision v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "decision_id",
+    "decision_digest",
+    "campaign_id",
+    "source_id",
+    "source_sha256",
+    "cycle_revision",
+    "decision_revision",
+    "expected_candidate_ids",
+    "candidate_refs",
+    "missing_candidate_ids",
+    "decision",
+    "winner_candidate_id",
+    "reason",
+    "evidence_policy",
+    "evidence",
+    "live_metric_eligibility",
+    "policy_gates",
+    "reedit_guidance",
+    "authority",
+    "interpretation"
+  ],
+  "properties": {
+    "contract_version": {"const": "growth.candidate_decision.v1"},
+    "decision_id": {"type": "string", "pattern": "^gcd1:[0-9a-f]{64}$"},
+    "decision_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "campaign_id": {"type": "string", "minLength": 1},
+    "source_id": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "cycle_revision": {"type": "integer", "minimum": 1},
+    "decision_revision": {"type": "integer", "minimum": 1},
+    "expected_candidate_ids": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "candidate_refs": {"type": "array", "minItems": 1, "maxItems": 4},
+    "missing_candidate_ids": {"type": "array", "maxItems": 4},
+    "decision": {"enum": ["winner", "tie", "insufficient_evidence"]},
+    "winner_candidate_id": {"type": ["string", "null"]},
+    "reason": {"type": "string", "minLength": 1},
+    "evidence_policy": {"type": "object"},
+    "evidence": {
+      "type": "object",
+      "required": [
+        "objective_defects",
+        "structural_rule_judgment",
+        "model_aesthetic_judgment",
+        "human_labels",
+        "live_platform_observations",
+        "historical_metric_context"
+      ]
+    },
+    "live_metric_eligibility": {"type": "object"},
+    "policy_gates": {"type": "array"},
+    "reedit_guidance": {"type": "array"},
+    "authority": {
+      "type": "object",
+      "properties": {
+        "advisory_only": {"const": true},
+        "publish_authorized": {"const": false},
+        "provider_mutation": {"const": false},
+        "creator_mutation": {"const": false},
+        "media_mutation": {"const": false},
+        "reedit_authorized": {"const": false}
+      }
+    },
+    "interpretation": {"type": "string", "minLength": 1}
+  }
+}

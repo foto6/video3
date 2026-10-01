@@ -488,52 +488,8 @@ class GrowthR18CandidateDecisionTests(unittest.TestCase):
             / "candidate_decision_v1"
             / "readiness_report.json"
         )
-        if not replay_path.exists() or not readiness_path.exists():
-            good = self.candidate(
-                "good",
-                "good",
-                pairwise_key="good_vs_bad",
-            )
-            bad = self.candidate(
-                "bad",
-                "bad",
-                pairwise_key="good_vs_bad",
-            )
-            decision = self.build(
-                [good, bad],
-                ["good", "bad"],
-            )
-            replay = {
-                "report_version":
-                    CANDIDATE_DECISION_REPLAY_VERSION,
-                "decision_digest":
-                    decision["decision_digest"],
-                "decision":
-                    decision["decision"],
-                "winner_candidate_id":
-                    decision["winner_candidate_id"],
-                "reason": decision["reason"],
-                "reedit_guidance":
-                    decision["reedit_guidance"],
-                "human_labels": 0,
-                "model_scores_as_human_preference":
-                    False,
-                "synthetic_metrics_as_live":
-                    False,
-                "historical_metrics_causal":
-                    False,
-                "authority":
-                    decision["authority"],
-            }
-            print(
-                "R18_REPLAY_JSON="
-                + json.dumps(
-                    replay,
-                    sort_keys=True,
-                    separators=(",", ":"),
-                )
-            )
-            return
+        self.assertTrue(replay_path.exists())
+        self.assertTrue(readiness_path.exists())
         replay = json.loads(
             replay_path.read_text(encoding="utf-8")
         )
@@ -559,6 +515,51 @@ class GrowthR18CandidateDecisionTests(unittest.TestCase):
         )
         self.assertFalse(
             readiness["authority"]["provider_mutation"]
+        )
+        good = self.candidate(
+            "good",
+            "good",
+            pairwise_key="good_vs_bad",
+        )
+        bad = self.candidate(
+            "bad",
+            "bad",
+            pairwise_key="good_vs_bad",
+        )
+        decision = self.build(
+            [good, bad],
+            ["good", "bad"],
+        )
+        rebuilt = {
+            "report_version":
+                CANDIDATE_DECISION_REPLAY_VERSION,
+            "decision_digest":
+                decision["decision_digest"],
+            "decision": decision["decision"],
+            "winner_candidate_id":
+                decision["winner_candidate_id"],
+            "reason": decision["reason"],
+            "reedit_guidance":
+                decision["reedit_guidance"],
+            "human_labels": 0,
+            "model_scores_as_human_preference":
+                False,
+            "synthetic_metrics_as_live": False,
+            "historical_metrics_causal": False,
+            "authority": decision["authority"],
+        }
+        self.assertEqual(replay, rebuilt)
+        self.assertEqual(
+            replay_path.read_bytes(),
+            (
+                json.dumps(
+                    rebuilt,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                    ensure_ascii=False,
+                )
+                + "\n"
+            ).encode("utf-8"),
         )
 
 

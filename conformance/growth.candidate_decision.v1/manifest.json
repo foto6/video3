@@ -1,0 +1,129 @@
+{
+  "manifest_version": "growth.candidate_decision_conformance.r18.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r18-candidate-decision-loop-20261001",
+    "r18_starting_commit": "aa2d2ce6ec84bab164c651d1b329094256fd7711",
+    "validated_candidate_commit": "33d85d8c0a88237783f7598f2c1508fd763a2dbe"
+  },
+  "contract": {
+    "version": "growth.candidate_decision.v1",
+    "candidate_count_min": 2,
+    "candidate_count_max": 4,
+    "decision_states": ["winner", "tie", "insufficient_evidence"],
+    "missing_candidate": "insufficient_evidence"
+  },
+  "evidence_separation": {
+    "objective_defects": "machine-observed hard failures",
+    "structural_rule_judgment": "deterministic heuristic evidence",
+    "model_aesthetic_judgment": "advisory non-human model/VLM evidence",
+    "human_labels": "actual human_provided labels only",
+    "live_platform_observations": "R17 lineage-verified platform_export only",
+    "historical_metric_context": "directional observational context only",
+    "model_score_as_human_preference": false,
+    "synthetic_metric_as_live_evidence": false,
+    "historical_metric_causal": false
+  },
+  "winner_policy": {
+    "objective_unique_zero_hard_failure_candidate": "eligible winner",
+    "human_pairwise": "complete non-contradictory Condorcet evidence may select winner",
+    "contradictory_human_labels": "tie",
+    "contradictory_nonhuman_critics": "tie",
+    "structural_rule": {
+      "minimum_comparable_dimensions": 6,
+      "minimum_confidence": 0.35,
+      "minimum_margin": 0.08
+    },
+    "insufficient_rule_dimensions": "insufficient_evidence"
+  },
+  "lineage": {
+    "candidate_source_id_required": true,
+    "candidate_source_sha256_required": true,
+    "critic_render_sha_must_match_candidate": true,
+    "live_publish_result_source_class": "platform_export",
+    "provider_receipt_digest_required": true,
+    "media_render_sha_required": true,
+    "metric_snapshot_must_bind_publish_result": true,
+    "runtime_status_must_bind_publish_and_render": true,
+    "fresh_live_metrics_only_eligible": true
+  },
+  "reedit": {
+    "requires_timecoded_defect_or_warning": true,
+    "contains_candidate_id": true,
+    "contains_segment_start_end": true,
+    "contains_concrete_directive": true,
+    "automatic_mutation_authority": false
+  },
+  "durability": {
+    "ledger_version": "growth.candidate_decision_ledger.v1",
+    "duplicate_same_revision_same_digest": "duplicate",
+    "same_revision_changed_payload": "conflict",
+    "lower_revision": "out_of_order_rejected",
+    "restart_replay": true
+  },
+  "source_bound_dependencies": {
+    "r15_visual_critic_manifest_blob_sha1": "20ba04c5d6cbcdce36099d62caeb74760eb85250",
+    "r15b_gemini_critic_manifest_blob_sha1": "dd7c2fdcc9962fd5d5bb46ed2ff743c72b95fcab",
+    "r16_critic_export_manifest_blob_sha1": "8f76d27c893658b3838eb2dcbe696a926a60dab3",
+    "r17_platform_runtime_manifest_blob_sha1": "c087da63484bc2318641067366160460de2da048"
+  },
+  "deterministic_replay": {
+    "path": "fixtures/candidate_decision_v1/replay_report.json",
+    "git_blob_sha1": "79367d87ee4c969014782ce6cc96060673162f48",
+    "decision": "winner",
+    "winner_candidate_id": "good",
+    "reason": "objective_hard_failure_advantage",
+    "human_labels": 0,
+    "model_scores_as_human_preference": false,
+    "synthetic_metrics_as_live": false,
+    "historical_metrics_causal": false
+  },
+  "readiness": {
+    "path": "fixtures/candidate_decision_v1/readiness_report.json",
+    "git_blob_sha1": "f4136a2867864448887dc64292e3ba943b8ff3d7"
+  },
+  "pinned_r18_blobs": {
+    "implementation": {
+      "path": "growth_analytics/candidate_decision.py",
+      "git_blob_sha1": "0d977ac0161a1f13facf79c42f97182649b40722"
+    },
+    "tests": {
+      "path": "tests/test_candidate_decision_r18.py",
+      "git_blob_sha1": "54a11639aa859a9f51364f2f88df3aa2e5696d74"
+    },
+    "documentation": {
+      "path": "docs/CANDIDATE_DECISION_R18.md",
+      "git_blob_sha1": "a92ed7d73fc1de54649d6d7b72dda551f65ebe44"
+    },
+    "schema": {
+      "path": "conformance/growth.candidate_decision.v1/schema.json",
+      "git_blob_sha1": "75a3efbb8a4e14789508dae11ae8db92723d0e27"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "632a2871b5c1ba1fc1c4f285cae559fe9b0eb50d"
+    },
+    "ci_workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "a17a59938db2f04798d324346cdb140db6c4b0b1"
+    }
+  },
+  "validated_candidate_ci": {
+    "run_id": 36859113703,
+    "head_sha": "33d85d8c0a88237783f7598f2c1508fd763a2dbe",
+    "conclusion": "success",
+    "focused_r18_tests": 11,
+    "full_tests": 250
+  },
+  "authority": {
+    "advisory_only": true,
+    "provider_mutation": false,
+    "publish": false,
+    "creator_mutation": false,
+    "media_mutation": false,
+    "merge_release": false
+  },
+  "manifest_self": {
+    "rule": "report exact committed Git blob SHA-1 separately; self-hash is not recursively embedded"
+  }
+}
