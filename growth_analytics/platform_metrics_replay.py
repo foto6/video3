@@ -287,7 +287,7 @@ def run_sandbox_replay(
         ],
         "next_cycle_seeds": [
             {
-                "platform": seed["platform"],
+                "platform": seed["lineage"]["platform"],
                 "seed_digest": seed["seed_digest"],
                 "source_class": seed["source_class"],
                 "creator_cycle_eligible":
