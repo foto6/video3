@@ -372,6 +372,18 @@ def _hypotheses(
     policy: PostPublishLearningPolicy,
 ) -> tuple[list[dict[str, Any]], list[str]]:
     blockers: list[str] = []
+    if runtime["state"] == "available":
+        if runtime["collector_state"] in {
+            "broken_or_terminal",
+            "backoff",
+        }:
+            blockers.append(
+                "collector_not_healthy"
+            )
+        if runtime["freshness"] != "fresh":
+            blockers.append(
+                "metric_snapshot_not_fresh"
+            )
     if snapshot is None:
         blockers.append(
             "metric_snapshot_unavailable"
@@ -391,18 +403,6 @@ def _hypotheses(
             "causal_claim": False,
         }], blockers
 
-    if runtime["state"] == "available":
-        if runtime["collector_state"] in {
-            "broken_or_terminal",
-            "backoff",
-        }:
-            blockers.append(
-                "collector_not_healthy"
-            )
-        if runtime["freshness"] != "fresh":
-            blockers.append(
-                "metric_snapshot_not_fresh"
-            )
     views = observed.get("views")
     if views is None or views < policy.min_views:
         blockers.append(
