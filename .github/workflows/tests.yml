@@ -18,5 +18,6 @@ jobs:
           python -m unittest discover -s tests -p "test_provider_ingest_r11.py" -v
           python -m unittest discover -s tests -p "test_collection_scheduler_r12.py" -v
           python -m unittest discover -s tests -p "test_experiment_allocator_r13.py" -v
+          python -m unittest discover -s tests -p "test_creator_batch_handoff_r14.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v

@@ -1,0 +1,47 @@
+{
+  "report_version": "growth.creator_batch_experiment_handoff_replay.v1",
+  "seed": "growth-r14-creator-batch-handoff-20261001",
+  "campaign": {
+    "campaign_id": "creator-r14-campaign-001",
+    "campaign_revision": 14,
+    "source_cycle_revision": 2
+  },
+  "history": {
+    "source_evidence_count": 30,
+    "observational_count": 22,
+    "randomized_count": 8,
+    "source_class": "synthetic_fixture"
+  },
+  "batch": {
+    "reel_count": 12,
+    "cell_count": 3,
+    "control_target": 3,
+    "directional_target": 6,
+    "exploration_target": 3,
+    "max_cells": 4
+  },
+  "restart": {
+    "allocator_restart": "durable_r13_plan_reopens_and_builds_identical_r14_handoff",
+    "lost_ack": "consumer_duplicate_then_outbox_ack",
+    "duplicate_prepare": "same_handoff_is_idempotent",
+    "changed_bytes_same_key": "fail_closed"
+  },
+  "validation": {
+    "wrong_campaign": "fail_closed",
+    "stale_campaign_revision": "fail_closed",
+    "future_campaign_revision": "fail_closed",
+    "stale_cycle_revision": "fail_closed",
+    "future_cycle_revision": "fail_closed",
+    "missing_evidence": "fail_closed",
+    "conflicting_control_cells": "fail_closed",
+    "unsupported_edit_dimensions": "fail_closed",
+    "synthetic_live_mismatch": "fail_closed"
+  },
+  "authority": {
+    "advisory_only": true,
+    "publish": false,
+    "provider_mutation": false,
+    "external_mutation": false,
+    "release_authorized": false
+  }
+}
