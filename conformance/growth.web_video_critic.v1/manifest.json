@@ -100,7 +100,7 @@
     },
     "tests": {
       "path": "tests/test_web_video_critic_r22.py",
-      "git_blob_sha1": "42b1eeb4e9bd5932cc8af2e8415f000ae53b0354"
+      "git_blob_sha1": "dddfb235fbad5446d5314661d29bc026eb788fc5"
     },
     "docs": {
       "path": "docs/WEB_VIDEO_CRITIC_R22.md",
@@ -112,7 +112,7 @@
     },
     "readiness": {
       "path": "fixtures/web_video_critic_r22/readiness_report.json",
-      "git_blob_sha1": "bca5a9005e32118a70deadc0958f6c0960f14988"
+      "git_blob_sha1": "06d73033f5d8f41e11cb96b05f22a3562f075591"
     },
     "input_schema": {
       "path": "conformance/growth.web_video_critic.v1/input.schema.json",
@@ -150,5 +150,12 @@
   },
   "manifest_self": {
     "rule": "Exact committed manifest Git blob SHA-1 is reported separately; the manifest does not recursively hash itself."
+  },
+  "bridge_followup_validation": {
+    "run_id": 36890637595,
+    "head_sha": "146e2fe07f9270dc73ce07d6583902384827c5c8",
+    "conclusion": "success",
+    "focused_r22_tests": 20,
+    "full_tests": 306
   }
 }

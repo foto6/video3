@@ -9,11 +9,12 @@
   "prior_substantive_head": "3e5679331419247b2334471ac003c0f45cb6c244",
   "prior_exact_head": "bda768dbd9a46d3a4a06c77d6198287d1a4f2435",
   "validated_candidate_ci": {
-    "run_id": 36888813605,
+    "run_id": 36890637595,
+    "head_sha": "146e2fe07f9270dc73ce07d6583902384827c5c8",
     "conclusion": "success",
-    "focused_r22_tests": 15,
-    "full_tests": 301,
-    "note": "Prior R22 schema/logic validation before exact Bridge R25 binding follow-up."
+    "focused_r22_tests": 20,
+    "full_tests": 306,
+    "scope": "Exact Bridge R25 transport-bound R22 candidate validation."
   },
   "bridge_r25_independent_verification": {
     "repository": "foto6/WebAIBridge",
@@ -94,5 +95,12 @@
     "live_upload_performed": false,
     "fake_human_labels": false,
     "fake_live_metrics": false
+  },
+  "prior_schema_validation": {
+    "run_id": 36888813605,
+    "conclusion": "success",
+    "focused_r22_tests": 15,
+    "full_tests": 301,
+    "note": "Prior R22 schema/logic validation before exact Bridge R25 binding follow-up."
   }
 }
