@@ -1,0 +1,46 @@
+{
+  "report_version": "growth.candidate_decision_readiness.r18.v1",
+  "contract_version": "growth.candidate_decision.v1",
+  "repository": "foto6/video3",
+  "starting_head": "aa2d2ce6ec84bab164c651d1b329094256fd7711",
+  "source_bound_dependencies": {
+    "visual_critic": "growth.visual_critic.r15.v1",
+    "pairwise_critic": "growth.visual_critic_pairwise.r15.v1",
+    "human_label": "growth.visual_critic_human_pairwise_label.v1",
+    "critic_export": "growth.critic_export.v1",
+    "publish_result": "growth.shortform_publish_result.v1",
+    "metric_snapshot": "growth.shortform_metric_snapshot.v1",
+    "platform_runtime": "growth.platform_metrics_runtime.r17.v1"
+  },
+  "winner_policy": {
+    "candidates": "2-4 expected candidates",
+    "missing_candidate": "insufficient_evidence",
+    "unique_zero_hard_failure_candidate": "winner eligible",
+    "structural_rule": "requires comparable dimensions, confidence and margin",
+    "contradictory_critics": "tie",
+    "model_score_as_human_preference": false,
+    "synthetic_metric_as_live_evidence": false,
+    "historical_metric_causal": false
+  },
+  "lineage": {
+    "source_id_and_sha_required": true,
+    "critic_render_sha_must_match_candidate": true,
+    "live_publish_receipt_required": true,
+    "live_provider_receipt_required": true,
+    "live_media_render_sha_required": true,
+    "stale_metric_winner_evidence": false
+  },
+  "durability": {
+    "duplicate_same_revision": "idempotent",
+    "changed_bytes_same_revision": "conflict",
+    "lower_revision": "out_of_order_rejected"
+  },
+  "authority": {
+    "advisory_only": true,
+    "provider_mutation": false,
+    "publish": false,
+    "creator_mutation": false,
+    "media_mutation": false,
+    "reedit_authorized": false
+  }
+}

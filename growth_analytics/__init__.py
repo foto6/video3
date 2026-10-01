@@ -358,6 +358,22 @@ from .gemini_pairwise import (
     GeminiNativeVideoPairwiseEvaluator,
 )
 
+from .candidate_decision import (
+    CANDIDATE_DECISION_LEDGER_VERSION,
+    CANDIDATE_DECISION_REPLAY_VERSION,
+    CANDIDATE_DECISION_VERSION,
+    HISTORICAL_INTERPRETATION,
+    CandidateDecisionCausalMisuse,
+    CandidateDecisionConflictError,
+    CandidateDecisionError,
+    CandidateDecisionLedger,
+    CandidateDecisionPolicy,
+    CandidateDecisionSyntheticLiveRejected,
+    OutOfOrderCandidateDecision,
+    build_candidate_decision,
+    parse_candidate_decision,
+)
+
 from .critic_export import (
     BENCHMARK_AUTHORITY_COMMIT,
     BENCHMARK_AUTHORITY_REPOSITORY,
@@ -412,6 +428,19 @@ from .experiment import (
 
 __all__ = [
     "AccountMutationDisabled",
+    "CANDIDATE_DECISION_LEDGER_VERSION",
+    "CANDIDATE_DECISION_REPLAY_VERSION",
+    "CANDIDATE_DECISION_VERSION",
+    "HISTORICAL_INTERPRETATION",
+    "CandidateDecisionCausalMisuse",
+    "CandidateDecisionConflictError",
+    "CandidateDecisionError",
+    "CandidateDecisionLedger",
+    "CandidateDecisionPolicy",
+    "CandidateDecisionSyntheticLiveRejected",
+    "OutOfOrderCandidateDecision",
+    "build_candidate_decision",
+    "parse_candidate_decision",
     "PLATFORM_METRICS_READINESS_VERSION",
     "PLATFORM_METRICS_RUNTIME_LEDGER_VERSION",
     "PLATFORM_METRICS_RUNTIME_VERSION",

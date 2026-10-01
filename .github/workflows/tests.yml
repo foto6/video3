@@ -23,5 +23,6 @@ jobs:
           python -m unittest discover -s tests -p "test_gemini_visual_critic_r15b.py" -v
           python -m unittest discover -s tests -p "test_critic_export_r16.py" -v
           python -m unittest discover -s tests -p "test_platform_metrics_runtime_r17.py" -v
+          python -m unittest discover -s tests -p "test_candidate_decision_r18.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
