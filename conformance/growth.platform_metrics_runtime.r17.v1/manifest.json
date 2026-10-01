@@ -1,0 +1,237 @@
+{
+  "manifest_version": "growth.platform_metrics_runtime_conformance.r17.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r17-platform-metrics-runtime-20261001",
+    "r17_starting_commit": "cb50a3d78a18e6db1ebef1be69fdf11ff2e27385",
+    "validated_candidate_commit": "c6333a3329c83f1ea35d21d1a897fca85be71c64"
+  },
+  "contracts": {
+    "runtime": "growth.platform_metrics_runtime.r17.v1",
+    "runtime_ledger": "growth.platform_metrics_runtime_ledger.r17.v1",
+    "readiness": "growth.platform_metrics_readiness.r17.v1",
+    "replay": "growth.platform_metrics_runtime_replay.r17.v1",
+    "provider_adapter_preserved": "growth.provider_metrics_adapter.v1",
+    "provider_ledger_preserved": "growth.provider_metrics_ingest_ledger.v1",
+    "scheduler_preserved": "growth.metrics_collection_scheduler.v1",
+    "schedule_ledger_preserved": "growth.metrics_collection_schedule_ledger.v1",
+    "platform_metrics_preserved": "growth.shortform_platform_metrics.v1",
+    "publish_result_preserved": "growth.shortform_publish_result.v1",
+    "metric_snapshot_preserved": "growth.shortform_metric_snapshot.v1",
+    "next_cycle_seed_preserved": "growth.reels_next_cycle_seed.v1"
+  },
+  "official_source_verification": {
+    "verified_at": "2026-10-01",
+    "instagram": [
+      {
+        "url": "https://www.postman.com/meta/instagram/overview",
+        "owner": "Meta",
+        "observed_current": "2026-09-18"
+      },
+      {
+        "url": "https://www.postman.com/meta/instagram/collection/6yqw8pt/instagram-api",
+        "owner": "Meta",
+        "observed_current": "2026-08-24"
+      },
+      {
+        "url": "https://developers.facebook.com/docs/instagram-platform/reference/instagram-media/insights",
+        "owner": "Meta",
+        "retrieval": "canonical reference URL recorded; automated retrieval blocked in execution environment"
+      },
+      {
+        "url": "https://developers.facebook.com/docs/graph-api/changelog/",
+        "owner": "Meta",
+        "api_version": "v26.0"
+      }
+    ],
+    "tiktok": [
+      {
+        "url": "https://developers.tiktok.com/docs/en/tiktok-api-v2-video-query",
+        "owner": "TikTok",
+        "last_updated": "2026-08-24",
+        "endpoint": "POST /v2/video/query/",
+        "scope": "video.list"
+      },
+      {
+        "url": "https://developers.tiktok.com/docs/en/tiktok-api-v2-video-object",
+        "owner": "TikTok",
+        "last_updated": "2026-08-24"
+      },
+      {
+        "url": "https://developers.tiktok.com/docs/en/oauth-user-access-token-management",
+        "owner": "TikTok",
+        "last_updated": "2026-08-04"
+      }
+    ],
+    "youtube": [
+      {
+        "url": "https://developers.google.com/youtube/v3/docs/videos",
+        "owner": "Google",
+        "current_semantic_change": "Starting 2026-08-24, video.statistics.viewCount for all formats including Shorts counts when playback begins."
+      },
+      {
+        "url": "https://developers.google.com/youtube/analytics/metrics",
+        "owner": "Google",
+        "observed_core_metrics": [
+          "engagedViews",
+          "views",
+          "estimatedMinutesWatched",
+          "averageViewDuration",
+          "likes",
+          "comments",
+          "shares",
+          "subscribersGained"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/youtube/analytics/reference/reports/query",
+        "owner": "Google"
+      }
+    ]
+  },
+  "production_capability": {
+    "instagram_reels": {
+      "state": "production_capable_conditional",
+      "requires": [
+        "Professional Business/Creator account",
+        "current Insights permission for selected login flow",
+        "provider metric availability for target media/account"
+      ]
+    },
+    "tiktok": {
+      "state": "production_capable_conditional",
+      "requires": [
+        "approved and user-authorized video.list scope",
+        "queried video belongs to authorized user"
+      ]
+    },
+    "youtube_shorts": {
+      "state": "production_capable_conditional",
+      "requires": [
+        "youtube.readonly OAuth",
+        "yt-analytics.readonly for deeper watch/share/subscriber analytics"
+      ]
+    },
+    "live_account_probe_performed": false
+  },
+  "metric_semantics": {
+    "unsupported_metrics": "null_plus_unavailable_evidence_never_zero",
+    "platform_reported": "stored as observed provider evidence",
+    "derived_analytics": "computed only by preserved R10 metric-snapshot normalization and labeled by normalization_sources",
+    "synthetic_fixture": "never live platform evidence"
+  },
+  "lineage": {
+    "live_registration_requires_platform_export_publish_result": true,
+    "provider_receipt_digest_required": true,
+    "provider_post_identity_required": true,
+    "media_render_sha256_required": true,
+    "unknown_live_lineage": "fail_closed"
+  },
+  "reliability": {
+    "read_only": true,
+    "bounded_timeout": true,
+    "rate_limit_retry_after": true,
+    "restart_safe": true,
+    "normalized_event_exactly_once": true,
+    "duplicate_snapshot_idempotency": true,
+    "out_of_order_revision_rejected": true,
+    "clock_skew_bounded_retry": true,
+    "provider_outage_bounded_retry": true,
+    "external_reauthorization_recovery": true,
+    "deleted_post_recovery": false
+  },
+  "operator_state": [
+    "freshness",
+    "lag_seconds",
+    "last_success_at",
+    "last_error",
+    "error_classification",
+    "backoff_until",
+    "backfill_recovery_state",
+    "latest_snapshot_digest",
+    "latest_provider_revision",
+    "unavailable_evidence"
+  ],
+  "sandbox_replay": {
+    "path": "fixtures/platform_metrics_runtime_v1/replay_report.json",
+    "git_blob_sha1": "c71ea4a8c5b5039aa65b1dc195936b785b9534b0",
+    "platforms": [
+      "instagram_reels",
+      "tiktok",
+      "youtube_shorts"
+    ],
+    "source_class": "synthetic_fixture",
+    "live_performance_claim_allowed": false,
+    "first_tick_processed": 3,
+    "second_tick_processed": 0,
+    "logical_seed_count": 3,
+    "provider_calls_each": 1
+  },
+  "readiness_report": {
+    "path": "fixtures/platform_metrics_runtime_v1/readiness_report.json",
+    "git_blob_sha1": "7d0c5aadec215da553898b47950bd00ae76722c8"
+  },
+  "pinned_upstream_conformance": {
+    "r11_provider_ingest": "8b47817cb344c4a1670d338fca351c1056e8ba6f",
+    "r12_collection_scheduler": "c8cee6048c730c4289e573caf05ffaa14b1fefec",
+    "r13_experiment_allocator": "42422332400b40fc8c5bd9b6e6ef6f0d408aeb9b",
+    "r14_creator_batch_handoff": "0f72f3026fca15ecaffa7e44df44946ff4352f0c",
+    "r15_visual_critic": "20ba04c5d6cbcdce36099d62caeb74760eb85250",
+    "r15b_gemini_critic": "dd7c2fdcc9962fd5d5bb46ed2ff743c72b95fcab",
+    "r16_critic_export": "8f76d27c893658b3838eb2dcbe696a926a60dab3"
+  },
+  "pinned_r17_blobs": {
+    "provider_ingest": {
+      "path": "growth_analytics/provider_ingest.py",
+      "git_blob_sha1": "c0ac85d10dd9a792f64b25d7c6136d2504580ffc"
+    },
+    "scheduler": {
+      "path": "growth_analytics/collection_scheduler.py",
+      "git_blob_sha1": "6b05a1dc87bdbf4577c84a98e224b2cd9496337b"
+    },
+    "runtime": {
+      "path": "growth_analytics/platform_metrics_runtime.py",
+      "git_blob_sha1": "2f55d5700a624055690e87cb7634a5ee71ce0e3d"
+    },
+    "replay": {
+      "path": "growth_analytics/platform_metrics_replay.py",
+      "git_blob_sha1": "8333abfe4302c747ff1477f9a5f1e5a0526538f9"
+    },
+    "tests": {
+      "path": "tests/test_platform_metrics_runtime_r17.py",
+      "git_blob_sha1": "3f27c709af07a389b2920fbd3a81abcd6a0a5a8b"
+    },
+    "documentation": {
+      "path": "docs/PLATFORM_METRICS_RUNTIME_R17.md",
+      "git_blob_sha1": "6e3403abbdcfbe57ea1cd306ffe22a7aaee990d8"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "61809df0f15b4c03bf1a38ed5d2a736d42423382"
+    },
+    "ci_workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "9c532e22a1d21de54566fc27d609fbd7ebbc013d"
+    }
+  },
+  "validated_candidate_ci": {
+    "run_id": 36834057144,
+    "head_sha": "c6333a3329c83f1ea35d21d1a897fca85be71c64",
+    "conclusion": "success",
+    "focused_r17_tests": 14,
+    "full_tests": 239
+  },
+  "authority": {
+    "provider_mutation": false,
+    "publishing": false,
+    "editing": false,
+    "deleting": false,
+    "captcha_2fa_automation": false,
+    "credentials_committed": false,
+    "creator_media_repo_mutation": false,
+    "merge_release": false
+  },
+  "manifest_self": {
+    "rule": "report exact committed Git blob SHA-1 separately; self-hash is not recursively embedded"
+  }
+}

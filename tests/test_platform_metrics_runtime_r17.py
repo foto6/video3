@@ -905,20 +905,8 @@ class GrowthR17PlatformMetricsRuntimeTests(unittest.TestCase):
             / "platform_metrics_runtime_v1"
             / "replay_report.json"
         )
-        if not readiness_path.exists() or not replay_path.exists():
-            replay = run_sandbox_replay(
-                root
-                / ".r17-replay-temporary-output"
-            )
-            print(
-                "R17_REPLAY_JSON="
-                + json.dumps(
-                    replay,
-                    sort_keys=True,
-                    separators=(",", ":"),
-                )
-            )
-            return
+        self.assertTrue(readiness_path.exists())
+        self.assertTrue(replay_path.exists())
         readiness = json.loads(
             readiness_path.read_text(encoding="utf-8")
         )
@@ -951,6 +939,22 @@ class GrowthR17PlatformMetricsRuntimeTests(unittest.TestCase):
         )
         self.assertFalse(
             replay["live_performance_claim_allowed"]
+        )
+        with tempfile.TemporaryDirectory() as temp:
+            rebuilt = run_sandbox_replay(temp)
+        self.assertEqual(rebuilt, replay)
+        expected_bytes = (
+            json.dumps(
+                rebuilt,
+                sort_keys=True,
+                separators=(",", ":"),
+                ensure_ascii=False,
+            )
+            + "\n"
+        ).encode("utf-8")
+        self.assertEqual(
+            replay_path.read_bytes(),
+            expected_bytes,
         )
 
 
