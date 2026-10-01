@@ -24,5 +24,6 @@ jobs:
           python -m unittest discover -s tests -p "test_critic_export_r16.py" -v
           python -m unittest discover -s tests -p "test_platform_metrics_runtime_r17.py" -v
           python -m unittest discover -s tests -p "test_candidate_decision_r18.py" -v
+          python -m unittest discover -s tests -p "test_post_publish_learning_r19.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v

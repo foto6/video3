@@ -1,0 +1,44 @@
+{
+  "report_version": "growth.post_publish_learning_readiness.r19.v1",
+  "contract_version": "growth.post_publish_learning.v1",
+  "brief_seed_version": "growth.post_publish_brief_seed.v1",
+  "repository": "foto6/video3",
+  "starting_head": "2d3bf275c5b456d53384073fb7ec1ed992e6b996",
+  "source_bound_dependencies": {
+    "publish_result": "growth.shortform_publish_result.v1",
+    "metric_snapshot": "growth.shortform_metric_snapshot.v1",
+    "platform_runtime": "growth.platform_metrics_runtime.r17.v1",
+    "candidate_decision": "growth.candidate_decision.v1"
+  },
+  "evidence_separation": {
+    "observed_provider_metrics": true,
+    "derived_analytics": true,
+    "speculative_hypotheses": true,
+    "historical_performance_proves_causality": false,
+    "retroactive_human_preference_inference": false
+  },
+  "failure_semantics": {
+    "missing_snapshot": "insufficient_or_delayed",
+    "partial_metrics": "null plus unavailable_evidence",
+    "deleted_post": "runtime error retained; no invented metrics",
+    "provider_outage": "runtime backoff/error retained",
+    "stale_or_clock_skew": "blocked from fresh evidence",
+    "account_mismatch": "fail closed",
+    "out_of_order_window": "rejected",
+    "revision_conflict": "rejected"
+  },
+  "replay": {
+    "source_class": "synthetic_fixture",
+    "fake_live_metrics": false,
+    "creator_cycle_eligible": false
+  },
+  "human_level_claim": false,
+  "authority": {
+    "advisory_only": true,
+    "provider_mutation": false,
+    "publish": false,
+    "creator_mutation": false,
+    "media_mutation": false,
+    "release_authorized": false
+  }
+}

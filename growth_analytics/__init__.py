@@ -358,6 +358,26 @@ from .gemini_pairwise import (
     GeminiNativeVideoPairwiseEvaluator,
 )
 
+from .post_publish_learning import (
+    POST_PUBLISH_BRIEF_SEED_VERSION,
+    POST_PUBLISH_LEARNING_LEDGER_VERSION,
+    POST_PUBLISH_LEARNING_REPLAY_VERSION,
+    POST_PUBLISH_LEARNING_VERSION,
+    PostPublishLearningConflictError,
+    PostPublishLearningError,
+    PostPublishLearningLedger,
+    PostPublishLearningOutOfOrder,
+    PostPublishLearningPolicy,
+    PostPublishLearningSyntheticLiveRejected,
+    build_post_publish_brief_seed,
+    build_post_publish_learning,
+    parse_post_publish_brief_seed,
+    parse_post_publish_learning,
+)
+from .post_publish_learning_replay import (
+    run_post_publish_learning_replay,
+)
+
 from .candidate_decision import (
     CANDIDATE_DECISION_LEDGER_VERSION,
     CANDIDATE_DECISION_REPLAY_VERSION,
@@ -428,6 +448,21 @@ from .experiment import (
 
 __all__ = [
     "AccountMutationDisabled",
+    "POST_PUBLISH_BRIEF_SEED_VERSION",
+    "POST_PUBLISH_LEARNING_LEDGER_VERSION",
+    "POST_PUBLISH_LEARNING_REPLAY_VERSION",
+    "POST_PUBLISH_LEARNING_VERSION",
+    "PostPublishLearningConflictError",
+    "PostPublishLearningError",
+    "PostPublishLearningLedger",
+    "PostPublishLearningOutOfOrder",
+    "PostPublishLearningPolicy",
+    "PostPublishLearningSyntheticLiveRejected",
+    "build_post_publish_brief_seed",
+    "build_post_publish_learning",
+    "parse_post_publish_brief_seed",
+    "parse_post_publish_learning",
+    "run_post_publish_learning_replay",
     "CANDIDATE_DECISION_LEDGER_VERSION",
     "CANDIDATE_DECISION_REPLAY_VERSION",
     "CANDIDATE_DECISION_VERSION",
