@@ -302,17 +302,7 @@ class GrowthR16CriticExportTests(unittest.TestCase):
             / CRITIC_EXPORT_FILENAME
         )
         expected = self.export()
-        if not path.exists():
-            print(
-                "R16_EXPORT_JSON="
-                + json.dumps(
-                    expected,
-                    sort_keys=True,
-                    separators=(",", ":"),
-                    ensure_ascii=False,
-                )
-            )
-            return
+        self.assertTrue(path.exists())
         self.assertEqual(
             path.read_bytes(),
             (
@@ -339,67 +329,10 @@ class GrowthR16CriticExportTests(unittest.TestCase):
             / "critic_export_v1"
             / "nonhuman_evidence_proof.json"
         )
-        if not path.exists():
-            proof = {
-                "proof_version":
-                    "growth.critic_export_nonhuman_proof.v1",
-                "benchmark_protocol":
-                    "boss.human_editing_gate.v1",
-                "benchmark_authority_commit":
-                    "e0763bebf2aad9402f8de8c60edb1b9eb8c4be8e",
-                "r15_structural": {
-                    "contract_version":
-                        self.r15["reports"]["bad"]["contract_version"],
-                    "critic_report_digest":
-                        self.r15["reports"]["bad"][
-                            "critic_report_digest"
-                        ],
-                    "human_ground_truth": False,
-                },
-                "r15b_gemini_mock": {
-                    "contract_version":
-                        self.r15b["strong_tie_resolution"][
-                            "contract_version"
-                        ],
-                    "result_digest":
-                        self.r15b["strong_tie_resolution"][
-                            "result_digest"
-                        ],
-                    "provider":
-                        self.r15b["strong_tie_resolution"][
-                            "gemini_opinion"
-                        ]["provider_name"],
-                    "model":
-                        self.r15b["strong_tie_resolution"][
-                            "gemini_opinion"
-                        ]["model_name"],
-                    "human_ground_truth":
-                        self.r15b["strong_tie_resolution"][
-                            "gemini_opinion"
-                        ]["human_ground_truth"],
-                    "human_benchmark_readiness":
-                        self.r15b[
-                            "human_benchmark_readiness"
-                        ],
-                    "human_labels":
-                        self.r15b["human_labels"],
-                },
-                "benchmark_owned_human_ratings_written_by_growth":
-                    False,
-            }
-            print(
-                "R16_PROOF_JSON="
-                + json.dumps(
-                    proof,
-                    sort_keys=True,
-                    separators=(",", ":"),
-                    ensure_ascii=False,
-                )
-            )
-        else:
-            proof = json.loads(
-                path.read_text(encoding="utf-8")
-            )
+        self.assertTrue(path.exists())
+        proof = json.loads(
+            path.read_text(encoding="utf-8")
+        )
         self.assertEqual(
             proof["benchmark_protocol"],
             "boss.human_editing_gate.v1",

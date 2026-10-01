@@ -1,0 +1,134 @@
+{
+  "manifest_version": "growth.critic_export_conformance.r16.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r16-benchmark-export-20261001",
+    "r16_starting_commit": "3c328d4feb922888ed2600b6c0cf7d5d7920cf3b",
+    "implementation_commit": "225733dd8965928cc8770acba7368102de70056b"
+  },
+  "benchmark_authority": {
+    "repository": "foto6/boss",
+    "branch": "agent/human-editing-gate-supervisor-20261001-v2",
+    "commit": "e0763bebf2aad9402f8de8c60edb1b9eb8c4be8e",
+    "protocol": "boss.human_editing_gate.v1",
+    "protocol_json_blob_sha1": "8eb2e400f9997e1fefa5ebb9500d8e13d54f51ed",
+    "protocol_doc_blob_sha1": "bde2f040bf08f05c3c750779863d3d4da84532d0",
+    "protocol_test_blob_sha1": "6e96d6fd1c6cf2272662ee64a8d5b50598defecd"
+  },
+  "contract": {
+    "version": "growth.critic_export.v1",
+    "required_filename": "growth.critic_export.v1.json",
+    "required_keys": [
+      "contract_version",
+      "repository",
+      "commit_sha",
+      "source_id",
+      "render_sha256",
+      "critic_mode",
+      "model_or_rule_identity",
+      "dimension_observations",
+      "timecoded_evidence",
+      "hard_failure_observations",
+      "pairwise_if_used",
+      "human_ground_truth"
+    ],
+    "repository": "foto6/video3",
+    "human_ground_truth": false
+  },
+  "rubric_mapping": {
+    "hook": "hook_clarity_first_1_3s",
+    "pacing": "pacing_coherence",
+    "semantic_cut_correctness": "semantic_cut_correctness",
+    "framing_crop": "subject_framing_crop_quality",
+    "broll_relevance": "broll_relevance",
+    "captions": "caption_readability_emphasis_relevance",
+    "continuity": "visual_continuity",
+    "motion_appropriateness": "motion_zoom_appropriateness",
+    "audio_balance": "audio_voice_music_balance",
+    "payoff_cta_loop": "payoff_cta_loop_coherence",
+    "awkward_dead_moments": "timecoded_evidence_only_no_benchmark_score",
+    "overall_preference": "not_synthesized_by_growth"
+  },
+  "human_boundary": {
+    "rule_output_human_ground_truth": false,
+    "model_output_human_ground_truth": false,
+    "vlm_output_human_ground_truth": false,
+    "pairwise_is_advisory_only": true,
+    "pairwise_serialized_as_human_label": false,
+    "growth_writes_human_ratings_v1_ndjson": false,
+    "human_ratings_owner": "foto6/boss"
+  },
+  "canonical_export": {
+    "path": "fixtures/critic_export_v1/growth.critic_export.v1.json",
+    "commit_sha": "225733dd8965928cc8770acba7368102de70056b",
+    "source_id": "benchmark-source-bad",
+    "render_sha256": "9c581130f054417b3ccd82409df6b9b069221c3f27dc8cb09e707474d4a64103",
+    "critic_mode": "structural_rule",
+    "human_ground_truth": false,
+    "git_blob_sha1": "e341f6b16c15b342576f3bfc924b90bd7e4fc8da"
+  },
+  "nonhuman_fixture_proof": {
+    "path": "fixtures/critic_export_v1/nonhuman_evidence_proof.json",
+    "r15_structural_human_ground_truth": false,
+    "r15b_gemini_mock_human_ground_truth": false,
+    "r15b_human_benchmark_readiness": "HUMAN_LEVEL_UNPROVEN",
+    "benchmark_owned_human_ratings_written_by_growth": false,
+    "git_blob_sha1": "25fa19835f5ede191353814a27dc4a67c2b3d610"
+  },
+  "pinned_input_evidence": {
+    "r15_commit": "c881932dd90f14d4fd0a090d1809192873e95177",
+    "r15_fixture_pack": {
+      "path": "fixtures/visual_critic_r15/fixture_pack.json",
+      "git_blob_sha1": "c5d52eac7301a2363a911234685568bbb0d31a53"
+    },
+    "r15b_commit": "3c328d4feb922888ed2600b6c0cf7d5d7920cf3b",
+    "r15b_pairwise_fixture": {
+      "path": "fixtures/visual_critic_r15b/pairwise_fixture.json",
+      "git_blob_sha1": "9868c381438526c82242ab3c6fdf67b054962cbf"
+    }
+  },
+  "pinned_r16_blobs": {
+    "implementation": {
+      "path": "growth_analytics/critic_export.py",
+      "git_blob_sha1": "be8342d3dd2d722855eaaf6902c9800da261b4c3"
+    },
+    "schema": {
+      "path": "conformance/growth.critic_export.v1/schema.json",
+      "git_blob_sha1": "8b6f67dfaa015a824acd09e9a70121c8198ec72a"
+    },
+    "tests": {
+      "path": "tests/test_critic_export_r16.py",
+      "git_blob_sha1": "ea69544e1a7234ecf11cfc011311454c93ddc610"
+    },
+    "documentation": {
+      "path": "docs/CRITIC_EXPORT_V1.md",
+      "git_blob_sha1": "f7b2788a78331a96deb2f9b01eba1e9b62b17366"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "5809d0b231c4998cfb955582debb4931eb0da876"
+    },
+    "ci_workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "5e5d9714424c35b2f7d49904b871a30d8d890b8d"
+    }
+  },
+  "intermediate_validation": {
+    "run_id": 36810985190,
+    "head_sha": "bd2ab6597c7395cc43cdff0aabf2d26cb25da5a5",
+    "conclusion": "success",
+    "focused_r16_tests": 12,
+    "full_tests": 225
+  },
+  "authority": {
+    "advisory_only": true,
+    "publishing": false,
+    "credentials": false,
+    "creator_mutation": false,
+    "media_mutation": false,
+    "merge_release": false
+  },
+  "manifest_self": {
+    "rule": "report exact committed Git blob SHA-1 separately; self-hash is not recursively embedded"
+  }
+}
