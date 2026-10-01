@@ -1,0 +1,54 @@
+{
+  "report_version": "growth.visual_critic_replay.r15.v1",
+  "source_commit": "eae1dba5258ebc661332955c2561f35354245eb1",
+  "fixture_pack": {
+    "version": "growth.visual_critic_fixture_pack.r15.v1",
+    "candidate_count": 6,
+    "scenarios": [
+      "deliberately_good",
+      "deliberately_bad",
+      "pairwise_tie",
+      "pairwise_insufficient_evidence"
+    ],
+    "expected_pairwise": {
+      "good_vs_bad": "A",
+      "tie": "tie",
+      "insufficient": "insufficient_evidence"
+    },
+    "localized_bad_variant_timecodes_seconds": [
+      0.0,
+      7.0,
+      7.2,
+      8.7,
+      11.0,
+      10.7
+    ]
+  },
+  "provider_boundary": {
+    "vlm_optional": true,
+    "missing_provider_mode": "deterministic_structural_only",
+    "credential_material_allowed": false,
+    "vlm_is_human_ground_truth": false
+  },
+  "human_benchmark": {
+    "readiness": "HUMAN_LEVEL_UNPROVEN",
+    "minimum_real_labels": 30,
+    "actual_labels": 0,
+    "agreement_metrics": null,
+    "fabricated_labels": false
+  },
+  "uncertainty": {
+    "dimension_scores_collapsed_to_single_score": false,
+    "tie_supported": true,
+    "insufficient_evidence_supported": true,
+    "observational_or_model_score_claimed_as_human_preference": false
+  },
+  "authority": {
+    "advisory_only": true,
+    "publish": false,
+    "provider_mutation": false,
+    "media_mutation": false,
+    "creator_mutation": false,
+    "merge_release": false
+  }
+}

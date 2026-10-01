@@ -765,16 +765,11 @@ class GrowthR15VisualCriticTests(unittest.TestCase):
             root / "fixtures" / "visual_critic_r15"
             / "fixture_pack.json"
         )
-        if fixture_path.exists():
-            self.assertEqual(
-                fixture_path.read_bytes(),
-                (canonical_json(pack) + "\n").encode("utf-8"),
-            )
-        else:
-            print(
-                "R15_FIXTURE_PACK_JSON="
-                + canonical_json(pack)
-            )
+        self.assertTrue(fixture_path.exists())
+        self.assertEqual(
+            fixture_path.read_bytes(),
+            (canonical_json(pack) + "\n").encode("utf-8"),
+        )
 
     def test_replay_report_declares_human_level_unproven(self):
         root = Path(__file__).resolve().parents[1]
@@ -782,8 +777,7 @@ class GrowthR15VisualCriticTests(unittest.TestCase):
             root / "fixtures" / "visual_critic_r15"
             / "replay_report.json"
         )
-        if not report_path.exists():
-            self.skipTest("replay report pinned in final fixture commit")
+        self.assertTrue(report_path.exists())
         report = json.loads(
             report_path.read_text(encoding="utf-8")
         )

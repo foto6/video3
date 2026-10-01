@@ -1,0 +1,114 @@
+{
+  "manifest_version": "growth.visual_critic_conformance.r15.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r15-visual-critic-20261001",
+    "r15_starting_commit": "eae1dba5258ebc661332955c2561f35354245eb1"
+  },
+  "contracts": {
+    "critic": "growth.visual_critic.r15.v1",
+    "pairwise": "growth.visual_critic_pairwise.r15.v1",
+    "vlm_observation": "growth.visual_critic_vlm_observation.v1",
+    "human_pairwise_label": "growth.visual_critic_human_pairwise_label.v1",
+    "calibration": "growth.visual_critic_calibration.r15.v1"
+  },
+  "dimensions": [
+    "hook_clarity_first_1_3s",
+    "pacing_coherence",
+    "semantic_cut_correctness",
+    "subject_framing_crop_quality",
+    "broll_relevance",
+    "caption_readability_emphasis_relevance",
+    "visual_continuity",
+    "motion_zoom_appropriateness",
+    "audio_voice_music_balance",
+    "payoff_cta_loop_coherence",
+    "awkward_dead_moments"
+  ],
+  "evidence_separation": {
+    "objective_hard_failures": true,
+    "heuristic_editorial_judgments": true,
+    "vlm_model_opinion": true,
+    "human_labels": true,
+    "dimension_uncertainty_preserved": true,
+    "single_collapsed_quality_score": false
+  },
+  "pairwise": {
+    "preferred_selection_mode": true,
+    "tie_supported": true,
+    "insufficient_evidence_supported": true,
+    "human_preference_ground_truth_claim": false,
+    "creator_tournament_machine_readable": true
+  },
+  "vlm_boundary": {
+    "optional": true,
+    "credential_fields": false,
+    "credential_like_output_rejected": true,
+    "missing_provider": "deterministic_structural_only_with_limitation"
+  },
+  "human_benchmark": {
+    "readiness_without_minimum_real_labels": "HUMAN_LEVEL_UNPROVEN",
+    "default_minimum_real_labels": 30,
+    "fixture_real_human_labels": 0,
+    "fixture_agreement_metrics": null,
+    "fabricated_labels": false
+  },
+  "authority": {
+    "advisory_only": true,
+    "publish": false,
+    "provider_mutation": false,
+    "media_mutation": false,
+    "creator_mutation": false,
+    "release_authorized": false
+  },
+  "fixture_expectations": {
+    "good_vs_bad": "A",
+    "tie": "tie",
+    "insufficient": "insufficient_evidence",
+    "bad_localization_seconds": [7.2, 8.7, 11.0]
+  },
+  "pinned_provenance": {
+    "r14_manifest": {
+      "path": "conformance/growth.creator_batch_experiment_handoff.v1/manifest.json",
+      "git_blob_sha1": "0f72f3026fca15ecaffa7e44df44946ff4352f0c"
+    },
+    "r14_canonical_handoff": {
+      "path": "fixtures/creator_batch_experiment_handoff_v1/canonical_handoff.json",
+      "git_blob_sha1": "876d803e3a217c68a9999af235266538e467c190"
+    },
+    "r14_commit": "eae1dba5258ebc661332955c2561f35354245eb1"
+  },
+  "pinned_r15_blobs": {
+    "implementation": {
+      "path": "growth_analytics/visual_critic.py",
+      "git_blob_sha1": "6b78c07c4d8486417f717a5fb141abc98aac5852"
+    },
+    "tests": {
+      "path": "tests/test_visual_critic_r15.py",
+      "git_blob_sha1": "402ab1467a72e39562582ea2e1ededd24bf9afa7"
+    },
+    "documentation": {
+      "path": "docs/VISUAL_CRITIC_R15.md",
+      "git_blob_sha1": "811040de0cbd910048abe6d240ac3fc5a6d05a22"
+    },
+    "fixture_pack": {
+      "path": "fixtures/visual_critic_r15/fixture_pack.json",
+      "git_blob_sha1": "c5d52eac7301a2363a911234685568bbb0d31a53"
+    },
+    "replay_report": {
+      "path": "fixtures/visual_critic_r15/replay_report.json",
+      "git_blob_sha1": "937a5b9820d193d8c9ffc9d4b6053698c85513e6"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "5c1f7490de3296d1494b12d1dc9d7a3d9df0694f"
+    },
+    "ci_workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "383a6ee8b247622c85aa87742fef5575c0cf0e44"
+    }
+  },
+  "manifest_self": {
+    "rule": "report exact committed Git blob SHA-1 separately; self-hash is not recursively embedded"
+  }
+}
