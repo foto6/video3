@@ -697,25 +697,8 @@ class GrowthR19PostPublishLearningTests(unittest.TestCase):
             / "post_publish_learning_v1"
             / "replay_report.json"
         )
-        if (
-            not readiness_path.exists()
-            or not replay_path.exists()
-        ):
-            with tempfile.TemporaryDirectory() as temp:
-                replay = (
-                    run_post_publish_learning_replay(
-                        temp
-                    )
-                )
-            print(
-                "R19_REPLAY_JSON="
-                + json.dumps(
-                    replay,
-                    sort_keys=True,
-                    separators=(",", ":"),
-                )
-            )
-            return
+        self.assertTrue(readiness_path.exists())
+        self.assertTrue(replay_path.exists())
         readiness = json.loads(
             readiness_path.read_text(
                 encoding="utf-8"
@@ -747,6 +730,18 @@ class GrowthR19PostPublishLearningTests(unittest.TestCase):
                 )
             )
         self.assertEqual(replay, rebuilt)
+        self.assertEqual(
+            replay_path.read_bytes(),
+            (
+                json.dumps(
+                    rebuilt,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                    ensure_ascii=False,
+                )
+                + "\n"
+            ).encode("utf-8"),
+        )
 
 
 if __name__ == "__main__":

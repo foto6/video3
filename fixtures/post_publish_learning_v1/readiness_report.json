@@ -3,34 +3,60 @@
   "contract_version": "growth.post_publish_learning.v1",
   "brief_seed_version": "growth.post_publish_brief_seed.v1",
   "repository": "foto6/video3",
+  "branch": "agent/growth-r19-post-publish-learning-loop-20261001",
   "starting_head": "2d3bf275c5b456d53384073fb7ec1ed992e6b996",
+  "validated_candidate_head": "7e51bb185829b36a14fe4647a4f82b6ef2d3ee4e",
+  "validated_candidate_ci": {
+    "run_id": 36861258321,
+    "conclusion": "success",
+    "focused_r19_tests": 11,
+    "full_tests": 261
+  },
   "source_bound_dependencies": {
+    "r17": {
+      "contract": "growth.platform_metrics_runtime.r17.v1",
+      "manifest_blob_sha1": "c087da63484bc2318641067366160460de2da048"
+    },
+    "r18": {
+      "contract": "growth.candidate_decision.v1",
+      "manifest_blob_sha1": "05e778e7a67556b66cb407e2c65a2f7bb391dbab"
+    },
     "publish_result": "growth.shortform_publish_result.v1",
-    "metric_snapshot": "growth.shortform_metric_snapshot.v1",
-    "platform_runtime": "growth.platform_metrics_runtime.r17.v1",
-    "candidate_decision": "growth.candidate_decision.v1"
+    "metric_snapshot": "growth.shortform_metric_snapshot.v1"
+  },
+  "lineage_requirements": {
+    "exact_publish_result_digest": true,
+    "exact_provider_account_post_identity": true,
+    "exact_media_render_sha256": true,
+    "exact_metric_snapshot_digest": true,
+    "exact_observation_window": true,
+    "candidate_decision_link_requires_matching_cycle_and_render": true
   },
   "evidence_separation": {
-    "observed_provider_metrics": true,
-    "derived_analytics": true,
-    "speculative_hypotheses": true,
+    "observed_provider_metrics": "direct provider fields only",
+    "derived_analytics": "explicitly labeled normalization or derivation",
+    "speculative_hypotheses": "bounded test suggestions with causal_claim=false",
     "historical_performance_proves_causality": false,
-    "retroactive_human_preference_inference": false
+    "model_or_history_relabels_human_preference": false
   },
-  "failure_semantics": {
+  "degraded_evidence": {
     "missing_snapshot": "insufficient_or_delayed",
     "partial_metrics": "null plus unavailable_evidence",
-    "deleted_post": "runtime error retained; no invented metrics",
-    "provider_outage": "runtime backoff/error retained",
-    "stale_or_clock_skew": "blocked from fresh evidence",
+    "delayed_metrics": "insufficient_or_delayed",
+    "deleted_post": "R17 error retained; no metric invention",
+    "provider_outage": "R17 backoff/error retained",
+    "stale_or_clock_skew": "not fresh; blocker retained",
     "account_mismatch": "fail closed",
-    "out_of_order_window": "rejected",
-    "revision_conflict": "rejected"
+    "out_of_order_window": "fail closed",
+    "same_revision_changed_payload": "conflict"
   },
   "replay": {
+    "path": "fixtures/post_publish_learning_v1/replay_report.json",
     "source_class": "synthetic_fixture",
+    "live_performance_claim_allowed": false,
     "fake_live_metrics": false,
-    "creator_cycle_eligible": false
+    "creator_cycle_eligible": false,
+    "provider_mutation": false
   },
   "human_level_claim": false,
   "authority": {

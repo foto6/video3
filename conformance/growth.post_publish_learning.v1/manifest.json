@@ -1,0 +1,119 @@
+{
+  "manifest_version": "growth.post_publish_learning_conformance.r19.v1",
+  "producer": {
+    "repository": "foto6/video3",
+    "branch": "agent/growth-r19-post-publish-learning-loop-20261001",
+    "r19_starting_commit": "2d3bf275c5b456d53384073fb7ec1ed992e6b996",
+    "validated_candidate_commit": "7e51bb185829b36a14fe4647a4f82b6ef2d3ee4e"
+  },
+  "contracts": {
+    "learning": "growth.post_publish_learning.v1",
+    "brief_seed": "growth.post_publish_brief_seed.v1",
+    "ledger": "growth.post_publish_learning_ledger.v1",
+    "replay": "growth.post_publish_learning_replay.r19.v1",
+    "publish_result_preserved": "growth.shortform_publish_result.v1",
+    "metric_snapshot_preserved": "growth.shortform_metric_snapshot.v1",
+    "platform_runtime_preserved": "growth.platform_metrics_runtime.r17.v1",
+    "candidate_decision_preserved": "growth.candidate_decision.v1"
+  },
+  "evidence_layers": {
+    "observed_provider_metrics": "direct selected-event provider values only",
+    "derived_analytics": "normalization/derivation explicitly labeled",
+    "speculative_hypotheses": "bounded testable changes with causal_claim=false",
+    "historical_performance_proves_causality": false,
+    "retroactive_human_preference_inference": false
+  },
+  "lineage": {
+    "publish_result_digest_required": true,
+    "media_render_sha256_required": true,
+    "metric_snapshot_digest_required_when_snapshot_present": true,
+    "observation_window_required_when_snapshot_present": true,
+    "account_post_cycle_source_match_required": true,
+    "r18_link_requires_exact_cycle_and_render_match": true,
+    "otherwise_candidate_decision": "unavailable_evidence"
+  },
+  "degraded_states": {
+    "missing_snapshot": "insufficient_or_delayed",
+    "partial_metrics": "explicit null plus unavailable_evidence",
+    "provider_outage": "runtime blocker retained",
+    "deleted_post": "runtime blocker retained",
+    "stale_or_clock_skew": "not treated as fresh evidence",
+    "out_of_order_observation_window": "rejected",
+    "revision_conflict": "rejected"
+  },
+  "durability": {
+    "duplicate_same_revision_same_digest": "duplicate",
+    "same_revision_changed_payload": "conflict",
+    "lower_revision": "out_of_order_rejected",
+    "observation_window_regression": "out_of_order_rejected",
+    "restart_safe": true
+  },
+  "replay": {
+    "path": "fixtures/post_publish_learning_v1/replay_report.json",
+    "git_blob_sha1": "12df5f79169b186d5b008f5cf5d7cd41b8cf8011",
+    "source_class": "synthetic_fixture",
+    "live_performance_claim_allowed": false,
+    "creator_cycle_eligible": false,
+    "provider_mutation": false,
+    "human_level_claim": false,
+    "hypotheses": 4
+  },
+  "readiness": {
+    "path": "fixtures/post_publish_learning_v1/readiness_report.json",
+    "git_blob_sha1": "93f8faba387014148fcca8c8c707103641f79878"
+  },
+  "source_bound_dependencies": {
+    "r17_manifest_blob_sha1": "c087da63484bc2318641067366160460de2da048",
+    "r18_manifest_blob_sha1": "05e778e7a67556b66cb407e2c65a2f7bb391dbab"
+  },
+  "pinned_r19_blobs": {
+    "implementation": {
+      "path": "growth_analytics/post_publish_learning.py",
+      "git_blob_sha1": "78b839a954cc1375998229e40fcfe1cbfeb5c54a"
+    },
+    "replay_runner": {
+      "path": "growth_analytics/post_publish_learning_replay.py",
+      "git_blob_sha1": "8280b6001ce553a7bb16e541fc01e9bab1f82a96"
+    },
+    "tests": {
+      "path": "tests/test_post_publish_learning_r19.py",
+      "git_blob_sha1": "5f813de0fbc65cd4b53a76337f78cebd3d2df23f"
+    },
+    "documentation": {
+      "path": "docs/POST_PUBLISH_LEARNING_R19.md",
+      "git_blob_sha1": "30809aa8896ee0cc1ab096200bc8f2cfbd573865"
+    },
+    "schema": {
+      "path": "conformance/growth.post_publish_learning.v1/schema.json",
+      "git_blob_sha1": "8cc7b1ff3ea99da31865df65cb688e57cbbf0882"
+    },
+    "package_exports": {
+      "path": "growth_analytics/__init__.py",
+      "git_blob_sha1": "a59d84f0f51340de609f3825ab3c7f448673a10f"
+    },
+    "ci_workflow": {
+      "path": ".github/workflows/tests.yml",
+      "git_blob_sha1": "1ea4c465f622653e44f327cef25fac5c4d5b05cf"
+    }
+  },
+  "validated_candidate_ci": {
+    "run_id": 36861258321,
+    "head_sha": "7e51bb185829b36a14fe4647a4f82b6ef2d3ee4e",
+    "conclusion": "success",
+    "focused_r19_tests": 11,
+    "full_tests": 261
+  },
+  "authority": {
+    "advisory_only": true,
+    "provider_mutation": false,
+    "publish": false,
+    "credentials": false,
+    "creator_mutation": false,
+    "media_mutation": false,
+    "merge_release": false,
+    "human_level_claim": false
+  },
+  "manifest_self": {
+    "rule": "report exact committed Git blob SHA-1 separately; self-hash is not recursively embedded"
+  }
+}
