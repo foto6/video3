@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.dynamic_live_review_capture.r26.v1",
+  "title": "Growth R26 dynamic live review capture result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "ingest_id",
+    "ingest_digest",
+    "evidence_state",
+    "media_authority",
+    "bridge_authority",
+    "package_digest",
+    "sealed_mapping_digest",
+    "review_round",
+    "source",
+    "capture",
+    "unblinding",
+    "critic_inputs",
+    "critic_outputs",
+    "pairwise_input",
+    "pairwise_output",
+    "dynamic_handoffs",
+    "evidence_boundary",
+    "authority"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "growth.dynamic_live_review_capture.r26.v1"
+    },
+    "ingest_id": {
+      "type": "string",
+      "pattern": "^gdr26i1:[0-9a-f]{64}$"
+    },
+    "ingest_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "evidence_state": {
+      "const": "LIVE_REVIEW_INGESTED"
+    },
+    "package_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "sealed_mapping_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "review_round": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "media_authority": {"type": "object"},
+    "bridge_authority": {"type": "object"},
+    "source": {"type": "object"},
+    "capture": {"type": "object"},
+    "unblinding": {
+      "type": "object",
+      "required": [
+        "performed_after_capture_validation",
+        "sealed_mapping_digest",
+        "model_facing_selection",
+        "selected_candidate_id"
+      ],
+      "properties": {
+        "performed_after_capture_validation": {"const": true},
+        "sealed_mapping_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "model_facing_selection": {
+          "enum": ["A", "B", "tie", "insufficient_evidence"]
+        },
+        "selected_candidate_id": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "critic_inputs": {"type": "object"},
+    "critic_outputs": {"type": "object"},
+    "pairwise_input": {"type": "object"},
+    "pairwise_output": {"type": "object"},
+    "dynamic_handoffs": {"type": "object"},
+    "evidence_boundary": {
+      "const": {
+        "human_ground_truth": false,
+        "human_label": false,
+        "human_parity_inferred": false,
+        "live_platform_evidence": false,
+        "model_evidence": true
+      }
+    },
+    "authority": {
+      "const": {
+        "creator_effect_applied": false,
+        "human_rating_evidence": false,
+        "media_effect_applied": false,
+        "prompt_sent_by_growth": false,
+        "provider_mutation": false,
+        "upload_performed": false
+      }
+    }
+  }
+}
