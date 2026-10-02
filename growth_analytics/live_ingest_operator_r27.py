@@ -54,8 +54,8 @@ BRIDGE_R30_CONTRACT_BLOB = "93968dc1fb65a334493acdb587b20753f0a8494a"
 BRIDGE_R30_SCHEMA_BLOB = "2cbe22ad6c7fe877764bad8dcfc1496aef3f3737"
 BRIDGE_R30_IMPLEMENTATION_BLOB = "c5bd2f95a6d58a86cddd9a6fdc127e68e3346c20"
 
-BRIDGE_R31_SHA = "31cfef82663d72d53e69e6345b50073ffcd461ca"
-BRIDGE_R31_CI_RUN_ID = 36997793086
+BRIDGE_R31_SHA = "104281e49122233f251c692abba726ae31cee0d5"
+BRIDGE_R31_CI_RUN_ID = 36999908386
 BRIDGE_R31_NATIVE_AUTHORITY_CONTRACT = "bridge.r31_media_r21_authority_profile.v1"
 BRIDGE_R31_LIVE_RESULT_CONTRACT = "bridge.r31_live_dynamic_operator_result.v1"
 BRIDGE_R31_AUTHORITY_SCHEMA_BLOB = "25e2cbfe487ba88f70d233774e585691ad4f70c6"
@@ -711,6 +711,10 @@ def _resolve_native_r31_authority(
         live_result.get("model_evidence") is not True
         or live_result.get("human_ground_truth") is not False
         or live_result.get("captureContract") != BRIDGE_DYNAMIC_CAPTURE_CONTRACT
+        or live_result.get("reconciliationRequired") is not False
+        or live_result.get("retryUploadAuthorized") is not False
+        or live_result.get("retrySendAuthorized") is not False
+        or live_result.get("releaseGate") != "NO_LIVE_DEPLOY"
         or live_result.get("currentLiveBridgeRestarted") is not False
         or live_result.get("currentLiveBridgeRepointed") is not False
         or live_result.get("currentLiveBridgeStateWritten") is not False
