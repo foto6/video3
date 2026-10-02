@@ -1844,6 +1844,17 @@ def run_operator(
             "Bridge capture and Bridge authority must be supplied together"
         )
 
+    effective_live_result_path = bridge_live_result_path
+    if (
+        bridge_capture_path is not None
+        and effective_live_result_path is None
+        and isinstance(bridge_authority, Mapping)
+        and bridge_authority.get("contract") == BRIDGE_R31_NATIVE_AUTHORITY_CONTRACT
+    ):
+        sibling = Path(bridge_capture_path).parent / "r31-live-result.json"
+        if sibling.is_file():
+            effective_live_result_path = sibling
+
     ledger = OperatorLedger(ledger_path)
     capture_id = None
     request_key = None
@@ -1854,7 +1865,7 @@ def run_operator(
             media_authority=media_authority,
             capture_path=Path(bridge_capture_path),
             bridge_authority=bridge_authority,
-            bridge_live_result_path=bridge_live_result_path,
+            bridge_live_result_path=effective_live_result_path,
         )
         prior, is_new = ledger.lookup(
             capture_id=capture_id,
@@ -1880,8 +1891,8 @@ def run_operator(
     )
     if bridge_capture_path is None:
         index = build_coordinator_index(
-            growth_producer_sha=GROWTH_R26_SHA,
-            growth_ci_run_id=GROWTH_R26_CI_RUN_ID,
+            growth_producer_sha=growth_producer_sha,
+            growth_ci_run_id=growth_ci_run_id,
             media_package=media,
             ingest=None,
             envelopes=None,
@@ -1899,19 +1910,12 @@ def run_operator(
     capture_path = Path(bridge_capture_path)
     capture_bytes_sha = _file_sha256(capture_path)
     capture = json.loads(capture_path.read_text(encoding="utf-8"))
-    live_result_path = bridge_live_result_path
-    if (
-        live_result_path is None
-        and isinstance(bridge_authority, Mapping)
-        and bridge_authority.get("contract") == BRIDGE_R31_NATIVE_AUTHORITY_CONTRACT
-    ):
-        sibling = capture_path.parent / "r31-live-result.json"
-        if sibling.is_file():
-            live_result_path = sibling
     live_result = (
         None
-        if live_result_path is None
-        else json.loads(Path(live_result_path).read_text(encoding="utf-8"))
+        if effective_live_result_path is None
+        else json.loads(
+            Path(effective_live_result_path).read_text(encoding="utf-8")
+        )
     )
     bridge_profile, bridge_source_authority = _resolve_bridge_authority(
         bridge_authority,
