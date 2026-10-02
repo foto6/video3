@@ -151,6 +151,7 @@ class GrowthR27ExactDynamicAuthorityTests(unittest.TestCase):
         normalized = {
             "authority": media_authority,
             "package_digest": exact["package_digest"],
+            "prompt_digest": exact["prompt_digest"],
             "sealed_mapping_digest": exact["sealed_mapping_digest"],
             "review_round": 1,
             "source": exact["source"],
