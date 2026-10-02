@@ -30,6 +30,7 @@ jobs:
           python -m unittest discover -s tests -p "test_web_video_critic_r22.py" -v
           python -m unittest discover -s tests -p "test_critic_reedit_adapter_r23.py" -v
           python -m unittest discover -s tests -p "test_live_review_ingest_r24.py" -v
+          python -m unittest discover -s tests -p "test_real_capture_r25.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -72,6 +73,36 @@ jobs:
           path: |
             ${{ runner.temp }}/growth-r24-fixture-validation.json
             ${{ runner.temp }}/growth-r24-live-review-readiness.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Produce R25 R29-capture source-ready evidence
+        run: |
+          rm -rf "$RUNNER_TEMP/growth-r25-real-capture"
+          mkdir -p "$RUNNER_TEMP/growth-r25-real-capture"
+          python -m growth_analytics.real_capture_r25 \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID" \
+            --observed-r29-branch-head "8b314bd020b05d90f6c45fa861727df5e78e5a39" \
+            --out-dir "$RUNNER_TEMP/growth-r25-real-capture" \
+            --report "$RUNNER_TEMP/growth-r25-real-capture/readiness.json"
+          python - "$RUNNER_TEMP/growth-r25-real-capture/readiness.json" <<'PY'
+          import json,os,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert p["growth_source_sha"] == os.environ["GITHUB_SHA"], p
+          assert str(p["growth_ci_run_id"]) == os.environ["GITHUB_RUN_ID"], p
+          assert p["state"] == "SOURCE_READY", p
+          assert p["live_capture_gate"] == "BLOCKED_WAITING_R29_CAPTURE", p
+          assert p["bridge_r29_expected"]["moving_branch_ref_is_authority"] is False, p
+          assert p["invariants"]["human_ground_truth"] is False, p
+          assert p["invariants"]["provider_mutation"] is False, p
+          assert p["real_capture"] is None, p
+          print(json.dumps(p,sort_keys=True))
+          PY
+      - name: Upload R25 real-capture ingest artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r25-real-capture-ingest
+          path: ${{ runner.temp }}/growth-r25-real-capture
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
