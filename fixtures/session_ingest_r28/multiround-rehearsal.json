@@ -1,0 +1,46 @@
+{
+  "contract_version": "growth.multiround_session_rehearsal.r28.v1",
+  "fixture_only": true,
+  "conversation_id": "fixture-dedicated-review-conversation-r28",
+  "source": {
+    "source_id": "talking-head-vertical-source",
+    "sha256": "bf7a2423ae26cb7bba73cb93930e46df95adad1619d79d2a08bfe3b072812309",
+    "size": 790819
+  },
+  "brief_lineage_digest": "56f1260701038dee8271c9a409f91686aca776be4d34dfb36ec53dc6559d5236",
+  "rounds": [
+    {
+      "review_round": 0,
+      "fixture_only": true,
+      "capture_id": "fixture-r28-round-0",
+      "request_id": "fixture-r28-request-0",
+      "operation_id": "fixture-r28-operation-0",
+      "response_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+      "package_digest": "b2de4082a2f466a945319f284f898675f1d9ee3d8565f4ae4305a556cfa00940",
+      "mapping_digest": "a7d03a3eb6bc44c021069c4b3603ebb09c3a120161d97124bc2da0516ea7837b",
+      "outcome": "winner"
+    },
+    {
+      "review_round": 1,
+      "fixture_only": true,
+      "capture_id": "fixture-r28-round-1",
+      "request_id": "fixture-r28-request-1",
+      "operation_id": "fixture-r28-operation-1",
+      "response_digest": "2222222222222222222222222222222222222222222222222222222222222222",
+      "package_digest": "521bf3c0474845895a76f4cbd26abf876d978ca2e39fe3c127d6918043438546",
+      "mapping_digest": "9edb9f556c07564af3d335e7bba54c8b26347b0e08289bc6f8d0262930388be7",
+      "outcome": "insufficient_evidence"
+    },
+    {
+      "review_round": 2,
+      "fixture_only": true,
+      "capture_id": "fixture-r28-round-2",
+      "request_id": "fixture-r28-request-2",
+      "operation_id": "fixture-r28-operation-2",
+      "response_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+      "package_digest": "4444444444444444444444444444444444444444444444444444444444444444",
+      "mapping_digest": "5555555555555555555555555555555555555555555555555555555555555555",
+      "outcome": "human_review"
+    }
+  ]
+}
