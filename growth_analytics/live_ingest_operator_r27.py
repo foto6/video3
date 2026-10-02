@@ -2140,15 +2140,20 @@ def _creator_r29_compatible_envelope(
     )
     handoff = envelope["creator_event"]["handoff"]
     review_round = handoff["review_round"]
-    if handoff["binding"]["candidate_round"] == review_round:
+    binding = handoff["binding"]
+    needs_round_compat = binding["candidate_round"] != review_round
+    needs_media_compat = binding["media_producer_sha"] != MEDIA_R21_SHA
+    if not needs_round_compat and not needs_media_compat:
         return envelope
 
-    # Creator R29's exact R26 validator interprets candidate_round as the
-    # package review round. Preserve the true Media generation round in the
-    # R27 index/ingest result and normalize only the compatibility envelope.
+    # Creator R29's exact R26 validator freezes the R21 media authority and
+    # interprets candidate_round as the package review round. Preserve the
+    # true source producer/candidate round in the R27 index/ingest result and
+    # normalize only the compatibility envelope.
     handoff = _clone(handoff)
     binding = _clone(handoff["binding"])
     binding["candidate_round"] = review_round
+    binding["media_producer_sha"] = MEDIA_R21_SHA
     handoff["binding"] = binding
     normalized_directives = []
     for directive in handoff["directives"]:
