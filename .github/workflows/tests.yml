@@ -32,6 +32,7 @@ jobs:
           python -m unittest discover -s tests -p "test_live_review_ingest_r24.py" -v
           python -m unittest discover -s tests -p "test_real_capture_r25.py" -v
           python -m unittest discover -s tests -p "test_dynamic_review_capture_r26.py" -v
+          python -m unittest discover -s tests -p "test_live_ingest_operator_r27.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -167,6 +168,112 @@ jobs:
         with:
           name: growth-r26-dynamic-review-capture
           path: ${{ runner.temp }}/growth-r26-dynamic
+          if-no-files-found: error
+          retention-days: 90
+      - name: Fetch exact Media R21 round-pair artifact
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/r27-media-r21"
+          mkdir -p "$RUNNER_TEMP/r27-media-r21"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            --header "Authorization: Bearer $GITHUB_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/foto6/video2/actions/artifacts/11221240371/zip" \
+            --output "$RUNNER_TEMP/r27-media-r21/media-r21-round-pair-review.zip"
+          echo "1036800923196882590ace62edbaa123ab4250b9d242e14adba909ba256ab022  $RUNNER_TEMP/r27-media-r21/media-r21-round-pair-review.zip" | sha256sum --check -
+          unzip -q "$RUNNER_TEMP/r27-media-r21/media-r21-round-pair-review.zip" -d "$RUNNER_TEMP/r27-media-r21/unpacked"
+      - name: Produce R27 exact-authority source-ready indexes
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/growth-r27-live-ingest"
+          mkdir -p "$RUNNER_TEMP/growth-r27-live-ingest/initial" "$RUNNER_TEMP/growth-r27-live-ingest/round-1"
+          PROFILE="conformance/growth.live_ingest_operator.r27.v1/authority-profiles.json"
+          for BUNDLE in initial round-1; do
+            python -m growth_analytics.live_ingest_operator_r27 \
+              --package-dir "$RUNNER_TEMP/r27-media-r21/unpacked/$BUNDLE" \
+              --authority-profile "$PROFILE" \
+              --ledger-dir "$RUNNER_TEMP/growth-r27-live-ingest/ledger-$BUNDLE" \
+              --out-dir "$RUNNER_TEMP/growth-r27-live-ingest/$BUNDLE" \
+              --growth-sha "$GITHUB_SHA" \
+              --growth-ci-run-id "$GITHUB_RUN_ID" \
+              --report "$RUNNER_TEMP/growth-r27-live-ingest/$BUNDLE/readiness.json"
+          done
+          python - "$RUNNER_TEMP/growth-r27-live-ingest" <<'PY'
+          import json,os,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          expected={
+            "initial":(
+              "b2de4082a2f466a945319f284f898675f1d9ee3d8565f4ae4305a556cfa00940",
+              "a7d03a3eb6bc44c021069c4b3603ebb09c3a120161d97124bc2da0516ea7837b",
+              0,
+            ),
+            "round-1":(
+              "521bf3c0474845895a76f4cbd26abf876d978ca2e39fe3c127d6918043438546",
+              "9edb9f556c07564af3d335e7bba54c8b26347b0e08289bc6f8d0262930388be7",
+              1,
+            ),
+          }
+          digests={}
+          for name,(package,mapping,round_no) in expected.items():
+            report=json.load(open(root/name/"readiness.json",encoding="utf-8"))
+            index=json.load(open(root/name/"growth.dynamic_live_review_ingest_index.r27.v1.json",encoding="utf-8"))
+            assert report["state"] == "SOURCE_READY", report
+            assert report["live_review_ingested"] is False, report
+            assert report["provider_mutation"] is False, report
+            assert report["human_ground_truth"] is False, report
+            assert index["state"] == "SOURCE_READY", index
+            assert index["live_capture_gate"] == "BLOCKED_WAITING_GENUINE_CAPTURE", index
+            assert index["growth_r27"]["producer_sha"] == os.environ["GITHUB_SHA"], index
+            assert str(index["growth_r27"]["ci_run_id"]) == os.environ["GITHUB_RUN_ID"], index
+            assert index["media_r21"]["package_digest"] == package, index
+            assert index["media_r21"]["sealed_mapping_digest"] == mapping, index
+            assert index["media_r21"]["review_round"] == round_no, index
+            assert index["bridge_r30"]["producer_sha"] == "ceaee873231a8552c5b7324083baa800eec566a8", index
+            assert index["capture"] is None and index["pairwise"] is None, index
+            assert index["evidence_boundary"]["human_ground_truth"] is False, index
+            assert index["evidence_boundary"]["fixture_promoted"] is False, index
+            assert index["evidence_boundary"]["provider_mutation"] is False, index
+            digests[name]={"index_digest":index["index_digest"],"authority_profile_digest":index["growth_r27"]["authority_profile_digest"]}
+          assert digests["initial"]["authority_profile_digest"] == digests["round-1"]["authority_profile_digest"], digests
+          print(json.dumps(digests,sort_keys=True))
+          PY
+      - name: Prove R27 exact package and mapping drift fail closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROFILE="conformance/growth.live_ingest_operator.r27.v1/authority-profiles.json"
+          cp -R "$RUNNER_TEMP/r27-media-r21/unpacked/round-1" "$RUNNER_TEMP/r27-media-r21/stale-round-1"
+          printf '\n' >> "$RUNNER_TEMP/r27-media-r21/stale-round-1/media.review_round_sealed_mapping.r21.v1.json"
+          set +e
+          python -m growth_analytics.live_ingest_operator_r27 \
+            --package-dir "$RUNNER_TEMP/r27-media-r21/stale-round-1" \
+            --authority-profile "$PROFILE" \
+            --ledger-dir "$RUNNER_TEMP/growth-r27-live-ingest/stale-ledger" \
+            --out-dir "$RUNNER_TEMP/growth-r27-live-ingest/stale" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID" \
+            --report "$RUNNER_TEMP/growth-r27-live-ingest/stale-readiness.json"
+          STATUS=$?
+          set -e
+          test "$STATUS" -ne 0
+          python - "$RUNNER_TEMP/growth-r27-live-ingest/stale-readiness.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert p["state"] == "BLOCKED_WAITING_GENUINE_CAPTURE", p
+          assert p["live_review_ingested"] is False, p
+          assert p["provider_mutation"] is False, p
+          PY
+      - name: Upload R27 live-ingest operator artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r27-live-ingest-operator
+          path: ${{ runner.temp }}/growth-r27-live-ingest
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
