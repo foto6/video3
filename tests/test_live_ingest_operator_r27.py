@@ -198,7 +198,10 @@ class GrowthR27ExactDynamicAuthorityTests(unittest.TestCase):
         )
         serialized = json.dumps(parsed, sort_keys=True)
         self.assertNotIn('"branch"', serialized)
-        self.assertEqual(len(authority_profile_digest(parsed)), 64)
+        self.assertEqual(
+            authority_profile_digest(parsed),
+            "57ab464f85ba95f1ca4dfefeaeb0a19371ce7d666ca8142daeb86e3162d2c634",
+        )
 
     def test_stale_media_and_bridge_authority_blobs_fail_closed(self):
         bad = copy.deepcopy(self.profile)
@@ -313,6 +316,14 @@ class GrowthR27ExactDynamicAuthorityTests(unittest.TestCase):
                 encoding="utf-8",
             )
             with self.assertRaises(NonLiveCapture):
+                load_bridge_capture_input(result_path, profile=self.profile)
+
+            result["state"] = "MALFORMED_MODEL_RESPONSE"
+            result_path.write_text(
+                json.dumps(result, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            with self.assertRaises(MalformedModelResponse):
                 load_bridge_capture_input(result_path, profile=self.profile)
 
     def test_fixture_marker_is_never_promoted_to_live(self):
