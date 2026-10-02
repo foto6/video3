@@ -1005,10 +1005,25 @@ class GrowthR27LiveIngestOperatorTests(unittest.TestCase):
             changed_branch = copy.deepcopy(native)
             changed_branch["artifactProducer"]["branch"] = "moving-ref-changed"
             changed_branch["r21Authority"]["branch"] = "another-moving-ref"
-            (root / "r22" / "media.live_review_authority_profile.r22.v1.json").write_text(
+            authority_path = (
+                root / "r22" / "media.live_review_authority_profile.r22.v1.json"
+            )
+            authority_path.write_text(
                 canonical_json(changed_branch) + "\n",
                 encoding="utf-8",
             )
+            manifest_path = (
+                root / "r22" / "media.live_review_package_manifest.r22.v1.json"
+            )
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            authority_row = next(
+                row for row in manifest["files"]
+                if row["path"] == "media.live_review_authority_profile.r22.v1.json"
+            )
+            authority_row["sha256"] = _hash_bytes(authority_path.read_bytes())
+            authority_row["size"] = authority_path.stat().st_size
+            manifest["payloadDigest"] = sha256_json(manifest["files"])
+            _write_json(manifest_path, manifest)
             parsed_changed = load_media_package(
                 root / "r22", authority=changed_branch
             )
