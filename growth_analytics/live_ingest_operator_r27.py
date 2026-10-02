@@ -160,6 +160,8 @@ def validate_authority_profile(payload: Mapping[str, Any]) -> dict[str, Any]:
         "contract_version",
         "media_r21",
         "bridge_r30",
+        "bridge_r31",
+        "creator_r29_growth_r26",
         "moving_branch_authority",
         "human_ground_truth",
         "provider_mutation",
@@ -228,8 +230,7 @@ def validate_authority_profile(payload: Mapping[str, Any]) -> dict[str, Any]:
         "producer_round": "R21",
         "producer_contract_name": "media.review_round_bundle.r21.v1",
         "producer_contract_schema": "media.review_round_bundle.r21.v1",
-        "producer_contract_file_sha256":
-            "d4887d8d1b1e9d0e396ea533162f69eb8539528de07d1e395d7b93702a390aa3",
+        "producer_contract_blob_source": "materialized_r21_bundle_file_sha256",
         "prompt_format": "json_prompt_text",
         "prompt_text_field": "text",
     }:
@@ -255,6 +256,7 @@ def validate_authority_profile(payload: Mapping[str, Any]) -> dict[str, Any]:
             "brief_lineage_digest",
             "source",
             "attachments",
+            "r31_transport",
         }
         if not isinstance(bundle, Mapping) or set(bundle) != required_bundle:
             raise AuthorityDrift(f"Media R21 bundle authority fields invalid: {key}")
@@ -309,6 +311,16 @@ def validate_authority_profile(payload: Mapping[str, Any]) -> dict[str, Any]:
                 raise AuthorityDrift("Media R21 attachment MIME drift")
         if labels != {"A", "B"}:
             raise AuthorityDrift("Media R21 bundle must bind A/B")
+        r31_transport = bundle["r31_transport"]
+        if not isinstance(r31_transport, Mapping) or set(r31_transport) != {
+            "directory_digest",
+            "dynamic_package_digest",
+            "derived_handoff_file_sha256",
+            "source_binding_fingerprint",
+        }:
+            raise AuthorityDrift(f"Media R21 R31 transport authority invalid: {key}")
+        for digest_key, value in r31_transport.items():
+            _sha256(value, f"media_r21.bundles.{key}.r31_transport.{digest_key}")
 
     bridge = payload["bridge_r30"]
     bridge_required = {
@@ -363,6 +375,110 @@ def validate_authority_profile(payload: Mapping[str, Any]) -> dict[str, Any]:
         raise AuthorityDrift("Bridge R30 Actions authority drift")
     for row in artifacts:
         _artifact_digest(row["digest"], "bridge_r30.actions_artifact.digest")
+
+    bridge31 = payload["bridge_r31"]
+    bridge31_required = {
+        "repository",
+        "producer_sha",
+        "ci_run_id",
+        "result_contract",
+        "preflight_contract",
+        "authority_profile_contract",
+        "manifest_contract",
+        "capture_contract",
+        "blobs",
+        "actions_artifacts",
+        "exact_green_readiness",
+        "live_review_pass",
+    }
+    if not isinstance(bridge31, Mapping) or set(bridge31) != bridge31_required:
+        raise AuthorityDrift("Bridge R31 authority fields invalid")
+    if (
+        bridge31["repository"] != "foto6/WebAIBridge"
+        or bridge31["producer_sha"] != BRIDGE_R31_SHA
+        or bridge31["ci_run_id"] != BRIDGE_R31_CI
+        or bridge31["result_contract"] != BRIDGE_R31_RESULT_CONTRACT
+        or bridge31["preflight_contract"]
+        != "bridge.r31_live_dynamic_operator_preflight.v1"
+        or bridge31["authority_profile_contract"]
+        != "bridge.r31_media_r21_authority_profile.v1"
+        or bridge31["manifest_contract"]
+        != "bridge.r31_live_dynamic_operator_manifest.v1"
+        or bridge31["capture_contract"] != BRIDGE_R30_CAPTURE_CONTRACT
+        or bridge31["exact_green_readiness"] != "SOURCE_READY"
+        or bridge31["live_review_pass"] is not False
+    ):
+        raise AuthorityDrift("Bridge R31 exact producer/contract authority drift")
+    expected_r31_blobs = {
+        "manifest_schema": "f90cd2aa4bdc868af845bfba58c612ebef3f32ad",
+        "authority_profile_schema": "25e2cbfe487ba88f70d233774e585691ad4f70c6",
+        "result_schema": "55f403a2c0dca4a05a5002e104cfc29d20b536b5",
+        "preflight_schema": "74b4579b4d9d3d08da04b1181863905f024f367a",
+        "media_operator": "38509af174fc25aa4229c084fc3cd9b2e35b539e",
+        "preflight_implementation": "c975d934d080deffdcf2a9ac4cf82ca142ba93d3",
+        "finalizer_implementation": "a18a10e681efb249275816ab43ceb55e4acc6643",
+        "powershell_operator": "1fd850863fb1e1c31894ccc54f5fcbc296122419",
+        "readiness_implementation": "f248f94843c5d94737947929aaece33129e1b98a",
+    }
+    if bridge31["blobs"] != expected_r31_blobs:
+        raise AuthorityDrift("Bridge R31 schema/implementation blob drift")
+    for key, value in bridge31["blobs"].items():
+        _sha1(value, f"bridge_r31.blobs.{key}")
+    expected_r31_artifacts = [
+        {
+            "platform": "ubuntu-latest",
+            "id": 11222903971,
+            "digest":
+                "sha256:4929ff7f5b27b2aaaad3501221a9b8955f96a0645356c2b91bed5b0c9746c866",
+        },
+        {
+            "platform": "windows-latest",
+            "id": 11222794745,
+            "digest":
+                "sha256:eb6e792ff7561f475919f408c585b6f253a830741fc1c7865df4b7f7c9cca3ee",
+        },
+    ]
+    if bridge31["actions_artifacts"] != expected_r31_artifacts:
+        raise AuthorityDrift("Bridge R31 Actions authority drift")
+    for row in bridge31["actions_artifacts"]:
+        _artifact_digest(row["digest"], "bridge_r31.actions_artifact.digest")
+
+    creator = payload["creator_r29_growth_r26"]
+    creator_required = {
+        "repository",
+        "producer_sha",
+        "ci_run_id",
+        "ingest_contract",
+        "creator_envelope_contract",
+        "dynamic_handoff_contract",
+        "blobs",
+        "actions_artifact",
+    }
+    if not isinstance(creator, Mapping) or set(creator) != creator_required:
+        raise AuthorityDrift("Creator R29 Growth R26 compatibility authority invalid")
+    if (
+        creator["repository"] != "foto6/video3"
+        or creator["producer_sha"] != CREATOR_R29_GROWTH_R26_SHA
+        or creator["ci_run_id"] != CREATOR_R29_GROWTH_R26_CI
+        or creator["ingest_contract"] != DYNAMIC_CAPTURE_VERSION
+        or creator["creator_envelope_contract"] != CREATOR_ENVELOPE_VERSION
+        or creator["dynamic_handoff_contract"]
+        != "growth.dynamic_creator_reedit_handoff.r26.v1"
+        or creator["blobs"]
+        != {
+            "contract": "700c942c4e9375eab5748f873d15f29f4b3f3826",
+            "schema": "de5f2d600cfece9829cf2b26ce1827516c7038c3",
+            "implementation": "71fc2e372401ebf65d603681101eb1d7d0c520d7",
+        }
+        or creator["actions_artifact"]
+        != {
+            "id": 11221662698,
+            "name": "growth-r26-dynamic-review-capture",
+            "digest":
+                "sha256:d06e589d294dc942109834801fe676300f87dfce1ddbfde1877b65f7cf70cb31",
+        }
+    ):
+        raise AuthorityDrift("Creator R29 Growth R26 compatibility authority drift")
     return _clone(payload)
 
 
