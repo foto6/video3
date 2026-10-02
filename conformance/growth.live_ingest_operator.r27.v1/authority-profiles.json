@@ -1,0 +1,125 @@
+{
+  "contract_version": "growth.exact_dynamic_authorities.r27.v1",
+  "media_r21": {
+    "repository": "foto6/video2",
+    "producer_sha": "d753e9e4c1f4448386608a1425232dbc1dba87ea",
+    "ci_run_id": 36994000619,
+    "round_bundle_contract": "media.review_round_bundle.r21.v1",
+    "transport_handoff_contract": "media.review_round_transport_handoff.r21.v1",
+    "blobs": {
+      "contract": "65358261775f0fcd2ab9e21f3f621aee977f29da",
+      "schema": "f04925e317d849434852e6b706533f909da47b22",
+      "manifest": "f76033375e7ee03b56491722e2e99e7334bd2cad",
+      "implementation": "c6f556b8a177b6182d787356625094cdcad5a58e",
+      "runner": "c93e9a69de31b66189031932ccfa7f2c83cf043c"
+    },
+    "actions_artifact": {
+      "id": 11221240371,
+      "name": "media-r21-round-pair-review",
+      "digest": "sha256:1036800923196882590ace62edbaa123ab4250b9d242e14adba909ba256ab022"
+    },
+    "bundles": {
+      "initial": {
+        "mode": "initial",
+        "review_round": 0,
+        "package_digest": "b2de4082a2f466a945319f284f898675f1d9ee3d8565f4ae4305a556cfa00940",
+        "bundle_file_sha256": "305eeda9fb12fe05021188e4480329d6fe3240fe6eafa2fbb7f464ab9c772f5a",
+        "evidence_file_sha256": "271197300eb53e658b775a2ef981dd13ce45008076cc3f93ea071c3e7463c731",
+        "transport_handoff_file_sha256": "e1fb4af229ab31eab85e91221cf0b05635c77b7363e8a38a68030b3d0baf6f1d",
+        "prompt_digest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2",
+        "prompt_file_sha256": "6f8daafeac694e8abb944cd014fcd57cb905d74ca35a8617f051e1c322f3798c",
+        "sealed_mapping_digest": "a7d03a3eb6bc44c021069c4b3603ebb09c3a120161d97124bc2da0516ea7837b",
+        "sealed_mapping_file_sha256": "4ca8b7e1a52817d9b4cbe820ac71e8f1a3f350e80543656a0c67b8cc135af097",
+        "round_lineage_digest": "8226a1bfb5068d4569e46d6d605096fe753a7c8e39de0782b42aeac23a5bfb0b",
+        "r20_package_digest": "a0ac58a1819736413183f35be932541734b9377e657fbe9bed9ed6e316028eed",
+        "brief_lineage_digest": "56f1260701038dee8271c9a409f91686aca776be4d34dfb36ec53dc6559d5236",
+        "source": {
+          "source_id": "talking-head-vertical-source",
+          "sha256": "bf7a2423ae26cb7bba73cb93930e46df95adad1619d79d2a08bfe3b072812309",
+          "size": 790819
+        },
+        "attachments": [
+          {
+            "blind_label": "A",
+            "path": "review-A.mp4",
+            "sha256": "1855a1745d53329294c680600299a9ca0308a7c468b27d6dab94d21a72605054",
+            "size": 795358,
+            "mime_type": "video/mp4"
+          },
+          {
+            "blind_label": "B",
+            "path": "review-B.mp4",
+            "sha256": "70fdc25373b544b98aad4f8b5180fc56e69aea9ce11c3d5fb65b08ac02c50cb2",
+            "size": 787963,
+            "mime_type": "video/mp4"
+          }
+        ]
+      },
+      "round-1": {
+        "mode": "targeted_reedit",
+        "review_round": 1,
+        "package_digest": "521bf3c0474845895a76f4cbd26abf876d978ca2e39fe3c127d6918043438546",
+        "bundle_file_sha256": "5113101b27c90e005aa6c648cda46160d32fdcb85b21893501c24427097f2edc",
+        "evidence_file_sha256": "288a704c2bfc6c4f44f85aec14e553b6ca0b7f17982fa44907ef6ea2921c0c69",
+        "transport_handoff_file_sha256": "75c3ae6bd9b6b7567a3782fa7548729af2ac2fcd055a2b46442bb8a49dfcd83d",
+        "prompt_digest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2",
+        "prompt_file_sha256": "6f8daafeac694e8abb944cd014fcd57cb905d74ca35a8617f051e1c322f3798c",
+        "sealed_mapping_digest": "9edb9f556c07564af3d335e7bba54c8b26347b0e08289bc6f8d0262930388be7",
+        "sealed_mapping_file_sha256": "0392ecaf898c4855bf48fb9e5f65369e623f66f9577f1a1c40ac081c6df2d824",
+        "round_lineage_digest": "28a7f7a644e9cf788953bbd26248dc561c5cee50746180d17f2bc6a88f5eada7",
+        "r20_package_digest": "e0049fd9c929c761e0ce68b4097e360390d2ddef0fe2efb7b9c77270155130b6",
+        "brief_lineage_digest": "56f1260701038dee8271c9a409f91686aca776be4d34dfb36ec53dc6559d5236",
+        "source": {
+          "source_id": "talking-head-vertical-source",
+          "sha256": "bf7a2423ae26cb7bba73cb93930e46df95adad1619d79d2a08bfe3b072812309",
+          "size": 790819
+        },
+        "attachments": [
+          {
+            "blind_label": "A",
+            "path": "review-A.mp4",
+            "sha256": "1855a1745d53329294c680600299a9ca0308a7c468b27d6dab94d21a72605054",
+            "size": 795358,
+            "mime_type": "video/mp4"
+          },
+          {
+            "blind_label": "B",
+            "path": "review-B.mp4",
+            "sha256": "528ea10a074d99f510805ca65153a734c8f81d4e12eeaee0e254c969e1c897dd",
+            "size": 738225,
+            "mime_type": "video/mp4"
+          }
+        ]
+      }
+    }
+  },
+  "bridge_r30": {
+    "repository": "foto6/WebAIBridge",
+    "producer_sha": "ceaee873231a8552c5b7324083baa800eec566a8",
+    "ci_run_id": 36993885456,
+    "capture_contract": "bridge.dynamic_existing_chat_video_review_capture.v1",
+    "capture_schema_id": "bridge://bridge.dynamic_existing_chat_video_review_capture.v1",
+    "handoff_contract": "media.dynamic_review_handoff.v1",
+    "blobs": {
+      "handoff_schema": "93968dc1fb65a334493acdb587b20753f0a8494a",
+      "capture_schema": "2cbe22ad6c7fe877764bad8dcfc1496aef3f3737",
+      "implementation": "c5bd2f95a6d58a86cddd9a6fdc127e68e3346c20",
+      "contract_test": "7e233ac8cc8107a9b0f7106d5118f02d328d40d0"
+    },
+    "actions_artifacts": [
+      {
+        "platform": "ubuntu-latest",
+        "id": 11220801997,
+        "digest": "sha256:5712290e088d28539aae077bdc2c9f809931c21c2ef8e7ac55175fdb4acdf840"
+      },
+      {
+        "platform": "windows-latest",
+        "id": 11220977361,
+        "digest": "sha256:58037c4a368a04e5c890c32b528bde965b792c31c04a7461f937ff8e6dc6bbb6"
+      }
+    ]
+  },
+  "moving_branch_authority": false,
+  "human_ground_truth": false,
+  "provider_mutation": false
+}
