@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.live_ingest_operator_index.r27.v1",
+  "title": "Growth R27 live-ingest coordinator index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "index_id",
+    "index_digest",
+    "state",
+    "live_capture_gate",
+    "operator",
+    "creator_target",
+    "media",
+    "bridge",
+    "capture",
+    "pairwise",
+    "selected_result",
+    "candidate_results",
+    "evidence_boundary"
+  ],
+  "properties": {
+    "contract_version": {"const": "growth.live_ingest_operator_index.r27.v1"},
+    "index_id": {"type": "string", "pattern": "^gr27idx1:[a-f0-9]{64}$"},
+    "index_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "state": {"enum": ["SOURCE_READY", "LIVE_REVIEW_INGESTED"]},
+    "live_capture_gate": {
+      "enum": [
+        "BLOCKED_WAITING_DYNAMIC_CAPTURE",
+        "SATISFIED_DYNAMIC_CAPTURE_CONSUMED"
+      ]
+    },
+    "operator": {"type": "object"},
+    "creator_target": {
+      "type": "object",
+      "required": [
+        "repository",
+        "observed_r29_sha",
+        "observed_r29_ci_run_id",
+        "envelope_contract",
+        "manual_envelope_edit_required"
+      ]
+    },
+    "media": {"type": "object"},
+    "bridge": {"type": ["object", "null"]},
+    "capture": {"type": ["object", "null"]},
+    "pairwise": {"type": ["object", "null"]},
+    "selected_result": {"type": ["object", "null"]},
+    "candidate_results": {"type": "array", "maxItems": 2},
+    "evidence_boundary": {
+      "type": "object",
+      "required": [
+        "model_evidence",
+        "human_ground_truth",
+        "human_rating_evidence",
+        "human_parity_inferred",
+        "live_platform_evidence"
+      ],
+      "properties": {
+        "human_ground_truth": {"const": false},
+        "human_rating_evidence": {"const": false},
+        "human_parity_inferred": {"const": false},
+        "live_platform_evidence": {"const": false}
+      }
+    }
+  }
+}
