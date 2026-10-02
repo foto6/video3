@@ -40,6 +40,9 @@ BRIDGE_R31_CI = 36999908386
 BRIDGE_R31_RESULT_CONTRACT = "bridge.r31_live_dynamic_operator_result.v1"
 CREATOR_R29_GROWTH_R26_SHA = GROWTH_R26_BASE_SHA
 CREATOR_R29_GROWTH_R26_CI = 36996617627
+EXPECTED_AUTHORITY_PROFILE_DIGEST = (
+    "57ab464f85ba95f1ca4dfefeaeb0a19371ce7d666ca8142daeb86e3162d2c634"
+)
 
 R21_BUNDLE_FILE = "media.review_round_bundle.r21.v1.json"
 R21_EVIDENCE_FILE = "media.review_round_bundle.r21.evidence.json"
@@ -479,6 +482,9 @@ def validate_authority_profile(payload: Mapping[str, Any]) -> dict[str, Any]:
         }
     ):
         raise AuthorityDrift("Creator R29 Growth R26 compatibility authority drift")
+    observed_profile_digest = sha256_json(payload)
+    if observed_profile_digest != EXPECTED_AUTHORITY_PROFILE_DIGEST:
+        raise AuthorityDrift("exact R27 authority profile digest drift")
     return _clone(payload)
 
 
