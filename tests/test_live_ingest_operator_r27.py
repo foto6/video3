@@ -479,6 +479,194 @@ class GrowthR27LiveIngestOperatorTests(unittest.TestCase):
         }
         return path, capture, bridge
 
+    def build_targeted_media_dir(self, root: Path):
+        authority = self.build_media_dir(root)
+        bundle_path = root / authority["files"]["bundle"]["name"]
+        evidence_path = root / authority["files"]["evidence"]["name"]
+        handoff_path = root / authority["files"]["transport_handoff"]["name"]
+        mapping_path = root / authority["files"]["sealed_mapping"]["name"]
+        bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
+        evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+        handoff = json.loads(handoff_path.read_text(encoding="utf-8"))
+        mapping = json.loads(mapping_path.read_text(encoding="utf-8"))
+        entries = mapping["entries"]
+        baseline = entries[0]
+        challenger = entries[1]
+        baseline["role"] = "baseline"
+        baseline["roundNumber"] = 0
+        challenger["role"] = "challenger"
+        challenger["roundNumber"] = 1
+        challenger["baselineReviewCandidateId"] = baseline["candidateId"]
+        challenger["applicationParentCandidateId"] = baseline["candidateId"]
+        challenger["parentRenderSha256"] = baseline["render"]["sha256"]
+        challenger["growthHandoffDigest"] = "a" * 64
+        challenger["mediaApplicationDigest"] = "b" * 64
+        mapping["digest"] = sha256_json(entries)
+        bundle["sealedMapping"] = copy.deepcopy(mapping)
+        bundle["mode"] = "targeted_reedit"
+        bundle["reviewRound"] = 1
+        bundle["roundLineage"] = {
+            "baselineReviewCandidateId": baseline["candidateId"],
+            "childReviewCandidateId": challenger["candidateId"],
+            "parentRenderSha256": baseline["render"]["sha256"],
+            "childRenderSha256": challenger["render"]["sha256"],
+            "parentRound": 0,
+            "childRound": 1,
+            "growthHandoffDigest": challenger["growthHandoffDigest"],
+            "mediaApplicationDigest": challenger["mediaApplicationDigest"],
+            "priorReview": {
+                "selectedCandidateId": baseline["candidateId"],
+                "reviewRound": 0,
+                "handoffDigest": "c" * 64,
+            },
+        }
+        round_digest = sha256_json(
+            {
+                "source": bundle["source"],
+                "briefLineageDigest": bundle["briefLineageDigest"],
+                "reviewRound": 1,
+                "roundLineage": bundle["roundLineage"],
+            }
+        )
+        handoff["roundLineage"] = {
+            "mode": "targeted_reedit",
+            "reviewRound": 1,
+            "digest": round_digest,
+        }
+        handoff["sealedMappingDigest"] = mapping["digest"]
+        bundle["transportHandoff"] = copy.deepcopy(handoff)
+        core = {key: value for key, value in bundle.items() if key != "transportHandoff"}
+        package_digest = sha256_json(core)
+        handoff["packageDigest"] = package_digest
+        bundle["transportHandoff"] = copy.deepcopy(handoff)
+
+        evidence["mode"] = "targeted_reedit"
+        evidence["reviewRound"] = 1
+        evidence["packageDigest"] = package_digest
+        evidence["sealedMappingDigest"] = mapping["digest"]
+        evidence["roundLineageDigest"] = round_digest
+        evidence["roundLineage"] = copy.deepcopy(bundle["roundLineage"])
+
+        authority["mode"] = "targeted_reedit"
+        authority["review_round"] = 1
+        authority["package_digest"] = package_digest
+        authority["sealed_mapping_digest"] = mapping["digest"]
+        authority["round_lineage_digest"] = round_digest
+
+        authority["files"]["sealed_mapping"]["sha256"] = _write_json(
+            mapping_path, mapping
+        )
+        authority["files"]["transport_handoff"]["sha256"] = _write_json(
+            handoff_path, handoff
+        )
+        authority["files"]["bundle"]["sha256"] = _write_json(bundle_path, bundle)
+        evidence["bundleFileSha256"] = authority["files"]["bundle"]["sha256"]
+        evidence["sealedMappingFileSha256"] = authority["files"]["sealed_mapping"][
+            "sha256"
+        ]
+        evidence["transportHandoffFileSha256"] = authority["files"][
+            "transport_handoff"
+        ]["sha256"]
+        authority["files"]["evidence"]["sha256"] = _write_json(
+            evidence_path, evidence
+        )
+        return authority
+
+    def native_r31_authority_and_result(self, media, capture):
+        source_authority = media["source_authority"]
+        media_authority = {
+            "repository": "foto6/video2",
+            "branch": "agent/media-r21-round-pair-review-bundle-20261002",
+            "sha": MEDIA_R21_SHA,
+            "ciRunId": MEDIA_R21_CI_RUN_ID,
+            "ciConclusion": "success",
+            "bundleContract": "media.review_round_bundle.r21.v1",
+            "handoffContract": "media.review_round_transport_handoff.r21.v1",
+            "evidenceContract": "media.review_round_bundle.r21.evidence.v1",
+            "requiredState": "ROUND_PAIR_PACKAGE_READY",
+            "sourcePins": {
+                "implementationGitBlob": "c6f556b8a177b6182d787356625094cdcad5a58e",
+                "runnerGitBlob": "c93e9a69de31b66189031932ccfa7f2c83cf043c",
+                "contractGitBlob": "65358261775f0fcd2ab9e21f3f621aee977f29da",
+                "schemaGitBlob": "f04925e317d849434852e6b706533f909da47b22",
+                "conformanceManifestGitBlob": "f76033375e7ee03b56491722e2e99e7334bd2cad",
+            },
+        }
+        file_hashes = {
+            "bundleFileSha256": source_authority["files"]["bundle"]["sha256"],
+            "handoffFileSha256": source_authority["files"]["transport_handoff"]["sha256"],
+            "sealedMappingFileSha256": source_authority["files"]["sealed_mapping"]["sha256"],
+            "promptFileSha256": source_authority["files"]["prompt"]["sha256"],
+            "evidenceFileSha256": source_authority["files"]["evidence"]["sha256"],
+        }
+        native = {
+            "contract": BRIDGE_R31_NATIVE_AUTHORITY_CONTRACT,
+            "state": "SOURCE_READY",
+            "generatedAt": "2026-10-02T10:00:00Z",
+            "mediaAuthority": media_authority,
+            "mediaEvidence": {
+                "packageDigest": media["package_digest"],
+                "archiveSha256": "6" * 64,
+                "archiveSize": 100,
+                "directoryDigest": "7" * 64,
+                "promptDigest": media["prompt_digest"],
+                "promptBytes": 100,
+                "sealedMappingDigest": media["sealed_mapping_digest"],
+                "fileHashes": file_hashes,
+                "mode": media["mode"],
+                "reviewRound": media["review_round"],
+                "roundLineageDigest": media["round_lineage_digest"],
+                "attachments": [
+                    {
+                        "blindLabel": label,
+                        "name": media["attachments_by_label"][label][
+                            "generic_file_name"
+                        ],
+                        "size": media["attachments_by_label"][label]["size"],
+                        "sha256": media["attachments_by_label"][label]["sha256"],
+                        "mime": "video/mp4",
+                    }
+                    for label in ("A", "B")
+                ],
+            },
+            "bridgeTransport": {
+                "inheritedR30Contract": "media.dynamic_review_handoff.v1",
+                "dynamicPackageDigest": capture["dynamicPackage"]["packageDigest"],
+                "exactCandidateSha": BRIDGE_R31_SHA,
+                "derivedHandoffSha256": capture["dynamicPackage"]["handoffSha256"],
+            },
+            "evidenceBoundary": {
+                "browserMutationPerformed": False,
+                "promptSent": False,
+                "liveReviewPass": False,
+                "model_evidence": False,
+                "human_ground_truth": False,
+            },
+            "operatorManifestDigest": "8" * 64,
+        }
+        live = {
+            "contract": "bridge.r31_live_dynamic_operator_result.v1",
+            "state": "LIVE_REVIEW_PASS",
+            "mediaAuthority": media_authority,
+            "operatorManifestDigest": native["operatorManifestDigest"],
+            "conversation": {
+                "conversationId": capture["conversationId"],
+                "canonicalUrl": capture["conversationUrl"],
+            },
+            "requestId": capture["requestId"],
+            "operationId": capture["operationId"],
+            "captureDigest": "9" * 64,
+            "responseDigest": capture["responseDigest"],
+            "captureContract": BRIDGE_DYNAMIC_CAPTURE_CONTRACT,
+            "responseFileSha256": capture["responseDigest"],
+            "model_evidence": True,
+            "human_ground_truth": False,
+            "currentLiveBridgeRestarted": False,
+            "currentLiveBridgeRepointed": False,
+            "currentLiveBridgeStateWritten": False,
+        }
+        return native, live
+
     def test_exact_media_package_validates_and_unblinding_is_not_model_label_identity(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
