@@ -28,8 +28,22 @@ jobs:
           python -m unittest discover -s tests -p "test_closed_loop_feedback_r20.py" -v
           python -m unittest discover -s tests -p "test_real_artifact_decision_r21.py" -v
           python -m unittest discover -s tests -p "test_web_video_critic_r22.py" -v
+          python -m unittest discover -s tests -p "test_critic_reedit_adapter_r23.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
+      - name: Produce R23 critic re-edit readiness report
+        run: |
+          python -m growth_analytics.critic_reedit_adapter \
+            --report "$RUNNER_TEMP/growth-r23-critic-reedit-report.json" \
+            --growth-sha "$GITHUB_SHA" \
+            --run-id "$GITHUB_RUN_ID"
+      - name: Upload R23 critic re-edit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r23-critic-reedit-adapter
+          path: ${{ runner.temp }}/growth-r23-critic-reedit-report.json
+          if-no-files-found: error
+          retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
         shell: bash
         env:

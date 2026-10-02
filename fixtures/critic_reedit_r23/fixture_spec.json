@@ -1,0 +1,16 @@
+{
+  "fixture_version": "growth.critic_reedit_fixture.r23.v1",
+  "purpose": "structural_validation_only",
+  "growth_r22_source_sha": "0f6824d7c3962ccee572b21a4e1a343e6470c1a9",
+  "bridge_r26_source_sha": "73c13f9eed2a2cbcea881dd8c5452d054bfef940",
+  "media_r18_source_sha": "2c41f084e000eca5efd9a51d2d3752bec1bd1311",
+  "media_r18_ci_run_id": 36967381891,
+  "input_fixture": "fixtures/web_video_critic_r22/fixture_spec.json",
+  "review_execution_mode": "fixture_validation",
+  "real_mp4_reviewed": false,
+  "live_upload_performed": false,
+  "human_ground_truth": false,
+  "expected_state": "insufficient_evidence",
+  "expected_executable_directives": 0,
+  "notes": "R22 fixture observations validate schema only. R23 must not promote them to a live/direct video verdict or executable re-edit."
+}

@@ -1,0 +1,65 @@
+{
+  "contract_version": "growth.creator_reedit_handoff.v1",
+  "adapter_version": "growth.web_video_critic_reedit_adapter.v1",
+  "purpose": "Deterministically translate source-bound growth.web_video_critic.v1 model observations into bounded Creator re-edit directives without fabricating live review evidence.",
+  "authorities": {
+    "growth_r22": {
+      "repository": "foto6/video3",
+      "source_sha": "0f6824d7c3962ccee572b21a4e1a343e6470c1a9",
+      "critic_contract": "growth.web_video_critic.v1",
+      "pairwise_contract": "growth.web_video_critic_pairwise.v1"
+    },
+    "bridge_r26": {
+      "repository": "foto6/WebAIBridge",
+      "branch": "agent/bridge-r26-file-attachment-rehearsal-20261002",
+      "source_sha": "73c13f9eed2a2cbcea881dd8c5452d054bfef940",
+      "attachment_contract": "bridge.chat_file_attachment.v1",
+      "rehearsal_request_contract": "bridge.chat_file_attachment_rehearsal_request.v1",
+      "disposition": "READY_FOR_EXPLICIT_LIVE_REHEARSAL",
+      "live_pass": false,
+      "max_file_bytes": 500000000
+    },
+    "media_r18": {
+      "repository": "foto6/video2",
+      "branch": "agent/media-r18-direct-model-review-package-20261002",
+      "source_sha": "2c41f084e000eca5efd9a51d2d3752bec1bd1311",
+      "ci_run_id": 36967381891,
+      "contract": "media.direct_model_review_package.v1",
+      "live_upload_performed": false,
+      "model_judgment_performed": false
+    }
+  },
+  "states": [
+    "winner",
+    "targeted_reedit",
+    "tie",
+    "insufficient_evidence",
+    "human_review"
+  ],
+  "max_reedit_rounds": 2,
+  "supported_edit_operations": [
+    "trim",
+    "cut",
+    "crop_scale_reframe",
+    "speed_change",
+    "fade_transition",
+    "text_overlay",
+    "subtitles_captions",
+    "audio_duck_mix",
+    "intro_outro_cta"
+  ],
+  "rules": {
+    "exact_source_render_attachment_binding_required": true,
+    "timestamped_local_defect_evidence_required": true,
+    "attached_mode_timestamp_must_be_inside_inspected_coverage": true,
+    "coverage_and_uncertainty_preserved": true,
+    "freeform_model_edit_is_advisory_not_executable": true,
+    "unsupported_edit_rejected": true,
+    "duplicate_replay_rejected": true,
+    "stale_hash_and_provenance_drift_rejected": true,
+    "fixture_or_non_attached_review_is_insufficient_evidence": true,
+    "human_ground_truth": false,
+    "live_provider_mutation": false,
+    "live_upload": false
+  }
+}

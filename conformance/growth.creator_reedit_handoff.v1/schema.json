@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.creator_reedit_handoff.v1",
+  "title": "Growth to Creator bounded re-edit handoff v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "adapter_version",
+    "handoff_id",
+    "handoff_digest",
+    "state",
+    "reedit_round",
+    "max_reedit_rounds",
+    "binding",
+    "pairwise",
+    "coverage",
+    "summary_uncertainty",
+    "directives",
+    "bridge_r26_authority",
+    "media_r18_authority",
+    "evidence_boundary",
+    "authority"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "growth.creator_reedit_handoff.v1"
+    },
+    "adapter_version": {
+      "const": "growth.web_video_critic_reedit_adapter.v1"
+    },
+    "handoff_id": {
+      "type": "string",
+      "pattern": "^gcrh1:[0-9a-f]{64}$"
+    },
+    "handoff_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "state": {
+      "enum": [
+        "winner",
+        "targeted_reedit",
+        "tie",
+        "insufficient_evidence",
+        "human_review"
+      ]
+    },
+    "reedit_round": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "max_reedit_rounds": {
+      "const": 2
+    },
+    "binding": {
+      "type": "object",
+      "required": [
+        "source_sha256",
+        "render_sha256",
+        "attachment_sha256",
+        "attachment_identity",
+        "critic_input_digest",
+        "critic_output_digest"
+      ],
+      "properties": {
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "render_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "attachment_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "attachment_identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "critic_input_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "critic_output_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "pairwise": {
+      "type": "object"
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "uninspected_possible",
+        "every_frame_inspected",
+        "coverage_uncertainty_preserved"
+      ],
+      "properties": {
+        "uninspected_possible": {
+          "const": true
+        },
+        "every_frame_inspected": {
+          "const": false
+        },
+        "coverage_uncertainty_preserved": {
+          "const": true
+        }
+      }
+    },
+    "summary_uncertainty": {
+      "type": "string",
+      "minLength": 1
+    },
+    "directives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "operation",
+          "start_ms",
+          "end_ms",
+          "evidence",
+          "uncertainty",
+          "upstream_proposed_edit_executable",
+          "binding"
+        ],
+        "properties": {
+          "operation": {
+            "enum": [
+              "trim",
+              "cut",
+              "crop_scale_reframe",
+              "speed_change",
+              "fade_transition",
+              "text_overlay",
+              "subtitles_captions",
+              "audio_duck_mix",
+              "intro_outro_cta"
+            ]
+          },
+          "start_ms": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "end_ms": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uncertainty": {
+            "type": "string",
+            "minLength": 1
+          },
+          "upstream_proposed_edit_executable": {
+            "const": false
+          },
+          "binding": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "bridge_r26_authority": {
+      "type": "object"
+    },
+    "media_r18_authority": {
+      "type": "object"
+    },
+    "evidence_boundary": {
+      "type": "object",
+      "properties": {
+        "human_ground_truth": {
+          "const": false
+        },
+        "live_video_review_fabricated": {
+          "const": false
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "properties": {
+        "provider_mutation": {
+          "const": false
+        },
+        "upload_performed": {
+          "const": false
+        }
+      }
+    }
+  }
+}
