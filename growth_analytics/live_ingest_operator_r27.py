@@ -1186,7 +1186,8 @@ def parse_live_bridge_capture(
             "capture_id": capture_id,
             "capture_digest": sha256_json(material),
             "capture_file_sha256": profile["capture_file_sha256"],
-            "bridge_authority": profile,
+            "bridge_authority": _creator_r29_bridge_authority(),
+            "source_bridge_authority": profile,
             "conversation": {
                 "conversation_id": ids["conversation_id"],
                 "request_id": ids["request_id"],
@@ -1350,6 +1351,9 @@ def build_coordinator_index(
             "source": media_package["source"],
         },
         "bridge": None if bridge_authority is None else _clone(bridge_authority),
+        "creator_r29_bridge_authority": (
+            None if bridge_authority is None else _creator_r29_bridge_authority()
+        ),
         "capture": capture,
         "pairwise": pairwise,
         "selected_result": selected,
@@ -1594,8 +1598,8 @@ def run_operator(
     )
     if bridge_capture_path is None:
         index = build_coordinator_index(
-            growth_producer_sha=growth_producer_sha,
-            growth_ci_run_id=growth_ci_run_id,
+            growth_producer_sha=GROWTH_R26_SHA,
+            growth_ci_run_id=GROWTH_R26_CI_RUN_ID,
             media_package=media,
             ingest=None,
             envelopes=None,
