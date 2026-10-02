@@ -178,5 +178,23 @@
     ],
     "exact_green_readiness": "SOURCE_READY",
     "live_review_pass": false
+  },
+  "creator_r29_growth_r26": {
+    "repository": "foto6/video3",
+    "producer_sha": "e844ed2daaaca9e9694fe1e0fb6b8b7bfac69cbc",
+    "ci_run_id": 36996617627,
+    "ingest_contract": "growth.dynamic_live_review_capture.r26.v1",
+    "creator_envelope_contract": "growth.dynamic_creator_external_review_envelope.r26.v1",
+    "dynamic_handoff_contract": "growth.dynamic_creator_reedit_handoff.r26.v1",
+    "blobs": {
+      "contract": "700c942c4e9375eab5748f873d15f29f4b3f3826",
+      "schema": "de5f2d600cfece9829cf2b26ce1827516c7038c3",
+      "implementation": "71fc2e372401ebf65d603681101eb1d7d0c520d7"
+    },
+    "actions_artifact": {
+      "id": 11221662698,
+      "name": "growth-r26-dynamic-review-capture",
+      "digest": "sha256:d06e589d294dc942109834801fe676300f87dfce1ddbfde1877b65f7cf70cb31"
+    }
   }
 }
