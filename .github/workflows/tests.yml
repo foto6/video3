@@ -222,6 +222,52 @@ jobs:
           assert index["evidence_boundary"]["human_ground_truth"] is False, index
           print(json.dumps({"report_digest":report["report_digest"],"index_digest":index["index_digest"],"state":report["state"]},sort_keys=True))
           PY
+      - name: Fetch exact Media R22 live-review artifact
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/r27-media-r22"
+          mkdir -p "$RUNNER_TEMP/r27-media-r22"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            --header "Authorization: Bearer $GITHUB_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/foto6/video2/actions/artifacts/11223041326/zip" \
+            --output "$RUNNER_TEMP/r27-media-r22/media-r22-live-review-artifact.zip"
+          echo "7fc5fc969d3b46e9584f45b9b57d3c61a7b443e5aa37e6abc06b37de6cd69854  $RUNNER_TEMP/r27-media-r22/media-r22-live-review-artifact.zip" | sha256sum --check -
+          unzip -q "$RUNNER_TEMP/r27-media-r22/media-r22-live-review-artifact.zip" -d "$RUNNER_TEMP/r27-media-r22/unpacked"
+      - name: Validate exact Media R22 package through R27 operator
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/growth-r27-live-ingest/r22"
+          ROOT="$RUNNER_TEMP/r27-media-r22/unpacked/round-1-live-review"
+          python -m growth_analytics.live_ingest_operator_r27 \
+            --media-package-dir "$ROOT" \
+            --media-authority "$ROOT/media.live_review_authority_profile.r22.v1.json" \
+            --ledger "$RUNNER_TEMP/growth-r27-live-ingest/r22/ledger.json" \
+            --out-dir "$RUNNER_TEMP/growth-r27-live-ingest/r22/out" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID" \
+            --report "$RUNNER_TEMP/growth-r27-live-ingest/r22/readiness.json"
+          python - "$RUNNER_TEMP/growth-r27-live-ingest/r22/readiness.json" <<'PY'
+          import json,os,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert p["state"] == "SOURCE_READY", p
+          assert p["live_capture_gate"] == "BLOCKED_WAITING_DYNAMIC_CAPTURE", p
+          assert p["operator"]["producer_sha"] == os.environ["GITHUB_SHA"], p
+          assert p["media"]["authority"]["native_profile"]["producer_sha"] == "5c9a382b3083e30642ac27f047705a06309311a6", p
+          assert p["media"]["authority"]["native_profile"]["ci_run_id"] == 36998852352, p
+          assert p["media"]["review_round"] == 1, p
+          assert p["capture"] is None, p
+          assert p["selected_result"] is None, p
+          assert p["invariants"]["live_review_ingested"] is False, p
+          assert p["invariants"]["human_ground_truth"] is False, p
+          assert p["invariants"]["human_rating_evidence"] is False, p
+          print(json.dumps({"state":p["state"],"report_digest":p["report_digest"],"media_r22_sha":p["media"]["authority"]["native_profile"]["producer_sha"]},sort_keys=True))
+          PY
       - name: Upload R27 live-ingest operator artifact
         uses: actions/upload-artifact@v4
         with:
