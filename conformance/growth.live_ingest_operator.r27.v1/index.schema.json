@@ -41,27 +41,90 @@
         "MALFORMED_MODEL_RESPONSE"
       ]
     },
-    "live_capture_gate": {"type": "string"},
-    "new_ingest_effect": {"type": "boolean"},
-    "growth_r27": {"type": "object"},
-    "media_r21": {"type": "object"},
-    "bridge_r30": {"type": "object"},
-    "capture": {"type": ["object", "null"]},
-    "pairwise": {"type": ["object", "null"]},
-    "selected_result": {"type": ["object", "null"]},
-    "candidates": {"type": "object"},
-    "rejection_reason": {"type": ["string", "null"]},
+    "live_capture_gate": {
+      "type": "string"
+    },
+    "new_ingest_effect": {
+      "type": "boolean"
+    },
+    "growth_r27": {
+      "type": "object"
+    },
+    "media_r21": {
+      "type": "object"
+    },
+    "bridge_r30": {
+      "type": "object"
+    },
+    "capture": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "pairwise": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "selected_result": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "candidates": {
+      "type": "object"
+    },
+    "rejection_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "evidence_boundary": {
-      "const": {
-        "browser_mutation": false,
-        "creator_mutation": false,
-        "fixture_promoted": false,
-        "human_ground_truth": false,
-        "human_parity_inferred": false,
-        "human_rating_evidence": false,
-        "media_mutation": false,
-        "model_evidence": false,
-        "provider_mutation": false
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_evidence",
+        "human_ground_truth",
+        "human_rating_evidence",
+        "human_parity_inferred",
+        "fixture_promoted",
+        "provider_mutation",
+        "browser_mutation",
+        "creator_mutation",
+        "media_mutation"
+      ],
+      "properties": {
+        "model_evidence": {
+          "type": "boolean"
+        },
+        "human_ground_truth": {
+          "const": false
+        },
+        "human_rating_evidence": {
+          "const": false
+        },
+        "human_parity_inferred": {
+          "const": false
+        },
+        "fixture_promoted": {
+          "const": false
+        },
+        "provider_mutation": {
+          "const": false
+        },
+        "browser_mutation": {
+          "const": false
+        },
+        "creator_mutation": {
+          "const": false
+        },
+        "media_mutation": {
+          "const": false
+        }
       }
     }
   }
