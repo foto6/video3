@@ -1837,6 +1837,7 @@ def run_operator(
     growth_ci_run_id: int,
     bridge_capture_path: Path | None = None,
     bridge_authority: Mapping[str, Any] | None = None,
+    bridge_live_result_path: Path | None = None,
 ) -> tuple[dict[str, Any], bool]:
     if (bridge_capture_path is None) != (bridge_authority is None):
         raise OperatorBoundaryError(
@@ -1853,6 +1854,7 @@ def run_operator(
             media_authority=media_authority,
             capture_path=Path(bridge_capture_path),
             bridge_authority=bridge_authority,
+            bridge_live_result_path=bridge_live_result_path,
         )
         prior, is_new = ledger.lookup(
             capture_id=capture_id,
@@ -1897,7 +1899,27 @@ def run_operator(
     capture_path = Path(bridge_capture_path)
     capture_bytes_sha = _file_sha256(capture_path)
     capture = json.loads(capture_path.read_text(encoding="utf-8"))
-    bridge_profile = parse_bridge_authority(bridge_authority)
+    live_result_path = bridge_live_result_path
+    if (
+        live_result_path is None
+        and isinstance(bridge_authority, Mapping)
+        and bridge_authority.get("contract") == BRIDGE_R31_NATIVE_AUTHORITY_CONTRACT
+    ):
+        sibling = capture_path.parent / "r31-live-result.json"
+        if sibling.is_file():
+            live_result_path = sibling
+    live_result = (
+        None
+        if live_result_path is None
+        else json.loads(Path(live_result_path).read_text(encoding="utf-8"))
+    )
+    bridge_profile, bridge_source_authority = _resolve_bridge_authority(
+        bridge_authority,
+        media_package=media,
+        capture=capture,
+        capture_file_sha256=capture_bytes_sha,
+        live_result=live_result,
+    )
     parsed_capture = parse_live_bridge_capture(
         capture,
         authority=bridge_profile,
@@ -1923,8 +1945,8 @@ def run_operator(
         candidate_id: build_creator_envelope(
             ingest_result=ingest,
             candidate_id=candidate_id,
-            growth_producer_sha=growth_producer_sha,
-            growth_ci_run_id=growth_ci_run_id,
+            growth_producer_sha=GROWTH_R26_SHA,
+            growth_ci_run_id=GROWTH_R26_CI_RUN_ID,
         )
         for candidate_id in sorted(ingest["dynamic_handoffs"])
     }
@@ -1934,7 +1956,7 @@ def run_operator(
         media_package=media,
         ingest=ingest,
         envelopes=envelopes,
-        bridge_authority=bridge_profile,
+        bridge_authority=bridge_source_authority,
     )
     payload = {
         "ingest": ingest,
@@ -1997,6 +2019,7 @@ def _main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--media-authority", required=True)
     parser.add_argument("--bridge-capture")
     parser.add_argument("--bridge-authority")
+    parser.add_argument("--bridge-live-result")
     parser.add_argument("--ledger", required=True)
     parser.add_argument("--out-dir", required=True)
     parser.add_argument("--growth-sha", required=True)
@@ -2016,6 +2039,9 @@ def _main(argv: Sequence[str] | None = None) -> int:
             None
             if not args.bridge_authority
             else json.loads(Path(args.bridge_authority).read_text(encoding="utf-8"))
+        ),
+        bridge_live_result_path=(
+            None if not args.bridge_live_result else Path(args.bridge_live_result)
         ),
         ledger_path=Path(args.ledger),
         out_dir=Path(args.out_dir),
