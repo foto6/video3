@@ -32,6 +32,7 @@ jobs:
           python -m unittest discover -s tests -p "test_live_review_ingest_r24.py" -v
           python -m unittest discover -s tests -p "test_real_capture_r25.py" -v
           python -m unittest discover -s tests -p "test_dynamic_review_capture_r26.py" -v
+          python -m unittest discover -s tests -p "test_live_ingest_operator_r27.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -167,6 +168,65 @@ jobs:
         with:
           name: growth-r26-dynamic-review-capture
           path: ${{ runner.temp }}/growth-r26-dynamic
+          if-no-files-found: error
+          retention-days: 90
+      - name: Fetch exact Media R21 round-pair review artifact
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/r27-media-r21"
+          mkdir -p "$RUNNER_TEMP/r27-media-r21"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            --header "Authorization: Bearer $GITHUB_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/foto6/video2/actions/artifacts/11221240371/zip" \
+            --output "$RUNNER_TEMP/r27-media-r21/media-r21-round-pair-review.zip"
+          echo "1036800923196882590ace62edbaa123ab4250b9d242e14adba909ba256ab022  $RUNNER_TEMP/r27-media-r21/media-r21-round-pair-review.zip" | sha256sum --check -
+          unzip -q "$RUNNER_TEMP/r27-media-r21/media-r21-round-pair-review.zip" -d "$RUNNER_TEMP/r27-media-r21/unpacked"
+      - name: Produce R27 live-ingest operator source-ready evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/growth-r27-live-ingest"
+          mkdir -p "$RUNNER_TEMP/growth-r27-live-ingest"
+          python -m growth_analytics.live_ingest_operator_r27 \
+            --media-package-dir "$RUNNER_TEMP/r27-media-r21/unpacked/round-1" \
+            --media-authority conformance/growth.live_ingest_operator.r27.v1/media-r21-round-1-authority.json \
+            --ledger "$RUNNER_TEMP/growth-r27-live-ingest/ledger.json" \
+            --out-dir "$RUNNER_TEMP/growth-r27-live-ingest/out" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID" \
+            --report "$RUNNER_TEMP/growth-r27-live-ingest/readiness.json"
+          python - "$RUNNER_TEMP/growth-r27-live-ingest/readiness.json" "$RUNNER_TEMP/growth-r27-live-ingest/out/growth.live_ingest_operator_index.r27.v1.json" <<'PY'
+          import json,os,sys
+          report=json.load(open(sys.argv[1],encoding="utf-8"))
+          index=json.load(open(sys.argv[2],encoding="utf-8"))
+          assert report["state"] == "SOURCE_READY", report
+          assert report["live_capture_gate"] == "BLOCKED_WAITING_DYNAMIC_CAPTURE", report
+          assert report["operator"]["producer_sha"] == os.environ["GITHUB_SHA"], report
+          assert str(report["operator"]["ci_run_id"]) == os.environ["GITHUB_RUN_ID"], report
+          assert report["media"]["package_digest"] == "521bf3c0474845895a76f4cbd26abf876d978ca2e39fe3c127d6918043438546", report
+          assert report["media"]["sealed_mapping_digest"] == "9edb9f556c07564af3d335e7bba54c8b26347b0e08289bc6f8d0262930388be7", report
+          assert report["media"]["review_round"] == 1, report
+          assert report["capture"] is None, report
+          assert report["selected_result"] is None, report
+          assert report["invariants"]["live_review_ingested"] is False, report
+          assert report["invariants"]["human_ground_truth"] is False, report
+          assert report["invariants"]["human_rating_evidence"] is False, report
+          assert report["invariants"]["provider_mutation"] is False, report
+          assert index["state"] == "SOURCE_READY", index
+          assert index["candidate_results"] == [], index
+          assert index["evidence_boundary"]["human_ground_truth"] is False, index
+          print(json.dumps({"report_digest":report["report_digest"],"index_digest":index["index_digest"],"state":report["state"]},sort_keys=True))
+          PY
+      - name: Upload R27 live-ingest operator artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r27-live-ingest-operator
+          path: ${{ runner.temp }}/growth-r27-live-ingest
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
