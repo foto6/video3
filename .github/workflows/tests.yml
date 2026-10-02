@@ -316,7 +316,7 @@ jobs:
             --out-dir "$OUT/source-ready-round1" \
             --conversation-id "ci-r28-dedicated-review-conversation-round1" \
             --growth-sha "$GITHUB_SHA" \
-            --growth-ci-run-id "$GITHUB_RUN_ID" || test "$?" -eq 2
+            --growth-ci-run-id "$GITHUB_RUN_ID"
           python -m growth_analytics.multiround_session_ingest_r28 rehearse-fixtures \
             --fixture fixtures/session_ingest_r28/multiround-rehearsal.json \
             --authority-profile "$PROFILE" \
@@ -328,6 +328,7 @@ jobs:
           from pathlib import Path
           root=Path(sys.argv[1])
           initial=json.load(open(root/"source-ready-initial"/"session-readiness.json",encoding="utf-8"))
+          round1=json.load(open(root/"source-ready-round1"/"session-readiness.json",encoding="utf-8"))
           rehearsal=json.load(open(root/"fixture-rehearsal"/"fixture-multiround-rehearsal.json",encoding="utf-8"))
           assert initial["state"] == "SOURCE_READY", initial
           assert initial["live_capture_gate"] == "BLOCKED_WAITING_GENUINE_CAPTURE", initial
@@ -344,6 +345,19 @@ jobs:
           assert initial["browser_mutation"] is False and initial["provider_mutation"] is False, initial
           assert initial["growth_r28"]["producer_sha"] == os.environ["GITHUB_SHA"], initial
           assert str(initial["growth_r28"]["ci_run_id"]) == os.environ["GITHUB_RUN_ID"], initial
+          assert initial["package_sequence_ready"] is True, initial
+
+          assert round1["state"] == "SOURCE_READY", round1
+          assert round1["package_review_round"] == 1, round1
+          assert round1["package_sequence_ready"] is False, round1
+          assert round1["package_digest"] == "521bf3c0474845895a76f4cbd26abf876d978ca2e39fe3c127d6918043438546", round1
+          assert round1["sealed_mapping_digest"] == "9edb9f556c07564af3d335e7bba54c8b26347b0e08289bc6f8d0262930388be7", round1
+          assert round1["operator_manifest_sha256"] == "0c8583287adfc38a21579a9fb9eb7b86111c36e08390796932203b1c7ab87d13", round1
+          assert round1["archive_sha256"] == "aa2ac8c6c3cd51be32bfccf7f77091f078320fd4c5fb213a7dbf3de9f2fcae99", round1
+          assert round1["live_review_ingested"] is False, round1
+          assert round1["creator_executable_handoff_emitted"] is False, round1
+          assert round1["human_ground_truth"] is False, round1
+          assert round1["provider_mutation"] is False, round1
 
           assert rehearsal["state"] == "SOURCE_READY", rehearsal
           assert rehearsal["fixture_only"] is True, rehearsal
