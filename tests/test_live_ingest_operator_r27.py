@@ -985,6 +985,37 @@ class GrowthR27LiveIngestOperatorTests(unittest.TestCase):
             _, _, r31 = self.write_capture(root, media, generation="R31")
             self.assertEqual(parse_bridge_authority(r31)["producer_round"], "R31")
 
+    def test_native_r22_package_directory_is_directly_accepted_and_branch_is_not_authority(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            native, source_media = self.build_native_r22_dir(root)
+            parsed = load_media_package(root / "r22", authority=native)
+            self.assertEqual(parsed["package_digest"], source_media["package_digest"])
+            self.assertEqual(
+                parsed["sealed_mapping_digest"],
+                source_media["sealed_mapping_digest"],
+            )
+            self.assertEqual(
+                parsed["source_authority"]["native_profile"]["producer_round"],
+                "R22",
+            )
+            self.assertEqual(
+                parsed["authority"]["producer_sha"], MEDIA_R21_SHA
+            )
+            changed_branch = copy.deepcopy(native)
+            changed_branch["artifactProducer"]["branch"] = "moving-ref-changed"
+            changed_branch["r21Authority"]["branch"] = "another-moving-ref"
+            (root / "r22" / "media.live_review_authority_profile.r22.v1.json").write_text(
+                canonical_json(changed_branch) + "\n",
+                encoding="utf-8",
+            )
+            parsed_changed = load_media_package(
+                root / "r22", authority=changed_branch
+            )
+            self.assertEqual(
+                parsed_changed["package_digest"], source_media["package_digest"]
+            )
+
     def test_native_r31_authority_and_live_result_ingest_without_manual_translation(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
