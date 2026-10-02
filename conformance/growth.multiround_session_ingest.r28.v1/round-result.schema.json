@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.multiround_review_round_result.r28.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "round_result_id",
+    "round_result_digest",
+    "session_id",
+    "review_round",
+    "package",
+    "capture",
+    "pairwise",
+    "outcome",
+    "selected_result",
+    "candidate_envelopes",
+    "terminal_winner",
+    "creator_executable_handoff_emitted",
+    "evidence_boundary"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "growth.multiround_review_round_result.r28.v1"
+    },
+    "round_result_id": {
+      "type": "string",
+      "pattern": "^gr28rr1:[0-9a-f]{64}$"
+    },
+    "round_result_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "session_id": {
+      "type": "string",
+      "pattern": "^gr28s1:[0-9a-f]{64}$"
+    },
+    "review_round": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "package": {"type": "object"},
+    "capture": {"type": "object"},
+    "pairwise": {
+      "type": "object",
+      "required": [
+        "selection",
+        "selected_candidate_id",
+        "output_digest",
+        "rationale",
+        "confidence",
+        "uncertainty"
+      ]
+    },
+    "outcome": {
+      "enum": ["winner", "tie", "insufficient_evidence", "human_review"]
+    },
+    "selected_result": {
+      "type": ["object", "null"]
+    },
+    "candidate_envelopes": {
+      "type": "object",
+      "minProperties": 2,
+      "maxProperties": 2
+    },
+    "terminal_winner": {"type": "boolean"},
+    "creator_executable_handoff_emitted": {"const": true},
+    "evidence_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_evidence",
+        "human_ground_truth",
+        "human_rating_evidence",
+        "human_parity_inferred",
+        "browser_mutation",
+        "provider_mutation"
+      ],
+      "properties": {
+        "model_evidence": {"const": true},
+        "human_ground_truth": {"const": false},
+        "human_rating_evidence": {"const": false},
+        "human_parity_inferred": {"const": false},
+        "browser_mutation": {"const": false},
+        "provider_mutation": {"const": false}
+      }
+    }
+  }
+}
