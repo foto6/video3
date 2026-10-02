@@ -1267,10 +1267,10 @@ def _load_media_r22_package(
         bundle.get("contractVersion") != "media.review_round_bundle.r21.v1"
         or bundle.get("state") != "ROUND_PAIR_PACKAGE_READY"
         or bundle.get("producer") != {
-            "repository": "foto6/video2", "sha": MEDIA_R21_SHA
+            "repository": "foto6/video2", "sha": MEDIA_R22_SHA
         }
     ):
-        raise OperatorAuthorityError("Media R22 embedded R21 bundle authority drift")
+        raise OperatorAuthorityError("Media R22 embedded bundle producer authority drift")
     for key in ("modelReviewPerformed", "liveModelReviewed", "providerPublish", "humanQuality"):
         if bundle.get(key) is not False:
             raise OperatorBoundaryError(f"Media R22 embedded R21 boundary invalid: {key}")
@@ -1362,7 +1362,7 @@ def _load_media_r22_package(
             row,
             index=index,
             source=source,
-            producer_sha=MEDIA_R21_SHA,
+            producer_sha=MEDIA_R22_SHA,
         )
         for index, row in enumerate(entries_raw)
     ]
@@ -1406,7 +1406,7 @@ def _load_media_r22_package(
     producer = bridge_handoff.get("producer")
     if not isinstance(producer, Mapping) or (
         producer.get("repository") != "foto6/video2"
-        or producer.get("sha") != native["producer_sha"]
+        or producer.get("sha") != MEDIA_R22_SHA
         or producer.get("round") != "R21"
     ):
         raise OperatorAuthorityError("Media R22 Bridge producer authority drift")
