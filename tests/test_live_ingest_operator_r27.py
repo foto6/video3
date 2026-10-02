@@ -739,6 +739,133 @@ class GrowthR27LiveIngestOperatorTests(unittest.TestCase):
             _, _, r31 = self.write_capture(root, media, generation="R31")
             self.assertEqual(parse_bridge_authority(r31)["producer_round"], "R31")
 
+    def test_native_r31_authority_and_live_result_ingest_without_manual_translation(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            package = root / "package"
+            authority = self.build_media_dir(package)
+            media = load_media_package(package, authority=authority)
+            capture_path, capture, _ = self.write_capture(root, media)
+            native, live = self.native_r31_authority_and_result(media, capture)
+            (root / "r31-live-result.json").write_text(
+                json.dumps(live, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            index, effect = run_operator(
+                media_package_dir=package,
+                media_authority=authority,
+                bridge_capture_path=capture_path,
+                bridge_authority=native,
+                ledger_path=root / "ledger.json",
+                out_dir=root / "out",
+                growth_producer_sha="a" * 40,
+                growth_ci_run_id=909,
+            )
+            self.assertTrue(effect)
+            self.assertEqual(index["state"], "LIVE_REVIEW_INGESTED")
+            self.assertEqual(index["bridge"]["producer_sha"], BRIDGE_R31_SHA)
+            self.assertEqual(index["bridge"]["ci_run_id"], BRIDGE_R31_CI_RUN_ID)
+            self.assertEqual(
+                index["creator_r29_bridge_authority"]["producer_sha"],
+                BRIDGE_R30_SHA,
+            )
+            self.assertFalse(index["evidence_boundary"]["human_ground_truth"])
+
+    def test_native_r31_missing_or_nonpass_live_result_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            package = root / "package"
+            authority = self.build_media_dir(package)
+            media = load_media_package(package, authority=authority)
+            capture_path, capture, _ = self.write_capture(root, media)
+            native, live = self.native_r31_authority_and_result(media, capture)
+            with self.assertRaisesRegex(
+                OperatorBoundaryError, "r31-live-result"
+            ):
+                run_operator(
+                    media_package_dir=package,
+                    media_authority=authority,
+                    bridge_capture_path=capture_path,
+                    bridge_authority=native,
+                    ledger_path=root / "ledger.json",
+                    out_dir=root / "out",
+                    growth_producer_sha="a" * 40,
+                    growth_ci_run_id=909,
+                )
+            live["state"] = "BLOCKED"
+            result_path = root / "r31-live-result.json"
+            result_path.write_text(
+                json.dumps(live, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                OperatorBoundaryError, "LIVE_REVIEW_PASS"
+            ):
+                run_operator(
+                    media_package_dir=package,
+                    media_authority=authority,
+                    bridge_capture_path=capture_path,
+                    bridge_authority=native,
+                    ledger_path=root / "ledger2.json",
+                    out_dir=root / "out2",
+                    growth_producer_sha="a" * 40,
+                    growth_ci_run_id=909,
+                )
+
+    def test_targeted_round_preserves_true_round_in_index_and_creator_compat_round_in_envelope(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            package = root / "package"
+            authority = self.build_targeted_media_dir(package)
+            media = load_media_package(package, authority=authority)
+            capture_path, _, bridge = self.write_capture(root, media)
+            index, effect = run_operator(
+                media_package_dir=package,
+                media_authority=authority,
+                bridge_capture_path=capture_path,
+                bridge_authority=bridge,
+                ledger_path=root / "ledger.json",
+                out_dir=root / "out",
+                growth_producer_sha="a" * 40,
+                growth_ci_run_id=909,
+            )
+            self.assertTrue(effect)
+            baseline = next(
+                row for row in index["candidate_results"]
+                if row["candidate_id"] == "candidate-a"
+            )
+            self.assertEqual(baseline["candidate_round"], 0)
+            self.assertEqual(baseline["creator_compat_candidate_round"], 1)
+            self.assertNotEqual(
+                baseline["source_handoff_digest"], baseline["handoff_digest"]
+            )
+            envelope = json.loads(
+                (root / "out" / baseline["envelope_file"]).read_text(
+                    encoding="utf-8"
+                )
+            )
+            handoff = envelope["creator_event"]["handoff"]
+            self.assertEqual(handoff["review_round"], 1)
+            self.assertEqual(handoff["binding"]["candidate_round"], 1)
+            self.assertEqual(envelope["candidate"]["candidate_round"], 1)
+            self.assertEqual(
+                envelope["growth_r26"]["producer_sha"], GROWTH_R26_SHA
+            )
+            self.assertEqual(
+                envelope["growth_r26"]["ci_run_id"], GROWTH_R26_CI_RUN_ID
+            )
+            self.assertEqual(
+                envelope["media_authority"]["contract_version"],
+                "growth.media_dynamic_review_authority.r26.v1",
+            )
+            self.assertEqual(
+                envelope["media_authority"]["package_contract"],
+                "media.dynamic_review_package.r21.v1",
+            )
+            self.assertEqual(
+                envelope["bridge_authority"]["producer_sha"], BRIDGE_R30_SHA
+            )
+
     def test_live_capture_requires_exact_ids_prompt_attachments_response_and_pass(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
