@@ -1,0 +1,83 @@
+{
+  "contract_version": "growth.real_capture_ingest.r25.v1",
+  "starting_r24_sha": "dc0741d5b11c1f7464ac9a6c5db80c0a4535df08",
+  "purpose": "Consume only a source-bound genuine Bridge R29 existing-chat video review capture, preserve R24 strict review semantics, convert to growth.web_video_critic.v1 plus pairwise plus growth.creator_reedit_handoff.v1, and emit a Creator-ready external review envelope.",
+  "bridge_r29_authority": {
+    "authority_contract": "growth.bridge_r29_capture_authority.v1",
+    "repository": "foto6/WebAIBridge",
+    "branch_is_advisory_only": "agent/bridge-r29-isolated-live-video-review-20261002",
+    "capture_contract": "bridge.existing_chat_video_review_capture.v1",
+    "required_exact_fields": [
+      "producer_sha",
+      "capture_contract",
+      "contract_blob_sha1",
+      "implementation_blob_sha1"
+    ],
+    "moving_branch_ref_is_authority": false
+  },
+  "capture_requirements": {
+    "capture_kind": "bridge_existing_chat_capture",
+    "model_evidence": true,
+    "human_ground_truth": false,
+    "conversation_request_operation_bound": true,
+    "prompt_text_sha256": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2",
+    "assistant_response_sha256_required": true,
+    "strict_json_review_response_required": true,
+    "exact_blind_attachment_names": ["review-A.mp4", "review-B.mp4"],
+    "pairwise_selection": ["A", "B", "tie", "insufficient_evidence"],
+    "coverage": {
+      "uninspected_possible": true,
+      "every_frame_inspected": false,
+      "timestamp_must_be_inside_inspected_range": true
+    }
+  },
+  "media_r18": {
+    "repository": "foto6/video2",
+    "source_sha": "2c41f084e000eca5efd9a51d2d3752bec1bd1311",
+    "ci_run_id": 36967381891,
+    "artifact_id": 11210373001,
+    "artifact_name": "media-r18-direct-model-review",
+    "artifact_digest": "sha256:1f2ac715ec787be14564201445737f19825f56267a7cab6fb99553aaaff013eb",
+    "prompt_file_sha256": "98e377f73f26d9960acc34703797f962ef75472597acdbefc6dfdc82636b06b6",
+    "prompt_text_sha256": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2"
+  },
+  "conversion": {
+    "critic_contract": "growth.web_video_critic.v1",
+    "pairwise_contract": "growth.web_video_critic_pairwise.v1",
+    "creator_handoff_contract": "growth.creator_reedit_handoff.v1",
+    "creator_envelope_contract": "growth.creator_external_review_envelope.r25.v1",
+    "creator_event_shape": "creator.external_real_review_event.r26.v1",
+    "max_reedit_rounds": 2
+  },
+  "creator_compatibility": {
+    "structural_event_shape_matches_creator_r26": true,
+    "growth_producer_sha_is_runtime_exact_r25_sha": true,
+    "current_creator_r26_pin": "Growth R23",
+    "required_creator_followup": "Creator R27 or later must explicitly accept the exact Growth R25 producer SHA instead of spoofing the R23 pin."
+  },
+  "replay": {
+    "exact_capture_reingest_is_idempotent": true,
+    "exact_capture_second_handoff_effect": false,
+    "same_capture_id_changed_response_or_bytes_is_conflict": true,
+    "same_conversation_request_changed_capture_is_conflict": true,
+    "optional_durable_ledger_path": true
+  },
+  "fail_closed": [
+    "fixture_or_non_bridge_capture_kind",
+    "model_evidence_false",
+    "human_ground_truth_true",
+    "moving_branch_used_as_authority",
+    "bridge_producer_sha_drift",
+    "bridge_contract_blob_drift",
+    "bridge_implementation_blob_drift",
+    "media_prompt_drift",
+    "attachment_label_name_hash_or_size_drift",
+    "assistant_response_digest_drift",
+    "free_form_only_response",
+    "coverage_uncertainty_removed",
+    "contradictory_or_uncovered_timestamp",
+    "invalid_pairwise_verdict",
+    "conflicting_replay"
+  ],
+  "provider_mutation": false
+}
