@@ -32,6 +32,19 @@ MEDIA_R21_ARTIFACT_NAME = "media-r21-round-pair-review"
 MEDIA_R21_ARTIFACT_DIGEST = (
     "sha256:1036800923196882590ace62edbaa123ab4250b9d242e14adba909ba256ab022"
 )
+MEDIA_R22_SHA = "5c9a382b3083e30642ac27f047705a06309311a6"
+MEDIA_R22_CI_RUN_ID = 36998852352
+MEDIA_R22_ARTIFACT_ID = 11223041326
+MEDIA_R22_ARTIFACT_NAME = "media-r22-live-review-artifact"
+MEDIA_R22_ARTIFACT_DIGEST = (
+    "sha256:7fc5fc969d3b46e9584f45b9b57d3c61a7b443e5aa37e6abc06b37de6cd69854"
+)
+MEDIA_R22_MANIFEST_BLOB = "3d03b041e0b211fcee7263d527811c0244ccad64"
+MEDIA_R22_CONTRACT_BLOB = "d998ff82110350d362e2fa190d731f17905e171d"
+MEDIA_R22_SCHEMA_BLOB = "1e91c45c09a7fc3134ba89f7105651801092cdb0"
+MEDIA_R22_IMPLEMENTATION_BLOB = "765e1bae39080511b02ee1f4e639b571baff3d78"
+MEDIA_R22_EXPORTER_BLOB = "2c5f45d02a7453691698ee7e6d5e44082ab9c125"
+MEDIA_R22_VERIFIER_BLOB = "fbcc7b345246d62922969b1e14f3cb0b38174907"
 
 BRIDGE_R30_SHA = "ceaee873231a8552c5b7324083baa800eec566a8"
 BRIDGE_R30_CI_RUN_ID = 36993885456
@@ -51,8 +64,8 @@ BRIDGE_R31_RESULT_SCHEMA_BLOB = "455344dd091c552f12d91c6b8fb059ac9c70711e"
 BRIDGE_R31_IMPLEMENTATION_BLOB = "38509af174fc25aa4229c084fc3cd9b2e35b539e"
 BRIDGE_R31_FINALIZER_BLOB = "bb92f9cc87e557da3277983ba9c3970f4e9c6bfa"
 
-CREATOR_R29_OBSERVED_SHA = "ab0809f902ab26990721502feda39e56753f56e8"
-CREATOR_R29_OBSERVED_CI = 36998464412
+CREATOR_R29_OBSERVED_SHA = "614d2338ab01f59130cec4b35a3b275b86c48892"
+CREATOR_R29_OBSERVED_CI = 36999034034
 CREATOR_R29_IMPLEMENTATION_BLOB = "d8e359c9c6880b0e571fa44badded079783271b0"
 
 ALLOWED_MEDIA_ROUNDS = {"R21", "R22"}
@@ -1005,6 +1018,8 @@ def _parse_native_r22_authority(payload: Mapping[str, Any]) -> dict[str, Any]:
         raise OperatorAuthorityError("Media R22 repository mismatch")
     producer_sha = _sha1(producer["sha"], "r22.artifactProducer.sha")
     ci_run_id = _positive_int(producer["ciRunId"], "r22.artifactProducer.ciRunId")
+    if producer_sha != MEDIA_R22_SHA or ci_run_id != MEDIA_R22_CI_RUN_ID:
+        raise OperatorAuthorityError("exact Media R22 producer/CI authority drift")
 
     r21 = payload["r21Authority"]
     if not isinstance(r21, Mapping):
@@ -1069,6 +1084,16 @@ def _parse_native_r22_authority(payload: Mapping[str, Any]) -> dict[str, Any]:
             expected_path="tools/verify-r22-live-review-artifact.mjs",
         ),
     }
+    expected_r22_blobs = {
+        "contractIdentity": MEDIA_R22_CONTRACT_BLOB,
+        "schemaIdentity": MEDIA_R22_SCHEMA_BLOB,
+        "implementationIdentity": MEDIA_R22_IMPLEMENTATION_BLOB,
+        "exporterIdentity": MEDIA_R22_EXPORTER_BLOB,
+        "verifierIdentity": MEDIA_R22_VERIFIER_BLOB,
+    }
+    for key, expected_blob in expected_r22_blobs.items():
+        if r22_identities[key]["gitBlobSha"] != expected_blob:
+            raise OperatorAuthorityError(f"exact Media R22 blob drift: {key}")
     bridge = payload["bridgeR31Authority"]
     if not isinstance(bridge, Mapping):
         raise OperatorAuthorityError("Media R22 Bridge R31 authority missing")
@@ -1094,6 +1119,10 @@ def _parse_native_r22_authority(payload: Mapping[str, Any]) -> dict[str, Any]:
         "repository": "foto6/video2",
         "producer_sha": producer_sha,
         "ci_run_id": ci_run_id,
+        "artifact_id": MEDIA_R22_ARTIFACT_ID,
+        "artifact_name": MEDIA_R22_ARTIFACT_NAME,
+        "artifact_digest": MEDIA_R22_ARTIFACT_DIGEST,
+        "manifest_blob_sha1": MEDIA_R22_MANIFEST_BLOB,
         "r22_identities": r22_identities,
         "r21_authority": _clone(r21),
         "bridge_transport_authority": _clone(bridge),
