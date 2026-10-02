@@ -31,6 +31,7 @@ jobs:
           python -m unittest discover -s tests -p "test_critic_reedit_adapter_r23.py" -v
           python -m unittest discover -s tests -p "test_live_review_ingest_r24.py" -v
           python -m unittest discover -s tests -p "test_real_capture_r25.py" -v
+          python -m unittest discover -s tests -p "test_dynamic_review_capture_r26.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -103,6 +104,67 @@ jobs:
         with:
           name: growth-r25-real-capture-ingest
           path: ${{ runner.temp }}/growth-r25-real-capture
+          if-no-files-found: error
+          retention-days: 90
+      - name: Fetch exact Media R20 dynamic review artifact
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/r26-media-r20"
+          mkdir -p "$RUNNER_TEMP/r26-media-r20"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            --header "Authorization: Bearer $GITHUB_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/foto6/video2/actions/artifacts/11218642168/zip" \
+            --output "$RUNNER_TEMP/r26-media-r20/media-r20-dynamic-review.zip"
+          echo "430b64164487d19ec66e76f70edeab640410f88565ed8ae854b8bbc28bd2f410  $RUNNER_TEMP/r26-media-r20/media-r20-dynamic-review.zip" | sha256sum --check -
+          unzip -q "$RUNNER_TEMP/r26-media-r20/media-r20-dynamic-review.zip" -d "$RUNNER_TEMP/r26-media-r20/unpacked"
+      - name: Produce R26 dynamic-review source-ready evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/growth-r26-dynamic"
+          mkdir -p "$RUNNER_TEMP/growth-r26-dynamic"
+          ROOT="$RUNNER_TEMP/r26-media-r20/unpacked/initial-review"
+          python -m growth_analytics.dynamic_review_capture_r26 \
+            --media-package "$ROOT/media.dynamic_review_package.r20.v1.json" \
+            --media-evidence "$ROOT/media.dynamic_review_package.r20.evidence.json" \
+            --sealed-mapping "$ROOT/media.dynamic_review_sealed_mapping.r20.v1.json" \
+            --prompt-manifest "$ROOT/media.direct_model_review_prompt.v1.json" \
+            --media-authority conformance/growth.dynamic_live_review_capture.r26.v1/media-r20-initial-authority.json \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID" \
+            --observed-bridge-sha "ed9a35290f94607d7577f1ee9301de1bb44334f2" \
+            --out-dir "$RUNNER_TEMP/growth-r26-dynamic" \
+            --report "$RUNNER_TEMP/growth-r26-dynamic/readiness.json"
+          python - "$RUNNER_TEMP/growth-r26-dynamic/readiness.json" <<'PY'
+          import json,os,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert p["growth_source_sha"] == os.environ["GITHUB_SHA"], p
+          assert str(p["growth_ci_run_id"]) == os.environ["GITHUB_RUN_ID"], p
+          assert p["state"] == "SOURCE_READY", p
+          assert p["live_capture_gate"] == "BLOCKED_WAITING_DYNAMIC_CAPTURE", p
+          assert p["media_source_ready"] is True, p
+          assert p["media"]["authority"]["producer_sha"] == "b22174db3c772a49a21fb9f8b1d40828bf258005", p
+          assert p["media"]["package_digest"] == "afa44228dd19a668e6ebb40d5985c2b1a18ae973bf377d1ca6b71ace803f8826", p
+          assert p["media"]["sealed_mapping_digest"] == "ba4bb4498ce848a4622a44decbc5df08918155d286e49fa6e36693b5f71c0ca6", p
+          assert p["bridge_expected"]["r29_exact_green_sha"] == "ed9a35290f94607d7577f1ee9301de1bb44334f2", p
+          assert p["bridge_expected"]["current_r29_dynamic_capture_available"] is False, p
+          assert p["invariants"]["model_facing_labels_are_candidate_identity"] is False, p
+          assert p["invariants"]["human_ground_truth"] is False, p
+          assert p["invariants"]["human_rating_evidence"] is False, p
+          assert p["invariants"]["provider_mutation"] is False, p
+          assert p["live_capture"] is None, p
+          print(json.dumps(p,sort_keys=True))
+          PY
+      - name: Upload R26 dynamic-review capture artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r26-dynamic-review-capture
+          path: ${{ runner.temp }}/growth-r26-dynamic
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
