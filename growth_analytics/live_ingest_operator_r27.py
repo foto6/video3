@@ -1494,6 +1494,7 @@ def _load_media_r22_package(
             "mapping_by_label": entry_by_label,
             "round_lineage": _clone(round_lineage),
             "bridge_transport_producer_sha": native["producer_sha"],
+            "bridge_transport_producer_round": "R21",
             "bridge_transport_package_digest": bridge_package_digest,
             "bridge_transport_handoff_sha256": _file_sha256(bridge_handoff_path),
         }
@@ -1785,6 +1786,7 @@ def load_media_package(
             "mapping_by_label": entry_by_label,
             "round_lineage": _clone(round_lineage),
             "bridge_transport_producer_sha": profile["producer_sha"],
+            "bridge_transport_producer_round": profile["producer_round"],
             "bridge_transport_package_digest": None,
             "bridge_transport_handoff_sha256": None,
         }
@@ -1972,11 +1974,17 @@ def parse_live_bridge_capture(
     if not isinstance(producer, Mapping):
         raise OperatorLineageError("Bridge dynamic Media producer binding missing")
     if (
-        producer.get("repository") != media_package["authority"]["repository"]
-        or producer.get("sha") != media_package["authority"]["producer_sha"]
-        or producer.get("round") != media_package["authority"]["producer_round"]
+        producer.get("repository") != "foto6/video2"
+        or producer.get("sha") != media_package["bridge_transport_producer_sha"]
+        or producer.get("round") != media_package["bridge_transport_producer_round"]
     ):
         raise OperatorAuthorityError("Bridge dynamic Media producer/round drift")
+    if (
+        media_package.get("bridge_transport_package_digest") is not None
+        and dynamic.get("packageDigest")
+        != media_package["bridge_transport_package_digest"]
+    ):
+        raise OperatorLineageError("Bridge transport package digest differs from Media package")
 
     source_lineage = dynamic.get("sourceLineage")
     if not isinstance(source_lineage, Mapping):
@@ -1991,10 +1999,28 @@ def parse_live_bridge_capture(
         "sourceSize": source["size"],
         "briefLineageDigest": media_package["brief_lineage_digest"],
         "reviewRound": media_package["review_round"],
+        "mode": media_package["mode"],
+        "mediaR21PackageDigest": media_package["package_digest"],
+        "r21PackageDigest": media_package["package_digest"],
+        "mediaR21SealedMappingDigest": media_package["sealed_mapping_digest"],
+        "r21SealedMappingDigest": media_package["sealed_mapping_digest"],
     }
     for key, expected in aliases.items():
         if key in source_lineage and source_lineage[key] != expected:
             raise OperatorLineageError(f"Bridge dynamic source lineage drift: {key}")
+    nested_source = source_lineage.get("source")
+    if nested_source is not None:
+        if not isinstance(nested_source, Mapping) or (
+            nested_source.get("sourceId") != source["source_id"]
+            or nested_source.get("sha256") != source["sha256"]
+            or nested_source.get("size") != source["size"]
+        ):
+            raise OperatorLineageError("Bridge nested source lineage drift")
+    if (
+        "roundLineage" in source_lineage
+        and source_lineage["roundLineage"] != media_package["round_lineage"]
+    ):
+        raise OperatorLineageError("Bridge roundLineage payload drift")
 
     capture_id = _nonempty(
         payload.get("captureId") or payload.get("operationId"),
