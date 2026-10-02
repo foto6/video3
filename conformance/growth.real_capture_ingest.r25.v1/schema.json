@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.real_capture_ingest.r25.v1",
+  "title": "Growth R25 real Bridge R29 capture ingest result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "ingest_id",
+    "ingest_digest",
+    "evidence_state",
+    "capture_id",
+    "capture_digest",
+    "assistant_response_digest",
+    "bridge_r29_authority",
+    "conversation",
+    "prompt",
+    "media_r18",
+    "critic_inputs",
+    "critic_outputs",
+    "pairwise_input",
+    "pairwise_output",
+    "creator_reedit_handoffs",
+    "evidence_boundary",
+    "authority"
+  ],
+  "properties": {
+    "contract_version": {"const": "growth.real_capture_ingest.r25.v1"},
+    "ingest_id": {"type": "string", "pattern": "^gr25i1:[0-9a-f]{64}$"},
+    "ingest_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "evidence_state": {"const": "REAL_ATTACHED_VIDEO_REVIEW_INGESTED"},
+    "capture_id": {"type": "string", "minLength": 1},
+    "capture_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "assistant_response_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "bridge_r29_authority": {"type": "object"},
+    "conversation": {"type": "object"},
+    "prompt": {"type": "object"},
+    "media_r18": {"type": "object"},
+    "critic_inputs": {"type": "object"},
+    "critic_outputs": {"type": "object"},
+    "pairwise_input": {"type": "object"},
+    "pairwise_output": {"type": "object"},
+    "creator_reedit_handoffs": {"type": "object"},
+    "evidence_boundary": {
+      "const": {
+        "human_ground_truth": false,
+        "human_label": false,
+        "human_parity_inferred": false,
+        "live_platform_evidence": false,
+        "model_evidence": true
+      }
+    },
+    "authority": {
+      "const": {
+        "creator_effect_applied": false,
+        "media_effect_applied": false,
+        "prompt_sent_by_growth": false,
+        "provider_mutation": false,
+        "upload_performed": false
+      }
+    }
+  }
+}
