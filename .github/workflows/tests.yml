@@ -137,7 +137,7 @@ jobs:
             --media-authority conformance/growth.dynamic_live_review_capture.r26.v1/media-r20-initial-authority.json \
             --growth-sha "$GITHUB_SHA" \
             --growth-ci-run-id "$GITHUB_RUN_ID" \
-            --observed-bridge-sha "ed9a35290f94607d7577f1ee9301de1bb44334f2" \
+            --observed-bridge-sha "ceaee873231a8552c5b7324083baa800eec566a8" \
             --out-dir "$RUNNER_TEMP/growth-r26-dynamic" \
             --report "$RUNNER_TEMP/growth-r26-dynamic/readiness.json"
           python - "$RUNNER_TEMP/growth-r26-dynamic/readiness.json" <<'PY'
@@ -152,7 +152,9 @@ jobs:
           assert p["media"]["package_digest"] == "afa44228dd19a668e6ebb40d5985c2b1a18ae973bf377d1ca6b71ace803f8826", p
           assert p["media"]["sealed_mapping_digest"] == "ba4bb4498ce848a4622a44decbc5df08918155d286e49fa6e36693b5f71c0ca6", p
           assert p["bridge_expected"]["r29_exact_green_sha"] == "ed9a35290f94607d7577f1ee9301de1bb44334f2", p
+          assert p["bridge_expected"]["r30_exact_green_sha"] == "ceaee873231a8552c5b7324083baa800eec566a8", p
           assert p["bridge_expected"]["current_r29_dynamic_capture_available"] is False, p
+          assert p["bridge_expected"]["current_r30_dynamic_capture_available"] is False, p
           assert p["invariants"]["model_facing_labels_are_candidate_identity"] is False, p
           assert p["invariants"]["human_ground_truth"] is False, p
           assert p["invariants"]["human_rating_evidence"] is False, p
