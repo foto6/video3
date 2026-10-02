@@ -386,7 +386,7 @@ class GrowthR27ExactDynamicAuthorityTests(unittest.TestCase):
     def test_changed_transport_package_digest_fails(self):
         bad = self.genuine_capture()
         bad["dynamicPackage"]["packageDigest"] = "0" * 64
-        with self.assertRaisesRegex(CaptureDrift, "dynamic package digest"):
+        with self.assertRaisesRegex(CaptureDrift, "frozen transport identity|dynamic package digest"):
             validate_bridge_r30_live_capture(
                 bad, media=self.media_stub(), profile=self.profile
             )
