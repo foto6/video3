@@ -2098,6 +2098,62 @@ def parse_live_bridge_capture(
     )
 
 
+def _creator_r29_compatible_envelope(
+    *,
+    ingest_result: Mapping[str, Any],
+    candidate_id: str,
+) -> dict[str, Any]:
+    envelope = build_creator_envelope(
+        ingest_result=ingest_result,
+        candidate_id=candidate_id,
+        growth_producer_sha=GROWTH_R26_SHA,
+        growth_ci_run_id=GROWTH_R26_CI_RUN_ID,
+    )
+    handoff = envelope["creator_event"]["handoff"]
+    review_round = handoff["review_round"]
+    if handoff["binding"]["candidate_round"] == review_round:
+        return envelope
+
+    # Creator R29's exact R26 validator interprets candidate_round as the
+    # package review round. Preserve the true Media generation round in the
+    # R27 index/ingest result and normalize only the compatibility envelope.
+    handoff = _clone(handoff)
+    binding = _clone(handoff["binding"])
+    binding["candidate_round"] = review_round
+    handoff["binding"] = binding
+    normalized_directives = []
+    for directive in handoff["directives"]:
+        row = _clone(directive)
+        row["binding"] = _clone(binding)
+        body = dict(row)
+        body.pop("directive_id", None)
+        row["directive_id"] = "gdr26d1:" + sha256_json(body)
+        normalized_directives.append(row)
+    handoff["directives"] = normalized_directives
+    material = dict(handoff)
+    material["handoff_digest"] = ""
+    handoff["handoff_digest"] = sha256_json(material)
+
+    envelope = _clone(envelope)
+    envelope["creator_event"]["handoff"] = handoff
+    envelope["candidate"]["candidate_round"] = review_round
+    envelope["candidate"]["handoff_digest"] = handoff["handoff_digest"]
+    envelope["envelope_id"] = "gdr26ce1:" + sha256_json(
+        {
+            "growth_producer_sha": GROWTH_R26_SHA,
+            "capture_digest": envelope["capture"]["capture_digest"],
+            "package_digest": envelope["review"]["package_digest"],
+            "candidate_id": candidate_id,
+            "handoff_digest": handoff["handoff_digest"],
+            "review_round": review_round,
+        }
+    )
+    material = dict(envelope)
+    material["envelope_digest"] = ""
+    envelope["envelope_digest"] = sha256_json(material)
+    return _clone(envelope)
+
+
 def _candidate_index(
     ingest: Mapping[str, Any],
     media_package: Mapping[str, Any],
@@ -2117,6 +2173,7 @@ def _candidate_index(
                 "model_facing_label": label_by_candidate[candidate_id],
                 "state": handoff["state"],
                 "candidate_round": handoff["binding"]["candidate_round"],
+                "creator_compat_candidate_round": envelope["candidate"]["candidate_round"],
                 "render_sha256": handoff["binding"]["render_sha256"],
                 "attachment_sha256": handoff["binding"]["attachment_sha256"],
                 "handoff_digest": handoff["handoff_digest"],
@@ -2554,11 +2611,9 @@ def run_operator(
         parsed_capture=parsed_capture,
     )
     envelopes = {
-        candidate_id: build_creator_envelope(
+        candidate_id: _creator_r29_compatible_envelope(
             ingest_result=ingest,
             candidate_id=candidate_id,
-            growth_producer_sha=GROWTH_R26_SHA,
-            growth_ci_run_id=GROWTH_R26_CI_RUN_ID,
         )
         for candidate_id in sorted(ingest["dynamic_handoffs"])
     }
