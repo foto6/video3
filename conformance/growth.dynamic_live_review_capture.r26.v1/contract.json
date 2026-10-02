@@ -26,6 +26,14 @@
       "capture_contract": "bridge.existing_chat_video_review_capture.v1",
       "live_review_pass": false,
       "actual_live_evidence": null
+    },
+    "bridge_r30": {
+      "repository": "foto6/WebAIBridge",
+      "sha": "ceaee873231a8552c5b7324083baa800eec566a8",
+      "ci_run_id": 36993885456,
+      "capture_contract": "bridge.dynamic_existing_chat_video_review_capture.v1",
+      "live_review_pass": false,
+      "actual_live_evidence": null
     }
   },
   "authority_rules": {
@@ -72,12 +80,21 @@
     "real_send_captured": true,
     "disposition": "LIVE_REVIEW_PASS",
     "strict_json": true,
-    "pairwise_selection": ["A", "B", "tie", "insufficient_evidence"],
+    "pairwise_selection": [
+      "A",
+      "B",
+      "tie",
+      "insufficient_evidence"
+    ],
     "coverage": {
       "uninspected_possible": true,
       "every_frame_inspected": false,
       "timestamped_observation_must_be_inside_inspected_range": true
-    }
+    },
+    "accepted_bridge_capture_contracts": [
+      "bridge.existing_chat_video_review_capture.v1",
+      "bridge.dynamic_existing_chat_video_review_capture.v1"
+    ]
   },
   "identity_rules": {
     "model_facing_A_B_is_candidate_identity": false,
