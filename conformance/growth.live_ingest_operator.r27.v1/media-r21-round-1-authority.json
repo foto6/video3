@@ -1,0 +1,39 @@
+{
+  "contract_version": "growth.media_review_round_authority.r27.v1",
+  "producer_round": "R21",
+  "repository": "foto6/video2",
+  "producer_sha": "d753e9e4c1f4448386608a1425232dbc1dba87ea",
+  "ci_run_id": 36994000619,
+  "package_contract": "media.review_round_bundle.r21.v1",
+  "contract_blob_sha1": "65358261775f0fcd2ab9e21f3f621aee977f29da",
+  "schema_blob_sha1": "f04925e317d849434852e6b706533f909da47b22",
+  "manifest_blob_sha1": "f76033375e7ee03b56491722e2e99e7334bd2cad",
+  "implementation_blob_sha1": "c6f556b8a177b6182d787356625094cdcad5a58e",
+  "runner_blob_sha1": "c93e9a69de31b66189031932ccfa7f2c83cf043c",
+  "artifact_id": 11221240371,
+  "artifact_name": "media-r21-round-pair-review",
+  "artifact_digest": "sha256:1036800923196882590ace62edbaa123ab4250b9d242e14adba909ba256ab022",
+  "files": {
+    "bundle": {"name": "media.review_round_bundle.r21.v1.json", "sha256": "5113101b27c90e005aa6c648cda46160d32fdcb85b21893501c24427097f2edc"},
+    "evidence": {"name": "media.review_round_bundle.r21.evidence.json", "sha256": "288a704c2bfc6c4f44f85aec14e553b6ca0b7f17982fa44907ef6ea2921c0c69"},
+    "transport_handoff": {"name": "media.review_round_transport_handoff.r21.v1.json", "sha256": "75c3ae6bd9b6b7567a3782fa7548729af2ac2fcd055a2b46442bb8a49dfcd83d"},
+    "sealed_mapping": {"name": "media.review_round_sealed_mapping.r21.v1.json", "sha256": "0392ecaf898c4855bf48fb9e5f65369e623f66f9577f1a1c40ac081c6df2d824"},
+    "prompt": {"name": "model-review-prompt.txt.json", "sha256": "6f8daafeac694e8abb944cd014fcd57cb905d74ca35a8617f051e1c322f3798c"}
+  },
+  "package_digest": "521bf3c0474845895a76f4cbd26abf876d978ca2e39fe3c127d6918043438546",
+  "sealed_mapping_digest": "9edb9f556c07564af3d335e7bba54c8b26347b0e08289bc6f8d0262930388be7",
+  "prompt_digest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2",
+  "round_lineage_digest": "28a7f7a644e9cf788953bbd26248dc561c5cee50746180d17f2bc6a88f5eada7",
+  "mode": "targeted_reedit",
+  "review_round": 1,
+  "brief_lineage_digest": "56f1260701038dee8271c9a409f91686aca776be4d34dfb36ec53dc6559d5236",
+  "source": {
+    "source_id": "talking-head-vertical-source",
+    "sha256": "bf7a2423ae26cb7bba73cb93930e46df95adad1619d79d2a08bfe3b072812309",
+    "size": 790819
+  },
+  "attachments": [
+    {"blind_label": "A", "path": "review-A.mp4", "sha256": "1855a1745d53329294c680600299a9ca0308a7c468b27d6dab94d21a72605054", "size": 795358, "mime_type": "video/mp4"},
+    {"blind_label": "B", "path": "review-B.mp4", "sha256": "528ea10a074d99f510805ca65153a734c8f81d4e12eeaee0e254c969e1c897dd", "size": 738225, "mime_type": "video/mp4"}
+  ]
+}
