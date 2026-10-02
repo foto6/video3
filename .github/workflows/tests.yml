@@ -33,6 +33,7 @@ jobs:
           python -m unittest discover -s tests -p "test_real_capture_r25.py" -v
           python -m unittest discover -s tests -p "test_dynamic_review_capture_r26.py" -v
           python -m unittest discover -s tests -p "test_live_ingest_operator_r27.py" -v
+          python -m unittest discover -s tests -p "test_multiround_session_ingest_r28.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -274,6 +275,122 @@ jobs:
         with:
           name: growth-r27-live-ingest-operator
           path: ${{ runner.temp }}/growth-r27-live-ingest
+          if-no-files-found: error
+          retention-days: 90
+      - name: Fetch exact Media R22 live-review operator artifact
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/r28-media-r22"
+          mkdir -p "$RUNNER_TEMP/r28-media-r22"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            --header "Authorization: Bearer $GITHUB_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/foto6/video2/actions/artifacts/11224061610/zip" \
+            --output "$RUNNER_TEMP/r28-media-r22/media-r22-live-review-operator-bundle.zip"
+          echo "d534f1656e22b72cf42531c827e66516965b4167549906521dee04edafd01734  $RUNNER_TEMP/r28-media-r22/media-r22-live-review-operator-bundle.zip" | sha256sum --check -
+          unzip -q "$RUNNER_TEMP/r28-media-r22/media-r22-live-review-operator-bundle.zip" -d "$RUNNER_TEMP/r28-media-r22/unpacked"
+      - name: Produce R28 multiround source-ready and fixture rehearsal evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROFILE="conformance/growth.multiround_session_ingest.r28.v1/authority-profiles.json"
+          OUT="$RUNNER_TEMP/growth-r28-session-ingest"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          python -m growth_analytics.multiround_session_ingest_r28 source-ready \
+            --operator-dir "$RUNNER_TEMP/r28-media-r22/unpacked/initial" \
+            --authority-profile "$PROFILE" \
+            --session-dir "$OUT/session-initial" \
+            --out-dir "$OUT/source-ready-initial" \
+            --conversation-id "ci-r28-dedicated-review-conversation" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          python -m growth_analytics.multiround_session_ingest_r28 source-ready \
+            --operator-dir "$RUNNER_TEMP/r28-media-r22/unpacked/round-1" \
+            --authority-profile "$PROFILE" \
+            --session-dir "$OUT/session-round1-isolated" \
+            --out-dir "$OUT/source-ready-round1" \
+            --conversation-id "ci-r28-dedicated-review-conversation-round1" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID" || test "$?" -eq 2
+          python -m growth_analytics.multiround_session_ingest_r28 rehearse-fixtures \
+            --fixture fixtures/session_ingest_r28/multiround-rehearsal.json \
+            --authority-profile "$PROFILE" \
+            --out-dir "$OUT/fixture-rehearsal" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          python - "$OUT" <<'PY'
+          import json,os,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          initial=json.load(open(root/"source-ready-initial"/"session-readiness.json",encoding="utf-8"))
+          rehearsal=json.load(open(root/"fixture-rehearsal"/"fixture-multiround-rehearsal.json",encoding="utf-8"))
+          assert initial["state"] == "SOURCE_READY", initial
+          assert initial["live_capture_gate"] == "BLOCKED_WAITING_GENUINE_CAPTURE", initial
+          assert initial["package_review_round"] == 0, initial
+          assert initial["package_digest"] == "b2de4082a2f466a945319f284f898675f1d9ee3d8565f4ae4305a556cfa00940", initial
+          assert initial["sealed_mapping_digest"] == "a7d03a3eb6bc44c021069c4b3603ebb09c3a120161d97124bc2da0516ea7837b", initial
+          assert initial["operator_manifest_sha256"] == "cd2d106291001e4b650d6c67f3dae0c50ed7b8a9c30b463e1c91e503f32fffae", initial
+          assert initial["archive_sha256"] == "5a6f9749599fc60c39da0b7df3035c90ca12f0a89776735752692a7c9275b052", initial
+          assert initial["live_review_ingested"] is False, initial
+          assert initial["creator_executable_handoff_emitted"] is False, initial
+          assert initial["human_ground_truth"] is False, initial
+          assert initial["human_rating_evidence"] is False, initial
+          assert initial["human_parity_inferred"] is False, initial
+          assert initial["browser_mutation"] is False and initial["provider_mutation"] is False, initial
+          assert initial["growth_r28"]["producer_sha"] == os.environ["GITHUB_SHA"], initial
+          assert str(initial["growth_r28"]["ci_run_id"]) == os.environ["GITHUB_RUN_ID"], initial
+
+          assert rehearsal["state"] == "SOURCE_READY", rehearsal
+          assert rehearsal["fixture_only"] is True, rehearsal
+          assert rehearsal["round_sequence_proven"] == [0,1,2], rehearsal
+          assert rehearsal["fourth_review_rejected"] is True, rehearsal
+          assert rehearsal["live_review_ingested"] is False, rehearsal
+          assert rehearsal["creator_executable_handoff_emitted"] is False, rehearsal
+          assert rehearsal["fixture_promoted"] is False, rehearsal
+          assert rehearsal["human_ground_truth"] is False, rehearsal
+          assert rehearsal["provider_mutation"] is False, rehearsal
+          print(json.dumps({"initial":initial,"rehearsal":rehearsal},sort_keys=True))
+          PY
+      - name: Prove R28 Media R22 package drift fails closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROFILE="conformance/growth.multiround_session_ingest.r28.v1/authority-profiles.json"
+          OUT="$RUNNER_TEMP/growth-r28-session-ingest"
+          cp -R "$RUNNER_TEMP/r28-media-r22/unpacked/initial" "$RUNNER_TEMP/r28-media-r22/stale-initial"
+          printf '\n' >> "$RUNNER_TEMP/r28-media-r22/stale-initial/payload/media.review_round_sealed_mapping.r21.v1.json"
+          set +e
+          python -m growth_analytics.multiround_session_ingest_r28 source-ready \
+            --operator-dir "$RUNNER_TEMP/r28-media-r22/stale-initial" \
+            --authority-profile "$PROFILE" \
+            --session-dir "$OUT/stale-session" \
+            --out-dir "$OUT/stale" \
+            --conversation-id "ci-r28-dedicated-review-conversation" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          STATUS=$?
+          set -e
+          test "$STATUS" -eq 2
+          python - "$OUT/stale/session-readiness.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert p["state"] == "BLOCKED_WAITING_GENUINE_CAPTURE", p
+          assert p["reason"] == "PackageDrift", p
+          assert p["live_review_ingested"] is False, p
+          assert p["creator_executable_handoff_emitted"] is False, p
+          assert p["human_ground_truth"] is False, p
+          assert p["provider_mutation"] is False, p
+          PY
+      - name: Upload R28 multiround session ingest artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r28-multiround-session-ingest
+          path: ${{ runner.temp }}/growth-r28-session-ingest
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
