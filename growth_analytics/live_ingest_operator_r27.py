@@ -1133,16 +1133,26 @@ def validate_bridge_r30_live_capture(
         raise CaptureDrift("Bridge R30 dynamicPackage binding incomplete")
     if dynamic["handoffContract"] != "media.dynamic_review_handoff.v1":
         raise CaptureDrift("Bridge R30 dynamic handoff contract drift")
-    _sha256(dynamic["handoffSha256"], "dynamicPackage.handoffSha256")
+    handoff_sha = _sha256(
+        dynamic["handoffSha256"], "dynamicPackage.handoffSha256"
+    )
     bridge_package_digest = _sha256(
         dynamic["packageDigest"], "dynamicPackage.packageDigest"
     )
     if dynamic["sealedMappingDigestRef"] != exact["sealed_mapping_digest"]:
         raise CaptureDrift("Bridge R30 sealed mapping reference drift")
-    _sha256(
+    source_binding_fingerprint = _sha256(
         dynamic["sourceBindingFingerprint"],
         "dynamicPackage.sourceBindingFingerprint",
     )
+    frozen_transport = exact["r31_transport"]
+    if (
+        handoff_sha != frozen_transport["derived_handoff_file_sha256"]
+        or bridge_package_digest != frozen_transport["dynamic_package_digest"]
+        or source_binding_fingerprint
+        != frozen_transport["source_binding_fingerprint"]
+    ):
+        raise CaptureDrift("Bridge R30/R31 frozen transport identity drift")
 
     producer = dynamic["producer"]
     required_producer = {
@@ -1162,44 +1172,42 @@ def validate_bridge_r30_live_capture(
         or producer["round"] != transport["producer_round"]
         or producer["contractName"] != transport["producer_contract_name"]
         or producer["contractSchema"] != transport["producer_contract_schema"]
-        or producer["contractBlobSha256"]
-        != transport["producer_contract_file_sha256"]
+        or producer["contractBlobSha256"] != exact["bundle_file_sha256"]
     ):
         raise AuthorityDrift("Bridge R30 Media R21 producer/contract bytes drift")
 
     source_lineage = dynamic["sourceLineage"]
-    if not isinstance(source_lineage, Mapping):
-        raise CaptureDrift("Bridge R30 sourceLineage must be object")
-    expected_source = exact["source"]
-    source_id = _source_lineage_value(source_lineage, "sourceId", "source_id")
-    source_sha = _source_lineage_value(
-        source_lineage, "sha256", "sourceSha256", "source_sha256"
-    )
-    source_size = _source_lineage_value(
-        source_lineage, "size", "sourceSize", "source_size"
-    )
-    brief = _source_lineage_value(
-        source_lineage, "briefLineageDigest", "brief_lineage_digest"
-    )
-    review_round = _source_lineage_value(
-        source_lineage, "reviewRound", "review_round"
-    )
-    round_digest = _source_lineage_value(
-        source_lineage, "roundLineageDigest", "round_lineage_digest"
-    )
-    if (
-        source_id != expected_source["source_id"]
-        or source_sha != expected_source["sha256"]
-        or source_size != expected_source["size"]
-        or brief != exact["brief_lineage_digest"]
-        or review_round != exact["review_round"]
-        or round_digest != exact["round_lineage_digest"]
-    ):
-        raise CaptureDrift("Bridge R30 source/round lineage drift")
-    if "mediaPackageDigest" in source_lineage and (
-        source_lineage["mediaPackageDigest"] != exact["package_digest"]
-    ):
-        raise CaptureDrift("Bridge R30 Media R21 package lineage drift")
+    expected_source_lineage = {
+        "authority": {
+            "producerRepository": profile["media_r21"]["repository"],
+            "producerSha": profile["media_r21"]["producer_sha"],
+            "producerCiRunId": profile["media_r21"]["ci_run_id"],
+            "producerCiConclusion": "success",
+            "bundleContract": profile["media_r21"]["round_bundle_contract"],
+            "handoffContract": profile["media_r21"]["transport_handoff_contract"],
+        },
+        "mediaR21PackageDigest": exact["package_digest"],
+        "mediaR21ArchiveSha256": MEDIA_R21_ARTIFACT_DIGEST[7:],
+        "mediaR21DirectoryDigest": frozen_transport["directory_digest"],
+        "mediaR21EvidenceFileSha256": exact["evidence_file_sha256"],
+        "mediaR21HandoffFileSha256": exact["transport_handoff_file_sha256"],
+        "mediaR21SealedMappingFileSha256": exact["sealed_mapping_file_sha256"],
+        "mediaR21PromptFileSha256": exact["prompt_file_sha256"],
+        "source": {
+            "sourceId": exact["source"]["source_id"],
+            "sha256": exact["source"]["sha256"],
+            "size": exact["source"]["size"],
+        },
+        "mode": exact["mode"],
+        "reviewRound": exact["review_round"],
+        "roundLineage": {
+            "digest": exact["round_lineage_digest"],
+            "mode": exact["mode"],
+            "reviewRound": exact["review_round"],
+        },
+    }
+    if source_lineage != expected_source_lineage:
+        raise CaptureDrift("Bridge R30/R31 exact source/round lineage drift")
 
     transport_digest = _bridge_transport_digest(
         producer=producer,
@@ -1210,7 +1218,7 @@ def validate_bridge_r30_live_capture(
         source_lineage=source_lineage,
         prompt_format=transport["prompt_format"],
     )
-    if transport_digest != bridge_package_digest:
+    if transport_digest != frozen_transport["dynamic_package_digest"]:
         raise CaptureDrift("Bridge R30 dynamic package digest mismatch")
 
     prompt_digest = _sha256(capture.get("promptDigest"), "capture.promptDigest")
