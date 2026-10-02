@@ -2176,7 +2176,8 @@ def _candidate_index(
                 "creator_compat_candidate_round": envelope["candidate"]["candidate_round"],
                 "render_sha256": handoff["binding"]["render_sha256"],
                 "attachment_sha256": handoff["binding"]["attachment_sha256"],
-                "handoff_digest": handoff["handoff_digest"],
+                "source_handoff_digest": handoff["handoff_digest"],
+                "handoff_digest": envelope["candidate"]["handoff_digest"],
                 "envelope_file": (
                     "creator-review-"
                     + hashlib.sha256(candidate_id.encode("utf-8")).hexdigest()[:16]
@@ -2272,6 +2273,7 @@ def build_coordinator_index(
             "observed_r29_ci_run_id": CREATOR_R29_OBSERVED_CI,
             "envelope_contract": CREATOR_ENVELOPE_VERSION,
             "manual_envelope_edit_required": False,
+            "implementation_blob_sha1": CREATOR_R29_IMPLEMENTATION_BLOB,
         },
         "media": {
             "authority": media_package["source_authority"],
