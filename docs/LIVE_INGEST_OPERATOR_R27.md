@@ -23,7 +23,13 @@ Bridge R30:
 - capture schema blob: `2cbe22ad6c7fe877764bad8dcfc1496aef3f3737`
 - dynamic implementation blob: `c5bd2f95a6d58a86cddd9a6fdc127e68e3346c20`
 
-At implementation time Media R22 still pointed to the R21 SHA, and Bridge R31 still pointed to the R30 SHA. The operator accepts explicit R22/R31 authority profiles when those producers exist; branch names are never authority.
+Additional exact-green producers became available during implementation:
+
+- Media R22: `5c9a382b3083e30642ac27f047705a06309311a6`, CI `36998852352`, artifact `media-r22-live-review-artifact` ID `11223041326`, archive digest `sha256:7fc5fc969d3b46e9584f45b9b57d3c61a7b443e5aa37e6abc06b37de6cd69854`.
+- Bridge R31: `31cfef82663d72d53e69e6345b50073ffcd461ca`, CI `36997793086`. Its coordinator output uses the same R30 capture contract plus native `bridge.r31_media_r21_authority_profile.v1` and `bridge.r31_live_dynamic_operator_result.v1`.
+- Creator R29: `614d2338ab01f59130cec4b35a3b275b86c48892`, CI `36999034034`, parser blob `d8e359c9c6880b0e571fa44badded079783271b0`.
+
+Branch names remain advisory and are never source authority.
 
 ## Media package authority
 
@@ -47,6 +53,8 @@ R27 includes exact profiles for both directories currently in Media R21 artifact
 
 The operator re-hashes the real package files and MP4s. It recomputes the R21 package digest, sealed mapping digest, prompt digest and round-lineage digest rather than trusting the evidence JSON alone.
 
+For native Media R22 packages, R27 accepts the packaged `media.live_review_authority_profile.r22.v1` directly. It pins exact R22 producer/CI and exact contract, schema, implementation, exporter and verifier Git blobs; verifies the R22 package manifest and every listed payload byte; then validates the embedded R21 candidate/mapping/round lineage. R22 source authority remains in the coordinator index.
+
 For targeted re-edit packages it also verifies baseline/challenger N -> N+1 lineage, render identities, prior selection, Growth handoff digest and Media application digest.
 
 ## Bridge live-capture authority
@@ -64,7 +72,7 @@ For targeted re-edit packages it also verifies baseline/challenger N -> N+1 line
 - source-binding fingerprint;
 - assistant-response digest.
 
-Current R30 profiles must exactly match the known green producer and blobs above. A future R31 profile must still provide every exact field and the exact capture-file binding; no moving branch is accepted.
+R30 profiles must exactly match the known green producer and blobs above. R31 may be supplied natively as `r31-authority-profile.json`; R27 requires the exact R31 producer/CI/source blobs and a genuine `r31-live-result.json` with state `LIVE_REVIEW_PASS`. The live-result file is auto-discovered beside the capture or may be supplied explicitly with `--bridge-live-result`. No moving branch is accepted as authority.
 
 ## Live boundary
 
@@ -95,7 +103,9 @@ For every candidate R27 writes the canonical existing contract:
 
 No manual field rewriting is required. The coordinator index records each envelope filename/digest and handoff digest.
 
-The current observed Creator R29 branch was `0d670abd4b5f04391fd1e6e1af4836a9fc92c8f3`, CI `36994868273`. That exact head still contains the earlier R28 consumer code that pins the older Growth R25 envelope. R27 does not modify Creator; its output is the canonical dynamic R26 envelope requested for the Creator R29 consumer handoff.
+Creator R29 is exact-green at `614d2338ab01f59130cec4b35a3b275b86c48892`, CI `36999034034`. Its parser accepts the canonical R26 dynamic envelope and freezes the Growth R26, Media R21 and Bridge R30 compatibility authority surface.
+
+R27 therefore separates **source authority** from **Creator compatibility authority**. The coordinator index preserves the exact R21/R22 and R30/R31 producer evidence and true candidate generation round. Each Creator envelope preserves the canonical R26 contract and exact Growth R26 producer identity `e844ed2daaaca9e9694fe1e0fb6b8b7bfac69cbc` / CI `36994388154`. For R22 or a baseline from a prior generation round, only Creator-facing compatibility fields are normalized and all dependent directive/handoff/envelope digests are regenerated. The index retains both the original source handoff digest and the Creator-compatible handoff digest, so no lineage is lost or silently overwritten.
 
 ## Coordinator index
 
@@ -148,14 +158,15 @@ No `LIVE_REVIEW_INGESTED` claim is fabricated.
 
 ## One-command genuine live ingest
 
-When the coordinator has a genuine R30/R31 capture and its exact capture authority profile:
+When the coordinator has a genuine R30 capture with a Growth authority profile, or a genuine R31 capture with its native authority/live-result files:
 
 ```bash
 python -m growth_analytics.live_ingest_operator_r27 \
   --media-package-dir /path/to/exact-media-r21-or-r22-package \
   --media-authority /path/to/exact-media-authority.json \
   --bridge-capture /path/to/genuine-bridge-dynamic-capture.json \
-  --bridge-authority /path/to/exact-capture-authority.json \
+  --bridge-authority /path/to/exact-capture-authority-or-r31-authority-profile.json \
+  --bridge-live-result /path/to/r31-live-result.json \
   --ledger /path/to/durable-growth-r27-ledger.json \
   --out-dir /path/to/creator-r29-handoff \
   --growth-sha "$(git rev-parse HEAD)" \
