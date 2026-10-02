@@ -1303,6 +1303,7 @@ def _index_material(
     live_capture_gate: str,
     new_effect: bool,
     rejection_reason: str | None = None,
+    bridge_r31_result: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     pairwise = None
     candidates: dict[str, Any] = {}
@@ -1325,6 +1326,9 @@ def _index_material(
                 "assistant_response_digest"
             ],
             "conversation": ingest["capture"]["conversation"],
+            "bridge_r31_result": (
+                None if bridge_r31_result is None else dict(bridge_r31_result)
+            ),
         }
         for candidate_id, envelope in sorted((envelopes or {}).items()):
             candidate = envelope["candidate"]
@@ -1341,6 +1345,9 @@ def _index_material(
                 "attachment_sha256": candidate["attachment_sha256"],
                 "attachment_size": candidate["attachment_size"],
                 "attachment_mime_type": candidate["attachment_mime_type"],
+                "creator_r29_ready": (
+                    candidate["candidate_round"] == ingest["review_round"]
+                ),
             }
         selected = ingest["unblinding"]["selected_candidate_id"]
         if selected is not None and selected in candidates:
@@ -1362,6 +1369,11 @@ def _index_material(
             "starting_r26_sha": GROWTH_R26_BASE_SHA,
             "operator_contract": OPERATOR_VERSION,
             "authority_profile_digest": authority_digest,
+            "canonical_creator_envelope_authority": {
+                "producer_sha": CREATOR_R29_GROWTH_R26_SHA,
+                "ci_run_id": CREATOR_R29_GROWTH_R26_CI,
+                "contract": CREATOR_ENVELOPE_VERSION,
+            },
         },
         "media_r21": {
             "producer_sha": MEDIA_R21_SHA,
@@ -1379,6 +1391,18 @@ def _index_material(
             "producer_sha": BRIDGE_R30_SHA,
             "ci_run_id": BRIDGE_R30_CI,
             "capture_contract": BRIDGE_R30_CAPTURE_CONTRACT,
+            "bridge_r31_wrapper": (
+                None
+                if bridge_r31_result is None
+                else {
+                    "producer_sha": BRIDGE_R31_SHA,
+                    "ci_run_id": BRIDGE_R31_CI,
+                    "result_contract": BRIDGE_R31_RESULT_CONTRACT,
+                    "result_file_sha256": bridge_r31_result[
+                        "result_file_sha256"
+                    ],
+                }
+            ),
         },
         "capture": capture,
         "pairwise": pairwise,
@@ -1793,6 +1817,8 @@ def _write_report(
         "media_r21_ci_run_id": MEDIA_R21_CI,
         "bridge_r30_sha": BRIDGE_R30_SHA,
         "bridge_r30_ci_run_id": BRIDGE_R30_CI,
+        "bridge_r31_sha": BRIDGE_R31_SHA,
+        "bridge_r31_ci_run_id": BRIDGE_R31_CI,
         "error_type": None if error is None else type(error).__name__,
         "error_detail": None if error is None else str(error),
         "provider_mutation": False,
@@ -1861,8 +1887,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(json.dumps(report, sort_keys=True))
             return 2
 
-    capture = _load(Path(args.capture))
     try:
+        capture, bridge_r31_result = load_bridge_capture_input(
+            Path(args.capture),
+            profile=profile,
+        )
         index = ingest_live(
             package_dir=package_dir,
             authority_profile=profile,
@@ -1871,6 +1900,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             out_dir=out_dir,
             growth_sha=args.growth_sha,
             growth_ci_run_id=args.growth_ci_run_id,
+            bridge_r31_result=bridge_r31_result,
         )
         report = _write_report(
             path=report_path,
