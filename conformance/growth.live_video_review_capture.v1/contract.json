@@ -1,0 +1,130 @@
+{
+  "contract_version": "growth.live_video_review_capture.v1",
+  "response_contract": "growth.live_video_review_response.v1",
+  "ingest_result_contract": "growth.live_video_review_ingest.v1",
+  "purpose": "Strictly ingest an already captured existing-chat model review of the exact Media R18 blinded MP4 pair, convert validated observations into growth.web_video_critic.v1, then reuse the R23 growth.creator_reedit_handoff.v1 adapter without treating model evidence as human ground truth.",
+  "authorities": {
+    "growth_r23": {
+      "repository": "foto6/video3",
+      "source_sha": "26f769abceb43a63677ea8f7ba028369db371696",
+      "critic_contract": "growth.web_video_critic.v1",
+      "handoff_contract": "growth.creator_reedit_handoff.v1"
+    },
+    "bridge_r26": {
+      "repository": "foto6/WebAIBridge",
+      "source_sha": "73c13f9eed2a2cbcea881dd8c5452d054bfef940",
+      "attachment_contract": "bridge.chat_file_attachment.v1"
+    },
+    "media_r18": {
+      "repository": "foto6/video2",
+      "source_sha": "2c41f084e000eca5efd9a51d2d3752bec1bd1311",
+      "ci_run_id": 36967381891,
+      "artifact_id": 11210373001,
+      "artifact_name": "media-r18-direct-model-review",
+      "artifact_digest": "sha256:1f2ac715ec787be14564201445737f19825f56267a7cab6fb99553aaaff013eb",
+      "package_digest": "c7af4d86acddb2b1bc67135449610386188fead05e0801dbb32e8857afe4945d",
+      "package_file_sha256": "23b36200e0023913f5435b99748f3ded92cb9ed86a9f769d7d64bb0d6743771e",
+      "prompt_contract": "media.direct_model_review_prompt.v1",
+      "prompt_sha256": "98e377f73f26d9960acc34703797f962ef75472597acdbefc6dfdc82636b06b6",
+      "prompt_text_sha256": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2"
+    }
+  },
+  "capture_binding": {
+    "conversation_fields": [
+      "conversation_id",
+      "review_request_id",
+      "assistant_message_id"
+    ],
+    "raw_response_sha256_required": true,
+    "exact_prompt_digest_required": true,
+    "exact_media_source_render_lineage_required": true,
+    "exact_blind_label_attachment_sha_size_required": true,
+    "capture_id_content_addressed": true,
+    "capture_digest_content_addressed": true
+  },
+  "attachments": {
+    "A": {
+      "generic_file_name": "review-A.mp4",
+      "candidate_id": "candidate-1",
+      "sha256": "3bd12d999264cb932cb3ef15dfbd96e002ede517f2273795b593553b9642d864",
+      "size": 575465,
+      "render_export_sha256": "2b5177c00bb054184a239c7eddb1383ad253922e8eb686f5aa2e56c91a1335ac"
+    },
+    "B": {
+      "generic_file_name": "review-B.mp4",
+      "candidate_id": "candidate-2",
+      "sha256": "cdae63d5ccce67332e607af7fd87b18c31da8dc77c2f0ce5182550321767286c",
+      "size": 576763,
+      "render_export_sha256": "b349b897f8f86bc9257e2622f564d6430f3864ff605ae4b82ba0cb09c59298f6"
+    }
+  },
+  "response_requirements": {
+    "strict_json_only": true,
+    "coverage_required_for_each_attachment": true,
+    "coverage": {
+      "inspected_ranges_required": true,
+      "uninspected_possible": true,
+      "every_frame_inspected": false
+    },
+    "actionable_observation_required_fields": [
+      "attachment_label",
+      "start_ms",
+      "end_ms",
+      "defect_category",
+      "severity",
+      "evidence",
+      "description",
+      "proposed_edit",
+      "confidence",
+      "uncertainty"
+    ],
+    "actionable_timestamp_must_be_inside_inspected_coverage": true,
+    "pairwise_selection": [
+      "A",
+      "B",
+      "tie",
+      "insufficient_evidence"
+    ]
+  },
+  "conversion": {
+    "critic_contract": "growth.web_video_critic.v1",
+    "pairwise_contract": "growth.web_video_critic_pairwise.v1",
+    "handoff_contract": "growth.creator_reedit_handoff.v1",
+    "verified_capture_digest_is_transport_evidence": true,
+    "unsupported_edit_mapping_fails_closed": true,
+    "maximum_reedit_rounds": 2
+  },
+  "replay": {
+    "exact_same_capture_is_idempotent": true,
+    "exact_same_capture_second_handoff_effect": false,
+    "capture_id_conflict_rejected": true,
+    "same_conversation_review_request_conflicting_response_rejected": true
+  },
+  "evidence_boundary": {
+    "human_ground_truth": false,
+    "human_label": false,
+    "human_parity_inferred": false,
+    "live_platform_evidence": false,
+    "provider_mutation": false,
+    "upload_performed": false
+  },
+  "readiness_states": [
+    "FIXTURE_VALIDATED",
+    "REAL_ATTACHED_VIDEO_REVIEW_INGESTED"
+  ],
+  "current_live_evidence_gate": "BLOCKED_REAL_ATTACHED_VIDEO_REVIEW_CAPTURE_REQUIRED",
+  "fail_closed": [
+    "free_form_only_response",
+    "unknown_candidate_or_blind_label",
+    "stale_or_wrong_hash",
+    "prompt_drift",
+    "media_or_bridge_provenance_drift",
+    "contradictory_or_uncovered_timestamp",
+    "unsupported_defect_or_edit",
+    "coverage_uncertainty_removed",
+    "invalid_pairwise_verdict",
+    "duplicate_observation",
+    "conflicting_captured_response",
+    "missing_provenance"
+  ]
+}
