@@ -966,11 +966,550 @@ def _normalize_mapping_entry(
     }
 
 
+def _r22_blob_identity(
+    value: Mapping[str, Any],
+    *,
+    field: str,
+    expected_path: str | None = None,
+) -> dict[str, Any]:
+    if not isinstance(value, Mapping) or set(value) != {
+        "path", "gitBlobSha", "sha256", "size"
+    }:
+        raise OperatorAuthorityError(f"{field} blob identity fields invalid")
+    path = _nonempty(value["path"], f"{field}.path")
+    if expected_path is not None and path != expected_path:
+        raise OperatorAuthorityError(f"{field} path drift")
+    return {
+        "path": path,
+        "gitBlobSha": _sha1(value["gitBlobSha"], f"{field}.gitBlobSha"),
+        "sha256": _sha256(value["sha256"], f"{field}.sha256"),
+        "size": _positive_int(value["size"], f"{field}.size"),
+    }
+
+
+def _parse_native_r22_authority(payload: Mapping[str, Any]) -> dict[str, Any]:
+    required = {
+        "contractVersion", "artifactProducer", "r21Authority",
+        "r22Authority", "bridgeR31Authority", "boundary",
+    }
+    if not isinstance(payload, Mapping) or set(payload) != required:
+        raise OperatorAuthorityError("Media R22 native authority fields invalid")
+    if payload["contractVersion"] != MEDIA_R22_NATIVE_AUTHORITY_CONTRACT:
+        raise OperatorAuthorityError("Media R22 native authority contract mismatch")
+    producer = payload["artifactProducer"]
+    if not isinstance(producer, Mapping) or set(producer) != {
+        "repository", "branch", "sha", "ciRunId"
+    }:
+        raise OperatorAuthorityError("Media R22 artifactProducer fields invalid")
+    if producer["repository"] != "foto6/video2":
+        raise OperatorAuthorityError("Media R22 repository mismatch")
+    producer_sha = _sha1(producer["sha"], "r22.artifactProducer.sha")
+    ci_run_id = _positive_int(producer["ciRunId"], "r22.artifactProducer.ciRunId")
+
+    r21 = payload["r21Authority"]
+    if not isinstance(r21, Mapping):
+        raise OperatorAuthorityError("Media R22 R21 authority missing")
+    if (
+        r21.get("repository") != "foto6/video2"
+        or r21.get("producerSha") != MEDIA_R21_SHA
+        or r21.get("ciRunId") != MEDIA_R21_CI_RUN_ID
+        or r21.get("contractVersion") != "media.review_round_bundle.r21.v1"
+    ):
+        raise OperatorAuthorityError("Media R22 embedded R21 producer authority drift")
+    for name, expected_blob, expected_path in (
+        (
+            "contractIdentity",
+            "65358261775f0fcd2ab9e21f3f621aee977f29da",
+            "conformance/media.review_round_bundle.r21.v1/contract.json",
+        ),
+        (
+            "schemaIdentity",
+            "f04925e317d849434852e6b706533f909da47b22",
+            "conformance/media.review_round_bundle.r21.v1/schema.json",
+        ),
+        (
+            "implementationIdentity",
+            "c6f556b8a177b6182d787356625094cdcad5a58e",
+            "src/review-round-r21.js",
+        ),
+    ):
+        identity = _r22_blob_identity(
+            r21.get(name), field=f"r22.r21Authority.{name}", expected_path=expected_path
+        )
+        if identity["gitBlobSha"] != expected_blob:
+            raise OperatorAuthorityError(f"Media R22 embedded R21 {name} drift")
+
+    r22 = payload["r22Authority"]
+    if not isinstance(r22, Mapping) or r22.get("contractVersion") != MEDIA_R22_ARTIFACT_CONTRACT:
+        raise OperatorAuthorityError("Media R22 authority contract mismatch")
+    r22_identities = {
+        "contractIdentity": _r22_blob_identity(
+            r22.get("contractIdentity"),
+            field="r22.contractIdentity",
+            expected_path="conformance/media.live_review_artifact.r22.v1/contract.json",
+        ),
+        "schemaIdentity": _r22_blob_identity(
+            r22.get("schemaIdentity"),
+            field="r22.schemaIdentity",
+            expected_path="conformance/media.live_review_artifact.r22.v1/schema.json",
+        ),
+        "implementationIdentity": _r22_blob_identity(
+            r22.get("implementationIdentity"),
+            field="r22.implementationIdentity",
+            expected_path="src/live-review-artifact-r22.js",
+        ),
+        "exporterIdentity": _r22_blob_identity(
+            r22.get("exporterIdentity"),
+            field="r22.exporterIdentity",
+            expected_path="tools/export-r22-live-review-artifact.mjs",
+        ),
+        "verifierIdentity": _r22_blob_identity(
+            r22.get("verifierIdentity"),
+            field="r22.verifierIdentity",
+            expected_path="tools/verify-r22-live-review-artifact.mjs",
+        ),
+    }
+    bridge = payload["bridgeR31Authority"]
+    if not isinstance(bridge, Mapping):
+        raise OperatorAuthorityError("Media R22 Bridge R31 authority missing")
+    if (
+        bridge.get("repository") != "foto6/WebAIBridge"
+        or bridge.get("handoffContract") != "media.dynamic_review_handoff.v1"
+        or bridge.get("captureContract") != BRIDGE_DYNAMIC_CAPTURE_CONTRACT
+        or bridge.get("modelCallPerformed") is not False
+    ):
+        raise OperatorAuthorityError("Media R22 Bridge transport authority drift")
+    boundary = payload["boundary"]
+    if boundary != {
+        "modelCallPerformed": False,
+        "browserUploadPerformed": False,
+        "providerPublishPerformed": False,
+        "liveModelReviewed": False,
+        "humanQuality": False,
+    }:
+        raise OperatorBoundaryError("Media R22 authority evidence boundary drift")
+    return {
+        "contract_version": MEDIA_R22_NATIVE_AUTHORITY_CONTRACT,
+        "producer_round": "R22",
+        "repository": "foto6/video2",
+        "producer_sha": producer_sha,
+        "ci_run_id": ci_run_id,
+        "r22_identities": r22_identities,
+        "r21_authority": _clone(r21),
+        "bridge_transport_authority": _clone(bridge),
+        "raw_profile": _clone(payload),
+    }
+
+
+def _bridge_dynamic_package_digest(
+    handoff: Mapping[str, Any],
+    *,
+    contract_blob_sha256: str,
+    prompt_file_sha256: str,
+    prompt_text_sha256: str,
+    attachments: Sequence[Mapping[str, Any]],
+) -> str:
+    stable = {
+        "contract": "media.dynamic_review_handoff.v1",
+        "producer": {
+            "repository": handoff["producer"]["repository"],
+            "sha": handoff["producer"]["sha"],
+            "round": handoff["producer"]["round"],
+            "contract": {
+                "name": handoff["producer"]["contract"]["name"],
+                "schemaVersion": handoff["producer"]["contract"]["schemaVersion"],
+                "blobSha256": contract_blob_sha256,
+            },
+        },
+        "prompt": {
+            "fileSha256": prompt_file_sha256,
+            "textSha256": prompt_text_sha256,
+            "format": handoff["prompt"]["format"],
+        },
+        "attachments": sorted(
+            [
+                {
+                    "blindLabel": row["blindLabel"],
+                    "blindedName": row["blindedName"],
+                    "size": row["size"],
+                    "sha256": row["sha256"],
+                    "mime": row.get("mime", "video/mp4"),
+                }
+                for row in attachments
+            ],
+            key=lambda row: row["blindLabel"],
+        ),
+        "sealedMappingDigest": handoff["sealedMapping"]["digest"],
+        "sourceLineage": handoff["sourceLineage"],
+    }
+    return sha256_json(stable)
+
+
+def _load_media_r22_package(
+    package_dir: Path,
+    *,
+    authority: Mapping[str, Any],
+) -> dict[str, Any]:
+    native = _parse_native_r22_authority(authority)
+    root = Path(package_dir).resolve()
+    if not root.is_dir():
+        raise OperatorLineageError("Media R22 package directory missing")
+    authority_path = root / "media.live_review_authority_profile.r22.v1.json"
+    if not authority_path.is_file():
+        raise OperatorLineageError("Media R22 package authority file missing")
+    packaged_authority = json.loads(authority_path.read_text(encoding="utf-8"))
+    if packaged_authority != authority:
+        raise OperatorAuthorityError("Media R22 supplied authority differs from package")
+
+    manifest_path = root / "media.live_review_package_manifest.r22.v1.json"
+    if not manifest_path.is_file():
+        raise OperatorLineageError("Media R22 package manifest missing")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    required_manifest = {
+        "contractVersion", "state", "bundleMode", "reviewRound",
+        "r21PackageDigest", "sealedMappingDigest", "promptDigest",
+        "payloadDigest", "files", "manifestSelf", "modelReviewPerformed",
+        "liveModelReviewed", "providerPublish", "humanQuality",
+    }
+    if not isinstance(manifest, Mapping) or set(manifest) != required_manifest:
+        raise OperatorLineageError("Media R22 manifest fields invalid")
+    if (
+        manifest["contractVersion"] != MEDIA_R22_MANIFEST_CONTRACT
+        or manifest["state"] != "LIVE_REVIEW_ARTIFACT_READY"
+        or manifest["modelReviewPerformed"] is not False
+        or manifest["liveModelReviewed"] is not False
+        or manifest["providerPublish"] is not False
+        or manifest["humanQuality"] is not False
+    ):
+        raise OperatorBoundaryError("Media R22 manifest state/evidence boundary invalid")
+    manifest_files = manifest["files"]
+    if not isinstance(manifest_files, list) or len(manifest_files) != 8:
+        raise OperatorLineageError("Media R22 manifest payload must contain 8 files")
+    manifest_by_path: dict[str, dict[str, Any]] = {}
+    for index, row in enumerate(manifest_files):
+        if not isinstance(row, Mapping) or set(row) != {
+            "path", "sha256", "size", "mime", "visibility"
+        }:
+            raise OperatorLineageError(f"Media R22 manifest.files[{index}] invalid")
+        name = _nonempty(row["path"], f"r22.manifest.files[{index}].path")
+        if name in manifest_by_path:
+            raise OperatorLineageError("Media R22 duplicate manifest file")
+        file_path = _safe_relative_file(root, name, f"r22.manifest.{name}")
+        sha = _file_sha256(file_path)
+        size = file_path.stat().st_size
+        if (
+            sha != _sha256(row["sha256"], f"r22.manifest.{name}.sha256")
+            or size != _positive_int(row["size"], f"r22.manifest.{name}.size")
+        ):
+            raise OperatorLineageError(f"Media R22 package file bytes drift: {name}")
+        manifest_by_path[name] = dict(row)
+    if sha256_json(manifest_files) != manifest["payloadDigest"]:
+        raise OperatorLineageError("Media R22 manifest payload digest drift")
+    required_payload = {
+        "review-A.mp4", "review-B.mp4", "model-review-prompt.txt",
+        "media.review_round_bundle.r21.v1.json",
+        "media.review_round_transport_handoff.r21.v1.json",
+        "media.review_round_sealed_mapping.r21.v1.json",
+        "media.live_review_authority_profile.r22.v1.json",
+        "media.dynamic_review_handoff.v1.json",
+    }
+    if set(manifest_by_path) != required_payload:
+        raise OperatorLineageError("Media R22 package file set drift")
+    actual_files = {
+        path.relative_to(root).as_posix()
+        for path in root.iterdir()
+        if path.is_file()
+    }
+    if actual_files != required_payload | {"media.live_review_package_manifest.r22.v1.json"}:
+        raise OperatorLineageError("Media R22 directory contains unexpected/missing files")
+
+    bundle_path = root / "media.review_round_bundle.r21.v1.json"
+    handoff_path = root / "media.review_round_transport_handoff.r21.v1.json"
+    mapping_path = root / "media.review_round_sealed_mapping.r21.v1.json"
+    prompt_path = root / "model-review-prompt.txt"
+    bridge_handoff_path = root / "media.dynamic_review_handoff.v1.json"
+    bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
+    handoff = json.loads(handoff_path.read_text(encoding="utf-8"))
+    mapping = json.loads(mapping_path.read_text(encoding="utf-8"))
+    bridge_handoff = json.loads(bridge_handoff_path.read_text(encoding="utf-8"))
+    prompt_text = prompt_path.read_text(encoding="utf-8")
+
+    if (
+        bundle.get("contractVersion") != "media.review_round_bundle.r21.v1"
+        or bundle.get("state") != "ROUND_PAIR_PACKAGE_READY"
+        or bundle.get("producer") != {
+            "repository": "foto6/video2", "sha": MEDIA_R21_SHA
+        }
+    ):
+        raise OperatorAuthorityError("Media R22 embedded R21 bundle authority drift")
+    for key in ("modelReviewPerformed", "liveModelReviewed", "providerPublish", "humanQuality"):
+        if bundle.get(key) is not False:
+            raise OperatorBoundaryError(f"Media R22 embedded R21 boundary invalid: {key}")
+    core = {key: value for key, value in bundle.items() if key != "transportHandoff"}
+    package_digest = sha256_json(core)
+    if (
+        package_digest != manifest["r21PackageDigest"]
+        or handoff != bundle.get("transportHandoff")
+        or handoff.get("packageDigest") != package_digest
+    ):
+        raise OperatorLineageError("Media R22 embedded R21 package digest drift")
+    entries_raw = mapping.get("entries")
+    if not isinstance(entries_raw, list) or len(entries_raw) != 2:
+        raise OperatorLineageError("Media R22 sealed mapping must contain two entries")
+    mapping_digest = sha256_json(entries_raw)
+    if (
+        mapping.get("digest") != mapping_digest
+        or mapping_digest != manifest["sealedMappingDigest"]
+        or mapping != bundle.get("sealedMapping")
+        or handoff.get("sealedMappingDigest") != mapping_digest
+    ):
+        raise OperatorLineageError("Media R22 sealed mapping digest/content drift")
+    prompt_digest = _text_sha256(prompt_text)
+    if (
+        prompt_digest != manifest["promptDigest"]
+        or bundle.get("prompt") != {"text": prompt_text, "digest": prompt_digest}
+        or handoff.get("promptText") != prompt_text
+        or handoff.get("promptDigest") != prompt_digest
+    ):
+        raise OperatorLineageError("Media R22 prompt bytes/digest drift")
+
+    source_raw = bundle.get("source")
+    if not isinstance(source_raw, Mapping):
+        raise OperatorLineageError("Media R22 embedded source missing")
+    source = {
+        "source_id": _nonempty(source_raw.get("sourceId"), "r22.source.sourceId"),
+        "sha256": _sha256(source_raw.get("sha256"), "r22.source.sha256"),
+        "size": _positive_int(source_raw.get("size"), "r22.source.size"),
+    }
+    mode = bundle.get("mode")
+    review_round = _round(bundle.get("reviewRound"), "r22.reviewRound")
+    if mode not in {"initial", "targeted_reedit"}:
+        raise OperatorLineageError("Media R22 mode invalid")
+    if manifest["bundleMode"] != mode or manifest["reviewRound"] != review_round:
+        raise OperatorLineageError("Media R22 manifest round/mode drift")
+    brief = _sha256(bundle.get("briefLineageDigest"), "r22.briefLineageDigest")
+    round_lineage = bundle.get("roundLineage")
+    round_digest = sha256_json(
+        {
+            "source": source_raw,
+            "briefLineageDigest": brief,
+            "reviewRound": review_round,
+            "roundLineage": round_lineage,
+        }
+    )
+    if handoff.get("roundLineage") != {
+        "mode": mode, "reviewRound": review_round, "digest": round_digest
+    }:
+        raise OperatorLineageError("Media R22 round lineage digest drift")
+
+    bundle_attachments = bundle.get("attachments")
+    if not isinstance(bundle_attachments, list) or len(bundle_attachments) != 2:
+        raise OperatorLineageError("Media R22 embedded bundle A/B missing")
+    normalized_attachments = [
+        _normalize_attachment(row, index=index)
+        for index, row in enumerate(bundle_attachments)
+    ]
+    by_label = {row["blind_label"]: row for row in normalized_attachments}
+    if set(by_label) != {"A", "B"} or len(by_label) != 2:
+        raise OperatorLineageError("Media R22 embedded A/B labels invalid")
+    for label in ("A", "B"):
+        row = by_label[label]
+        if row["path"] != f"review-{label}.mp4":
+            raise OperatorLineageError("Media R22 model-facing attachment name drift")
+        file_path = root / row["path"]
+        if file_path.stat().st_size != row["size"] or _file_sha256(file_path) != row["sha256"]:
+            raise OperatorLineageError("Media R22 attachment bytes drift")
+        manifest_row = manifest_by_path[row["path"]]
+        if (
+            manifest_row["sha256"] != row["sha256"]
+            or manifest_row["size"] != row["size"]
+            or manifest_row["mime"] != "video/mp4"
+            or manifest_row["visibility"] != "model-facing"
+        ):
+            raise OperatorLineageError("Media R22 manifest attachment identity drift")
+
+    entries = [
+        _normalize_mapping_entry(
+            row,
+            index=index,
+            source=source,
+            producer_sha=MEDIA_R21_SHA,
+        )
+        for index, row in enumerate(entries_raw)
+    ]
+    entry_by_label = {row["blind_label"]: row for row in entries}
+    if set(entry_by_label) != {"A", "B"} or len(entry_by_label) != 2:
+        raise OperatorLineageError("Media R22 sealed mapping labels invalid")
+    if len({row["candidate_id"] for row in entries}) != 2:
+        raise OperatorLineageError("Media R22 candidate IDs must be unique")
+    for label in ("A", "B"):
+        entry = entry_by_label[label]
+        attachment = by_label[label]
+        if (
+            entry["generic_file_name"] != attachment["path"]
+            or entry["attachment"]["sha256"] != attachment["sha256"]
+            or entry["attachment"]["size"] != attachment["size"]
+            or entry["brief_lineage_digest"] != brief
+        ):
+            raise OperatorLineageError("Media R22 sealed mapping lineage drift")
+
+    if mode == "initial":
+        if review_round != 0 or round_lineage is not None:
+            raise OperatorLineageError("Media R22 initial round lineage invalid")
+    else:
+        baseline = next((row for row in entries if row["role"] == "baseline"), None)
+        challenger = next((row for row in entries if row["role"] == "challenger"), None)
+        if (
+            baseline is None
+            or challenger is None
+            or challenger["candidate_round"] != baseline["candidate_round"] + 1
+            or challenger["candidate_round"] != review_round
+            or not isinstance(round_lineage, Mapping)
+            or round_lineage.get("baselineReviewCandidateId") != baseline["candidate_id"]
+            or round_lineage.get("childReviewCandidateId") != challenger["candidate_id"]
+            or round_lineage.get("parentRenderSha256") != baseline["render"]["sha256"]
+            or round_lineage.get("childRenderSha256") != challenger["render"]["sha256"]
+        ):
+            raise OperatorLineageError("Media R22 targeted round lineage drift")
+
+    if bridge_handoff.get("contract") != "media.dynamic_review_handoff.v1":
+        raise OperatorLineageError("Media R22 Bridge handoff contract mismatch")
+    producer = bridge_handoff.get("producer")
+    if not isinstance(producer, Mapping) or (
+        producer.get("repository") != "foto6/video2"
+        or producer.get("sha") != native["producer_sha"]
+        or producer.get("round") != "R21"
+    ):
+        raise OperatorAuthorityError("Media R22 Bridge producer authority drift")
+    contract_blob = producer.get("contract", {}).get("blob", {})
+    if (
+        contract_blob.get("relativePath") != "media.review_round_bundle.r21.v1.json"
+        or contract_blob.get("sha256") != _file_sha256(bundle_path)
+    ):
+        raise OperatorLineageError("Media R22 Bridge contract blob drift")
+    prompt = bridge_handoff.get("prompt")
+    if not isinstance(prompt, Mapping) or (
+        prompt.get("relativePath") != "model-review-prompt.txt"
+        or prompt.get("fileSha256") != _file_sha256(prompt_path)
+        or prompt.get("textSha256") != prompt_digest
+        or prompt.get("format") != "utf8_text"
+    ):
+        raise OperatorLineageError("Media R22 Bridge prompt binding drift")
+    bridge_attachments = bridge_handoff.get("attachments")
+    if not isinstance(bridge_attachments, list) or len(bridge_attachments) != 2:
+        raise OperatorLineageError("Media R22 Bridge A/B binding missing")
+    for row in bridge_attachments:
+        label = row.get("blindLabel")
+        expected = by_label.get(label)
+        if expected is None or (
+            row.get("blindedName") != expected["path"]
+            or row.get("relativePath") != expected["path"]
+            or row.get("size") != expected["size"]
+            or row.get("sha256") != expected["sha256"]
+            or row.get("mime") != expected["mime_type"]
+        ):
+            raise OperatorLineageError("Media R22 Bridge attachment binding drift")
+    if bridge_handoff.get("sealedMapping", {}).get("digest") != mapping_digest:
+        raise OperatorLineageError("Media R22 Bridge sealed mapping drift")
+    expected_source_lineage = {
+        "source": source_raw,
+        "briefLineageDigest": brief,
+        "mode": mode,
+        "reviewRound": review_round,
+        "r21PackageDigest": package_digest,
+        "r21SealedMappingDigest": mapping_digest,
+        "r21RoundLineageDigest": round_digest,
+        "roundLineage": round_lineage,
+    }
+    if bridge_handoff.get("sourceLineage") != expected_source_lineage:
+        raise OperatorLineageError("Media R22 Bridge source/round lineage drift")
+    bridge_package_digest = _bridge_dynamic_package_digest(
+        bridge_handoff,
+        contract_blob_sha256=_file_sha256(bundle_path),
+        prompt_file_sha256=_file_sha256(prompt_path),
+        prompt_text_sha256=prompt_digest,
+        attachments=bridge_attachments,
+    )
+    if bridge_handoff.get("package", {}).get("digest") != bridge_package_digest:
+        raise OperatorLineageError("Media R22 Bridge package digest drift")
+
+    creator_authority = _creator_r29_media_authority_values(
+        package_digest=package_digest,
+        package_file_sha256=_file_sha256(bundle_path),
+        evidence_file_sha256=_file_sha256(manifest_path),
+        prompt_digest=prompt_digest,
+        prompt_file_sha256=_file_sha256(prompt_path),
+        sealed_mapping_digest=mapping_digest,
+        sealed_mapping_file_sha256=_file_sha256(mapping_path),
+        review_round=review_round,
+        source=source,
+        attachments=[
+            {
+                "blind_label": label,
+                "generic_file_name": by_label[label]["path"],
+                "sha256": by_label[label]["sha256"],
+                "size": by_label[label]["size"],
+                "mime_type": by_label[label]["mime_type"],
+            }
+            for label in ("A", "B")
+        ],
+    )
+    return _clone(
+        {
+            "authority": creator_authority,
+            "source_authority": {
+                "native_profile": native,
+                "package_manifest_sha256": _file_sha256(manifest_path),
+                "package_manifest": manifest,
+                "bridge_package_digest": bridge_package_digest,
+                "bridge_handoff_sha256": _file_sha256(bridge_handoff_path),
+            },
+            "package_dir": str(root),
+            "package_digest": package_digest,
+            "prompt_digest": prompt_digest,
+            "sealed_mapping_digest": mapping_digest,
+            "round_lineage_digest": round_digest,
+            "source": source,
+            "review_round": review_round,
+            "intent": (
+                "initial_candidate_review"
+                if mode == "initial"
+                else "targeted_reedit_review"
+            ),
+            "mode": mode,
+            "brief_lineage_digest": brief,
+            "attachments_by_label": {
+                label: {
+                    "blind_label": label,
+                    "generic_file_name": by_label[label]["path"],
+                    "sha256": by_label[label]["sha256"],
+                    "size": by_label[label]["size"],
+                    "mime_type": by_label[label]["mime_type"],
+                    "derivative_for_model_review": by_label[label][
+                        "derivative_for_model_review"
+                    ],
+                }
+                for label in ("A", "B")
+            },
+            "mapping_by_label": entry_by_label,
+            "round_lineage": _clone(round_lineage),
+            "bridge_transport_producer_sha": native["producer_sha"],
+            "bridge_transport_package_digest": bridge_package_digest,
+            "bridge_transport_handoff_sha256": _file_sha256(bridge_handoff_path),
+        }
+    )
+
+
 def load_media_package(
     package_dir: Path,
     *,
     authority: Mapping[str, Any],
 ) -> dict[str, Any]:
+    if (
+        isinstance(authority, Mapping)
+        and authority.get("contractVersion") == MEDIA_R22_NATIVE_AUTHORITY_CONTRACT
+    ):
+        return _load_media_r22_package(package_dir, authority=authority)
     profile = parse_media_authority(authority)
     root = Path(package_dir).resolve()
     if not root.is_dir():
@@ -1245,6 +1784,9 @@ def load_media_package(
             },
             "mapping_by_label": entry_by_label,
             "round_lineage": _clone(round_lineage),
+            "bridge_transport_producer_sha": profile["producer_sha"],
+            "bridge_transport_package_digest": None,
+            "bridge_transport_handoff_sha256": None,
         }
     )
 
