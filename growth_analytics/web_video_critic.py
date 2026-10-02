@@ -1188,6 +1188,7 @@ def build_web_video_critic_output(
     summary_confidence: float,
     summary_uncertainty: str,
     transport_evidence_digest: str | None = None,
+    verified_transport_evidence_digest: str | None = None,
 ) -> dict[str, Any]:
     parsed_input = (
         parse_web_video_critic_input(
@@ -1364,6 +1365,7 @@ def build_web_video_critic_output(
     return parse_web_video_critic_output(
         output,
         critic_input=parsed_input,
+        verified_transport_evidence_digest=verified_transport_evidence_digest,
     )
 
 
@@ -1371,6 +1373,7 @@ def parse_web_video_critic_output(
     payload: Mapping[str, Any],
     *,
     critic_input: Mapping[str, Any],
+    verified_transport_evidence_digest: str | None = None,
 ) -> dict[str, Any]:
     parsed_input = (
         parse_web_video_critic_input(
@@ -1480,17 +1483,11 @@ def parse_web_video_critic_output(
         raise WebVideoCriticError(
             "unsupported web-video execution mode"
         )
-    if (
-        mode
-        == WEB_VIDEO_ATTACHED_MODE
-        and parsed_input[
-            "attachment_transport"
-        ]["live_pass"] is not True
-    ):
-        raise WebVideoCriticBoundaryError(
-            "cannot claim attached-video review while exact Bridge R25 livePass=false"
-        )
     if mode == WEB_VIDEO_FIXTURE_MODE:
+        if verified_transport_evidence_digest is not None:
+            raise WebVideoCriticBoundaryError(
+                "fixture mode cannot consume verified attached-video capture evidence"
+            )
         if (
             provenance[
                 "direct_video_primary"
@@ -1514,12 +1511,27 @@ def parse_web_video_critic_output(
             raise WebVideoCriticBoundaryError(
                 "attached-video mode requires transport evidence"
             )
-        _sha256(
+        transport_digest = _sha256(
             provenance[
                 "transport_evidence_digest"
             ],
             "transport_evidence_digest",
         )
+        if parsed_input[
+            "attachment_transport"
+        ]["live_pass"] is not True:
+            if verified_transport_evidence_digest is None:
+                raise WebVideoCriticBoundaryError(
+                    "attached-video review requires an externally verified capture while exact Bridge R25 livePass=false"
+                )
+            verified_digest = _sha256(
+                verified_transport_evidence_digest,
+                "verified_transport_evidence_digest",
+            )
+            if transport_digest != verified_digest:
+                raise WebVideoCriticLineageError(
+                    "attached-video transport evidence does not match verified capture"
+                )
 
     exact_bindings = {
         "attachment_identity":
