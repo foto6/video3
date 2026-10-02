@@ -1,0 +1,94 @@
+{
+  "fixture_contract": "growth.r27_exact_r21_r30_compatibility_fixture.v1",
+  "fixture_only": true,
+  "description": "Schema/lineage compatibility fixture only. It is never eligible for live ingest.",
+  "bundle_key": "round-1",
+  "capture": {
+    "contract": "bridge.dynamic_existing_chat_video_review_capture.v1",
+    "capture_kind": "bridge_existing_chat_capture",
+    "captureId": "r27-fixture-capture",
+    "requestId": "r27-fixture-request",
+    "operationId": "r27-fixture-operation",
+    "conversationId": "r27-fixture-conversation",
+    "conversationUrl": "https://chatgpt.com/c/r27-fixture-conversation",
+    "profileId": "r27-fixture-profile",
+    "promptDigest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2",
+    "promptFileSha256": "98e377f73f26d9960acc34703797f962ef75472597acdbefc6dfdc82636b06b6",
+    "attachments": [
+      {
+        "name": "review-A.mp4",
+        "blindLabel": "A",
+        "sha256": "1855a1745d53329294c680600299a9ca0308a7c468b27d6dab94d21a72605054",
+        "size": 795358
+      },
+      {
+        "name": "review-B.mp4",
+        "blindLabel": "B",
+        "sha256": "528ea10a074d99f510805ca65153a734c8f81d4e12eeaee0e254c969e1c897dd",
+        "size": 738225
+      }
+    ],
+    "userTurn": {
+      "promptDigest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2",
+      "sentAt": "2026-10-02T10:00:01Z",
+      "sendIntentPersistedAt": "2026-10-02T10:00:00Z"
+    },
+    "assistantTurn": {
+      "turnKey": "fixture-assistant-turn",
+      "capturedAt": "2026-10-02T10:00:02Z",
+      "responseDigest": "f9201d5b066f85d3089e685697e04c3636d726026c3b4372d5ce6349cbd924cc"
+    },
+    "responseText": "{\"contract_version\":\"growth.live_video_review_response.v1\",\"coverage\":[{\"attachment_label\":\"A\",\"every_frame_inspected\":false,\"inspected_ranges\":[{\"end_ms\":5000,\"kind\":\"sampled_review\",\"start_ms\":0}],\"notes\":\"Fixture coverage used only to validate parser behavior.\",\"uninspected_possible\":true},{\"attachment_label\":\"B\",\"every_frame_inspected\":false,\"inspected_ranges\":[{\"end_ms\":5000,\"kind\":\"sampled_review\",\"start_ms\":0}],\"notes\":\"Fixture coverage used only to validate parser behavior.\",\"uninspected_possible\":true}],\"observations\":[{\"attachment_label\":\"A\",\"confidence\":0.72,\"defect_category\":\"hook_clarity\",\"description\":\"Fixture-only hook defect.\",\"end_ms\":1800,\"evidence\":\"Fixture observation for strict parser coverage only.\",\"proposed_edit\":\"Tighten the opening and improve on-screen hook text.\",\"severity\":\"major\",\"start_ms\":900,\"uncertainty\":\"Fixture data; not a genuine attached-video review.\"},{\"attachment_label\":\"B\",\"confidence\":0.66,\"defect_category\":\"audio_voice_music_balance\",\"description\":\"Fixture-only mix defect.\",\"end_ms\":3200,\"evidence\":\"Fixture observation for strict parser coverage only.\",\"proposed_edit\":\"Duck the background music under speech.\",\"severity\":\"minor\",\"start_ms\":2100,\"uncertainty\":\"Fixture data; not a genuine attached-video review.\"}],\"pairwise\":{\"confidence\":0.6,\"rationale\":\"Fixture-only pairwise value used to validate parsing.\",\"selection\":\"A\",\"uncertainty\":\"Not a real model judgment.\"},\"summaries\":[{\"assessment\":\"actionable_findings\",\"attachment_label\":\"A\",\"confidence\":0.7,\"summary\":\"Fixture summary A.\",\"uncertainty\":\"Fixture only.\"},{\"assessment\":\"actionable_findings\",\"attachment_label\":\"B\",\"confidence\":0.65,\"summary\":\"Fixture summary B.\",\"uncertainty\":\"Fixture only.\"}]}",
+    "responseDigest": "f9201d5b066f85d3089e685697e04c3636d726026c3b4372d5ce6349cbd924cc",
+    "responseValidation": {
+      "strictJson": true,
+      "reason": "fixture-schema-compatible",
+      "errors": []
+    },
+    "requestedAt": "2026-10-02T10:00:00Z",
+    "completedAt": "2026-10-02T10:00:02Z",
+    "disposition": "LIVE_REVIEW_PASS",
+    "model_evidence": true,
+    "human_ground_truth": false,
+    "human_label": false,
+    "live_platform_evidence": false,
+    "liveEvidence": {
+      "sidecar": true,
+      "liveBridgeMutated": false,
+      "realAttachment": true,
+      "realSendCaptured": true
+    },
+    "mediaProducer": {
+      "repository": "foto6/video2",
+      "sha": "2c41f084e000eca5efd9a51d2d3752bec1bd1311",
+      "ciRunId": 36967381891,
+      "artifactId": 11210373001,
+      "artifactName": "media-r18-direct-model-review"
+    },
+    "dynamicPackage": {
+      "handoffContract": "media.dynamic_review_handoff.v1",
+      "handoffSha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "packageDigest": "96f9614dc22f702995c5d71195da68d043f9a72c7801f8fe5e29f0296fc6b8ad",
+      "sealedMappingDigestRef": "9edb9f556c07564af3d335e7bba54c8b26347b0e08289bc6f8d0262930388be7",
+      "producer": {
+        "repository": "foto6/video2",
+        "sha": "d753e9e4c1f4448386608a1425232dbc1dba87ea",
+        "round": "R21",
+        "contractName": "media.review_round_bundle.r21.v1",
+        "contractSchema": "media.review_round_bundle.r21.v1",
+        "contractBlobSha256": "d4887d8d1b1e9d0e396ea533162f69eb8539528de07d1e395d7b93702a390aa3"
+      },
+      "sourceLineage": {
+        "sourceId": "talking-head-vertical-source",
+        "sourceSha256": "bf7a2423ae26cb7bba73cb93930e46df95adad1619d79d2a08bfe3b072812309",
+        "sourceSize": 790819,
+        "briefLineageDigest": "56f1260701038dee8271c9a409f91686aca776be4d34dfb36ec53dc6559d5236",
+        "reviewRound": 1,
+        "roundLineageDigest": "28a7f7a644e9cf788953bbd26248dc561c5cee50746180d17f2bc6a88f5eada7",
+        "mediaPackageDigest": "521bf3c0474845895a76f4cbd26abf876d978ca2e39fe3c127d6918043438546"
+      },
+      "sourceBindingFingerprint": "2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "fixture_only": true
+  }
+}
