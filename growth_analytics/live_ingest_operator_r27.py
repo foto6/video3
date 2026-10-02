@@ -1432,6 +1432,52 @@ def _write_outputs(
     )
 
 
+def _raw_replay_identity(
+    *,
+    package_dir: Path,
+    media_authority: Mapping[str, Any],
+    capture_path: Path,
+    bridge_authority: Mapping[str, Any],
+) -> tuple[str, str, str]:
+    media_profile = parse_media_authority(media_authority)
+    bridge_profile = parse_bridge_authority(bridge_authority)
+    package_root = Path(package_dir).resolve()
+    capture_path = Path(capture_path)
+    capture = json.loads(capture_path.read_text(encoding="utf-8"))
+    capture_id = _nonempty(
+        capture.get("captureId") or capture.get("operationId"),
+        "capture.captureId",
+    )
+    conversation_id = _nonempty(
+        capture.get("conversationId"), "capture.conversationId"
+    )
+    request_id = _nonempty(capture.get("requestId"), "capture.requestId")
+    raw_files = {}
+    for key, row in sorted(media_profile["files"].items()):
+        file_path = _safe_relative_file(
+            package_root, row["name"], f"media.files.{key}.name"
+        )
+        raw_files[key] = _file_sha256(file_path)
+    for row in media_profile["attachments"]:
+        file_path = _safe_relative_file(
+            package_root, row["path"], f"media.attachment.{row['blind_label']}.path"
+        )
+        raw_files["attachment_" + row["blind_label"]] = _file_sha256(file_path)
+    fingerprint = sha256_json(
+        {
+            "capture_id": capture_id,
+            "conversation_id": conversation_id,
+            "request_id": request_id,
+            "capture_file_sha256": _file_sha256(capture_path),
+            "capture_response_digest_field": capture.get("responseDigest"),
+            "media_authority_digest": sha256_json(media_profile),
+            "bridge_authority_digest": sha256_json(bridge_profile),
+            "raw_package_files": raw_files,
+        }
+    )
+    return capture_id, conversation_id + "\n" + request_id, fingerprint
+
+
 def run_operator(
     *,
     media_package_dir: Path,
@@ -1443,14 +1489,44 @@ def run_operator(
     bridge_capture_path: Path | None = None,
     bridge_authority: Mapping[str, Any] | None = None,
 ) -> tuple[dict[str, Any], bool]:
-    media = load_media_package(
-        media_package_dir,
-        authority=media_authority,
-    )
     if (bridge_capture_path is None) != (bridge_authority is None):
         raise OperatorBoundaryError(
             "Bridge capture and Bridge authority must be supplied together"
         )
+
+    ledger = OperatorLedger(ledger_path)
+    capture_id = None
+    request_key = None
+    fingerprint = None
+    if bridge_capture_path is not None:
+        capture_id, request_key, fingerprint = _raw_replay_identity(
+            package_dir=media_package_dir,
+            media_authority=media_authority,
+            capture_path=Path(bridge_capture_path),
+            bridge_authority=bridge_authority,
+        )
+        prior, is_new = ledger.lookup(
+            capture_id=capture_id,
+            request_key=request_key,
+            fingerprint=fingerprint,
+        )
+        if prior is not None:
+            ingest = prior["ingest"]
+            envelopes = prior["envelopes"]
+            index = prior["index"]
+            _write_outputs(
+                out_dir=out_dir,
+                ingest=ingest,
+                envelopes=envelopes,
+                index=index,
+                effect=False,
+            )
+            return index, False
+
+    media = load_media_package(
+        media_package_dir,
+        authority=media_authority,
+    )
     if bridge_capture_path is None:
         index = build_coordinator_index(
             growth_producer_sha=growth_producer_sha,
@@ -1479,46 +1555,16 @@ def run_operator(
         media_package=media,
         capture_file_sha256=capture_bytes_sha,
     )
-
-    capture_id = parsed_capture["capture_id"]
-    request_key = (
+    if parsed_capture["capture_id"] != capture_id:
+        raise OperatorReplayConflict("capture identity changed during validation")
+    validated_request_key = (
         parsed_capture["conversation"]["conversation_id"]
         + "\n"
         + parsed_capture["conversation"]["request_id"]
     )
-    fingerprint = sha256_json(
-        {
-            "capture_id": capture_id,
-            "capture_file_sha256": parsed_capture["capture_file_sha256"],
-            "assistant_response_digest": parsed_capture["assistant_response"][
-                "raw_sha256"
-            ],
-            "media_package_digest": media["package_digest"],
-            "sealed_mapping_digest": media["sealed_mapping_digest"],
-            "mapping_file_sha256": media["authority"]["files"]["sealed_mapping"][
-                "sha256"
-            ],
-            "bridge_authority": bridge_profile,
-        }
-    )
-    ledger = OperatorLedger(ledger_path)
-    prior, is_new = ledger.lookup(
-        capture_id=capture_id,
-        request_key=request_key,
-        fingerprint=fingerprint,
-    )
-    if prior is not None:
-        ingest = prior["ingest"]
-        envelopes = prior["envelopes"]
-        index = prior["index"]
-        _write_outputs(
-            out_dir=out_dir,
-            ingest=ingest,
-            envelopes=envelopes,
-            index=index,
-            effect=False,
-        )
-        return index, False
+    if validated_request_key != request_key:
+        raise OperatorReplayConflict("request identity changed during validation")
+    is_new = True
 
     ingest = convert_dynamic_capture(
         media_package=media,
