@@ -67,8 +67,8 @@
     },
     "dynamicPackage": {
       "handoffContract": "media.dynamic_review_handoff.v1",
-      "handoffSha256": "1111111111111111111111111111111111111111111111111111111111111111",
-      "packageDigest": "96f9614dc22f702995c5d71195da68d043f9a72c7801f8fe5e29f0296fc6b8ad",
+      "handoffSha256": "56b13eadf38567e3416abb6ff08ede144fb460117034f70972e197fdafbaba87",
+      "packageDigest": "164fa3f3e41c66b86c3811635b1626fc965727e027712162f60b173320f74be6",
       "sealedMappingDigestRef": "9edb9f556c07564af3d335e7bba54c8b26347b0e08289bc6f8d0262930388be7",
       "producer": {
         "repository": "foto6/video2",
@@ -76,18 +76,38 @@
         "round": "R21",
         "contractName": "media.review_round_bundle.r21.v1",
         "contractSchema": "media.review_round_bundle.r21.v1",
-        "contractBlobSha256": "d4887d8d1b1e9d0e396ea533162f69eb8539528de07d1e395d7b93702a390aa3"
+        "contractBlobSha256": "5113101b27c90e005aa6c648cda46160d32fdcb85b21893501c24427097f2edc"
       },
       "sourceLineage": {
-        "sourceId": "talking-head-vertical-source",
-        "sourceSha256": "bf7a2423ae26cb7bba73cb93930e46df95adad1619d79d2a08bfe3b072812309",
-        "sourceSize": 790819,
-        "briefLineageDigest": "56f1260701038dee8271c9a409f91686aca776be4d34dfb36ec53dc6559d5236",
+        "authority": {
+          "producerRepository": "foto6/video2",
+          "producerSha": "d753e9e4c1f4448386608a1425232dbc1dba87ea",
+          "producerCiRunId": 36994000619,
+          "producerCiConclusion": "success",
+          "bundleContract": "media.review_round_bundle.r21.v1",
+          "handoffContract": "media.review_round_transport_handoff.r21.v1"
+        },
+        "mediaR21PackageDigest": "521bf3c0474845895a76f4cbd26abf876d978ca2e39fe3c127d6918043438546",
+        "mediaR21ArchiveSha256": "1036800923196882590ace62edbaa123ab4250b9d242e14adba909ba256ab022",
+        "mediaR21DirectoryDigest": "693526a1c5c5cfd659a4c4f05011a5ce0549cb78f29ff7533815c1ff25bb3e8b",
+        "mediaR21EvidenceFileSha256": "288a704c2bfc6c4f44f85aec14e553b6ca0b7f17982fa44907ef6ea2921c0c69",
+        "mediaR21HandoffFileSha256": "75c3ae6bd9b6b7567a3782fa7548729af2ac2fcd055a2b46442bb8a49dfcd83d",
+        "mediaR21SealedMappingFileSha256": "0392ecaf898c4855bf48fb9e5f65369e623f66f9577f1a1c40ac081c6df2d824",
+        "mediaR21PromptFileSha256": "6f8daafeac694e8abb944cd014fcd57cb905d74ca35a8617f051e1c322f3798c",
+        "source": {
+          "sourceId": "talking-head-vertical-source",
+          "sha256": "bf7a2423ae26cb7bba73cb93930e46df95adad1619d79d2a08bfe3b072812309",
+          "size": 790819
+        },
+        "mode": "targeted_reedit",
         "reviewRound": 1,
-        "roundLineageDigest": "28a7f7a644e9cf788953bbd26248dc561c5cee50746180d17f2bc6a88f5eada7",
-        "mediaPackageDigest": "521bf3c0474845895a76f4cbd26abf876d978ca2e39fe3c127d6918043438546"
+        "roundLineage": {
+          "digest": "28a7f7a644e9cf788953bbd26248dc561c5cee50746180d17f2bc6a88f5eada7",
+          "mode": "targeted_reedit",
+          "reviewRound": 1
+        }
       },
-      "sourceBindingFingerprint": "2222222222222222222222222222222222222222222222222222222222222222"
+      "sourceBindingFingerprint": "9fc81f79133262f375ae849b78c10e0711fdebf012b52a756dc2a3a4bdfdf849"
     },
     "fixture_only": true
   }
