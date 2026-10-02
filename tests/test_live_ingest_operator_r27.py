@@ -33,10 +33,12 @@ from growth_analytics.live_ingest_operator_r27 import (
     MEDIA_R21_ARTIFACT_NAME,
     MEDIA_R21_CI_RUN_ID,
     MEDIA_R21_SHA,
+    MEDIA_R22_NATIVE_AUTHORITY_CONTRACT,
     OperatorAuthorityError,
     OperatorBoundaryError,
     OperatorLineageError,
     OperatorReplayConflict,
+    _bridge_dynamic_package_digest,
     build_coordinator_index,
     load_media_package,
     parse_bridge_authority,
@@ -571,6 +573,250 @@ class GrowthR27LiveIngestOperatorTests(unittest.TestCase):
             evidence_path, evidence
         )
         return authority
+
+    def build_native_r22_dir(self, root: Path):
+        r21_root = root / "r21"
+        r21_authority = self.build_media_dir(r21_root)
+        media = load_media_package(r21_root, authority=r21_authority)
+        out = root / "r22"
+        out.mkdir(parents=True, exist_ok=True)
+
+        for name in (
+            "review-A.mp4",
+            "review-B.mp4",
+            "media.review_round_bundle.r21.v1.json",
+            "media.review_round_transport_handoff.r21.v1.json",
+            "media.review_round_sealed_mapping.r21.v1.json",
+        ):
+            (out / name).write_bytes((r21_root / name).read_bytes())
+        prompt_payload = json.loads(
+            (r21_root / "model-review-prompt.txt.json").read_text(encoding="utf-8")
+        )
+        prompt_text = prompt_payload["text"]
+        (out / "model-review-prompt.txt").write_text(
+            prompt_text, encoding="utf-8"
+        )
+
+        producer_sha = "e" * 40
+        native = {
+            "contractVersion": MEDIA_R22_NATIVE_AUTHORITY_CONTRACT,
+            "artifactProducer": {
+                "repository": "foto6/video2",
+                "branch": "moving-ref-is-advisory-only",
+                "sha": producer_sha,
+                "ciRunId": 818,
+            },
+            "r21Authority": {
+                "repository": "foto6/video2",
+                "branch": "ignored",
+                "producerSha": MEDIA_R21_SHA,
+                "ciRunId": MEDIA_R21_CI_RUN_ID,
+                "contractVersion": "media.review_round_bundle.r21.v1",
+                "contract": {"path": "contract"},
+                "schema": {"path": "schema"},
+                "implementation": {"path": "impl"},
+                "contractIdentity": {
+                    "path": "conformance/media.review_round_bundle.r21.v1/contract.json",
+                    "gitBlobSha": "65358261775f0fcd2ab9e21f3f621aee977f29da",
+                    "sha256": "1" * 64,
+                    "size": 1,
+                },
+                "schemaIdentity": {
+                    "path": "conformance/media.review_round_bundle.r21.v1/schema.json",
+                    "gitBlobSha": "f04925e317d849434852e6b706533f909da47b22",
+                    "sha256": "2" * 64,
+                    "size": 1,
+                },
+                "implementationIdentity": {
+                    "path": "src/review-round-r21.js",
+                    "gitBlobSha": "c6f556b8a177b6182d787356625094cdcad5a58e",
+                    "sha256": "3" * 64,
+                    "size": 1,
+                },
+            },
+            "r22Authority": {
+                "contractVersion": "media.live_review_artifact.r22.v1",
+                "contractIdentity": {
+                    "path": "conformance/media.live_review_artifact.r22.v1/contract.json",
+                    "gitBlobSha": "1" * 40,
+                    "sha256": "4" * 64,
+                    "size": 1,
+                },
+                "schemaIdentity": {
+                    "path": "conformance/media.live_review_artifact.r22.v1/schema.json",
+                    "gitBlobSha": "2" * 40,
+                    "sha256": "5" * 64,
+                    "size": 1,
+                },
+                "implementationIdentity": {
+                    "path": "src/live-review-artifact-r22.js",
+                    "gitBlobSha": "3" * 40,
+                    "sha256": "6" * 64,
+                    "size": 1,
+                },
+                "exporterIdentity": {
+                    "path": "tools/export-r22-live-review-artifact.mjs",
+                    "gitBlobSha": "4" * 40,
+                    "sha256": "7" * 64,
+                    "size": 1,
+                },
+                "verifierIdentity": {
+                    "path": "tools/verify-r22-live-review-artifact.mjs",
+                    "gitBlobSha": "5" * 40,
+                    "sha256": "8" * 64,
+                    "size": 1,
+                },
+            },
+            "bridgeR31Authority": {
+                "repository": "foto6/WebAIBridge",
+                "branch": "ignored",
+                "handoffContract": "media.dynamic_review_handoff.v1",
+                "captureContract": BRIDGE_DYNAMIC_CAPTURE_CONTRACT,
+                "modelCallPerformed": False,
+            },
+            "boundary": {
+                "modelCallPerformed": False,
+                "browserUploadPerformed": False,
+                "providerPublishPerformed": False,
+                "liveModelReviewed": False,
+                "humanQuality": False,
+            },
+        }
+        _write_json(
+            out / "media.live_review_authority_profile.r22.v1.json", native
+        )
+
+        bundle = json.loads(
+            (out / "media.review_round_bundle.r21.v1.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        handoff = json.loads(
+            (out / "media.review_round_transport_handoff.r21.v1.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        bridge_handoff = {
+            "contract": "media.dynamic_review_handoff.v1",
+            "producer": {
+                "repository": "foto6/video2",
+                "sha": producer_sha,
+                "round": "R21",
+                "contract": {
+                    "name": "media.review_round_bundle.r21.v1",
+                    "schemaVersion": "v1",
+                    "blob": {
+                        "relativePath": "media.review_round_bundle.r21.v1.json",
+                        "sha256": _hash_bytes(
+                            (out / "media.review_round_bundle.r21.v1.json").read_bytes()
+                        ),
+                    },
+                },
+            },
+            "package": {
+                "digestAlgorithm": "bridge.dynamic_review_package.sha256.v1",
+                "digest": "",
+            },
+            "prompt": {
+                "relativePath": "model-review-prompt.txt",
+                "fileSha256": _hash_bytes(
+                    (out / "model-review-prompt.txt").read_bytes()
+                ),
+                "textSha256": media["prompt_digest"],
+                "format": "utf8_text",
+            },
+            "attachments": [
+                {
+                    "blindLabel": label,
+                    "blindedName": f"review-{label}.mp4",
+                    "relativePath": f"review-{label}.mp4",
+                    "size": media["attachments_by_label"][label]["size"],
+                    "sha256": media["attachments_by_label"][label]["sha256"],
+                    "mime": "video/mp4",
+                }
+                for label in ("A", "B")
+            ],
+            "sealedMapping": {
+                "digest": media["sealed_mapping_digest"],
+                "contract": "media.review_round_sealed_mapping.r21.v1",
+            },
+            "sourceLineage": {
+                "source": bundle["source"],
+                "briefLineageDigest": media["brief_lineage_digest"],
+                "mode": media["mode"],
+                "reviewRound": media["review_round"],
+                "r21PackageDigest": media["package_digest"],
+                "r21SealedMappingDigest": media["sealed_mapping_digest"],
+                "r21RoundLineageDigest": media["round_lineage_digest"],
+                "roundLineage": bundle["roundLineage"],
+            },
+        }
+        bridge_handoff["package"]["digest"] = _bridge_dynamic_package_digest(
+            bridge_handoff,
+            contract_blob_sha256=bridge_handoff["producer"]["contract"]["blob"][
+                "sha256"
+            ],
+            prompt_file_sha256=bridge_handoff["prompt"]["fileSha256"],
+            prompt_text_sha256=bridge_handoff["prompt"]["textSha256"],
+            attachments=bridge_handoff["attachments"],
+        )
+        _write_json(out / "media.dynamic_review_handoff.v1.json", bridge_handoff)
+
+        visibility = {
+            "review-A.mp4": "model-facing",
+            "review-B.mp4": "model-facing",
+            "model-review-prompt.txt": "model-facing",
+        }
+        names = [
+            "review-A.mp4",
+            "review-B.mp4",
+            "model-review-prompt.txt",
+            "media.review_round_bundle.r21.v1.json",
+            "media.review_round_transport_handoff.r21.v1.json",
+            "media.review_round_sealed_mapping.r21.v1.json",
+            "media.live_review_authority_profile.r22.v1.json",
+            "media.dynamic_review_handoff.v1.json",
+        ]
+        files = []
+        for name in names:
+            p = out / name
+            mime = (
+                "video/mp4"
+                if name.endswith(".mp4")
+                else "text/plain; charset=utf-8"
+                if name.endswith(".txt")
+                else "application/json"
+            )
+            files.append(
+                {
+                    "path": name,
+                    "sha256": _hash_bytes(p.read_bytes()),
+                    "size": p.stat().st_size,
+                    "mime": mime,
+                    "visibility": visibility.get(name, "machine-side"),
+                }
+            )
+        manifest = {
+            "contractVersion": "media.live_review_package_manifest.r22.v1",
+            "state": "LIVE_REVIEW_ARTIFACT_READY",
+            "bundleMode": media["mode"],
+            "reviewRound": media["review_round"],
+            "r21PackageDigest": media["package_digest"],
+            "sealedMappingDigest": media["sealed_mapping_digest"],
+            "promptDigest": media["prompt_digest"],
+            "payloadDigest": sha256_json(files),
+            "files": files,
+            "manifestSelf": {
+                "path": "media.live_review_package_manifest.r22.v1.json",
+                "excludedFromPayloadDigest": True,
+            },
+            "modelReviewPerformed": False,
+            "liveModelReviewed": False,
+            "providerPublish": False,
+            "humanQuality": False,
+        }
+        _write_json(out / "media.live_review_package_manifest.r22.v1.json", manifest)
+        return native, media
 
     def native_r31_authority_and_result(self, media, capture):
         source_authority = media["source_authority"]
