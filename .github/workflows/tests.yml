@@ -28,7 +28,7 @@ jobs:
           python -m unittest discover -s tests -p "test_closed_loop_feedback_r20.py" -v
           python -m unittest discover -s tests -p "test_real_artifact_decision_r21.py" -v
           python -m unittest discover -s tests -p "test_web_video_critic_r22.py" -v
-          python -m unittest discover -s tests -p "test_critic_reedit_adapter_r23.py" -v
+          python -m unittest discover -s tests -p "test_critic_reedit_adapter_r23.py" -v\n          python -m unittest discover -s tests -p "test_live_review_ingest_r24.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -42,6 +42,35 @@ jobs:
         with:
           name: growth-r23-critic-reedit-adapter
           path: ${{ runner.temp }}/growth-r23-critic-reedit-report.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Produce R24 live-review ingest readiness evidence
+        run: |
+          python -m growth_analytics.live_review_ingest \
+            --fixture fixtures/live_review_ingest_r24/captured_review_fixture.json \
+            --output "$RUNNER_TEMP/growth-r24-fixture-validation.json" \
+            --report "$RUNNER_TEMP/growth-r24-live-review-readiness.json" \
+            --growth-sha "$GITHUB_SHA" \
+            --run-id "$GITHUB_RUN_ID"
+          python - "$RUNNER_TEMP/growth-r24-live-review-readiness.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert p["fixture_status"] == "FIXTURE_VALIDATED", p
+          assert p["real_review_status"] == "NOT_AVAILABLE", p
+          assert p["final_live_evidence_gate"] == "BLOCKED_REAL_ATTACHED_VIDEO_REVIEW_CAPTURE_REQUIRED", p
+          assert p["invariants"]["human_ground_truth"] is False, p
+          assert p["invariants"]["human_parity_inferred"] is False, p
+          assert p["provider_mutation"] is False, p
+          assert p["upload_performed"] is False, p
+          print(json.dumps(p,sort_keys=True))
+          PY
+      - name: Upload R24 live-review ingest artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r24-live-review-ingest
+          path: |
+            ${{ runner.temp }}/growth-r24-fixture-validation.json
+            ${{ runner.temp }}/growth-r24-live-review-readiness.json
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
