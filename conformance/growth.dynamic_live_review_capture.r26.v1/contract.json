@@ -1,0 +1,103 @@
+{
+  "contract_version": "growth.dynamic_live_review_capture.r26.v1",
+  "starting_r25_sha": "2c441ebaa017c7da72461316401aeaf445e3d6e5",
+  "purpose": "Validate arbitrary source-bound Media R20/R21 dynamic blinded review packages plus exact Bridge R29/R30 genuine capture evidence, then unblind only after capture validation and emit per-candidate critic, pairwise and Creator-ready re-edit envelopes.",
+  "media_authority_contract": "growth.media_dynamic_review_authority.r26.v1",
+  "bridge_authority_contract": "growth.bridge_dynamic_capture_authority.r26.v1",
+  "dynamic_handoff_contract": "growth.dynamic_creator_reedit_handoff.r26.v1",
+  "creator_envelope_contract": "growth.dynamic_creator_external_review_envelope.r26.v1",
+  "supported_media_package_contracts": [
+    "media.dynamic_review_package.r20.v1",
+    "media.dynamic_review_package.r21.v1"
+  ],
+  "exact_green_inputs": {
+    "media_r20": {
+      "repository": "foto6/video2",
+      "sha": "b22174db3c772a49a21fb9f8b1d40828bf258005",
+      "ci_run_id": 36988788032,
+      "artifact_id": 11218642168,
+      "artifact_name": "media-r20-dynamic-review",
+      "artifact_digest": "sha256:430b64164487d19ec66e76f70edeab640410f88565ed8ae854b8bbc28bd2f410"
+    },
+    "bridge_r29": {
+      "repository": "foto6/WebAIBridge",
+      "sha": "ed9a35290f94607d7577f1ee9301de1bb44334f2",
+      "ci_run_id": 36989658042,
+      "capture_contract": "bridge.existing_chat_video_review_capture.v1",
+      "live_review_pass": false,
+      "actual_live_evidence": null
+    }
+  },
+  "authority_rules": {
+    "branch_names_are_authority": false,
+    "media_exact_profile_requires": [
+      "producer SHA",
+      "contract blob SHA-1",
+      "schema blob SHA-1",
+      "implementation blob SHA-1",
+      "artifact ID/name/digest",
+      "package digest/file SHA-256",
+      "prompt digest/file SHA-256",
+      "sealed mapping digest/file SHA-256",
+      "source lineage",
+      "review round",
+      "A/B attachment hash/size/MIME"
+    ],
+    "bridge_exact_profile_requires": [
+      "producer SHA",
+      "CI run ID",
+      "capture contract",
+      "capture schema identity",
+      "contract blob SHA-1",
+      "schema blob SHA-1",
+      "implementation blob SHA-1"
+    ]
+  },
+  "ordering": [
+    "validate exact Media package/evidence/prompt/sealed-mapping bytes and authority",
+    "validate exact Bridge authority and genuine live capture bindings",
+    "validate strict JSON response and coverage uncertainty",
+    "only then unblind model-facing A/B using exact sealed mapping",
+    "convert to per-candidate growth.web_video_critic.v1 and pairwise result",
+    "map allowlisted defect categories to executable Creator directives",
+    "keep model proposed_edit audit-only",
+    "emit Creator-ready dynamic external review envelopes"
+  ],
+  "capture_requirements": {
+    "model_evidence": true,
+    "human_ground_truth": false,
+    "human_rating_evidence": false,
+    "live_platform_evidence": false,
+    "real_attachment": true,
+    "real_send_captured": true,
+    "disposition": "LIVE_REVIEW_PASS",
+    "strict_json": true,
+    "pairwise_selection": ["A", "B", "tie", "insufficient_evidence"],
+    "coverage": {
+      "uninspected_possible": true,
+      "every_frame_inspected": false,
+      "timestamped_observation_must_be_inside_inspected_range": true
+    }
+  },
+  "identity_rules": {
+    "model_facing_A_B_is_candidate_identity": false,
+    "sealed_mapping_is_candidate_identity_authority": true,
+    "unblind_before_capture_validation": false,
+    "source_render_attachment_and_round_bound_in_creator_envelope": true,
+    "review_derivatives_allowed_when_explicitly_bound": true
+  },
+  "replay": {
+    "exact_capture_reingest_idempotent": true,
+    "second_handoff_effect": false,
+    "same_capture_package_changed_response_bytes_mapping_conflict": true,
+    "same_conversation_request_package_changed_capture_conflict": true
+  },
+  "backward_compatibility": {
+    "r24_static_fixture_path_preserved": true,
+    "r25_frozen_media_r18_path_preserved": true,
+    "dynamic_real_path_is_separate_contract": true
+  },
+  "current_live_gate": "BLOCKED_WAITING_DYNAMIC_CAPTURE",
+  "provider_mutation": false,
+  "merge_performed": false
+}
