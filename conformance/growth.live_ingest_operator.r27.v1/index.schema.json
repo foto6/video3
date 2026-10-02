@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.dynamic_live_review_ingest_index.r27.v1",
+  "title": "Growth R27 dynamic live-review coordinator index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "index_id",
+    "index_digest",
+    "state",
+    "live_capture_gate",
+    "new_ingest_effect",
+    "growth_r27",
+    "media_r21",
+    "bridge_r30",
+    "capture",
+    "pairwise",
+    "selected_result",
+    "candidates",
+    "rejection_reason",
+    "evidence_boundary"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "growth.dynamic_live_review_ingest_index.r27.v1"
+    },
+    "index_id": {
+      "type": "string",
+      "pattern": "^gr27idx1:[0-9a-f]{64}$"
+    },
+    "index_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "state": {
+      "enum": [
+        "SOURCE_READY",
+        "LIVE_REVIEW_INGESTED",
+        "BLOCKED_WAITING_GENUINE_CAPTURE",
+        "MALFORMED_MODEL_RESPONSE"
+      ]
+    },
+    "live_capture_gate": {"type": "string"},
+    "new_ingest_effect": {"type": "boolean"},
+    "growth_r27": {"type": "object"},
+    "media_r21": {"type": "object"},
+    "bridge_r30": {"type": "object"},
+    "capture": {"type": ["object", "null"]},
+    "pairwise": {"type": ["object", "null"]},
+    "selected_result": {"type": ["object", "null"]},
+    "candidates": {"type": "object"},
+    "rejection_reason": {"type": ["string", "null"]},
+    "evidence_boundary": {
+      "const": {
+        "browser_mutation": false,
+        "creator_mutation": false,
+        "fixture_promoted": false,
+        "human_ground_truth": false,
+        "human_parity_inferred": false,
+        "human_rating_evidence": false,
+        "media_mutation": false,
+        "model_evidence": false,
+        "provider_mutation": false
+      }
+    }
+  }
+}
