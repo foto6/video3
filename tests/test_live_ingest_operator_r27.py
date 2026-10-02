@@ -14,6 +14,8 @@ from growth_analytics.live_ingest_operator_r27 import (
     AUTHORITY_VERSION,
     BRIDGE_R30_CAPTURE_CONTRACT,
     CREATOR_ENVELOPE_VERSION,
+    CREATOR_R29_GROWTH_R26_CI,
+    CREATOR_R29_GROWTH_R26_SHA,
     GROWTH_R26_BASE_SHA,
     INDEX_VERSION,
     MEDIA_R21_SHA,
@@ -27,6 +29,7 @@ from growth_analytics.live_ingest_operator_r27 import (
     _bridge_transport_digest,
     _index_material,
     authority_profile_digest,
+    load_bridge_capture_input,
     validate_authority_profile,
     validate_bridge_r30_live_capture,
 )
@@ -207,6 +210,10 @@ class GrowthR27ExactDynamicAuthorityTests(unittest.TestCase):
         with self.assertRaisesRegex(AuthorityDrift, "Bridge R30.*blob"):
             validate_authority_profile(bad)
         bad = copy.deepcopy(self.profile)
+        bad["bridge_r31"]["blobs"]["finalizer_implementation"] = "0" * 40
+        with self.assertRaisesRegex(AuthorityDrift, "Bridge R31.*blob"):
+            validate_authority_profile(bad)
+        bad = copy.deepcopy(self.profile)
         bad["media_r21"]["branch"] = "moving-ref"
         with self.assertRaisesRegex(AuthorityDrift, "fields invalid|moving-ref"):
             validate_authority_profile(bad)
@@ -227,8 +234,86 @@ class GrowthR27ExactDynamicAuthorityTests(unittest.TestCase):
         )
         self.assertEqual(
             actual,
-            capture["dynamicPackage"]["packageDigest"],
+            "164fa3f3e41c66b86c3811635b1626fc965727e027712162f60b173320f74be6",
         )
+
+    def test_r31_result_single_capture_argument_resolves_exact_r30_capture(self):
+        capture = self.genuine_capture()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            capture_path = root / "r30-live-capture.json"
+            response_path = root / "r30-live-response.txt"
+            result_path = root / "r31-live-result.json"
+            capture_path.write_text(
+                json.dumps(capture, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            response_path.write_text(capture["responseText"], encoding="utf-8")
+            result = {
+                "contract": "bridge.r31_live_dynamic_operator_result.v1",
+                "state": "LIVE_REVIEW_PASS",
+                "reason": "genuine_sidecar_capture_strict_json_valid",
+                "mediaAuthority": {
+                    "repository": "foto6/video2",
+                    "sha": MEDIA_R21_SHA,
+                    "ciRunId": 36994000619,
+                    "ciConclusion": "success",
+                    "branch": "advisory-only",
+                    "bundleContract": "media.review_round_bundle.r21.v1",
+                    "handoffContract": "media.review_round_transport_handoff.r21.v1",
+                    "sourcePins": {
+                        "implementationGitBlob":
+                            self.profile["media_r21"]["blobs"]["implementation"],
+                        "runnerGitBlob":
+                            self.profile["media_r21"]["blobs"]["runner"],
+                        "contractGitBlob":
+                            self.profile["media_r21"]["blobs"]["contract"],
+                        "schemaGitBlob":
+                            self.profile["media_r21"]["blobs"]["schema"],
+                        "conformanceManifestGitBlob":
+                            self.profile["media_r21"]["blobs"]["manifest"],
+                    },
+                },
+                "operatorManifestDigest": "1" * 64,
+                "preflightDigest": "2" * 64,
+                "conversation": {
+                    "conversationId": capture["conversationId"],
+                    "canonicalUrl": capture["conversationUrl"],
+                },
+                "requestId": capture["requestId"],
+                "operationId": capture["operationId"],
+                "captureDigest": "3" * 64,
+                "responseDigest": capture["responseDigest"],
+                "responseText": capture["responseText"],
+                "captureContract": BRIDGE_R30_CAPTURE_CONTRACT,
+                "responseFileSha256": capture["responseDigest"],
+                "model_evidence": True,
+                "human_ground_truth": False,
+                "reconciliationRequired": False,
+                "retryUploadAuthorized": False,
+                "retrySendAuthorized": False,
+                "releaseGate": "NO_LIVE_DEPLOY",
+            }
+            result_path.write_text(
+                json.dumps(result, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            loaded, wrapper = load_bridge_capture_input(
+                result_path,
+                profile=self.profile,
+            )
+            self.assertEqual(loaded["responseDigest"], capture["responseDigest"])
+            self.assertEqual(wrapper["producer_sha"], "104281e49122233f251c692abba726ae31cee0d5")
+            self.assertEqual(wrapper["capture_digest"], "3" * 64)
+
+            result["state"] = "RECONCILIATION_REQUIRED"
+            result["model_evidence"] = False
+            result_path.write_text(
+                json.dumps(result, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            with self.assertRaises(NonLiveCapture):
+                load_bridge_capture_input(result_path, profile=self.profile)
 
     def test_fixture_marker_is_never_promoted_to_live(self):
         with self.assertRaisesRegex(NonLiveCapture, "fixture/fake-CDP"):
@@ -250,7 +335,7 @@ class GrowthR27ExactDynamicAuthorityTests(unittest.TestCase):
         )
         self.assertEqual(
             parsed["bridge_transport_package_digest"],
-            "96f9614dc22f702995c5d71195da68d043f9a72c7801f8fe5e29f0296fc6b8ad",
+            "164fa3f3e41c66b86c3811635b1626fc965727e027712162f60b173320f74be6",
         )
         self.assertEqual(
             parsed["normalized_media_package"]["review_round"], 1
@@ -376,14 +461,21 @@ class GrowthR27ExactDynamicAuthorityTests(unittest.TestCase):
             candidate_id: build_creator_envelope(
                 ingest_result=ingest,
                 candidate_id=candidate_id,
-                growth_producer_sha="a" * 40,
-                growth_ci_run_id=999,
+                growth_producer_sha=CREATOR_R29_GROWTH_R26_SHA,
+                growth_ci_run_id=CREATOR_R29_GROWTH_R26_CI,
             )
             for candidate_id in ingest["dynamic_handoffs"]
         }
         self.assertTrue(
             all(
                 value["contract_version"] == CREATOR_ENVELOPE_VERSION
+                for value in envelopes.values()
+            )
+        )
+        self.assertTrue(
+            all(
+                value["growth_r26"]["producer_sha"] == CREATOR_R29_GROWTH_R26_SHA
+                and value["growth_r26"]["ci_run_id"] == CREATOR_R29_GROWTH_R26_CI
                 for value in envelopes.values()
             )
         )
