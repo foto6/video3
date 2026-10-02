@@ -59,8 +59,10 @@ ALLOWED_MEDIA_ROUNDS = {"R21", "R22"}
 ALLOWED_BRIDGE_ROUNDS = {"R30", "R31"}
 ALLOWED_MEDIA_CONTRACTS = {
     "media.review_round_bundle.r21.v1",
-    "media.review_round_bundle.r22.v1",
 }
+MEDIA_R22_NATIVE_AUTHORITY_CONTRACT = "media.live_review_authority_profile.r22.v1"
+MEDIA_R22_MANIFEST_CONTRACT = "media.live_review_package_manifest.r22.v1"
+MEDIA_R22_ARTIFACT_CONTRACT = "media.live_review_artifact.r22.v1"
 
 _FILE_KEYS = {
     "bundle",
@@ -334,8 +336,18 @@ def parse_media_authority(payload: Mapping[str, Any]) -> dict[str, Any]:
     return _clone(normalized)
 
 
-def _creator_r29_media_authority(
-    profile: Mapping[str, Any],
+def _creator_r29_media_authority_values(
+    *,
+    package_digest: str,
+    package_file_sha256: str,
+    evidence_file_sha256: str,
+    prompt_digest: str,
+    prompt_file_sha256: str,
+    sealed_mapping_digest: str,
+    sealed_mapping_file_sha256: str,
+    review_round: int,
+    source: Mapping[str, Any],
+    attachments: Sequence[Mapping[str, Any]],
 ) -> dict[str, Any]:
     return {
         "contract_version": "growth.media_dynamic_review_authority.r26.v1",
@@ -349,16 +361,44 @@ def _creator_r29_media_authority(
         "artifact_id": MEDIA_R21_ARTIFACT_ID,
         "artifact_name": MEDIA_R21_ARTIFACT_NAME,
         "artifact_digest": MEDIA_R21_ARTIFACT_DIGEST,
-        "package_digest": profile["package_digest"],
-        "package_file_sha256": profile["files"]["bundle"]["sha256"],
-        "evidence_file_sha256": profile["files"]["evidence"]["sha256"],
-        "prompt_digest": profile["prompt_digest"],
-        "prompt_file_sha256": profile["files"]["prompt"]["sha256"],
-        "sealed_mapping_digest": profile["sealed_mapping_digest"],
-        "sealed_mapping_file_sha256": profile["files"]["sealed_mapping"]["sha256"],
-        "review_round": profile["review_round"],
-        "source": _clone(profile["source"]),
-        "attachments": [
+        "package_digest": _sha256(package_digest, "creator_media.package_digest"),
+        "package_file_sha256": _sha256(
+            package_file_sha256, "creator_media.package_file_sha256"
+        ),
+        "evidence_file_sha256": _sha256(
+            evidence_file_sha256, "creator_media.evidence_file_sha256"
+        ),
+        "prompt_digest": _sha256(prompt_digest, "creator_media.prompt_digest"),
+        "prompt_file_sha256": _sha256(
+            prompt_file_sha256, "creator_media.prompt_file_sha256"
+        ),
+        "sealed_mapping_digest": _sha256(
+            sealed_mapping_digest, "creator_media.sealed_mapping_digest"
+        ),
+        "sealed_mapping_file_sha256": _sha256(
+            sealed_mapping_file_sha256,
+            "creator_media.sealed_mapping_file_sha256",
+        ),
+        "review_round": _round(review_round, "creator_media.review_round"),
+        "source": _clone(source),
+        "attachments": [_clone(row) for row in attachments],
+    }
+
+
+def _creator_r29_media_authority(
+    profile: Mapping[str, Any],
+) -> dict[str, Any]:
+    return _creator_r29_media_authority_values(
+        package_digest=profile["package_digest"],
+        package_file_sha256=profile["files"]["bundle"]["sha256"],
+        evidence_file_sha256=profile["files"]["evidence"]["sha256"],
+        prompt_digest=profile["prompt_digest"],
+        prompt_file_sha256=profile["files"]["prompt"]["sha256"],
+        sealed_mapping_digest=profile["sealed_mapping_digest"],
+        sealed_mapping_file_sha256=profile["files"]["sealed_mapping"]["sha256"],
+        review_round=profile["review_round"],
+        source=profile["source"],
+        attachments=[
             {
                 "blind_label": row["blind_label"],
                 "generic_file_name": row["path"],
@@ -368,7 +408,7 @@ def _creator_r29_media_authority(
             }
             for row in profile["attachments"]
         ],
-    }
+    )
 
 
 def _creator_r29_bridge_authority() -> dict[str, Any]:
