@@ -33,7 +33,17 @@ from growth_analytics.live_ingest_operator_r27 import (
     MEDIA_R21_ARTIFACT_NAME,
     MEDIA_R21_CI_RUN_ID,
     MEDIA_R21_SHA,
+    MEDIA_R22_ARTIFACT_DIGEST,
+    MEDIA_R22_ARTIFACT_ID,
+    MEDIA_R22_ARTIFACT_NAME,
+    MEDIA_R22_CI_RUN_ID,
+    MEDIA_R22_CONTRACT_BLOB,
+    MEDIA_R22_EXPORTER_BLOB,
+    MEDIA_R22_IMPLEMENTATION_BLOB,
     MEDIA_R22_NATIVE_AUTHORITY_CONTRACT,
+    MEDIA_R22_SCHEMA_BLOB,
+    MEDIA_R22_SHA,
+    MEDIA_R22_VERIFIER_BLOB,
     OperatorAuthorityError,
     OperatorBoundaryError,
     OperatorLineageError,
@@ -597,14 +607,49 @@ class GrowthR27LiveIngestOperatorTests(unittest.TestCase):
             prompt_text, encoding="utf-8"
         )
 
-        producer_sha = "e" * 40
+        # R22 rebinds the embedded R21 contract/package to the exact
+        # R22 producer while preserving the candidate bytes.
+        bundle_path = out / "media.review_round_bundle.r21.v1.json"
+        handoff_path = out / "media.review_round_transport_handoff.r21.v1.json"
+        mapping_path = out / "media.review_round_sealed_mapping.r21.v1.json"
+        bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
+        handoff = json.loads(handoff_path.read_text(encoding="utf-8"))
+        mapping = json.loads(mapping_path.read_text(encoding="utf-8"))
+        bundle["producer"]["sha"] = MEDIA_R22_SHA
+        for entry in mapping["entries"]:
+            entry["renderProducerSha"] = MEDIA_R22_SHA
+        mapping["digest"] = sha256_json(mapping["entries"])
+        bundle["sealedMapping"] = copy.deepcopy(mapping)
+        handoff["sealedMappingDigest"] = mapping["digest"]
+        bundle["transportHandoff"] = copy.deepcopy(handoff)
+        core = {key: value for key, value in bundle.items() if key != "transportHandoff"}
+        package_digest = sha256_json(core)
+        handoff["packageDigest"] = package_digest
+        bundle["transportHandoff"] = copy.deepcopy(handoff)
+        _write_json(mapping_path, mapping)
+        _write_json(handoff_path, handoff)
+        _write_json(bundle_path, bundle)
+        media = {
+            **media,
+            "package_digest": package_digest,
+            "sealed_mapping_digest": mapping["digest"],
+            "mapping_by_label": {
+                row["blindLabel"]: {
+                    **media["mapping_by_label"][row["blindLabel"]],
+                    "render_producer_sha": MEDIA_R22_SHA,
+                }
+                for row in mapping["entries"]
+            },
+        }
+
+        producer_sha = MEDIA_R22_SHA
         native = {
             "contractVersion": MEDIA_R22_NATIVE_AUTHORITY_CONTRACT,
             "artifactProducer": {
                 "repository": "foto6/video2",
                 "branch": "moving-ref-is-advisory-only",
                 "sha": producer_sha,
-                "ciRunId": 818,
+                "ciRunId": MEDIA_R22_CI_RUN_ID,
             },
             "r21Authority": {
                 "repository": "foto6/video2",
@@ -638,31 +683,31 @@ class GrowthR27LiveIngestOperatorTests(unittest.TestCase):
                 "contractVersion": "media.live_review_artifact.r22.v1",
                 "contractIdentity": {
                     "path": "conformance/media.live_review_artifact.r22.v1/contract.json",
-                    "gitBlobSha": "1" * 40,
+                    "gitBlobSha": MEDIA_R22_CONTRACT_BLOB,
                     "sha256": "4" * 64,
                     "size": 1,
                 },
                 "schemaIdentity": {
                     "path": "conformance/media.live_review_artifact.r22.v1/schema.json",
-                    "gitBlobSha": "2" * 40,
+                    "gitBlobSha": MEDIA_R22_SCHEMA_BLOB,
                     "sha256": "5" * 64,
                     "size": 1,
                 },
                 "implementationIdentity": {
                     "path": "src/live-review-artifact-r22.js",
-                    "gitBlobSha": "3" * 40,
+                    "gitBlobSha": MEDIA_R22_IMPLEMENTATION_BLOB,
                     "sha256": "6" * 64,
                     "size": 1,
                 },
                 "exporterIdentity": {
                     "path": "tools/export-r22-live-review-artifact.mjs",
-                    "gitBlobSha": "4" * 40,
+                    "gitBlobSha": MEDIA_R22_EXPORTER_BLOB,
                     "sha256": "7" * 64,
                     "size": 1,
                 },
                 "verifierIdentity": {
                     "path": "tools/verify-r22-live-review-artifact.mjs",
-                    "gitBlobSha": "5" * 40,
+                    "gitBlobSha": MEDIA_R22_VERIFIER_BLOB,
                     "sha256": "8" * 64,
                     "size": 1,
                 },
