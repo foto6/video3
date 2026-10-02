@@ -1,0 +1,11 @@
+{
+  "contract_version": "growth.bridge_dynamic_capture_authority.r26.v1",
+  "repository": "foto6/WebAIBridge",
+  "producer_sha": "ceaee873231a8552c5b7324083baa800eec566a8",
+  "ci_run_id": 36993885456,
+  "capture_contract": "bridge.dynamic_existing_chat_video_review_capture.v1",
+  "capture_schema_id": "bridge://bridge.dynamic_existing_chat_video_review_capture.v1",
+  "contract_blob_sha1": "93968dc1fb65a334493acdb587b20753f0a8494a",
+  "schema_blob_sha1": "2cbe22ad6c7fe877764bad8dcfc1496aef3f3737",
+  "implementation_blob_sha1": "c5bd2f95a6d58a86cddd9a6fdc127e68e3346c20"
+}
