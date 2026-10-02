@@ -28,7 +28,8 @@ jobs:
           python -m unittest discover -s tests -p "test_closed_loop_feedback_r20.py" -v
           python -m unittest discover -s tests -p "test_real_artifact_decision_r21.py" -v
           python -m unittest discover -s tests -p "test_web_video_critic_r22.py" -v
-          python -m unittest discover -s tests -p "test_critic_reedit_adapter_r23.py" -v\n          python -m unittest discover -s tests -p "test_live_review_ingest_r24.py" -v
+          python -m unittest discover -s tests -p "test_critic_reedit_adapter_r23.py" -v
+          python -m unittest discover -s tests -p "test_live_review_ingest_r24.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
