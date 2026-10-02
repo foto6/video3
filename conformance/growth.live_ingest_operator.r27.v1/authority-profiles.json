@@ -53,7 +53,13 @@
             "size": 787963,
             "mime_type": "video/mp4"
           }
-        ]
+        ],
+        "r31_transport": {
+          "directory_digest": "f6fd9e92798d731697a47505277ff995550589f5fc9d55bba6078dd19710124f",
+          "dynamic_package_digest": "283791018c6167e3dac540744121a674f5db246cb8aed84bc74cc131a4f6fbd2",
+          "derived_handoff_file_sha256": "118e37aff6771695b9188f3bad0853e4e3012afcfcf95ac8b01c39e436e5b16a",
+          "source_binding_fingerprint": "f9263cff5d01c3d66424839bb59ca2783b269d2325420ea9e37b0616ee0cdc0f"
+        }
       },
       "round-1": {
         "mode": "targeted_reedit",
@@ -89,7 +95,13 @@
             "size": 738225,
             "mime_type": "video/mp4"
           }
-        ]
+        ],
+        "r31_transport": {
+          "directory_digest": "693526a1c5c5cfd659a4c4f05011a5ce0549cb78f29ff7533815c1ff25bb3e8b",
+          "dynamic_package_digest": "164fa3f3e41c66b86c3811635b1626fc965727e027712162f60b173320f74be6",
+          "derived_handoff_file_sha256": "56b13eadf38567e3416abb6ff08ede144fb460117034f70972e197fdafbaba87",
+          "source_binding_fingerprint": "9fc81f79133262f375ae849b78c10e0711fdebf012b52a756dc2a3a4bdfdf849"
+        }
       }
     },
     "contract_file_sha256": "d4887d8d1b1e9d0e396ea533162f69eb8539528de07d1e395d7b93702a390aa3",
@@ -98,7 +110,7 @@
       "producer_round": "R21",
       "producer_contract_name": "media.review_round_bundle.r21.v1",
       "producer_contract_schema": "media.review_round_bundle.r21.v1",
-      "producer_contract_file_sha256": "d4887d8d1b1e9d0e396ea533162f69eb8539528de07d1e395d7b93702a390aa3",
+      "producer_contract_blob_source": "materialized_r21_bundle_file_sha256",
       "prompt_format": "json_prompt_text",
       "prompt_text_field": "text"
     }
@@ -131,5 +143,40 @@
   },
   "moving_branch_authority": false,
   "human_ground_truth": false,
-  "provider_mutation": false
+  "provider_mutation": false,
+  "bridge_r31": {
+    "repository": "foto6/WebAIBridge",
+    "producer_sha": "104281e49122233f251c692abba726ae31cee0d5",
+    "ci_run_id": 36999908386,
+    "result_contract": "bridge.r31_live_dynamic_operator_result.v1",
+    "preflight_contract": "bridge.r31_live_dynamic_operator_preflight.v1",
+    "authority_profile_contract": "bridge.r31_media_r21_authority_profile.v1",
+    "manifest_contract": "bridge.r31_live_dynamic_operator_manifest.v1",
+    "capture_contract": "bridge.dynamic_existing_chat_video_review_capture.v1",
+    "blobs": {
+      "manifest_schema": "f90cd2aa4bdc868af845bfba58c612ebef3f32ad",
+      "authority_profile_schema": "25e2cbfe487ba88f70d233774e585691ad4f70c6",
+      "result_schema": "55f403a2c0dca4a05a5002e104cfc29d20b536b5",
+      "preflight_schema": "74b4579b4d9d3d08da04b1181863905f024f367a",
+      "media_operator": "38509af174fc25aa4229c084fc3cd9b2e35b539e",
+      "preflight_implementation": "c975d934d080deffdcf2a9ac4cf82ca142ba93d3",
+      "finalizer_implementation": "a18a10e681efb249275816ab43ceb55e4acc6643",
+      "powershell_operator": "1fd850863fb1e1c31894ccc54f5fcbc296122419",
+      "readiness_implementation": "f248f94843c5d94737947929aaece33129e1b98a"
+    },
+    "actions_artifacts": [
+      {
+        "platform": "ubuntu-latest",
+        "id": 11222903971,
+        "digest": "sha256:4929ff7f5b27b2aaaad3501221a9b8955f96a0645356c2b91bed5b0c9746c866"
+      },
+      {
+        "platform": "windows-latest",
+        "id": 11222794745,
+        "digest": "sha256:eb6e792ff7561f475919f408c585b6f253a830741fc1c7865df4b7f7c9cca3ee"
+      }
+    ],
+    "exact_green_readiness": "SOURCE_READY",
+    "live_review_pass": false
+  }
 }
