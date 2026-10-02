@@ -91,6 +91,16 @@
           }
         ]
       }
+    },
+    "contract_file_sha256": "d4887d8d1b1e9d0e396ea533162f69eb8539528de07d1e395d7b93702a390aa3",
+    "r30_transport_profile": {
+      "handoff_contract": "media.dynamic_review_handoff.v1",
+      "producer_round": "R21",
+      "producer_contract_name": "media.review_round_bundle.r21.v1",
+      "producer_contract_schema": "media.review_round_bundle.r21.v1",
+      "producer_contract_file_sha256": "d4887d8d1b1e9d0e396ea533162f69eb8539528de07d1e395d7b93702a390aa3",
+      "prompt_format": "json_prompt_text",
+      "prompt_text_field": "text"
     }
   },
   "bridge_r30": {
