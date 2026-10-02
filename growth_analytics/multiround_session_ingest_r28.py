@@ -1440,10 +1440,10 @@ def source_ready(
         authority_digest=authority_digest,
     )
     ledger = SessionLedger(session_dir, session_id=session_id, identity=identity)
-    if package["review_round"] != ledger.next_round and str(package["review_round"]) not in ledger.rounds:
-        raise RoundSequenceError(
-            f"source-ready package round {package['review_round']} does not match session next round {ledger.next_round}"
-        )
+    sequence_ready = (
+        package["review_round"] == ledger.next_round
+        or str(package["review_round"]) in ledger.rounds
+    )
     report = {
         "report_version": REPORT_VERSION,
         "state": "SOURCE_READY",
@@ -1452,6 +1452,7 @@ def source_ready(
         "session_closed": ledger.closed,
         "next_review_round": ledger.next_round,
         "package_review_round": package["review_round"],
+        "package_sequence_ready": sequence_ready,
         "package_digest": package["package_digest"],
         "sealed_mapping_digest": package["sealed_mapping_digest"],
         "prompt_digest": package["prompt_digest"],
