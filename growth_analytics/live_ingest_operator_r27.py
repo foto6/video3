@@ -1517,6 +1517,121 @@ def _write_outputs(
     )
 
 
+def _validate_r31_media_authority(
+    value: Mapping[str, Any],
+    *,
+    profile: Mapping[str, Any],
+) -> None:
+    if not isinstance(value, Mapping):
+        raise AuthorityDrift("Bridge R31 mediaAuthority missing")
+    media = profile["media_r21"]
+    expected_pins = {
+        "implementationGitBlob": media["blobs"]["implementation"],
+        "runnerGitBlob": media["blobs"]["runner"],
+        "contractGitBlob": media["blobs"]["contract"],
+        "schemaGitBlob": media["blobs"]["schema"],
+        "conformanceManifestGitBlob": media["blobs"]["manifest"],
+    }
+    if (
+        value.get("repository") != media["repository"]
+        or value.get("sha") != media["producer_sha"]
+        or value.get("ciRunId") != media["ci_run_id"]
+        or value.get("ciConclusion") != "success"
+        or value.get("bundleContract") != media["round_bundle_contract"]
+        or value.get("handoffContract") != media["transport_handoff_contract"]
+        or value.get("sourcePins") != expected_pins
+    ):
+        raise AuthorityDrift("Bridge R31 exact Media R21 authority drift")
+
+
+def load_bridge_capture_input(
+    path: Path,
+    *,
+    profile: Mapping[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any] | None]:
+    profile = validate_authority_profile(profile)
+    path = Path(path).resolve()
+    value = _load(path)
+    if not isinstance(value, Mapping):
+        raise CaptureDrift("Bridge capture input must be JSON object")
+    contract = value.get("contract")
+    if contract == BRIDGE_R30_CAPTURE_CONTRACT:
+        return _clone(value), None
+    if contract != BRIDGE_R31_RESULT_CONTRACT:
+        raise NonLiveCapture("capture input is neither exact Bridge R30 nor R31 contract")
+
+    state = value.get("state")
+    if state == "MALFORMED_MODEL_RESPONSE":
+        raise MalformedModelResponse("Bridge R31 result MALFORMED_MODEL_RESPONSE")
+    if state != "LIVE_REVIEW_PASS":
+        raise NonLiveCapture(f"Bridge R31 result is not live-ingestible: {state}")
+    if (
+        value.get("model_evidence") is not True
+        or value.get("human_ground_truth") is not False
+        or value.get("reconciliationRequired") is not False
+        or value.get("retryUploadAuthorized") is not False
+        or value.get("retrySendAuthorized") is not False
+        or value.get("releaseGate") != "NO_LIVE_DEPLOY"
+        or value.get("captureContract") != BRIDGE_R30_CAPTURE_CONTRACT
+    ):
+        raise NonLiveCapture("Bridge R31 terminal evidence boundary invalid")
+    _validate_r31_media_authority(value.get("mediaAuthority"), profile=profile)
+
+    capture_path = path.parent / "r30-live-capture.json"
+    response_path = path.parent / "r30-live-response.txt"
+    if not capture_path.is_file() or not response_path.is_file():
+        raise CaptureDrift(
+            "Bridge R31 result requires sibling r30-live-capture.json and r30-live-response.txt"
+        )
+    capture = _load(capture_path)
+    response_bytes = response_path.read_bytes()
+    try:
+        response_text = response_bytes.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise CaptureDrift("Bridge R31 response bytes are not UTF-8") from exc
+    response_digest = hashlib.sha256(response_text.encode("utf-8")).hexdigest()
+    for field in ("requestId", "operationId"):
+        if value.get(field) != capture.get(field):
+            raise CaptureDrift(f"Bridge R31/R30 identity drift: {field}")
+    if (
+        value.get("responseText") != response_text
+        or value.get("responseDigest") != response_digest
+        or capture.get("responseText") != response_text
+        or capture.get("responseDigest") != response_digest
+    ):
+        raise CaptureDrift("Bridge R31/R30 assistant-response bytes/digest drift")
+    if value.get("responseFileSha256") != hashlib.sha256(response_bytes).hexdigest():
+        raise CaptureDrift("Bridge R31 response file SHA-256 drift")
+    conversation = value.get("conversation")
+    if isinstance(conversation, Mapping):
+        if (
+            conversation.get("conversationId")
+            and conversation["conversationId"] != capture.get("conversationId")
+        ):
+            raise CaptureDrift("Bridge R31/R30 conversation ID drift")
+        if (
+            conversation.get("canonicalUrl")
+            and conversation["canonicalUrl"] != capture.get("conversationUrl")
+        ):
+            raise CaptureDrift("Bridge R31/R30 conversation URL drift")
+    for field in ("captureDigest", "operatorManifestDigest", "preflightDigest"):
+        _sha256(value.get(field), f"r31_result.{field}")
+    wrapper = {
+        "contract": BRIDGE_R31_RESULT_CONTRACT,
+        "producer_sha": BRIDGE_R31_SHA,
+        "ci_run_id": BRIDGE_R31_CI,
+        "result_file_sha256": _file_sha(path),
+        "state": "LIVE_REVIEW_PASS",
+        "capture_digest": value["captureDigest"],
+        "response_digest": response_digest,
+        "operator_manifest_digest": value["operatorManifestDigest"],
+        "preflight_digest": value["preflightDigest"],
+        "request_id": value["requestId"],
+        "operation_id": value["operationId"],
+    }
+    return _clone(capture), _clone(wrapper)
+
+
 def ingest_live(
     *,
     package_dir: Path,
@@ -1526,6 +1641,7 @@ def ingest_live(
     out_dir: Path,
     growth_sha: str,
     growth_ci_run_id: int,
+    bridge_r31_result: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     profile = validate_authority_profile(authority_profile)
     media = validate_media_r21_operator_bundle(package_dir, profile=profile)
@@ -1547,12 +1663,13 @@ def ingest_live(
     ):
         raise NonLiveCapture("dynamic ingest evidence boundary drift")
 
+    creator_authority = profile["creator_r29_growth_r26"]
     envelopes = {
         candidate_id: build_creator_envelope(
             ingest_result=ingest,
             candidate_id=candidate_id,
-            growth_producer_sha=growth_sha,
-            growth_ci_run_id=growth_ci_run_id,
+            growth_producer_sha=creator_authority["producer_sha"],
+            growth_ci_run_id=creator_authority["ci_run_id"],
         )
         for candidate_id in sorted(ingest["dynamic_handoffs"])
     }
@@ -1567,6 +1684,7 @@ def ingest_live(
         state="LIVE_REVIEW_INGESTED",
         live_capture_gate="SATISFIED_GENUINE_DYNAMIC_CAPTURE",
         new_effect=True,
+        bridge_r31_result=bridge_r31_result,
     )
     conversation = ingest["capture"]["conversation"]
     identity = (
@@ -1598,6 +1716,8 @@ def ingest_live(
             "authority_profile_digest": authority_digest,
             "growth_sha": growth_sha,
             "growth_ci_run_id": growth_ci_run_id,
+            "bridge_r31_result": bridge_r31_result,
+            "creator_r29_growth_r26_authority": creator_authority,
         }
     )
     ledger = R27Ledger(ledger_dir)
