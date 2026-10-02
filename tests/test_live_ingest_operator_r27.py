@@ -17,6 +17,7 @@ from growth_analytics.live_ingest_operator_r27 import (
     GROWTH_R26_BASE_SHA,
     INDEX_VERSION,
     MEDIA_R21_SHA,
+    OPERATOR_VERSION,
     AuthorityDrift,
     CaptureDrift,
     MalformedModelResponse,
