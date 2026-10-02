@@ -631,7 +631,7 @@ class GrowthR27LiveIngestOperatorTests(unittest.TestCase):
 
             wrong = copy.deepcopy(bridge)
             wrong["binding"]["sealed_mapping_digest"] = "0" * 64
-            with self.assertRaisesRegex(OperatorLineageError, "stale"):
+            with self.assertRaisesRegex(OperatorLineageError, "binding drift"):
                 parse_live_bridge_capture(
                     capture,
                     authority=wrong,
