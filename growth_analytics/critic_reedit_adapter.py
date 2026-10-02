@@ -149,9 +149,15 @@ def media_r18_authority() -> dict[str, Any]:
 def _exact_binding(
     critic_input: Mapping[str, Any],
     critic_output: Mapping[str, Any],
+    *,
+    verified_transport_evidence_digest: str | None = None,
 ) -> dict[str, Any]:
     i = parse_web_video_critic_input(critic_input)
-    o = parse_web_video_critic_output(critic_output, critic_input=i)
+    o = parse_web_video_critic_output(
+        critic_output,
+        critic_input=i,
+        verified_transport_evidence_digest=verified_transport_evidence_digest,
+    )
     binding = {
         "source_id": i["source"]["source_id"],
         "source_sha256": i["source"]["sha256"],
@@ -182,8 +188,14 @@ def _exact_binding(
 def expected_binding_from(
     critic_input: Mapping[str, Any],
     critic_output: Mapping[str, Any],
+    *,
+    verified_transport_evidence_digest: str | None = None,
 ) -> dict[str, Any]:
-    return _exact_binding(critic_input, critic_output)
+    return _exact_binding(
+        critic_input,
+        critic_output,
+        verified_transport_evidence_digest=verified_transport_evidence_digest,
+    )
 
 
 def _validate_expected_binding(
@@ -321,14 +333,23 @@ def build_creator_reedit_handoff(
     reedit_round: int,
     pairwise_input: Mapping[str, Any] | None = None,
     pairwise_output: Mapping[str, Any] | None = None,
+    verified_transport_evidence_digest: str | None = None,
 ) -> dict[str, Any]:
     if isinstance(reedit_round, bool) or not isinstance(reedit_round, int):
         raise CriticReeditBoundaryError("reedit_round must be integer")
     if reedit_round < 0 or reedit_round > MAX_REEDIT_ROUNDS:
         raise CriticReeditBoundaryError("maximum two re-edit rounds")
     i = parse_web_video_critic_input(critic_input)
-    o = parse_web_video_critic_output(critic_output, critic_input=i)
-    binding = _exact_binding(i, o)
+    o = parse_web_video_critic_output(
+        critic_output,
+        critic_input=i,
+        verified_transport_evidence_digest=verified_transport_evidence_digest,
+    )
+    binding = _exact_binding(
+        i,
+        o,
+        verified_transport_evidence_digest=verified_transport_evidence_digest,
+    )
     _validate_expected_binding(binding, expected_binding)
 
     provenance = o["review_provenance"]
