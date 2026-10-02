@@ -1,0 +1,57 @@
+{
+  "contract_version": "growth.live_ingest_operator.r27.v1",
+  "starting_r26_sha": "e844ed2daaaca9e9694fe1e0fb6b8b7bfac69cbc",
+  "objective": "Consume one exact Media R21 round-pair operator bundle plus one genuine exact Bridge R30 dynamic capture and emit canonical Creator external-review envelopes without manual editing or side effects.",
+  "authority_profile": "growth.exact_dynamic_authorities.r27.v1",
+  "media_r21": {
+    "repository": "foto6/video2",
+    "producer_sha": "d753e9e4c1f4448386608a1425232dbc1dba87ea",
+    "ci_run_id": 36994000619,
+    "contract": "media.review_round_bundle.r21.v1",
+    "transport_handoff": "media.review_round_transport_handoff.r21.v1",
+    "artifact_id": 11221240371,
+    "artifact_digest": "sha256:1036800923196882590ace62edbaa123ab4250b9d242e14adba909ba256ab022"
+  },
+  "bridge_r30": {
+    "repository": "foto6/WebAIBridge",
+    "producer_sha": "ceaee873231a8552c5b7324083baa800eec566a8",
+    "ci_run_id": 36993885456,
+    "capture_contract": "bridge.dynamic_existing_chat_video_review_capture.v1"
+  },
+  "validation_order": [
+    "exact authority profile and immutable blob identities",
+    "exact Media R21 bundle/evidence/handoff/prompt/sealed-mapping/MP4 bytes",
+    "source, brief and round lineage",
+    "Bridge R30 LIVE_REVIEW_PASS contract and exact transport package digest",
+    "conversation/request/operation and assistant-response digest",
+    "strict response JSON and coverage uncertainty",
+    "unblind through sealed mapping only after all capture validation",
+    "emit per-candidate canonical Creator envelope and coordinator index"
+  ],
+  "states": [
+    "SOURCE_READY",
+    "LIVE_REVIEW_INGESTED",
+    "BLOCKED_WAITING_GENUINE_CAPTURE",
+    "MALFORMED_MODEL_RESPONSE"
+  ],
+  "replay": {
+    "exact_replay": "no-op",
+    "same_capture_or_request_changed_response_package_mapping_capture": "conflict",
+    "ledger": "growth.dynamic_live_review_ingest_ledger.r27.v1"
+  },
+  "outputs": {
+    "creator_envelope": "growth.dynamic_creator_external_review_envelope.r26.v1",
+    "coordinator_index": "growth.dynamic_live_review_ingest_index.r27.v1"
+  },
+  "boundaries": {
+    "fixtures_as_live": false,
+    "fake_cdp_as_live": false,
+    "human_ground_truth": false,
+    "human_rating_evidence": false,
+    "provider_mutation": false,
+    "browser_mutation": false,
+    "creator_mutation": false,
+    "media_mutation": false,
+    "merge": false
+  }
+}
