@@ -23,6 +23,7 @@
     "exact Media R21 bundle/evidence/handoff/prompt/sealed-mapping/MP4 bytes",
     "source, brief and round lineage",
     "Bridge R30 LIVE_REVIEW_PASS contract and exact transport package digest",
+    "exact Bridge R31 wrapper result and sibling R30 capture/response when R31 input is used",
     "conversation/request/operation and assistant-response digest",
     "strict response JSON and coverage uncertainty",
     "unblind through sealed mapping only after all capture validation",
@@ -53,5 +54,19 @@
     "creator_mutation": false,
     "media_mutation": false,
     "merge": false
+  },
+  "bridge_r31": {
+    "repository": "foto6/WebAIBridge",
+    "producer_sha": "104281e49122233f251c692abba726ae31cee0d5",
+    "ci_run_id": 36999908386,
+    "result_contract": "bridge.r31_live_dynamic_operator_result.v1",
+    "capture_contract": "bridge.dynamic_existing_chat_video_review_capture.v1",
+    "genuine_result_requires_sibling_r30_capture_and_response": true
+  },
+  "creator_r29": {
+    "canonical_envelope_contract": "growth.dynamic_creator_external_review_envelope.r26.v1",
+    "canonical_growth_r26_sha": "e844ed2daaaca9e9694fe1e0fb6b8b7bfac69cbc",
+    "canonical_growth_r26_ci_run_id": 36996617627,
+    "r27_operator_provenance_in_coordinator_index": true
   }
 }
