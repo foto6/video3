@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.live_video_review_capture.v1",
+  "title": "Growth R24 captured existing-chat video review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "capture_id",
+    "capture_digest",
+    "capture_kind",
+    "conversation",
+    "request_binding",
+    "assistant_response",
+    "evidence_boundary"
+  ],
+  "properties": {
+    "contract_version": {"const": "growth.live_video_review_capture.v1"},
+    "capture_id": {"type": "string", "pattern": "^glvrc1:[0-9a-f]{64}$"},
+    "capture_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "capture_kind": {
+      "enum": ["bridge_existing_chat_capture", "fixture"]
+    },
+    "conversation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conversation_id", "review_request_id", "assistant_message_id"],
+      "properties": {
+        "conversation_id": {"type": "string", "minLength": 1},
+        "review_request_id": {"type": "string", "minLength": 1},
+        "assistant_message_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "request_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prompt",
+        "media_r18",
+        "bridge_r26",
+        "source",
+        "media",
+        "review_bundle",
+        "attachments"
+      ],
+      "properties": {
+        "prompt": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["contract_version", "sha256", "prompt_text_sha256"],
+          "properties": {
+            "contract_version": {"const": "media.direct_model_review_prompt.v1"},
+            "sha256": {
+              "const": "98e377f73f26d9960acc34703797f962ef75472597acdbefc6dfdc82636b06b6"
+            },
+            "prompt_text_sha256": {
+              "const": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2"
+            }
+          }
+        },
+        "media_r18": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "repository",
+            "source_sha",
+            "ci_run_id",
+            "artifact_id",
+            "artifact_name",
+            "artifact_digest",
+            "package_digest",
+            "package_file_sha256"
+          ],
+          "properties": {
+            "repository": {"const": "foto6/video2"},
+            "source_sha": {"const": "2c41f084e000eca5efd9a51d2d3752bec1bd1311"},
+            "ci_run_id": {"const": 36967381891},
+            "artifact_id": {"const": 11210373001},
+            "artifact_name": {"const": "media-r18-direct-model-review"},
+            "artifact_digest": {
+              "const": "sha256:1f2ac715ec787be14564201445737f19825f56267a7cab6fb99553aaaff013eb"
+            },
+            "package_digest": {
+              "const": "c7af4d86acddb2b1bc67135449610386188fead05e0801dbb32e8857afe4945d"
+            },
+            "package_file_sha256": {
+              "const": "23b36200e0023913f5435b99748f3ded92cb9ed86a9f769d7d64bb0d6743771e"
+            }
+          }
+        },
+        "bridge_r26": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "source_sha", "attachment_contract"],
+          "properties": {
+            "repository": {"const": "foto6/WebAIBridge"},
+            "source_sha": {"const": "73c13f9eed2a2cbcea881dd8c5452d054bfef940"},
+            "attachment_contract": {"const": "bridge.chat_file_attachment.v1"}
+          }
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source_id", "sha256", "size"],
+          "properties": {
+            "source_id": {"const": "r16-demo-source"},
+            "sha256": {
+              "const": "7b484abef5de1569e1b7f91a5d780f17c6d687ef68b3c42c9e54375f4e5e434b"
+            },
+            "size": {"const": 763377}
+          }
+        },
+        "media": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "producer_sha"],
+          "properties": {
+            "repository": {"const": "foto6/video2"},
+            "producer_sha": {"const": "231a0680c8939cfec77aaa283e507e93f383ad73"}
+          }
+        },
+        "review_bundle": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["contract_version", "digest"],
+          "properties": {
+            "contract_version": {"const": "growth.real_artifact_decision_pack.v1"},
+            "digest": {
+              "const": "d415659c4a24dfd4198c6d08bb0fecf524086b0c2031d68395b739bf0dd631d3"
+            }
+          }
+        },
+        "attachments": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/attachmentA"
+            },
+            {
+              "$ref": "#/$defs/attachmentB"
+            }
+          ],
+          "items": false
+        }
+      }
+    },
+    "assistant_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model_identity", "raw_content", "raw_sha256"],
+      "properties": {
+        "model_identity": {"type": "string", "minLength": 1},
+        "raw_content": {"type": "string", "minLength": 1},
+        "raw_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "evidence_boundary": {
+      "const": {
+        "human_ground_truth": false,
+        "human_label": false,
+        "live_platform_evidence": false,
+        "human_parity_gate_eligible": false
+      }
+    }
+  },
+  "$defs": {
+    "attachmentA": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blind_label",
+        "generic_file_name",
+        "candidate_id",
+        "render_sha256",
+        "render_size",
+        "render_export_sha256",
+        "attachment_sha256",
+        "attachment_size",
+        "mime_type"
+      ],
+      "properties": {
+        "blind_label": {"const": "A"},
+        "generic_file_name": {"const": "review-A.mp4"},
+        "candidate_id": {"const": "candidate-1"},
+        "render_sha256": {
+          "const": "3bd12d999264cb932cb3ef15dfbd96e002ede517f2273795b593553b9642d864"
+        },
+        "render_size": {"const": 575465},
+        "render_export_sha256": {
+          "const": "2b5177c00bb054184a239c7eddb1383ad253922e8eb686f5aa2e56c91a1335ac"
+        },
+        "attachment_sha256": {
+          "const": "3bd12d999264cb932cb3ef15dfbd96e002ede517f2273795b593553b9642d864"
+        },
+        "attachment_size": {"const": 575465},
+        "mime_type": {"const": "video/mp4"}
+      }
+    },
+    "attachmentB": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blind_label",
+        "generic_file_name",
+        "candidate_id",
+        "render_sha256",
+        "render_size",
+        "render_export_sha256",
+        "attachment_sha256",
+        "attachment_size",
+        "mime_type"
+      ],
+      "properties": {
+        "blind_label": {"const": "B"},
+        "generic_file_name": {"const": "review-B.mp4"},
+        "candidate_id": {"const": "candidate-2"},
+        "render_sha256": {
+          "const": "cdae63d5ccce67332e607af7fd87b18c31da8dc77c2f0ce5182550321767286c"
+        },
+        "render_size": {"const": 576763},
+        "render_export_sha256": {
+          "const": "b349b897f8f86bc9257e2622f564d6430f3864ff605ae4b82ba0cb09c59298f6"
+        },
+        "attachment_sha256": {
+          "const": "cdae63d5ccce67332e607af7fd87b18c31da8dc77c2f0ce5182550321767286c"
+        },
+        "attachment_size": {"const": 576763},
+        "mime_type": {"const": "video/mp4"}
+      }
+    }
+  }
+}
