@@ -705,6 +705,17 @@ class LiveReviewIngestLedger:
     def ingest(
         self, payload: Mapping[str, Any], *, reedit_round: int = 0
     ) -> tuple[dict[str, Any], bool]:
+        if isinstance(payload, Mapping):
+            raw_capture_id = payload.get("capture_id")
+            raw_capture_digest = payload.get("capture_digest")
+            if (
+                isinstance(raw_capture_id, str)
+                and raw_capture_id in self._capture_digests
+                and raw_capture_digest != self._capture_digests[raw_capture_id]
+            ):
+                raise LiveReviewReplayConflict(
+                    "capture_id reused with conflicting captured response"
+                )
         parsed = parse_live_review_capture(payload)
         capture_id = parsed["capture_id"]
         capture_digest = parsed["capture_digest"]
