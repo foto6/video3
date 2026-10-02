@@ -18,6 +18,14 @@ from growth_analytics.live_ingest_operator_r27 import (
     BRIDGE_R30_IMPLEMENTATION_BLOB,
     BRIDGE_R30_SCHEMA_BLOB,
     BRIDGE_R30_SHA,
+    BRIDGE_R31_AUTHORITY_SCHEMA_BLOB,
+    BRIDGE_R31_CI_RUN_ID,
+    BRIDGE_R31_IMPLEMENTATION_BLOB,
+    BRIDGE_R31_NATIVE_AUTHORITY_CONTRACT,
+    BRIDGE_R31_RESULT_SCHEMA_BLOB,
+    BRIDGE_R31_SHA,
+    GROWTH_R26_CI_RUN_ID,
+    GROWTH_R26_SHA,
     INDEX_VERSION,
     MEDIA_AUTHORITY_VERSION,
     MEDIA_R21_ARTIFACT_DIGEST,
@@ -427,23 +435,29 @@ class GrowthR27LiveIngestOperatorTests(unittest.TestCase):
             "producer_round": generation,
             "repository": "foto6/WebAIBridge",
             "producer_sha": (
-                BRIDGE_R30_SHA if generation == "R30" else "a" * 40
+                BRIDGE_R30_SHA if generation == "R30" else BRIDGE_R31_SHA
             ),
-            "ci_run_id": BRIDGE_R30_CI_RUN_ID if generation == "R30" else 777,
-            "capture_contract": BRIDGE_DYNAMIC_CAPTURE_CONTRACT,
-            "capture_schema_id": (
-                BRIDGE_R30_CAPTURE_SCHEMA
+            "ci_run_id": (
+                BRIDGE_R30_CI_RUN_ID
                 if generation == "R30"
-                else "bridge://bridge.dynamic_existing_chat_video_review_capture.r31.v1"
+                else BRIDGE_R31_CI_RUN_ID
             ),
+            "capture_contract": BRIDGE_DYNAMIC_CAPTURE_CONTRACT,
+            "capture_schema_id": BRIDGE_R30_CAPTURE_SCHEMA,
             "contract_blob_sha1": (
-                BRIDGE_R30_CONTRACT_BLOB if generation == "R30" else "b" * 40
+                BRIDGE_R30_CONTRACT_BLOB
+                if generation == "R30"
+                else BRIDGE_R31_AUTHORITY_SCHEMA_BLOB
             ),
             "schema_blob_sha1": (
-                BRIDGE_R30_SCHEMA_BLOB if generation == "R30" else "c" * 40
+                BRIDGE_R30_SCHEMA_BLOB
+                if generation == "R30"
+                else BRIDGE_R31_RESULT_SCHEMA_BLOB
             ),
             "implementation_blob_sha1": (
-                BRIDGE_R30_IMPLEMENTATION_BLOB if generation == "R30" else "d" * 40
+                BRIDGE_R30_IMPLEMENTATION_BLOB
+                if generation == "R30"
+                else BRIDGE_R31_IMPLEMENTATION_BLOB
             ),
             "capture_file_sha256": _hash_bytes(body.encode()),
             "binding": {
