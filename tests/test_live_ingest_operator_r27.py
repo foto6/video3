@@ -418,13 +418,17 @@ class GrowthR27LiveIngestOperatorTests(unittest.TestCase):
             },
             "dynamicPackage": {
                 "handoffContract": "media.dynamic_review_handoff.v1",
-                "handoffSha256": "3" * 64,
-                "packageDigest": "4" * 64,
+                "handoffSha256": (
+                    media.get("bridge_transport_handoff_sha256") or "3" * 64
+                ),
+                "packageDigest": (
+                    media.get("bridge_transport_package_digest") or "4" * 64
+                ),
                 "sealedMappingDigestRef": media["sealed_mapping_digest"],
                 "producer": {
                     "repository": "foto6/video2",
-                    "sha": MEDIA_R21_SHA,
-                    "round": "R21",
+                    "sha": media.get("bridge_transport_producer_sha", MEDIA_R21_SHA),
+                    "round": media.get("bridge_transport_producer_round", "R21"),
                     "contractName": "media.review_round_transport_handoff.r21.v1",
                 },
                 "sourceLineage": {
@@ -1075,6 +1079,59 @@ class GrowthR27LiveIngestOperatorTests(unittest.TestCase):
             self.assertEqual(
                 parsed_changed["package_digest"], source_media["package_digest"]
             )
+
+    def test_native_r22_plus_r30_live_capture_emits_creator_r29_compatible_envelopes(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            native, _ = self.build_native_r22_dir(root)
+            media = load_media_package(root / "r22", authority=native)
+            capture_path, _, bridge = self.write_capture(root, media)
+            index, effect = run_operator(
+                media_package_dir=root / "r22",
+                media_authority=native,
+                bridge_capture_path=capture_path,
+                bridge_authority=bridge,
+                ledger_path=root / "ledger.json",
+                out_dir=root / "out",
+                growth_producer_sha="a" * 40,
+                growth_ci_run_id=909,
+            )
+            self.assertTrue(effect)
+            self.assertEqual(index["state"], "LIVE_REVIEW_INGESTED")
+            self.assertEqual(
+                index["media"]["authority"]["native_profile"]["producer_sha"],
+                MEDIA_R22_SHA,
+            )
+            for row in index["candidate_results"]:
+                envelope = json.loads(
+                    (root / "out" / row["envelope_file"]).read_text(
+                        encoding="utf-8"
+                    )
+                )
+                self.assertEqual(
+                    envelope["growth_r26"]["producer_sha"], GROWTH_R26_SHA
+                )
+                self.assertEqual(
+                    envelope["media_authority"]["producer_sha"], MEDIA_R21_SHA
+                )
+                self.assertEqual(
+                    envelope["bridge_authority"]["producer_sha"], BRIDGE_R30_SHA
+                )
+                self.assertEqual(
+                    envelope["creator_event"]["handoff"]["binding"][
+                        "media_producer_sha"
+                    ],
+                    MEDIA_R21_SHA,
+                )
+                self.assertEqual(
+                    row["source_handoff_digest"],
+                    index["candidate_results"][
+                        index["candidate_results"].index(row)
+                    ]["source_handoff_digest"],
+                )
+                self.assertFalse(
+                    envelope["evidence_boundary"]["human_ground_truth"]
+                )
 
     def test_native_r31_authority_and_live_result_ingest_without_manual_translation(self):
         with tempfile.TemporaryDirectory() as td:
