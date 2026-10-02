@@ -571,7 +571,17 @@ def parse_media_dynamic_package(
     auth_attachments = {
         row["blind_label"]: row for row in auth["attachments"]
     }
-    if by_label != auth_attachments:
+    package_attachment_authority = {
+        label: {
+            "blind_label": row["blind_label"],
+            "generic_file_name": row["generic_file_name"],
+            "sha256": row["sha256"],
+            "size": row["size"],
+            "mime_type": row["mime_type"],
+        }
+        for label, row in by_label.items()
+    }
+    if package_attachment_authority != auth_attachments:
         raise DynamicLineageError("stale Media package attachment authority")
 
     entries = [
@@ -964,9 +974,11 @@ def parse_dynamic_bridge_capture(
         "live_platform_evidence",
         "liveEvidence",
         "mediaProducer",
+        "provenance",
     }
     required = {
         "contract",
+        "provenance",
         "requestId",
         "operationId",
         "conversationId",
@@ -983,6 +995,9 @@ def parse_dynamic_bridge_capture(
         raise DynamicBoundaryError("Bridge dynamic capture fields invalid")
     if capture["contract"] != authority["capture_contract"]:
         raise DynamicAuthorityError("Bridge capture contract/profile mismatch")
+    observed_provenance = parse_bridge_authority(capture["provenance"])
+    if observed_provenance != authority:
+        raise DynamicAuthorityError("wrong Bridge producer/schema/blob authority")
     if "capture_kind" in capture and capture["capture_kind"] != "bridge_existing_chat_capture":
         raise DynamicBoundaryError("capture_kind must be bridge_existing_chat_capture")
     if capture["model_evidence"] is not True:
