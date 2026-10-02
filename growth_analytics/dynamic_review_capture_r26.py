@@ -43,6 +43,33 @@ MEDIA_R20_ARTIFACT_DIGEST = (
 BRIDGE_R29_SHA = "ed9a35290f94607d7577f1ee9301de1bb44334f2"
 BRIDGE_R29_CI_RUN_ID = 36989658042
 BRIDGE_R29_CAPTURE_CONTRACT = "bridge.existing_chat_video_review_capture.v1"
+BRIDGE_R30_SHA = "ceaee873231a8552c5b7324083baa800eec566a8"
+BRIDGE_R30_CI_RUN_ID = 36993885456
+BRIDGE_R30_CAPTURE_CONTRACT = "bridge.dynamic_existing_chat_video_review_capture.v1"
+BRIDGE_CAPTURE_CONTRACTS = {
+    BRIDGE_R29_CAPTURE_CONTRACT,
+    BRIDGE_R30_CAPTURE_CONTRACT,
+}
+KNOWN_BRIDGE_AUTHORITIES = {
+    (
+        BRIDGE_R29_SHA,
+        BRIDGE_R29_CI_RUN_ID,
+        BRIDGE_R29_CAPTURE_CONTRACT,
+        "bridge.r29_inline_live_video_review_capture.v1",
+        "d4cacf10c70bd88b1be27939740c5408444e92c0",
+        "cb09cd3e4c2836d59784d94c4f10f6a2d6d0844f",
+        "b67fccc81c4e06262222ee15d0bc20a39bd23c2f",
+    ),
+    (
+        BRIDGE_R30_SHA,
+        BRIDGE_R30_CI_RUN_ID,
+        BRIDGE_R30_CAPTURE_CONTRACT,
+        "bridge://bridge.dynamic_existing_chat_video_review_capture.v1",
+        "93968dc1fb65a334493acdb587b20753f0a8494a",
+        "2cbe22ad6c7fe877764bad8dcfc1496aef3f3737",
+        "c5bd2f95a6d58a86cddd9a6fdc127e68e3346c20",
+    ),
+}
 
 _MEDIA_PACKAGE_REQUIRED = {
     "contractVersion",
@@ -320,9 +347,9 @@ def parse_bridge_authority(payload: Mapping[str, Any]) -> dict[str, Any]:
     capture_contract = _nonempty(
         payload["capture_contract"], "bridge.capture_contract"
     )
-    if capture_contract != BRIDGE_R29_CAPTURE_CONTRACT:
+    if capture_contract not in BRIDGE_CAPTURE_CONTRACTS:
         raise DynamicAuthorityError("Bridge capture contract mismatch")
-    return {
+    normalized = {
         "contract_version": BRIDGE_AUTHORITY_VERSION,
         "repository": "foto6/WebAIBridge",
         "producer_sha": _sha1(payload["producer_sha"], "bridge.producer_sha"),
@@ -341,6 +368,20 @@ def parse_bridge_authority(payload: Mapping[str, Any]) -> dict[str, Any]:
             payload["implementation_blob_sha1"], "bridge.implementation_blob_sha1"
         ),
     }
+    signature = (
+        normalized["producer_sha"],
+        normalized["ci_run_id"],
+        normalized["capture_contract"],
+        normalized["capture_schema_id"],
+        normalized["contract_blob_sha1"],
+        normalized["schema_blob_sha1"],
+        normalized["implementation_blob_sha1"],
+    )
+    if signature not in KNOWN_BRIDGE_AUTHORITIES:
+        raise DynamicAuthorityError(
+            "wrong Bridge producer/contract/schema/blob authority"
+        )
+    return normalized
 
 
 def _normalize_package_attachment(row: Mapping[str, Any], index: int) -> dict[str, Any]:
@@ -975,10 +1016,10 @@ def parse_dynamic_bridge_capture(
         "liveEvidence",
         "mediaProducer",
         "provenance",
+        "dynamicPackage",
     }
     required = {
         "contract",
-        "provenance",
         "requestId",
         "operationId",
         "conversationId",
@@ -995,9 +1036,69 @@ def parse_dynamic_bridge_capture(
         raise DynamicBoundaryError("Bridge dynamic capture fields invalid")
     if capture["contract"] != authority["capture_contract"]:
         raise DynamicAuthorityError("Bridge capture contract/profile mismatch")
-    observed_provenance = parse_bridge_authority(capture["provenance"])
-    if observed_provenance != authority:
-        raise DynamicAuthorityError("wrong Bridge producer/schema/blob authority")
+    if "provenance" in capture:
+        observed_provenance = parse_bridge_authority(capture["provenance"])
+        if observed_provenance != authority:
+            raise DynamicAuthorityError("wrong Bridge producer/schema/blob authority")
+    if authority["capture_contract"] == BRIDGE_R30_CAPTURE_CONTRACT:
+        dynamic = capture.get("dynamicPackage")
+        if not isinstance(dynamic, Mapping):
+            raise DynamicLineageError("R30 capture dynamicPackage binding required")
+        required_dynamic = {
+            "handoffContract",
+            "handoffSha256",
+            "packageDigest",
+            "sealedMappingDigestRef",
+            "producer",
+            "sourceLineage",
+            "sourceBindingFingerprint",
+        }
+        if not required_dynamic.issubset(set(dynamic)):
+            raise DynamicLineageError("R30 dynamicPackage binding fields invalid")
+        if dynamic["handoffContract"] != "media.dynamic_review_handoff.v1":
+            raise DynamicLineageError("R30 dynamic handoff contract mismatch")
+        _sha256(dynamic["handoffSha256"], "capture.dynamicPackage.handoffSha256")
+        _sha256(dynamic["packageDigest"], "capture.dynamicPackage.packageDigest")
+        _sha256(
+            dynamic["sourceBindingFingerprint"],
+            "capture.dynamicPackage.sourceBindingFingerprint",
+        )
+        if dynamic["sealedMappingDigestRef"] != media_package["sealed_mapping_digest"]:
+            raise DynamicLineageError("R30 sealed mapping digest binding drift")
+        producer = dynamic["producer"]
+        if not isinstance(producer, Mapping):
+            raise DynamicLineageError("R30 dynamic producer binding invalid")
+        expected_round = (
+            "R21"
+            if media_package["authority"]["package_contract"].endswith(".r21.v1")
+            else "R20"
+        )
+        if (
+            producer.get("repository") != media_package["authority"]["repository"]
+            or producer.get("sha") != media_package["authority"]["producer_sha"]
+            or producer.get("round") != expected_round
+        ):
+            raise DynamicAuthorityError("R30 dynamic Media producer/round drift")
+        source_lineage = dynamic["sourceLineage"]
+        if not isinstance(source_lineage, Mapping):
+            raise DynamicLineageError("R30 source lineage must be object")
+        if (
+            "reviewRound" in source_lineage
+            and source_lineage["reviewRound"] != media_package["review_round"]
+        ):
+            raise DynamicLineageError("R30 source lineage review round drift")
+        for key, expected in (
+            ("sourceId", media_package["source"]["source_id"]),
+            ("sourceSha256", media_package["source"]["sha256"]),
+            ("sourceSize", media_package["source"]["size"]),
+        ):
+            if key in source_lineage and source_lineage[key] != expected:
+                raise DynamicLineageError(f"R30 source lineage {key} drift")
+    else:
+        if capture.get("packageDigest") != media_package["package_digest"]:
+            raise DynamicLineageError("R29 dynamic capture package digest drift")
+        if capture.get("sealedMappingDigest") != media_package["sealed_mapping_digest"]:
+            raise DynamicLineageError("R29 dynamic capture sealed mapping digest drift")
     if "capture_kind" in capture and capture["capture_kind"] != "bridge_existing_chat_capture":
         raise DynamicBoundaryError("capture_kind must be bridge_existing_chat_capture")
     if capture["model_evidence"] is not True:
@@ -1769,12 +1870,15 @@ def readiness_report(
             "repository": "foto6/WebAIBridge",
             "r29_exact_green_sha": BRIDGE_R29_SHA,
             "r29_exact_green_ci_run_id": BRIDGE_R29_CI_RUN_ID,
+            "r30_exact_green_sha": BRIDGE_R30_SHA,
+            "r30_exact_green_ci_run_id": BRIDGE_R30_CI_RUN_ID,
             "observed_bridge_sha_not_branch_authority": observed_bridge_sha,
             "authority_contract": BRIDGE_AUTHORITY_VERSION,
-            "capture_contract": BRIDGE_R29_CAPTURE_CONTRACT,
+            "capture_contracts": sorted(BRIDGE_CAPTURE_CONTRACTS),
             "exact_producer_and_blob_profile_required": True,
             "branch_names_are_authority": False,
             "current_r29_dynamic_capture_available": False,
+            "current_r30_dynamic_capture_available": False,
         },
         "frozen_paths": {
             "r24_r26_fixture_static_path_preserved": True,
