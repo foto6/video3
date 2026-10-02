@@ -334,6 +334,57 @@ def parse_media_authority(payload: Mapping[str, Any]) -> dict[str, Any]:
     return _clone(normalized)
 
 
+def _creator_r29_media_authority(
+    profile: Mapping[str, Any],
+) -> dict[str, Any]:
+    return {
+        "contract_version": "growth.media_dynamic_review_authority.r26.v1",
+        "repository": "foto6/video2",
+        "producer_sha": MEDIA_R21_SHA,
+        "ci_run_id": MEDIA_R21_CI_RUN_ID,
+        "package_contract": "media.dynamic_review_package.r21.v1",
+        "contract_blob_sha1": "65358261775f0fcd2ab9e21f3f621aee977f29da",
+        "schema_blob_sha1": "f04925e317d849434852e6b706533f909da47b22",
+        "implementation_blob_sha1": "c6f556b8a177b6182d787356625094cdcad5a58e",
+        "artifact_id": MEDIA_R21_ARTIFACT_ID,
+        "artifact_name": MEDIA_R21_ARTIFACT_NAME,
+        "artifact_digest": MEDIA_R21_ARTIFACT_DIGEST,
+        "package_digest": profile["package_digest"],
+        "package_file_sha256": profile["files"]["bundle"]["sha256"],
+        "evidence_file_sha256": profile["files"]["evidence"]["sha256"],
+        "prompt_digest": profile["prompt_digest"],
+        "prompt_file_sha256": profile["files"]["prompt"]["sha256"],
+        "sealed_mapping_digest": profile["sealed_mapping_digest"],
+        "sealed_mapping_file_sha256": profile["files"]["sealed_mapping"]["sha256"],
+        "review_round": profile["review_round"],
+        "source": _clone(profile["source"]),
+        "attachments": [
+            {
+                "blind_label": row["blind_label"],
+                "generic_file_name": row["path"],
+                "sha256": row["sha256"],
+                "size": row["size"],
+                "mime_type": row["mime_type"],
+            }
+            for row in profile["attachments"]
+        ],
+    }
+
+
+def _creator_r29_bridge_authority() -> dict[str, Any]:
+    return {
+        "contract_version": "growth.bridge_dynamic_capture_authority.r26.v1",
+        "repository": "foto6/WebAIBridge",
+        "producer_sha": BRIDGE_R30_SHA,
+        "ci_run_id": BRIDGE_R30_CI_RUN_ID,
+        "capture_contract": BRIDGE_DYNAMIC_CAPTURE_CONTRACT,
+        "capture_schema_id": BRIDGE_R30_CAPTURE_SCHEMA,
+        "contract_blob_sha1": BRIDGE_R30_CONTRACT_BLOB,
+        "schema_blob_sha1": BRIDGE_R30_SCHEMA_BLOB,
+        "implementation_blob_sha1": BRIDGE_R30_IMPLEMENTATION_BLOB,
+    }
+
+
 def parse_bridge_authority(payload: Mapping[str, Any]) -> dict[str, Any]:
     required = {
         "contract_version",
@@ -855,7 +906,8 @@ def load_media_package(
 
     return _clone(
         {
-            "authority": profile,
+            "authority": _creator_r29_media_authority(profile),
+            "source_authority": profile,
             "package_dir": str(root),
             "package_digest": package_digest,
             "prompt_digest": prompt_digest,
@@ -1288,7 +1340,8 @@ def build_coordinator_index(
             "manual_envelope_edit_required": False,
         },
         "media": {
-            "authority": media_package["authority"],
+            "authority": media_package["source_authority"],
+            "creator_r29_compat_authority": media_package["authority"],
             "package_digest": media_package["package_digest"],
             "sealed_mapping_digest": media_package["sealed_mapping_digest"],
             "round_lineage_digest": media_package["round_lineage_digest"],
