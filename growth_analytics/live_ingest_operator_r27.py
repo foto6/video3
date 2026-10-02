@@ -35,6 +35,11 @@ MEDIA_R21_ARTIFACT_DIGEST = (
 BRIDGE_R30_SHA = "ceaee873231a8552c5b7324083baa800eec566a8"
 BRIDGE_R30_CI = 36993885456
 BRIDGE_R30_CAPTURE_CONTRACT = "bridge.dynamic_existing_chat_video_review_capture.v1"
+BRIDGE_R31_SHA = "104281e49122233f251c692abba726ae31cee0d5"
+BRIDGE_R31_CI = 36999908386
+BRIDGE_R31_RESULT_CONTRACT = "bridge.r31_live_dynamic_operator_result.v1"
+CREATOR_R29_GROWTH_R26_SHA = GROWTH_R26_BASE_SHA
+CREATOR_R29_GROWTH_R26_CI = 36996617627
 
 R21_BUNDLE_FILE = "media.review_round_bundle.r21.v1.json"
 R21_EVIDENCE_FILE = "media.review_round_bundle.r21.evidence.json"
