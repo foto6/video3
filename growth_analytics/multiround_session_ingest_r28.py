@@ -427,6 +427,19 @@ def _validate_materializer_profile(value: Mapping[str, Any], profile: Mapping[st
         or source.get("state") != "ROUND_PAIR_PACKAGE_READY"
     ):
         raise AuthorityDrift("Media R22 source Media R21 authority drift")
+    bridge = value.get("bridgeR31")
+    if not isinstance(bridge, Mapping) or (
+        bridge.get("repository") != "foto6/WebAIBridge"
+        or bridge.get("producerSha") != "31cfef82663d72d53e69e6345b50073ffcd461ca"
+        or bridge.get("ciRunId") != 36997793086
+        or bridge.get("mediaOperatorImplementationBlob")
+        != "38509af174fc25aa4229c084fc3cd9b2e35b539e"
+        or bridge.get("operatorManifestSchemaBlob")
+        != "f90cd2aa4bdc868af845bfba58c612ebef3f32ad"
+        or bridge.get("authorityProfileSchemaBlob")
+        != "25e2cbfe487ba88f70d233774e585691ad4f70c6"
+    ):
+        raise AuthorityDrift("Media R22 embedded historical Bridge R31 authority drift")
     boundary = value.get("evidenceBoundary")
     if boundary != {
         "browserMutationPerformed": False,
@@ -483,6 +496,12 @@ def validate_operator_package(
     package_manifest = _load(package_manifest_path)
     _validate_materializer_profile(authority, profile)
     hashes = _verify_payload_manifest(payload, package_manifest)
+    for field in ("modelReviewPerformed", "liveModelReviewed", "providerPublish", "humanQuality"):
+        if package_manifest.get(field) is not False:
+            raise PackageDrift(f"Media R22 package-manifest evidence boundary drift: {field}")
+    source_manifest = package_manifest.get("sourceMediaR21")
+    if not isinstance(source_manifest, Mapping):
+        raise PackageDrift("Media R22 package manifest source lineage missing")
     if package.get("packageManifestSha256") != _file_sha(package_manifest_path):
         raise PackageDrift("Media R22 package-manifest SHA drift")
     if package.get("packageManifestRelative") != f"{PAYLOAD_DIR}/{PACKAGE_MANIFEST}":
@@ -490,7 +509,6 @@ def validate_operator_package(
 
     required_payload = {
         AUTHORITY_PROFILE,
-        PACKAGE_MANIFEST,
         R21_BUNDLE,
         R21_HANDOFF,
         R21_MAPPING,
@@ -532,6 +550,14 @@ def validate_operator_package(
         or package.get("r21PackageDigest") != package_digest
     ):
         raise PackageDrift("Media R21 package digest drift")
+    if (
+        source_manifest.get("producerSha") != r27.MEDIA_R21_SHA
+        or source_manifest.get("ciRunId") != r27.MEDIA_R21_CI
+        or source_manifest.get("mode") != bundle.get("mode")
+        or source_manifest.get("reviewRound") != review_round
+        or source_manifest.get("packageDigest") != package_digest
+    ):
+        raise PackageDrift("Media R22 package-manifest source Media R21 drift")
 
     if not isinstance(mapping, Mapping) or set(mapping) != {"digest", "entries"}:
         raise PackageDrift("sealed mapping file invalid")
@@ -1199,9 +1225,6 @@ class SessionLedger:
         if not completed:
             return 0
         last = completed[-1]
-        last_result = self.rounds[str(last)]["round_result"]
-        if last_result["outcome"] in {"tie", "insufficient_evidence", "human_review"}:
-            return last
         return last + 1
 
     def apply(
