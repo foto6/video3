@@ -14,14 +14,12 @@ The current exact-green Media source is:
 
 R26 validates the actual R20 package, evidence, prompt-manifest and sealed-mapping bytes. The authority profile additionally pins the Media producer SHA, package contract, exact contract/schema/implementation Git blobs, package digest, prompt digest, attachment A/B hash+size+MIME, sealed mapping digest, source lineage and review round.
 
-The current exact-green Bridge input is:
+The exact-green Bridge authorities are:
 
-- repo `foto6/WebAIBridge`
-- producer `ed9a35290f94607d7577f1ee9301de1bb44334f2`
-- CI `36989658042`
-- capture contract `bridge.existing_chat_video_review_capture.v1`
+- R29 producer `ed9a35290f94607d7577f1ee9301de1bb44334f2`, CI `36989658042`, capture contract `bridge.existing_chat_video_review_capture.v1`;
+- R30 producer `ceaee873231a8552c5b7324083baa800eec566a8`, CI `36993885456`, capture contract `bridge.dynamic_existing_chat_video_review_capture.v1`.
 
-The Bridge authority profile has no branch name. It binds the exact producer SHA, capture contract/schema identity, and contract/schema/implementation Git blobs.
+Each Bridge authority profile has no branch name. R30 pins the dynamic-handoff schema blob `93968dc1fb65a334493acdb587b20753f0a8494a`, capture schema blob `2cbe22ad6c7fe877764bad8dcfc1496aef3f3737`, and implementation blob `c5bd2f95a6d58a86cddd9a6fdc127e68e3346c20`.
 
 Branch names are discovery hints only. They are never accepted as source authority.
 
@@ -94,7 +92,7 @@ The same capture/package identity with changed response bytes, capture payload, 
 
 ## Current gate
 
-Bridge R29 exact-green evidence reports `liveReviewPass=false` and no actual live capture, and it still materializes frozen Media R18 rather than the R20 dynamic artifact. Bridge R30 currently points at the same R29 SHA.
+Bridge R29 exact-green evidence reports `liveReviewPass=false` and no actual live capture. Bridge R30 is also exact-green, but its run `36993885456` reports `SOURCE_READY`, `liveReviewPass=false`, `actualLiveEvidence=null`, and fixture-only fake-CDP evidence. Neither producer supplies a genuine dynamic ChatGPT upload+Send capture.
 
 Therefore R26 must report:
 
@@ -115,7 +113,7 @@ python -m growth_analytics.dynamic_review_capture_r26 \
   --media-authority conformance/growth.dynamic_live_review_capture.r26.v1/media-r20-initial-authority.json \
   --growth-sha "$(git rev-parse HEAD)" \
   --growth-ci-run-id <exact-r26-run-id> \
-  --observed-bridge-sha ed9a35290f94607d7577f1ee9301de1bb44334f2 \
+  --observed-bridge-sha ceaee873231a8552c5b7324083baa800eec566a8 \
   --out-dir /tmp/growth-r26-dynamic \
   --report /tmp/growth-r26-dynamic/readiness.json
 ```
