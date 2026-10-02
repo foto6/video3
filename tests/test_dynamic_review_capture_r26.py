@@ -289,6 +289,7 @@ class GrowthR26DynamicReviewCaptureTests(unittest.TestCase):
         digest = hashlib.sha256(response.encode("utf-8")).hexdigest()
         return {
             "contract": "bridge.existing_chat_video_review_capture.v1",
+            "provenance": self.bridge_authority(),
             "capture_kind": "bridge_existing_chat_capture",
             "captureId": capture_id,
             "requestId": parsed["request_id"],
@@ -449,25 +450,16 @@ class GrowthR26DynamicReviewCaptureTests(unittest.TestCase):
     def test_wrong_bridge_producer_profile_fails_closed(self):
         media = self.build_media()
         expected = self.bridge_authority()
-        observed = copy.deepcopy(expected)
-        observed["producer_sha"] = "8" * 40
-        # The capture profile is supplied out of band; using the wrong exact producer
-        # changes the verified output authority and therefore must not be equivalent.
-        parsed = parse_dynamic_bridge_capture(
-            self.capture(media),
-            media_package=media["parsed"],
-            bridge_authority=expected,
-        )
-        wrong = parse_dynamic_bridge_capture(
-            self.capture(media),
-            media_package=media["parsed"],
-            bridge_authority=observed,
-        )
-        self.assertNotEqual(
-            parsed["bridge_authority"]["producer_sha"],
-            wrong["bridge_authority"]["producer_sha"],
-        )
-        self.assertNotEqual(parsed["capture_digest"], wrong["capture_digest"])
+        wrong = copy.deepcopy(expected)
+        wrong["producer_sha"] = "8" * 40
+        with self.assertRaisesRegex(
+            DynamicAuthorityError, "wrong Bridge producer"
+        ):
+            parse_dynamic_bridge_capture(
+                self.capture(media),
+                media_package=media["parsed"],
+                bridge_authority=wrong,
+            )
 
     def test_genuine_capture_requires_live_send_model_not_human_boundary(self):
         media = self.build_media()
