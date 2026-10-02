@@ -19,12 +19,39 @@
     },
     "creator_r29_observed": {
       "repository": "foto6/video1",
-      "sha": "0d670abd4b5f04391fd1e6e1af4836a9fc92c8f3",
-      "ci_run_id": 36994868273
+      "sha": "614d2338ab01f59130cec4b35a3b275b86c48892",
+      "ci_run_id": 36999034034,
+      "implementation_blob_sha1": "d8e359c9c6880b0e571fa44badded079783271b0",
+      "envelope_contract": "growth.dynamic_creator_external_review_envelope.r26.v1"
+    },
+    "media_r22": {
+      "repository": "foto6/video2",
+      "sha": "5c9a382b3083e30642ac27f047705a06309311a6",
+      "ci_run_id": 36998852352,
+      "artifact_id": 11223041326,
+      "artifact_name": "media-r22-live-review-artifact",
+      "artifact_digest": "sha256:7fc5fc969d3b46e9584f45b9b57d3c61a7b443e5aa37e6abc06b37de6cd69854",
+      "authority_contract": "media.live_review_authority_profile.r22.v1",
+      "package_manifest_contract": "media.live_review_package_manifest.r22.v1"
+    },
+    "bridge_r31": {
+      "repository": "foto6/WebAIBridge",
+      "sha": "31cfef82663d72d53e69e6345b50073ffcd461ca",
+      "ci_run_id": 36997793086,
+      "native_authority_contract": "bridge.r31_media_r21_authority_profile.v1",
+      "live_result_contract": "bridge.r31_live_dynamic_operator_result.v1",
+      "capture_contract": "bridge.dynamic_existing_chat_video_review_capture.v1",
+      "live_review_pass": false
     }
   },
-  "accepted_media_rounds": ["R21", "R22"],
-  "accepted_bridge_rounds": ["R30", "R31"],
+  "accepted_media_rounds": [
+    "R21",
+    "R22"
+  ],
+  "accepted_bridge_rounds": [
+    "R30",
+    "R31"
+  ],
   "media_authority_contract": "growth.media_review_round_authority.r27.v1",
   "bridge_authority_contract": "growth.bridge_live_capture_authority.r27.v1",
   "creator_envelope_contract": "growth.dynamic_creator_external_review_envelope.r26.v1",
@@ -73,5 +100,22 @@
     "creator_mutation": false,
     "media_mutation": false
   },
-  "no_merge": true
+  "no_merge": true,
+  "native_inputs": {
+    "media_r22": "Pass the package's media.live_review_authority_profile.r22.v1.json directly as --media-authority.",
+    "bridge_r31": "Pass r31-authority-profile.json as --bridge-authority and r31-live-result.json as --bridge-live-result (or place the live result beside the capture for auto-discovery)."
+  },
+  "creator_compatibility": {
+    "source_authority_preserved_in_index": true,
+    "canonical_envelope_contract": "growth.dynamic_creator_external_review_envelope.r26.v1",
+    "exact_growth_r26_sha": "e844ed2daaaca9e9694fe1e0fb6b8b7bfac69cbc",
+    "exact_growth_r26_ci_run_id": 36994388154,
+    "media_r21_compatibility_authority": true,
+    "bridge_r30_compatibility_authority": true,
+    "true_candidate_round_preserved_in_index": true,
+    "creator_compat_candidate_round_recorded_separately": true,
+    "source_handoff_digest_preserved": true,
+    "creator_handoff_digest_preserved": true
+  },
+  "current_live_gate": "BLOCKED_WAITING_DYNAMIC_CAPTURE"
 }
