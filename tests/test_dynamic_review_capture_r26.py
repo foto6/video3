@@ -262,13 +262,26 @@ class GrowthR26DynamicReviewCaptureTests(unittest.TestCase):
         return {
             "contract_version": BRIDGE_AUTHORITY_VERSION,
             "repository": "foto6/WebAIBridge",
-            "producer_sha": "9" * 40,
-            "ci_run_id": 303,
+            "producer_sha": "ed9a35290f94607d7577f1ee9301de1bb44334f2",
+            "ci_run_id": 36989658042,
             "capture_contract": "bridge.existing_chat_video_review_capture.v1",
-            "capture_schema_id": "bridge.dynamic.capture.test.v1",
-            "contract_blob_sha1": "4" * 40,
-            "schema_blob_sha1": "5" * 40,
-            "implementation_blob_sha1": "6" * 40,
+            "capture_schema_id": "bridge.r29_inline_live_video_review_capture.v1",
+            "contract_blob_sha1": "d4cacf10c70bd88b1be27939740c5408444e92c0",
+            "schema_blob_sha1": "cb09cd3e4c2836d59784d94c4f10f6a2d6d0844f",
+            "implementation_blob_sha1": "b67fccc81c4e06262222ee15d0bc20a39bd23c2f",
+        }
+
+    def bridge_r30_authority(self):
+        return {
+            "contract_version": BRIDGE_AUTHORITY_VERSION,
+            "repository": "foto6/WebAIBridge",
+            "producer_sha": "ceaee873231a8552c5b7324083baa800eec566a8",
+            "ci_run_id": 36993885456,
+            "capture_contract": "bridge.dynamic_existing_chat_video_review_capture.v1",
+            "capture_schema_id": "bridge://bridge.dynamic_existing_chat_video_review_capture.v1",
+            "contract_blob_sha1": "93968dc1fb65a334493acdb587b20753f0a8494a",
+            "schema_blob_sha1": "2cbe22ad6c7fe877764bad8dcfc1496aef3f3737",
+            "implementation_blob_sha1": "c5bd2f95a6d58a86cddd9a6fdc127e68e3346c20",
         }
 
     def capture(self, media, *, response_text=None, capture_id="capture-one"):
@@ -351,6 +364,20 @@ class GrowthR26DynamicReviewCaptureTests(unittest.TestCase):
         self.assertNotIn("branch", media)
         self.assertNotIn("branch", bridge)
         parse_bridge_authority(bridge)
+        bridge_r30 = json.loads(
+            (
+                self.root
+                / "conformance"
+                / "growth.dynamic_live_review_capture.r26.v1"
+                / "bridge-r30-authority.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual(
+            bridge_r30["producer_sha"],
+            "ceaee873231a8552c5b7324083baa800eec566a8",
+        )
+        self.assertNotIn("branch", bridge_r30)
+        parse_bridge_authority(bridge_r30)
 
     def test_dynamic_package_validates_source_round_mapping_and_authority(self):
         media = self.build_media(review_round=1)
@@ -459,6 +486,59 @@ class GrowthR26DynamicReviewCaptureTests(unittest.TestCase):
                 self.capture(media),
                 media_package=media["parsed"],
                 bridge_authority=wrong,
+            )
+
+    def test_r30_dynamic_capture_binds_transport_package_mapping_media_and_round(self):
+        media = self.build_media(review_round=1)
+        capture = self.capture(media)
+        capture["contract"] = "bridge.dynamic_existing_chat_video_review_capture.v1"
+        capture.pop("provenance")
+        capture.pop("packageDigest")
+        capture.pop("sealedMappingDigest")
+        capture["dynamicPackage"] = {
+            "handoffContract": "media.dynamic_review_handoff.v1",
+            "handoffSha256": "1" * 64,
+            "packageDigest": "2" * 64,
+            "sealedMappingDigestRef": media["parsed"]["sealed_mapping_digest"],
+            "producer": {
+                "repository": media["parsed"]["authority"]["repository"],
+                "sha": media["parsed"]["authority"]["producer_sha"],
+                "round": "R20",
+            },
+            "sourceLineage": {
+                "sourceId": media["parsed"]["source"]["source_id"],
+                "sourceSha256": media["parsed"]["source"]["sha256"],
+                "sourceSize": media["parsed"]["source"]["size"],
+                "reviewRound": 1,
+            },
+            "sourceBindingFingerprint": "3" * 64,
+        }
+        parsed = parse_dynamic_bridge_capture(
+            capture,
+            media_package=media["parsed"],
+            bridge_authority=self.bridge_r30_authority(),
+        )
+        self.assertEqual(
+            parsed["bridge_authority"]["producer_sha"],
+            "ceaee873231a8552c5b7324083baa800eec566a8",
+        )
+
+        stale = copy.deepcopy(capture)
+        stale["dynamicPackage"]["sealedMappingDigestRef"] = "0" * 64
+        with self.assertRaisesRegex(DynamicLineageError, "sealed mapping"):
+            parse_dynamic_bridge_capture(
+                stale,
+                media_package=media["parsed"],
+                bridge_authority=self.bridge_r30_authority(),
+            )
+
+        wrong_round = copy.deepcopy(capture)
+        wrong_round["dynamicPackage"]["sourceLineage"]["reviewRound"] = 0
+        with self.assertRaisesRegex(DynamicLineageError, "review round"):
+            parse_dynamic_bridge_capture(
+                wrong_round,
+                media_package=media["parsed"],
+                bridge_authority=self.bridge_r30_authority(),
             )
 
     def test_genuine_capture_requires_live_send_model_not_human_boundary(self):
