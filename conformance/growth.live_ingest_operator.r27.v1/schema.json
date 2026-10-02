@@ -14,6 +14,7 @@
     "creator_target",
     "media",
     "bridge",
+    "creator_r29_bridge_authority",
     "capture",
     "pairwise",
     "selected_result",
@@ -21,17 +22,32 @@
     "evidence_boundary"
   ],
   "properties": {
-    "contract_version": {"const": "growth.live_ingest_operator_index.r27.v1"},
-    "index_id": {"type": "string", "pattern": "^gr27idx1:[a-f0-9]{64}$"},
-    "index_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
-    "state": {"enum": ["SOURCE_READY", "LIVE_REVIEW_INGESTED"]},
+    "contract_version": {
+      "const": "growth.live_ingest_operator_index.r27.v1"
+    },
+    "index_id": {
+      "type": "string",
+      "pattern": "^gr27idx1:[a-f0-9]{64}$"
+    },
+    "index_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "state": {
+      "enum": [
+        "SOURCE_READY",
+        "LIVE_REVIEW_INGESTED"
+      ]
+    },
     "live_capture_gate": {
       "enum": [
         "BLOCKED_WAITING_DYNAMIC_CAPTURE",
         "SATISFIED_DYNAMIC_CAPTURE_CONSUMED"
       ]
     },
-    "operator": {"type": "object"},
+    "operator": {
+      "type": "object"
+    },
     "creator_target": {
       "type": "object",
       "required": [
@@ -39,15 +55,91 @@
         "observed_r29_sha",
         "observed_r29_ci_run_id",
         "envelope_contract",
-        "manual_envelope_edit_required"
+        "manual_envelope_edit_required",
+        "implementation_blob_sha1"
       ]
     },
-    "media": {"type": "object"},
-    "bridge": {"type": ["object", "null"]},
-    "capture": {"type": ["object", "null"]},
-    "pairwise": {"type": ["object", "null"]},
-    "selected_result": {"type": ["object", "null"]},
-    "candidate_results": {"type": "array", "maxItems": 2},
+    "media": {
+      "type": "object"
+    },
+    "bridge": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "capture": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "pairwise": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "selected_result": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "candidate_results": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "candidate_id",
+          "model_facing_label",
+          "state",
+          "candidate_round",
+          "creator_compat_candidate_round",
+          "render_sha256",
+          "attachment_sha256",
+          "source_handoff_digest",
+          "handoff_digest",
+          "envelope_file",
+          "envelope_digest"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "model_facing_label": {
+            "enum": [
+              "A",
+              "B"
+            ]
+          },
+          "candidate_round": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "creator_compat_candidate_round": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "source_handoff_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "handoff_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "envelope_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
     "evidence_boundary": {
       "type": "object",
       "required": [
@@ -58,11 +150,25 @@
         "live_platform_evidence"
       ],
       "properties": {
-        "human_ground_truth": {"const": false},
-        "human_rating_evidence": {"const": false},
-        "human_parity_inferred": {"const": false},
-        "live_platform_evidence": {"const": false}
+        "human_ground_truth": {
+          "const": false
+        },
+        "human_rating_evidence": {
+          "const": false
+        },
+        "human_parity_inferred": {
+          "const": false
+        },
+        "live_platform_evidence": {
+          "const": false
+        }
       }
+    },
+    "creator_r29_bridge_authority": {
+      "type": [
+        "object",
+        "null"
+      ]
     }
   }
 }
