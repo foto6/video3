@@ -1134,8 +1134,14 @@ def validate_bridge_r30_live_capture(
         f"r27:{capture['conversationId']}:{capture['requestId']}:"
         f"{exact['package_digest']}"
     )
+    capture_for_r26 = copy.deepcopy(capture)
+    # Bridge R30 inherits R29's frozen-R18 promptFileSha256 field even though
+    # the dynamicPackage fingerprint binds the exact R21 prompt file. R27
+    # validates the R21 prompt file/digest above, then removes only that stale
+    # inherited compatibility field before invoking the generic R26 parser.
+    capture_for_r26.pop("promptFileSha256", None)
     parsed = parse_dynamic_bridge_capture(
-        capture,
+        capture_for_r26,
         media_package=normalized_media,
         bridge_authority=_bridge_authority(profile),
     )
