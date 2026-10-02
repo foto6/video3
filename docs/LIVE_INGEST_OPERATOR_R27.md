@@ -15,7 +15,10 @@ It freezes:
 - exact Actions artifact `11221240371`, `media-r21-round-pair-review`, digest `sha256:1036800923196882590ace62edbaa123ab4250b9d242e14adba909ba256ab022`;
 - exact initial and round-1 bundle/package/prompt/sealed-mapping/handoff/attachment/source/round identities;
 - Bridge R30 `foto6/WebAIBridge@ceaee873231a8552c5b7324083baa800eec566a8`, CI `36993885456`;
-- Bridge R30 handoff-schema, capture-schema, implementation and contract-test Git blobs.
+- Bridge R30 handoff-schema, capture-schema, implementation and contract-test Git blobs;
+- Bridge R31 `foto6/WebAIBridge@104281e49122233f251c692abba726ae31cee0d5`, CI `36999908386`, including manifest/authority/result/preflight schemas and operator/finalizer/PowerShell implementation blobs;
+- the exact R31-derived R30 transport digest, derived-handoff SHA-256, directory digest and source-binding fingerprint for both Media R21 bundles;
+- Creator R29's canonical Growth R26 envelope authority: `e844ed2daaaca9e9694fe1e0fb6b8b7bfac69cbc`, CI `36996617627`.
 
 No branch name is accepted as authority.
 
@@ -26,10 +29,10 @@ The live operator validates, in order:
 1. the exact immutable authority profile;
 2. the materialized R21 bundle, evidence, transport handoff, prompt manifest, sealed mapping and real A/B MP4 bytes;
 3. exact package digest, prompt digest, sealed-mapping digest, source identity, brief lineage and review-round lineage;
-4. Bridge R30 capture contract and exact producer profile;
+4. Bridge R30 capture contract and exact producer profile, optionally wrapped by the exact Bridge R31 terminal-result contract;
 5. `LIVE_REVIEW_PASS`, `model_evidence=true`, `human_ground_truth=false`, real attachment and real Send evidence;
 6. exact conversation/request/operation IDs, assistant response bytes and response digest;
-7. the Bridge R30 dynamic package fingerprint computed from the exact Media R21 producer contract bytes, prompt bytes, A/B bytes, sealed mapping and source/round lineage;
+7. the Bridge R30 dynamic package fingerprint computed exactly as R31 does: the materialized R21 bundle JSON SHA-256 is the producer contract blob, with exact prompt bytes, A/B bytes, sealed mapping, R21 archive/directory/file digests and nested source/round lineage;
 8. strict model JSON, coverage uncertainty and timestamps.
 
 Only after all checks pass does R27 read the sealed mapping to recover real candidate IDs/render hashes.
@@ -46,7 +49,9 @@ The coordinator index preserves both candidates and the full pairwise context, w
 
 Model-facing A/B is never treated as candidate identity.
 
-The envelope producer is the exact R27 runtime SHA/CI supplied to the command. R27 does not impersonate the R26 producer.
+Creator R29 currently validates the canonical envelope as an exact Growth R26 artifact. R27 therefore leaves the inner `growth.dynamic_creator_external_review_envelope.r26.v1` producer pinned to exact R26 `e844ed2d…` / CI `36996617627`. The outer coordinator index separately binds the actual R27 runtime SHA/CI and R27 authority-profile digest, so the two producer layers are not conflated.
+
+For round-pair packages, the index marks whether each candidate envelope is directly accepted by Creator R29's current round-equality guard. It never rewrites a baseline candidate's real round number to make it appear current.
 
 ## Replay
 
@@ -72,7 +77,8 @@ The operator never invokes or mutates a browser, provider, Creator or Media runt
 
 ## One-command operator
 
-For a genuine coordinator capture:
+For a genuine coordinator capture, `--capture` may point directly to `r30-live-capture.json`. It may also point to R31's `r31-live-result.json`; in that case R27 requires and cross-checks the documented sibling `r30-live-capture.json` and `r30-live-response.txt`.
+
 
 ```bash
 python -m growth_analytics.live_ingest_operator_r27 \
