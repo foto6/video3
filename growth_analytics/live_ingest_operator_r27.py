@@ -823,6 +823,7 @@ def validate_media_r21_operator_bundle(
     normalized = {
         "authority": media_authority,
         "package_digest": exact["package_digest"],
+        "prompt_digest": exact["prompt_digest"],
         "sealed_mapping_digest": exact["sealed_mapping_digest"],
         "review_round": exact["review_round"],
         "source": exact["source"],
