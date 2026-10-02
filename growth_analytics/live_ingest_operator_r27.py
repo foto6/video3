@@ -485,19 +485,287 @@ def parse_bridge_authority(payload: Mapping[str, Any]) -> dict[str, Any]:
             ),
         },
     }
-    if producer_round == "R30":
-        exact = {
+    exact_by_round = {
+        "R30": {
             "producer_sha": BRIDGE_R30_SHA,
             "ci_run_id": BRIDGE_R30_CI_RUN_ID,
             "capture_schema_id": BRIDGE_R30_CAPTURE_SCHEMA,
             "contract_blob_sha1": BRIDGE_R30_CONTRACT_BLOB,
             "schema_blob_sha1": BRIDGE_R30_SCHEMA_BLOB,
             "implementation_blob_sha1": BRIDGE_R30_IMPLEMENTATION_BLOB,
-        }
-        for key, value in exact.items():
-            if normalized[key] != value:
-                raise OperatorAuthorityError(f"exact Bridge R30 authority drift: {key}")
+        },
+        "R31": {
+            "producer_sha": BRIDGE_R31_SHA,
+            "ci_run_id": BRIDGE_R31_CI_RUN_ID,
+            "capture_schema_id": BRIDGE_R30_CAPTURE_SCHEMA,
+            "contract_blob_sha1": BRIDGE_R31_AUTHORITY_SCHEMA_BLOB,
+            "schema_blob_sha1": BRIDGE_R31_RESULT_SCHEMA_BLOB,
+            "implementation_blob_sha1": BRIDGE_R31_IMPLEMENTATION_BLOB,
+        },
+    }
+    for key, value in exact_by_round[producer_round].items():
+        if normalized[key] != value:
+            raise OperatorAuthorityError(
+                f"exact Bridge {producer_round} authority drift: {key}"
+            )
     return _clone(normalized)
+
+
+def _native_r31_media_authority(value: Mapping[str, Any]) -> dict[str, Any]:
+    if not isinstance(value, Mapping):
+        raise OperatorAuthorityError("R31 mediaAuthority must be object")
+    required = {
+        "repository", "sha", "ciRunId", "ciConclusion", "branch",
+        "bundleContract", "handoffContract", "evidenceContract",
+        "requiredState", "sourcePins",
+    }
+    if set(value) != required:
+        raise OperatorAuthorityError("R31 mediaAuthority fields invalid")
+    if (
+        value["repository"] != "foto6/video2"
+        or value["sha"] != MEDIA_R21_SHA
+        or value["ciRunId"] != MEDIA_R21_CI_RUN_ID
+        or value["ciConclusion"] != "success"
+        or value["bundleContract"] != "media.review_round_bundle.r21.v1"
+        or value["handoffContract"] != "media.review_round_transport_handoff.r21.v1"
+        or value["evidenceContract"] != "media.review_round_bundle.r21.evidence.v1"
+        or value["requiredState"] != "ROUND_PAIR_PACKAGE_READY"
+    ):
+        raise OperatorAuthorityError("R31 Media R21 authority drift")
+    pins = value["sourcePins"]
+    expected_pins = {
+        "implementationGitBlob": "c6f556b8a177b6182d787356625094cdcad5a58e",
+        "runnerGitBlob": "c93e9a69de31b66189031932ccfa7f2c83cf043c",
+        "contractGitBlob": "65358261775f0fcd2ab9e21f3f621aee977f29da",
+        "schemaGitBlob": "f04925e317d849434852e6b706533f909da47b22",
+        "conformanceManifestGitBlob": "f76033375e7ee03b56491722e2e99e7334bd2cad",
+    }
+    if pins != expected_pins:
+        raise OperatorAuthorityError("R31 Media R21 source blob drift")
+    # The branch field is intentionally not compared; it is never authority.
+    return _clone(value)
+
+
+def _resolve_native_r31_authority(
+    payload: Mapping[str, Any],
+    *,
+    media_package: Mapping[str, Any],
+    capture: Mapping[str, Any],
+    capture_file_sha256: str,
+    live_result: Mapping[str, Any] | None,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    required = {
+        "contract", "state", "generatedAt", "mediaAuthority",
+        "mediaEvidence", "bridgeTransport", "evidenceBoundary",
+        "operatorManifestDigest",
+    }
+    if not isinstance(payload, Mapping) or set(payload) != required:
+        raise OperatorAuthorityError("native Bridge R31 authority profile fields invalid")
+    if (
+        payload["contract"] != BRIDGE_R31_NATIVE_AUTHORITY_CONTRACT
+        or payload["state"] != "SOURCE_READY"
+    ):
+        raise OperatorAuthorityError("native Bridge R31 authority contract/state invalid")
+    media_authority = _native_r31_media_authority(payload["mediaAuthority"])
+    evidence = payload["mediaEvidence"]
+    if not isinstance(evidence, Mapping):
+        raise OperatorAuthorityError("R31 mediaEvidence must be object")
+    for key, expected in (
+        ("packageDigest", media_package["package_digest"]),
+        ("promptDigest", media_package["prompt_digest"]),
+        ("sealedMappingDigest", media_package["sealed_mapping_digest"]),
+        ("mode", media_package["mode"]),
+        ("reviewRound", media_package["review_round"]),
+        ("roundLineageDigest", media_package["round_lineage_digest"]),
+    ):
+        if evidence.get(key) != expected:
+            raise OperatorLineageError(f"R31 authority mediaEvidence drift: {key}")
+    file_hashes = evidence.get("fileHashes")
+    source_authority = media_package["source_authority"]
+    if (
+        isinstance(source_authority, Mapping)
+        and source_authority.get("contract_version") == MEDIA_AUTHORITY_VERSION
+    ):
+        expected_files = {
+            "bundleFileSha256": source_authority["files"]["bundle"]["sha256"],
+            "handoffFileSha256": source_authority["files"]["transport_handoff"]["sha256"],
+            "sealedMappingFileSha256": source_authority["files"]["sealed_mapping"]["sha256"],
+            "promptFileSha256": source_authority["files"]["prompt"]["sha256"],
+            "evidenceFileSha256": source_authority["files"]["evidence"]["sha256"],
+        }
+        if file_hashes != expected_files:
+            raise OperatorLineageError("R31 authority exact Media file hashes drift")
+    attachments = evidence.get("attachments")
+    if not isinstance(attachments, list) or len(attachments) != 2:
+        raise OperatorLineageError("R31 authority A/B attachment evidence missing")
+    expected_attachments = media_package["attachments_by_label"]
+    seen = set()
+    for row in attachments:
+        if not isinstance(row, Mapping):
+            raise OperatorLineageError("R31 authority attachment evidence invalid")
+        label = row.get("blindLabel")
+        expected = expected_attachments.get(label)
+        if expected is None or label in seen:
+            raise OperatorLineageError("R31 authority attachment label drift")
+        seen.add(label)
+        if (
+            row.get("name") != expected["generic_file_name"]
+            or row.get("size") != expected["size"]
+            or row.get("sha256") != expected["sha256"]
+            or row.get("mime") != expected["mime_type"]
+        ):
+            raise OperatorLineageError("R31 authority attachment bytes/MIME drift")
+    if seen != {"A", "B"}:
+        raise OperatorLineageError("R31 authority must bind A and B")
+
+    transport = payload["bridgeTransport"]
+    if not isinstance(transport, Mapping) or set(transport) != {
+        "inheritedR30Contract", "dynamicPackageDigest",
+        "exactCandidateSha", "derivedHandoffSha256",
+    }:
+        raise OperatorAuthorityError("R31 bridgeTransport fields invalid")
+    if (
+        transport["inheritedR30Contract"] != "media.dynamic_review_handoff.v1"
+        or transport["exactCandidateSha"] != BRIDGE_R31_SHA
+    ):
+        raise OperatorAuthorityError("R31 exact producer/transport authority drift")
+    dynamic_package_digest = _sha256(
+        transport["dynamicPackageDigest"], "r31.dynamicPackageDigest"
+    )
+    derived_handoff_sha = _sha256(
+        transport["derivedHandoffSha256"], "r31.derivedHandoffSha256"
+    )
+    if payload["evidenceBoundary"] != {
+        "browserMutationPerformed": False,
+        "promptSent": False,
+        "liveReviewPass": False,
+        "model_evidence": False,
+        "human_ground_truth": False,
+    }:
+        raise OperatorBoundaryError("R31 source authority evidence boundary drift")
+    _sha256(payload["operatorManifestDigest"], "r31.operatorManifestDigest")
+
+    if not isinstance(live_result, Mapping):
+        raise OperatorBoundaryError(
+            "native R31 live ingest requires r31-live-result.json"
+        )
+    if (
+        live_result.get("contract") != BRIDGE_R31_LIVE_RESULT_CONTRACT
+        or live_result.get("state") != "LIVE_REVIEW_PASS"
+    ):
+        raise OperatorBoundaryError("native R31 result is not LIVE_REVIEW_PASS")
+    if (
+        live_result.get("model_evidence") is not True
+        or live_result.get("human_ground_truth") is not False
+        or live_result.get("captureContract") != BRIDGE_DYNAMIC_CAPTURE_CONTRACT
+        or live_result.get("currentLiveBridgeRestarted") is not False
+        or live_result.get("currentLiveBridgeRepointed") is not False
+        or live_result.get("currentLiveBridgeStateWritten") is not False
+    ):
+        raise OperatorBoundaryError("native R31 live-result evidence boundary invalid")
+    if live_result.get("operatorManifestDigest") != payload["operatorManifestDigest"]:
+        raise OperatorLineageError("R31 operator manifest digest drift")
+    _native_r31_media_authority(live_result.get("mediaAuthority"))
+    response_digest = _sha256(
+        live_result.get("responseDigest"), "r31.live_result.responseDigest"
+    )
+    _sha256(live_result.get("captureDigest"), "r31.live_result.captureDigest")
+    _sha256(
+        live_result.get("responseFileSha256"),
+        "r31.live_result.responseFileSha256",
+    )
+    request_id = _nonempty(live_result.get("requestId"), "r31.live_result.requestId")
+    operation_id = _nonempty(
+        live_result.get("operationId"), "r31.live_result.operationId"
+    )
+    conversation = live_result.get("conversation")
+    if not isinstance(conversation, Mapping):
+        raise OperatorLineageError("R31 live-result conversation binding missing")
+    conversation_id = _nonempty(
+        conversation.get("conversationId") or conversation.get("id"),
+        "r31.live_result.conversationId",
+    )
+
+    dynamic = capture.get("dynamicPackage")
+    if not isinstance(dynamic, Mapping):
+        raise OperatorLineageError("R31 capture dynamicPackage binding missing")
+    if dynamic.get("packageDigest") != dynamic_package_digest:
+        raise OperatorLineageError("R31 dynamic package digest drift")
+    if dynamic.get("handoffSha256") != derived_handoff_sha:
+        raise OperatorLineageError("R31 derived handoff SHA drift")
+    if dynamic.get("sealedMappingDigestRef") != media_package["sealed_mapping_digest"]:
+        raise OperatorLineageError("R31 sealed mapping reference drift")
+
+    profile = {
+        "contract_version": BRIDGE_AUTHORITY_VERSION,
+        "producer_round": "R31",
+        "repository": "foto6/WebAIBridge",
+        "producer_sha": BRIDGE_R31_SHA,
+        "ci_run_id": BRIDGE_R31_CI_RUN_ID,
+        "capture_contract": BRIDGE_DYNAMIC_CAPTURE_CONTRACT,
+        "capture_schema_id": BRIDGE_R30_CAPTURE_SCHEMA,
+        "contract_blob_sha1": BRIDGE_R31_AUTHORITY_SCHEMA_BLOB,
+        "schema_blob_sha1": BRIDGE_R31_RESULT_SCHEMA_BLOB,
+        "implementation_blob_sha1": BRIDGE_R31_IMPLEMENTATION_BLOB,
+        "capture_file_sha256": _sha256(
+            capture_file_sha256, "r31.capture_file_sha256"
+        ),
+        "binding": {
+            "request_id": request_id,
+            "operation_id": operation_id,
+            "conversation_id": conversation_id,
+            "prompt_digest": media_package["prompt_digest"],
+            "media_package_digest": media_package["package_digest"],
+            "sealed_mapping_digest": media_package["sealed_mapping_digest"],
+            "bridge_package_digest": dynamic_package_digest,
+            "handoff_sha256": derived_handoff_sha,
+            "source_binding_fingerprint": _sha256(
+                dynamic.get("sourceBindingFingerprint"),
+                "r31.sourceBindingFingerprint",
+            ),
+            "assistant_response_digest": response_digest,
+        },
+    }
+    source = {
+        "contract": BRIDGE_R31_NATIVE_AUTHORITY_CONTRACT,
+        "repository": "foto6/WebAIBridge",
+        "producer_sha": BRIDGE_R31_SHA,
+        "ci_run_id": BRIDGE_R31_CI_RUN_ID,
+        "source_blobs": {
+            "authority_schema_blob_sha1": BRIDGE_R31_AUTHORITY_SCHEMA_BLOB,
+            "manifest_schema_blob_sha1": BRIDGE_R31_MANIFEST_SCHEMA_BLOB,
+            "result_schema_blob_sha1": BRIDGE_R31_RESULT_SCHEMA_BLOB,
+            "implementation_blob_sha1": BRIDGE_R31_IMPLEMENTATION_BLOB,
+            "finalizer_blob_sha1": BRIDGE_R31_FINALIZER_BLOB,
+        },
+        "authority_profile_digest": sha256_json(payload),
+        "live_result_digest": sha256_json(live_result),
+        "media_authority": media_authority,
+        "bridge_transport": _clone(transport),
+    }
+    return _clone(profile), _clone(source)
+
+
+def _resolve_bridge_authority(
+    payload: Mapping[str, Any],
+    *,
+    media_package: Mapping[str, Any],
+    capture: Mapping[str, Any],
+    capture_file_sha256: str,
+    live_result: Mapping[str, Any] | None = None,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    if isinstance(payload, Mapping) and payload.get("contract") == BRIDGE_R31_NATIVE_AUTHORITY_CONTRACT:
+        return _resolve_native_r31_authority(
+            payload,
+            media_package=media_package,
+            capture=capture,
+            capture_file_sha256=capture_file_sha256,
+            live_result=live_result,
+        )
+    profile = parse_bridge_authority(payload)
+    if profile["capture_file_sha256"] != capture_file_sha256:
+        raise OperatorLineageError("Bridge capture file bytes drift")
+    return profile, _clone(profile)
 
 
 def _read_bound_json(root: Path, row: Mapping[str, Any], field: str) -> dict[str, Any]:
