@@ -1,0 +1,122 @@
+{
+  "contract_version": "growth.multiround_session_authorities.r28.v1",
+  "growth_r27": {
+    "repository": "foto6/video3",
+    "producer_sha": "d80592ad660b7b73ad13298880918a5944411c38",
+    "ci_run_id": 37002456031,
+    "operator_contract": "growth.live_ingest_operator.r27.v1",
+    "blobs": {
+      "implementation": "125dba66b592ca12934c045c78539cf082a1de07",
+      "authority_profile": "256e8fcf228025a2cc09a3173dd82998fd1658d9",
+      "contract": "040097c5aae0b288de39e35f76eb1816e246568c",
+      "index_schema": "23e7f90b4704fe173bd8842c04f00b1eeb15e5d6",
+      "tests": "018ea2c487689d8ee4f5ca3ce78040496d74dc13"
+    }
+  },
+  "media_r22": {
+    "repository": "foto6/video2",
+    "producer_sha": "e82a7ac04f3758d0e3e21ea3d05265dbc2822132",
+    "ci_run_id": 37001071721,
+    "contract": "media.live_review_artifact.r22.v1",
+    "operator_manifest_contract": "media.live_review_operator_manifest.r22.v1",
+    "package_manifest_contract": "media.live_review_package_manifest.r22.v1",
+    "authority_profile_contract": "media.live_review_authority_profile.r22.v1",
+    "artifact": {
+      "id": 11224061610,
+      "name": "media-r22-live-review-operator-bundle",
+      "digest": "sha256:d534f1656e22b72cf42531c827e66516965b4167549906521dee04edafd01734"
+    },
+    "blobs": {
+      "contract": "d6e494950b5ab54383733db69912c2384cce188f",
+      "manifest": "be117e83a44720e8e12284991b755c69c8ea0cde",
+      "implementation": "31845333a6919364d81a7c2bc52aad1cb3ae82ed",
+      "materializer": "ade9e7181ecccf8e78e7dd966240618c872c9b26",
+      "verifier": "86b0a53eed6959af805fd0c492620eb037071e25",
+      "extractor": "dc45ee753480fc62249bd69ca209b994d680d08a",
+      "upstream_verifier": "4284d3705f8a8fa2543d15d1f17765edc406d857",
+      "operator_manifest_schema": "7e78d7be9fffbbda6ee86cf39c4db8e59a635a3d"
+    },
+    "known_packages": {
+      "round_0": {
+        "review_round": 0,
+        "mode": "initial",
+        "operator_manifest_sha256": "cd2d106291001e4b650d6c67f3dae0c50ed7b8a9c30b463e1c91e503f32fffae",
+        "archive_sha256": "5a6f9749599fc60c39da0b7df3035c90ca12f0a89776735752692a7c9275b052",
+        "archive_size": 1612800,
+        "authority_profile_sha256": "a42a73192856ddb3a27fe6a1732dd4346232d162d3b2696d9e96fdb971534e18",
+        "package_manifest_sha256": "d6648e54e2a33630d6ae9d9246498561a826e088d546bcc8cb8e84e8795d6823",
+        "r21_package_digest": "b2de4082a2f466a945319f284f898675f1d9ee3d8565f4ae4305a556cfa00940",
+        "sealed_mapping_digest": "a7d03a3eb6bc44c021069c4b3603ebb09c3a120161d97124bc2da0516ea7837b",
+        "prompt_digest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2"
+      },
+      "round_1": {
+        "review_round": 1,
+        "mode": "targeted_reedit",
+        "operator_manifest_sha256": "0c8583287adfc38a21579a9fb9eb7b86111c36e08390796932203b1c7ab87d13",
+        "archive_sha256": "aa2ac8c6c3cd51be32bfccf7f77091f078320fd4c5fb213a7dbf3de9f2fcae99",
+        "archive_size": 1565184,
+        "authority_profile_sha256": "a42a73192856ddb3a27fe6a1732dd4346232d162d3b2696d9e96fdb971534e18",
+        "package_manifest_sha256": "aa58505caf43394618621d92327df0d0f927ad1647417297ae97e9bd41ca1b45",
+        "r21_package_digest": "521bf3c0474845895a76f4cbd26abf876d978ca2e39fe3c127d6918043438546",
+        "sealed_mapping_digest": "9edb9f556c07564af3d335e7bba54c8b26347b0e08289bc6f8d0262930388be7",
+        "prompt_digest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2"
+      }
+    }
+  },
+  "media_r23": {
+    "repository": "foto6/video2",
+    "branch_observed": "agent/media-r23-next-round-export-20261002",
+    "observed_sha": "e82a7ac04f3758d0e3e21ea3d05265dbc2822132",
+    "distinct_exact_green_authority_available": false,
+    "policy": "Round-2 live ingest accepts an exact R22-materializer package from the frozen Media R22 producer. A future distinct Media R23 producer must be explicitly frozen here before acceptance."
+  },
+  "bridge_r31": {
+    "repository": "foto6/WebAIBridge",
+    "producer_sha": "104281e49122233f251c692abba726ae31cee0d5",
+    "ci_run_id": 36999908386,
+    "result_contract": "bridge.r31_live_dynamic_operator_result.v1",
+    "capture_contract": "bridge.dynamic_existing_chat_video_review_capture.v1",
+    "blobs": {
+      "manifest_schema": "f90cd2aa4bdc868af845bfba58c612ebef3f32ad",
+      "authority_profile_schema": "25e2cbfe487ba88f70d233774e585691ad4f70c6",
+      "result_schema": "55f403a2c0dca4a05a5002e104cfc29d20b536b5",
+      "preflight_schema": "74b4579b4d9d3d08da04b1181863905f024f367a",
+      "media_operator": "38509af174fc25aa4229c084fc3cd9b2e35b539e",
+      "preflight_implementation": "c975d934d080deffdcf2a9ac4cf82ca142ba93d3",
+      "finalizer_implementation": "a18a10e681efb249275816ab43ceb55e4acc6643",
+      "powershell_operator": "1fd850863fb1e1c31894ccc54f5fcbc296122419",
+      "readiness_implementation": "f248f94843c5d94737947929aaece33129e1b98a"
+    }
+  },
+  "creator_r29": {
+    "repository": "foto6/video1",
+    "producer_sha": "4a58561b07d615c141fa609d212070c894bfd0cb",
+    "ci_run_id": 37002020115,
+    "authority_contract": "creator.exact_dynamic_e2e_authorities.r29.v1",
+    "input_contract": "growth.dynamic_creator_external_review_envelope.r26.v1",
+    "next_review_contract": "media.review_round_bundle.r21.v1",
+    "max_reedit_rounds": 2,
+    "terminal_publishable": ["winner"],
+    "non_publishable": ["tie", "insufficient_evidence", "human_review", "reedit_limit_reached"],
+    "blobs": {
+      "authority_profile": "d3ae632828bf88dfa2a410a433513870c4c11571",
+      "manifest": "0e0d45cc2944608b84f3d4922f13eee8252e95a8",
+      "implementation": "ac1a5bebbdb1c9905339dcb33ad655d8ace87cb3",
+      "workflow": "03195a3417611d7139b0c7898e181d5e14fdc9f5"
+    },
+    "source_ready_artifact": {
+      "id": 11223443861,
+      "digest": "sha256:505732732fac756bea3f71eacdcb416779e6ad9fd6fd291d9587f470589af4a9"
+    },
+    "creator_r30_branch_same_exact_head": true
+  },
+  "evidence_boundary": {
+    "fixtures_live": false,
+    "human_ground_truth": false,
+    "human_rating_evidence": false,
+    "human_parity_inferred": false,
+    "browser_mutation": false,
+    "provider_mutation": false,
+    "merge": false
+  }
+}
