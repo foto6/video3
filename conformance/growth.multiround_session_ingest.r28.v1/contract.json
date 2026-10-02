@@ -1,0 +1,80 @@
+{
+  "contract_version": "growth.multiround_session_ingest.r28.v1",
+  "session_contract": "growth.multiround_review_session.r28.v1",
+  "round_result_contract": "growth.multiround_review_round_result.r28.v1",
+  "selected_result_contract": "growth.creator_r30_selected_review_result.r28.v1",
+  "authority_contract": "growth.multiround_session_authorities.r28.v1",
+  "starting_growth_r27": {
+    "producer_sha": "d80592ad660b7b73ad13298880918a5944411c38",
+    "ci_run_id": 37002456031
+  },
+  "exact_authorities": {
+    "media_r22": {
+      "producer_sha": "e82a7ac04f3758d0e3e21ea3d05265dbc2822132",
+      "ci_run_id": 37001071721,
+      "artifact_id": 11224061610,
+      "artifact_digest": "sha256:d534f1656e22b72cf42531c827e66516965b4167549906521dee04edafd01734"
+    },
+    "bridge_r31": {
+      "producer_sha": "104281e49122233f251c692abba726ae31cee0d5",
+      "ci_run_id": 36999908386
+    },
+    "creator_r29": {
+      "producer_sha": "4a58561b07d615c141fa609d212070c894bfd0cb",
+      "ci_run_id": 37002020115,
+      "creator_r30_branch_same_exact_head": true
+    }
+  },
+  "session_identity": [
+    "source_id",
+    "source_sha256",
+    "source_size",
+    "brief_lineage_digest",
+    "dedicated_review_conversation_id",
+    "authority_profile_digest"
+  ],
+  "round_sequence": [0, 1, 2],
+  "fourth_review_allowed": false,
+  "validation_order": [
+    "exact R28/R27/Media R22/Bridge R31/Creator R29 authority",
+    "Media R22 operator manifest and deterministic archive identity",
+    "every payload SHA/size plus package file-set digest",
+    "embedded exact Media R21 bundle/handoff/evidence/prompt/sealed mapping",
+    "reconstructed Bridge R31-derived R30 package digest/handoff/source-binding fingerprint",
+    "genuine Bridge R31 terminal result and sibling R30 capture/assistant bytes",
+    "conversation/request/operation identity and exact review round",
+    "strict model JSON and pairwise verdict",
+    "sealed mapping unblinding only after all prior checks",
+    "Creator envelope and selected-result emission"
+  ],
+  "replay": {
+    "exact_replay": "no-op",
+    "same_round_changed_capture_response_package_mapping": "conflict",
+    "same_request_changed_bytes": "conflict"
+  },
+  "terminal_policy": {
+    "winner": "may close session when explicitly marked terminal",
+    "tie": "nonterminal_nonpublishable",
+    "insufficient_evidence": "nonterminal_nonpublishable",
+    "human_review": "nonterminal_nonpublishable",
+    "reedit_limit_reached": "nonpublishable_no_fourth_review"
+  },
+  "capture_failure_policy": {
+    "MALFORMED_MODEL_RESPONSE": "no_creator_executable_handoff",
+    "RECONCILIATION_REQUIRED": "no_creator_executable_handoff"
+  },
+  "media_r23_boundary": {
+    "distinct_exact_green_authority_available": false,
+    "round_2_current_acceptance": "exact Media R22 materializer output only",
+    "future_r23": "must be explicitly frozen before acceptance"
+  },
+  "evidence_boundary": {
+    "fixtures_live": false,
+    "human_ground_truth": false,
+    "human_rating_evidence": false,
+    "human_parity_inferred": false,
+    "browser_mutation": false,
+    "provider_mutation": false,
+    "merge": false
+  }
+}
