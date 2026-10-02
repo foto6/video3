@@ -1507,10 +1507,11 @@ def _raw_replay_identity(
     media_authority: Mapping[str, Any],
     capture_path: Path,
     bridge_authority: Mapping[str, Any],
+    bridge_live_result_path: Path | None = None,
 ) -> tuple[str, str, str]:
-    media_profile = parse_media_authority(media_authority)
-    bridge_profile = parse_bridge_authority(bridge_authority)
     package_root = Path(package_dir).resolve()
+    if not package_root.is_dir():
+        raise OperatorLineageError("Media package directory missing")
     capture_path = Path(capture_path)
     capture = json.loads(capture_path.read_text(encoding="utf-8"))
     capture_id = _nonempty(
@@ -1521,17 +1522,27 @@ def _raw_replay_identity(
         capture.get("conversationId"), "capture.conversationId"
     )
     request_id = _nonempty(capture.get("requestId"), "capture.requestId")
-    raw_files = {}
-    for key, row in sorted(media_profile["files"].items()):
-        file_path = _safe_relative_file(
-            package_root, row["name"], f"media.files.{key}.name"
-        )
-        raw_files[key] = _file_sha256(file_path)
-    for row in media_profile["attachments"]:
-        file_path = _safe_relative_file(
-            package_root, row["path"], f"media.attachment.{row['blind_label']}.path"
-        )
-        raw_files["attachment_" + row["blind_label"]] = _file_sha256(file_path)
+    raw_files: dict[str, dict[str, Any]] = {}
+    for file_path in sorted(
+        (path for path in package_root.rglob("*") if path.is_file()),
+        key=lambda path: path.relative_to(package_root).as_posix(),
+    ):
+        relative = file_path.relative_to(package_root).as_posix()
+        raw_files[relative] = {
+            "sha256": _file_sha256(file_path),
+            "size": file_path.stat().st_size,
+        }
+    if not raw_files:
+        raise OperatorLineageError("Media package directory contains no files")
+    live_result_identity = None
+    if bridge_live_result_path is not None:
+        result_path = Path(bridge_live_result_path)
+        if not result_path.is_file():
+            raise OperatorLineageError("Bridge live-result file missing")
+        live_result_identity = {
+            "sha256": _file_sha256(result_path),
+            "size": result_path.stat().st_size,
+        }
     fingerprint = sha256_json(
         {
             "capture_id": capture_id,
@@ -1539,8 +1550,9 @@ def _raw_replay_identity(
             "request_id": request_id,
             "capture_file_sha256": _file_sha256(capture_path),
             "capture_response_digest_field": capture.get("responseDigest"),
-            "media_authority_digest": sha256_json(media_profile),
-            "bridge_authority_digest": sha256_json(bridge_profile),
+            "media_authority_digest": sha256_json(media_authority),
+            "bridge_authority_digest": sha256_json(bridge_authority),
+            "bridge_live_result": live_result_identity,
             "raw_package_files": raw_files,
         }
     )
