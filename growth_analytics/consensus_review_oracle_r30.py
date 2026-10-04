@@ -783,6 +783,24 @@ def _critical_r29_result(
         "contract_version"
     ) != R29_ROUND_RESULT_VERSION:
         raise ReviewConflict("exact R29 round-result contract required")
+    digest = _sha(result.get("round_result_digest"), "r29.round_result_digest")
+    material = copy.deepcopy(dict(result))
+    material["round_result_digest"] = ""
+    if sha256_json(material) != digest:
+        raise ReviewConflict("R29 round-result semantic digest drift")
+    if result.get("growth_r29") != {
+        "repository": "foto6/video3",
+        "producer_sha": R29_SHA,
+        "ci_run_id": R29_CI,
+        "authority_profile_digest": result.get("growth_r29", {}).get(
+            "authority_profile_digest"
+        ),
+    }:
+        raise AuthorityDrift("R29 round-result producer authority drift")
+    _sha(
+        result["growth_r29"]["authority_profile_digest"],
+        "r29.growth_r29.authority_profile_digest",
+    )
     critical = {
         "session_id": result.get("session_id"),
         "media_session_id": result.get("media_session_id"),
