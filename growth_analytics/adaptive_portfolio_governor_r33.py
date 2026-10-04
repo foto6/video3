@@ -935,7 +935,10 @@ def _portfolio_stratum_distribution(
 def _tv(a: Mapping[str, float], b: Mapping[str, float]) -> float:
     keys = set(a) | set(b)
     return round(
-        0.5 * sum(abs(float(a.get(key, 0.0)) - float(b.get(key, 0.0)) for key in keys),
+        0.5 * sum(
+            abs(float(a.get(key, 0.0)) - float(b.get(key, 0.0)))
+            for key in keys
+        ),
         8,
     )
 
