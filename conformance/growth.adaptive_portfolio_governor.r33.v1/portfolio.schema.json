@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.adaptive_portfolio.r33.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version","portfolio_id","portfolio_digest","created_at","registry_frozen_at",
+    "policy_version","policy_digest","registry","family_error_accounting"
+  ],
+  "properties": {
+    "contract_version": {"const":"growth.adaptive_portfolio.r33.v1"},
+    "portfolio_id": {"type":"string","minLength":1},
+    "portfolio_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "created_at": {"type":"string"},
+    "registry_frozen_at": {"type":"string"},
+    "policy_version": {"const":1},
+    "policy_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "registry": {"type":"array","minItems":1,"maxItems":4},
+    "family_error_accounting": {"type":"object"}
+  }
+}
