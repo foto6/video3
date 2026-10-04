@@ -35,7 +35,8 @@ jobs:
           python -m unittest discover -s tests -p "test_live_ingest_operator_r27.py" -v
           python -m unittest discover -s tests -p "test_multiround_session_ingest_r28.py" -v
           python -m unittest discover -s tests -p "test_exact_session_ingest_r29.py" -v
-          python -m unittest discover -s tests -p "test_consensus_review_oracle_r30.py" -v
+      - name: Focused R30 consensus compatibility tests
+        run: python -m unittest discover -s tests -p "test_consensus_review_oracle_r30.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -576,8 +577,39 @@ jobs:
           MEDIA="$RUNNER_TEMP/r30-media-r24/unpacked/round-0"
           REVIEWS="fixtures/consensus_review_r30/accepted"
           OUT="$RUNNER_TEMP/growth-r30-consensus-review-oracle"
+          UMBRELLA="conformance/growth.consensus_review.r30.v1/contract.json"
           rm -rf "$OUT"
           mkdir -p "$OUT"
+          python - "$UMBRELLA" "$OUT/external-contract-validation.json" <<'PY'
+          import json,sys
+          from pathlib import Path
+          from growth_analytics import consensus_review_oracle_r30 as r30
+          source=Path(sys.argv[1])
+          out=Path(sys.argv[2])
+          value=json.loads(source.read_text(encoding="utf-8"))
+          parsed=r30.validate_external_contract(value)
+          report={
+            "contract_version": parsed["contract_version"],
+            "external_contract_digest": r30.external_contract_digest(parsed),
+            "internal_oracle_contract_version": parsed["internal_oracle"]["contract_version"],
+            "aggregation_policy_semantic_digest": parsed["internal_oracle"]["aggregation_policy"]["semantic_digest"],
+            "review_schema_id": parsed["internal_oracle"]["verified_review_schema"]["schema_id"],
+            "review_schema_sha256": parsed["internal_oracle"]["verified_review_schema"]["file_sha256"],
+            "consensus_schema_id": parsed["internal_oracle"]["consensus_schema"]["schema_id"],
+            "consensus_schema_sha256": parsed["internal_oracle"]["consensus_schema"]["file_sha256"],
+            "growth_r29_sha": parsed["accepted_authorities"]["growth_r29"]["producer_sha"],
+            "media_r24_sha": parsed["accepted_authorities"]["media_r24"]["producer_sha"],
+            "bridge_r34_sha": parsed["accepted_authorities"]["bridge_r34"]["producer_sha"],
+            "reviewer_count": parsed["independence_rules"]["reviewer_count"],
+            "model_consensus_is_human_ground_truth": parsed["evidence_boundary"]["model_consensus_is_human_ground_truth"],
+          }
+          assert report["contract_version"] == "growth.consensus_review.r30.v1", report
+          assert report["internal_oracle_contract_version"] == "growth.consensus_review_oracle.r30.v1", report
+          assert report["reviewer_count"] == 3, report
+          assert report["model_consensus_is_human_ground_truth"] is False, report
+          out.write_text(json.dumps(report,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          print(json.dumps(report,sort_keys=True))
+          PY
           python -m growth_analytics.consensus_review_oracle_r30 consensus \
             --media-dir "$MEDIA" \
             --reviews-dir "$REVIEWS" \
