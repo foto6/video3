@@ -9,7 +9,7 @@
     "artifact_digest": "sha256:40fb5e5c7ab7ccf7a02514f9b5a40eb8fc3207373c63391a17606fb12a6d0e55",
     "round_result_contract": "growth.exact_session_round_result.r29.v1",
     "round_result_file": "payload/r29-result-b.json",
-    "round_result_file_sha256": "ad0cb1c488e0b36fb8d37f04f8e1baa7aa49b52e4bfa2ab2774ed3f4c252674f",
+    "round_result_file_sha256": "13afd684c9430d86acf60ee63a88a35c5266fdf643e5ce2feeb8cde7f090f844",
     "session_id": "fixture-r30-consensus-session"
   },
   "media_r24": {
@@ -39,7 +39,8 @@
         "size": 795358,
         "mime": "video/mp4"
       }
-    ]
+    ],
+    "r29_package_digest": "6a7b79f617de400a4a086e64a0cae9feceafa51a9a324074e85fb07ebf58dfc9"
   },
   "bridge_r34": {
     "producer_sha": "4e2a37545cc0cdd940cf6e86d40e0d620d6c94ae",
@@ -68,13 +69,13 @@
   "inner_envelopes": {
     "A": {
       "relative_path": "payload/envelope-b-a.json",
-      "sha256": "c58329b6c08389c0c271c8e006e5a9f7df24f8a9a7e527b8d0222f2214809d41",
-      "envelope_digest": "98fe242c161b9cd0ce6540c26cf00297addb16bc8a6e128ea61bb764ccbce720"
+      "sha256": "551b34e9c3a9280c004432cfb3246879f767a0aca9656237ef463de7fb8c69d6",
+      "envelope_digest": "44f9fa43b88b5766db6a04ce4b9127011cccbc0fbddfde5b18e3668809eeb54f"
     },
     "B": {
       "relative_path": "payload/envelope-b-b.json",
-      "sha256": "687295a08d0af36f9f39eca8a34db8b7ca8c883d3b4912e1440596466450fb32",
-      "envelope_digest": "9e580ac3faee8d76590b789e46d94c62ea8e1c801d40cfdb4dfabcb7da32230b"
+      "sha256": "67668773e4b0c81ce6ed1c4dc484f529290a72cb58997ac8354aacf232126cb2",
+      "envelope_digest": "177f77e6909240897503233911a4de702db011b25d73c0d9be2ef9050a41af0f"
     }
   },
   "evidence_boundary": {
