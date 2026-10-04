@@ -39,6 +39,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_consensus_review_oracle_r30.py" -v
       - name: Focused R31 postpublish learning policy tests
         run: python -m unittest discover -s tests -p "test_postpublish_learning_policy_r31.py" -v
+      - name: Focused R32 sequential experiment policy tests
+        run: python -m unittest discover -s tests -p "test_sequential_experiment_policy_r32.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -777,6 +779,74 @@ jobs:
         with:
           name: growth-r31-postpublish-learning-policy
           path: ${{ runner.temp }}/growth-r31-postpublish-learning-policy
+          if-no-files-found: error
+          retention-days: 90
+      - name: Produce R32 sequential experiment simulation evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/growth-r32-sequential-experiment-policy"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          python -m growth_analytics.sequential_experiment_policy_r32 rehearse-fixtures \
+            --authority conformance/growth.sequential_experiment_policy.r32.v1/authority.json \
+            --policy conformance/growth.sequential_experiment_policy.r32.v1/policy.json \
+            --out-dir "$OUT" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          python - "$OUT/simulation-report.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert p["status"] == "SOURCE_READY_WAITING_PARENT_QA", p
+          assert p["parent_qa_state"] == "WAITING_QA_R3", p
+          assert p["authoritative_integration"] is False, p
+          accepted=p["accepted_cases"]
+          assert accepted["true_positive_uplift"]["recommendation"] == "PROMOTE_CANDIDATE", p
+          assert accepted["null_effect"]["recommendation"] == "KEEP", p
+          assert accepted["early_noisy_uplift"]["recommendation"] == "TEST_MORE", p
+          assert accepted["early_uplift_reverses"]["recommendation"] == "ROLLBACK_RECOMMENDED", p
+          assert accepted["observational_confounding"]["recommendation"] == "TEST_MORE", p
+          assert accepted["observational_confounding"]["causal_claim_allowed"] is False, p
+          assert accepted["multiple_candidates_correction"]["recommendation"] == "KEEP", p
+          required={
+            "sample_ratio_mismatch",
+            "missing_metrics",
+            "drift_after_half_horizon",
+            "exposure_leakage",
+            "undeclared_extra_look",
+            "repeated_peeking",
+            "schema_drift",
+            "metric_switch_mid_test",
+            "tiny_sample",
+            "duplicate_event_identity",
+          }
+          assert required <= set(p["rejected_cases"]), p
+          for name in required:
+            assert p["rejected_cases"][name]["state"] == "REJECTED", (name,p)
+          aph=p["anti_p_hacking"]
+          assert aph["reordered_data_same_decision"] is True, p
+          assert aph["additional_look_outside_policy_rejected"] is True, p
+          assert aph["repeated_peeking_rejected"] is True, p
+          assert aph["metric_switch_mid_test_rejected"] is True, p
+          boundary=p["evidence_boundaries"]
+          assert boundary["observational_is_causal"] is False, p
+          assert boundary["randomized_and_observational_merged"] is False, p
+          assert boundary["model_review_is_human_ground_truth"] is False, p
+          assert boundary["human_ground_truth"] is False, p
+          assert boundary["creator_mutation"] is False, p
+          assert boundary["provider_publish"] is False, p
+          print(json.dumps({
+            "report_digest":p["report_digest"],
+            "accepted":{k:v["recommendation"] for k,v in accepted.items()},
+            "rejected":sorted(p["rejected_cases"]),
+            "anti_p_hacking":aph,
+          },sort_keys=True))
+          PY
+      - name: Upload R32 sequential experiment policy artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r32-sequential-experiment-policy
+          path: ${{ runner.temp }}/growth-r32-sequential-experiment-policy
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
