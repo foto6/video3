@@ -1225,6 +1225,14 @@ def aggregate_reviews(
         selected_inner = canonical["inner_envelopes"][winner]
         selected_from_conversation = canonical["conversation_id"]
 
+    audit_reference_winner = winner
+    if (
+        audit_reference_winner is None
+        and disagreement["modal_vote"] in {"A", "B"}
+        and disagreement["modal_vote_count"] >= 2
+    ):
+        audit_reference_winner = disagreement["modal_vote"]
+
     audit = {
         "canonical_reviewer_order": conversations,
         "reviews": [
@@ -1238,9 +1246,9 @@ def aggregate_reviews(
                 "malformed_reason": row["malformed_reason"],
                 "vote": row["vote"],
                 "dissent": bool(
-                    winner is not None
+                    audit_reference_winner is not None
                     and row["vote"] is not None
-                    and row["vote"]["winner"] != winner
+                    and row["vote"]["winner"] != audit_reference_winner
                 ),
             }
             for row in ordered
@@ -1253,9 +1261,9 @@ def aggregate_reviews(
         "dissenting_reviews": [
             row["conversation_id"]
             for row in ordered
-            if winner is not None
+            if audit_reference_winner is not None
             and row["vote"] is not None
-            and row["vote"]["winner"] != winner
+            and row["vote"]["winner"] != audit_reference_winner
         ],
     }
     result = {
