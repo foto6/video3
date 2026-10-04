@@ -402,7 +402,7 @@ class GrowthR31PostPublishLearningTests(unittest.TestCase):
             "topic_distribution": {"topic-old": 1.0},
             "source_distribution": {"a" * 64: 1.0},
             "schema_versions": [
-                "instagram_reels:instagram-insights-v26.0"
+                "tiktok:tiktok-video-query-v2"
             ],
             "as_of": "2026-08-01T00:00:00Z",
         }
@@ -415,6 +415,9 @@ class GrowthR31PostPublishLearningTests(unittest.TestCase):
                 as_of="2026-10-04T00:00:00Z",
             )
         baseline["platform_distribution"] = {"instagram_reels": 1.0}
+        baseline["schema_versions"] = [
+            "instagram_reels:instagram-insights-v26.0"
+        ]
         drift = r31.detect_drift(
             current,
             baseline=baseline,
