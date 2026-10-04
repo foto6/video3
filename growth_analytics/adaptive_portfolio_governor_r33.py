@@ -1409,9 +1409,12 @@ def _make_r32_evidence(
     )
     rows = []
     values_by_arm = {"control": list(control_values), "candidate": list(candidate_values)}
+    if len(values_by_arm["control"]) != len(values_by_arm["candidate"]):
+        raise R33Error("fixture arms must have equal exposure counts")
     index = 0
-    for candidate_id in ("control", "candidate"):
-        for arm_index, primary in enumerate(values_by_arm[candidate_id]):
+    for arm_index in range(len(values_by_arm["control"])):
+        for candidate_id in ("control", "candidate"):
+            primary = values_by_arm[candidate_id][arm_index]
             exposure = datetime(2026, 9, 1, tzinfo=timezone.utc) + timedelta(
                 minutes=index
             )
@@ -1814,7 +1817,10 @@ def build_rehearsal(
     n=80
     control=[0.50]*40+[0.20]*40
     candidate=[0.40]*40+[0.60]*40
-    platforms={i:("instagram_reels" if (i % 80)<40 else "tiktok") for i in range(160)}
+    platforms={
+        i: ("instagram_reels" if (i // 2) < 40 else "tiktok")
+        for i in range(160)
+    }
     e8=_make_r32_evidence(
         label="simpson",mode="randomized_controlled",window_seconds=3600,
         control_values=control,candidate_values=candidate,platform_by_index=platforms,
@@ -1859,7 +1865,16 @@ def build_rehearsal(
     # 11 duplicate exposures between campaigns.
     bad_b=copy.deepcopy(b9)
     bad_b[1]["early"]["events"][0]["exposure_id"]=bad_b[0]["early"]["events"][0]["exposure_id"]
-    bad_b[1]["early"]["events"][0]["event_digest"]=r32._event_digest(bad_b[1]["early"]["events"][0])
+    changed_event=bad_b[1]["early"]["events"][0]
+    randomized=changed_event["randomized"]
+    randomized["assignment_digest"]=sha256_json({
+        "campaign_id": bad_b[1]["early"]["campaign"]["campaign_id"],
+        "assignment_id": randomized["assignment_id"],
+        "exposure_id": changed_event["exposure_id"],
+        "seed": randomized["randomization_seed"],
+        "candidate_id": changed_event["candidate_id"],
+    })
+    changed_event["event_digest"]=r32._event_digest(changed_event)
     # decision recomputation must match changed event; update exact decision and lineage.
     ev=bad_b[1]["early"]
     ev["decision"]=r32.evaluate(campaign=ev["campaign"],raw_events=ev["events"],
