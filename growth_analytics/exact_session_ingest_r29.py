@@ -239,6 +239,10 @@ def validate_authority_profile(value: Mapping[str, Any]) -> dict[str, Any]:
         or bridge.get("result_contract")
         != "bridge.r32_multiround_live_review_session_result.v1"
         or bridge.get("ci_live_session_evidence") is not False
+        or bridge.get("fixture_evidence_sha256")
+        != "c822e31f1091d48c32298534ff651ab8c4a3ad47158ee8e06dbad236cf333a2e"
+        or bridge.get("readiness_evidence_sha256")
+        != "12314e5af85e76616e9e140b36928b7054ec5540fe5cf7727e2d2ee545600789"
     ):
         raise AuthorityDrift("exact Bridge R32 authority drift")
     expected_bridge_blobs = {
@@ -1303,6 +1307,8 @@ def fixture_readiness(
     growth_ci_run_id: int,
 ) -> dict[str, Any]:
     profile = validate_authority_profile(authority_profile)
+    if _file_sha(fixture_path) != profile["bridge_r32"]["fixture_evidence_sha256"]:
+        raise AuthorityDrift("Bridge R32 fixture evidence byte digest drift")
     fixture = validate_r32_fixture_evidence(_load(fixture_path))
     report = {
         "report_version": REPORT_VERSION,
