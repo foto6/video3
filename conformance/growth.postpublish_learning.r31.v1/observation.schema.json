@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.postpublish_observation.r31.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "observation_id",
+    "publish_result",
+    "metric_snapshot",
+    "prior_metric_snapshot",
+    "lineage",
+    "strategy",
+    "metric_definition",
+    "topic_source",
+    "window_class",
+    "fixture"
+  ],
+  "properties": {
+    "contract_version": {"const": "growth.postpublish_observation.r31.v1"},
+    "observation_id": {"type": "string", "minLength": 1},
+    "publish_result": {"type": "object"},
+    "metric_snapshot": {"type": "object"},
+    "prior_metric_snapshot": {"type": ["object", "null"]},
+    "lineage": {"type": "object"},
+    "strategy": {"type": "object"},
+    "metric_definition": {"type": "object"},
+    "topic_source": {"type": "object"},
+    "window_class": {"enum": ["early", "mature"]},
+    "fixture": {"type": "boolean"}
+  }
+}
