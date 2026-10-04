@@ -1,0 +1,160 @@
+{
+  "contract_version": "growth.exact_session_authorities.r29.v1",
+  "growth_r28": {
+    "repository": "foto6/video3",
+    "producer_sha": "629a2b9ddf59b84eee4e87b257c161dad42831dc",
+    "ci_run_id": 37006476121,
+    "session_contract": "growth.multiround_session_ingest.r28.v1",
+    "blobs": {
+      "implementation": "8d75e086c5db161124d487a885b95999081e2521",
+      "authority_profile": "5799d71528ec4e94f922b43cfb2db70b54e00206",
+      "contract": "d7ec52f25fa1ff12e633f2ac3ba042265f93fe51",
+      "round_result_schema": "8eb405c42a4fea6a354cf7e3afcbd1774b542e75",
+      "tests": "0d38e864f0d8e1d319c09f442c938cc51a930751",
+      "workflow": "fb0ec3c321ad86fd403e601758ee14063c239f41"
+    }
+  },
+  "media_r23": {
+    "repository": "foto6/video2",
+    "producer_sha": "78c6982a91d7e3e8c037cd9ce740ee077babdccc",
+    "ci_run_id": 37007419237,
+    "contract": "media.review_session_package.r23.v1",
+    "request_contract": "media.review_session_request.r23.v1",
+    "evidence_contract": "media.review_session_package.r23.evidence.v1",
+    "state": "REVIEW_SESSION_PACKAGE_READY",
+    "artifact": {
+      "id": 11226183002,
+      "name": "media-r23-review-session-package",
+      "digest": "sha256:5170ada97f8c86421f4bee34c97fbfa5701bef74ef406f18889a1a790ae3ac66"
+    },
+    "blobs": {
+      "contract": "63f863493054dea4ad0e2ebf3a996137602f8940",
+      "manifest": "09564e2d530a7315f58856c55b33bb52534e05c1",
+      "schema": "92470d29b4a524ee6d797194f023a20c5b0dbaa6",
+      "implementation": "442ca6a46cbf107d29e6cd320fbb1a4cb38951b0",
+      "exporter": "4799338cf58edee89bebd773eb544719cdb7f56d",
+      "demo": "7390cf348cc8d522a895fbb355a82c4bf030b58d",
+      "tests": "dea1f51fbd0719614f23e8562c6e9a4f8c0626f9",
+      "package": "0da628a9f8a88aa5d8828203ac7fbe296f98c832",
+      "workflow": "398b9b8a7a7a40161fd50f4c831531a848195c9a"
+    },
+    "nested_r21": {
+      "producer_sha": "d753e9e4c1f4448386608a1425232dbc1dba87ea",
+      "ci_run_id": 36994000619,
+      "contract": "media.review_round_bundle.r21.v1",
+      "implementation_blob": "c6f556b8a177b6182d787356625094cdcad5a58e"
+    },
+    "nested_r22": {
+      "producer_sha": "e82a7ac04f3758d0e3e21ea3d05265dbc2822132",
+      "ci_run_id": 37001071721,
+      "artifact_id": 11224061610,
+      "artifact_digest": "sha256:d534f1656e22b72cf42531c827e66516965b4167549906521dee04edafd01734",
+      "implementation_blob": "31845333a6919364d81a7c2bc52aad1cb3ae82ed"
+    },
+    "exact_ci_rounds": {
+      "0": {
+        "session_package_sha256": "773326ccee821991e5faa13e1abb3d3c48bcb18499f96bcf7fbd7baab5637afe",
+        "evidence_sha256": "66015182f333e94e1e94924b7789985eb8ba1fbcc587f26ced9e6943c1075a0c",
+        "session_identity": "e53c6c45febf4a1281de6902a77a0795011bdb99f4e7aec25afeae516ee74560",
+        "r21_package_digest": "6a7b79f617de400a4a086e64a0cae9feceafa51a9a324074e85fb07ebf58dfc9",
+        "r22_directory_digest": "ebf8227d8f627fa93d5c8bea346d8950195fc493349799d501653e6704495fd4",
+        "r22_archive_sha256": "c52c13bac6507bc615bde74938a84ecbc456b3125b1d9d55511ddcac882831a6",
+        "operator_manifest_sha256": "5447003ce6bc47eb3baaf71e2990006af38eb3b76431c89111454b6c01bdb76b",
+        "sealed_mapping_digest": "01cef4f83ebf90c9fd11d058251a27daef2fc76b276c170b86e32d7fc98b1fa6",
+        "r32_session_package_digest": "593c40daafa5cb8525b4990677f1634b2384cf29e9d215dcc957c36fc6f310b4"
+      },
+      "1": {
+        "session_package_sha256": "4640cd3739b7e1949fc8b200c8d07de57ca2ee9366e43d5ffbb5925372bb1a42",
+        "evidence_sha256": "4eee2e59b2928ccb1cf320c13c1417c6103f3e70314b941d8a323f754efb72ba",
+        "session_identity": "8d05af710200fd0f1b9d2e60b263307cd2229da7286177cebb83d8daf7419002",
+        "r21_package_digest": "cc1a9d64dcdbc6b06bd2c1e29c164d2285c729f255a05c0e3ae5a4e55c267d07",
+        "r22_directory_digest": "c29c331f96fe481aae47aafc4fdee58ffb7536697e47e17e82498010d7b981e8",
+        "r22_archive_sha256": "d025b407db41ee71c9f77346caa1d1624796554d57ebd2118bc1db5a6e74d98c",
+        "operator_manifest_sha256": "c10eae6930d6ed5954827ffbeb99be8141b67459b788b2a29439c72b75a0c61b",
+        "sealed_mapping_digest": "a3eef575b69e9f1dd0f7faf9147c7b60ea1d23f912f3f0ddafb463cabaf065ba",
+        "r32_session_package_digest": "028a2fc5a2f3f084ebfe157e75a9aecf21a4b5b578e20bbb3e0f4070590d38e3"
+      },
+      "2": {
+        "session_package_sha256": "50c28bd285373503722e4fe2eddfb38e86126fb31409feceb21a7e0e8d2b8e5d",
+        "evidence_sha256": "4005b65623b00e2799824e3d7d89f79e7394c5516d559e49b88023d1ef323a5e",
+        "session_identity": "6312a258f8cd54445fcf8b11fab8df4523b3f6f03f765fc227e2a3db9299af54",
+        "r21_package_digest": "951362dbf747cada15b14490a96adb95fd3d23d1f33ca540f62b38185ab83577",
+        "r22_directory_digest": "539e0bfd43ebd1cea8185cdf86ce00d66efa8e5f12f8880f594486e22c1cb8ac",
+        "r22_archive_sha256": "cb712176414e1bcd6884484cf171bc437d9c0177853e0b475166aeaee34d596b",
+        "operator_manifest_sha256": "7196521962dc89a173c267a56e217025eec97de009cf998b3577cf68744b0f53",
+        "sealed_mapping_digest": "2961e685ecab294a5da35785ae4eb7dc23c31274502e8d638364bec00b3a3dbf",
+        "r32_session_package_digest": "b4adb130e64cffbfcc2372b63cfac6436402f521c8431b689e6a8af005139353"
+      }
+    }
+  },
+  "bridge_r32": {
+    "repository": "foto6/WebAIBridge",
+    "producer_sha": "805bf628d3d2844549b54db1112736fae0200fc7",
+    "ci_run_id": 37006524677,
+    "request_contract": "bridge.r32_multiround_live_review_session_request.v1",
+    "journal_contract": "bridge.r32_multiround_live_review_session_journal.v1",
+    "round_result_contract": "bridge.r32_live_review_session_round_result.v1",
+    "result_contract": "bridge.r32_multiround_live_review_session_result.v1",
+    "blobs": {
+      "request_schema": "3d6943806d7542eddb59813459e34136d5187050",
+      "journal_schema": "3b39faa9e8a1de5baf297f85640d36907aa06db1",
+      "round_result_schema": "bff0985b243650ad5f40954234646da9c2d9c074",
+      "result_schema": "152fd55f783a0798eab040bfb4fc84b2d5e01d01",
+      "session_implementation": "91cf49ce6e856c5d975a4c7c9daef88b13165fa1",
+      "driver_implementation": "df2b27b1bc2240fc2ba651404b13ca202d0f5ed7",
+      "powershell_operator": "934e0b5cdd952ca24ed4cfd987c175b1f891cd3f",
+      "readiness": "386922a2625e0ab7b5a8aa957cf5e4a8df494154",
+      "rehearsal": "6d9af437956496b79f249f970eb1a838f9dad53c",
+      "contract_tests": "8643f40c0c30fab8bf78443f9d4c57d2bed77cab",
+      "session_tests": "c5549b46f7820b652cd878edc9669dccc5e1f8ea",
+      "fixture": "e052c0ba8ea26cec7a26d8ab9340d744e5d69fbe"
+    },
+    "artifacts": [
+      {
+        "platform": "ubuntu-latest",
+        "id": 11225129739,
+        "digest": "sha256:e0fea734df884bdaf39e1a5f2ed961a39bee89e2d219c744720da49581d0d5b4"
+      },
+      {
+        "platform": "windows-latest",
+        "id": 11225962270,
+        "digest": "sha256:189358b73d7a95a934219bb226451579fb402bd7ca615b91667f3e817b045e2d"
+      }
+    ],
+    "ci_live_session_evidence": false
+  },
+  "creator_r30": {
+    "repository": "foto6/video1",
+    "producer_sha": "50c17852a910c57f0894dcdb356d4d4923edb62b",
+    "ci_run_id": 37006988818,
+    "manifest_contract": "creator.coordinator_continuation.r30.v1",
+    "result_contract": "creator.coordinator_continuation_result.r30.v1",
+    "journal_contract": "creator.coordinator_continuation_journal.r30.v1",
+    "blobs": {
+      "manifest": "fc50ec52706ee9861b73f92dbe2efbcc965e6a93",
+      "schema": "39afedb5fc89e179f7fbd4ea56a652800304b77b",
+      "implementation": "1d8869ef479549347b2ce8f7c6944fdeeba6e7e6",
+      "workflow": "ebf7301db4b6e764b198b50c2784d80cacfdbb25"
+    },
+    "artifact": {
+      "id": 11226825363,
+      "name": "creator-r30-coordinator-source-ready-50c17852a910c57f0894dcdb356d4d4923edb62b",
+      "digest": "sha256:50d04e86ddf29ecf7553c025bd9a6e3717bc861ddef0448fdafe7b8b1536bdb0"
+    },
+    "canonical_inner_envelope_contract": "growth.dynamic_creator_external_review_envelope.r26.v1"
+  },
+  "future_authorities": {
+    "media_r24_exact_green_available": false,
+    "bridge_r33_exact_green_available": false,
+    "policy": "The R29 CLI accepts future family paths only after exact producer SHA/CI/contracts/blobs are frozen into this profile."
+  },
+  "evidence_boundary": {
+    "fixture_or_fake_cdp_live": false,
+    "human_ground_truth": false,
+    "human_rating_evidence": false,
+    "human_parity_inferred": false,
+    "browser_mutation": false,
+    "provider_mutation": false,
+    "merge": false
+  }
+}
