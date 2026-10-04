@@ -59,7 +59,7 @@ class GrowthR32SequentialExperimentPolicyTests(unittest.TestCase):
             growth_ci_run_id=1,
         )
 
-    def test_exact_parent_is_waiting_qa_r3(self):
+    def test_exact_parent_is_accepted_only_by_exact_qa_r3_evidence(self):
         authority = r32.validate_authority(self.authority)
         parent = authority["growth_r31_parent"]
         self.assertEqual(parent["producer_sha"], r32.PARENT_SHA)
@@ -69,8 +69,64 @@ class GrowthR32SequentialExperimentPolicyTests(unittest.TestCase):
             parent["artifact_digest"],
             "sha256:fab2ab2df9a4c8106352c5e6c17da3b3281f15a2b0e2015ec285304b2070334d",
         )
-        self.assertEqual(parent["qa_state"], "WAITING_QA_R3")
-        self.assertFalse(parent["authoritative_integration_allowed"])
+        self.assertEqual(parent["qa_state"], "ACCEPTED")
+        self.assertTrue(parent["authoritative_integration_allowed"])
+        qa = parent["qa_r3_acceptance"]
+        self.assertEqual(qa["qa_head"], r32.QA_R3_HEAD)
+        self.assertEqual(qa["ci_run_id"], r32.QA_R3_CI)
+        self.assertEqual(qa["artifact_id"], r32.QA_R3_ARTIFACT_ID)
+        self.assertEqual(qa["artifact_digest"], r32.QA_R3_ARTIFACT_DIGEST)
+        self.assertEqual(qa["disposition"], "ACCEPTED")
+        self.assertEqual(qa["accepted_growth_r31"]["producer_sha"], r32.PARENT_SHA)
+        self.assertEqual(authority["self_qa"]["state"], "PENDING_QA_R4")
+        self.assertFalse(authority["self_qa"]["accepted"])
+
+    def test_wrong_parent_or_qa_r3_authority_fails_closed(self):
+        mutations = (
+            ("parent_sha", ("growth_r31_parent", "producer_sha"), "0" * 40),
+            (
+                "qa_sha",
+                ("growth_r31_parent", "qa_r3_acceptance", "qa_head"),
+                "0" * 40,
+            ),
+            (
+                "qa_run",
+                ("growth_r31_parent", "qa_r3_acceptance", "ci_run_id"),
+                r32.QA_R3_CI + 1,
+            ),
+            (
+                "qa_artifact",
+                ("growth_r31_parent", "qa_r3_acceptance", "artifact_id"),
+                r32.QA_R3_ARTIFACT_ID + 1,
+            ),
+            (
+                "qa_digest",
+                ("growth_r31_parent", "qa_r3_acceptance", "artifact_digest"),
+                "sha256:" + "0" * 64,
+            ),
+            (
+                "accepted_r31_sha",
+                (
+                    "growth_r31_parent",
+                    "qa_r3_acceptance",
+                    "accepted_growth_r31",
+                    "producer_sha",
+                ),
+                "f" * 40,
+            ),
+        )
+        for name, path, value in mutations:
+            with self.subTest(name=name):
+                bad = copy.deepcopy(self.authority)
+                target = bad
+                for part in path[:-1]:
+                    target = target[part]
+                target[path[-1]] = value
+                with self.assertRaisesRegex(
+                    r32.AuthorityDrift,
+                    "parent or QA-R3 acceptance authority drift",
+                ):
+                    r32.validate_authority(bad)
 
     def test_policy_predeclares_sequential_boundaries(self):
         policy = r32.validate_policy(self.policy)
@@ -98,7 +154,10 @@ class GrowthR32SequentialExperimentPolicyTests(unittest.TestCase):
             },
         )
         decision = self.evaluate(campaign, events)
-        self.assertEqual(decision["status"], "SOURCE_READY_WAITING_PARENT_QA")
+        self.assertEqual(decision["status"], "SOURCE_READY_PENDING_R32_QA")
+        self.assertEqual(decision["parent_qa_state"], "ACCEPTED")
+        self.assertTrue(decision["parent_authority_accepted"])
+        self.assertEqual(decision["self_qa_state"], "PENDING_QA_R4")
         self.assertEqual(decision["recommendation"], "PROMOTE_CANDIDATE")
         self.assertEqual(decision["recommended_candidate_id"], "candidate")
         self.assertTrue(decision["causal_claim_allowed"])
@@ -401,8 +460,18 @@ class GrowthR32SequentialExperimentPolicyTests(unittest.TestCase):
             growth_sha="2" * 40,
             growth_ci_run_id=2,
         )
-        self.assertEqual(report["status"], "SOURCE_READY_WAITING_PARENT_QA")
-        self.assertEqual(report["parent_qa_state"], "WAITING_QA_R3")
+        self.assertEqual(report["status"], "SOURCE_READY_PENDING_R32_QA")
+        self.assertEqual(report["parent_qa_state"], "ACCEPTED")
+        self.assertTrue(report["parent_authority_accepted"])
+        self.assertEqual(report["self_qa_state"], "PENDING_QA_R4")
+        self.assertEqual(
+            report["parent_qa_evidence"]["qa_head"],
+            r32.QA_R3_HEAD,
+        )
+        self.assertEqual(
+            report["parent_qa_evidence"]["artifact_digest"],
+            r32.QA_R3_ARTIFACT_DIGEST,
+        )
         self.assertFalse(report["authoritative_integration"])
         accepted = report["accepted_cases"]
         self.assertEqual(
@@ -479,7 +548,9 @@ class GrowthR32SequentialExperimentPolicyTests(unittest.TestCase):
             contract["contract_version"],
             "growth.sequential_experiment_policy.r32.v1",
         )
-        self.assertIn("SOURCE_READY_WAITING_PARENT_QA", docs)
+        self.assertIn("SOURCE_READY_PENDING_R32_QA", docs)
+        self.assertIn("2a48c909bfb5785409b591253f6085642b962d0d", docs)
+        self.assertIn("PENDING_QA_R4", docs)
         self.assertIn("observational", docs.lower())
         self.assertIn("test_sequential_experiment_policy_r32.py", workflow)
         self.assertIn("growth-r32-sequential-experiment-policy", workflow)
