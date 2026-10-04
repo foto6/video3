@@ -1,0 +1,78 @@
+{
+  "contract_version": "growth.exact_session_ingest.r29.v1",
+  "authority_contract": "growth.exact_session_authorities.r29.v1",
+  "round_result_contract": "growth.exact_session_round_result.r29.v1",
+  "selected_result_contract": "growth.creator_r30_selected_review_result.r29.v1",
+  "starting_growth_r28": {
+    "producer_sha": "629a2b9ddf59b84eee4e87b257c161dad42831dc",
+    "ci_run_id": 37006476121
+  },
+  "exact_authorities": {
+    "media_r23": {
+      "producer_sha": "78c6982a91d7e3e8c037cd9ce740ee077babdccc",
+      "ci_run_id": 37007419237,
+      "contract": "media.review_session_package.r23.v1",
+      "artifact_id": 11226183002,
+      "artifact_digest": "sha256:5170ada97f8c86421f4bee34c97fbfa5701bef74ef406f18889a1a790ae3ac66"
+    },
+    "bridge_r32": {
+      "producer_sha": "805bf628d3d2844549b54db1112736fae0200fc7",
+      "ci_run_id": 37006524677,
+      "round_result_contract": "bridge.r32_live_review_session_round_result.v1"
+    },
+    "creator_r30": {
+      "producer_sha": "50c17852a910c57f0894dcdb356d4d4923edb62b",
+      "ci_run_id": 37006988818,
+      "result_contract": "creator.coordinator_continuation_result.r30.v1"
+    }
+  },
+  "media_validation": [
+    "exact R23 producer SHA CI contract schema implementation blobs",
+    "R23 request package evidence byte identities",
+    "R23 session identity source brief and review round",
+    "exact nested R21 producer contract package and round lineage",
+    "exact nested R22 producer artifact authority",
+    "all R28 prompt attachment sealed mapping package and source checks",
+    "R23 wrapper candidate render identities equal unblinded sealed mapping"
+  ],
+  "bridge_validation": [
+    "exact R32 producer SHA CI schemas and implementation blobs",
+    "LIVE_REVIEW_PASS and model_evidence=true",
+    "exact session conversation and round",
+    "exact R32 session package package prompt attachment and source fingerprints",
+    "request operation response and capture digests",
+    "exact sibling R31 result R30 capture and assistant response bytes"
+  ],
+  "sequence": {
+    "allowed_review_rounds": [0, 1, 2],
+    "skips_allowed": false,
+    "fourth_review_allowed": false,
+    "exact_replay": "no-op",
+    "changed_bytes_same_identity": "conflict"
+  },
+  "outputs": {
+    "canonical_inner_envelope": "growth.dynamic_creator_external_review_envelope.r26.v1",
+    "outer_selected_result": "growth.creator_r30_selected_review_result.r29.v1",
+    "pairwise_context_preserved": true,
+    "both_candidate_envelopes_preserved": true,
+    "outer_growth_r29_authority_metadata": true
+  },
+  "future_family_boundary": {
+    "media_r24": "CLI-compatible path but rejected until exact R24 authority is frozen",
+    "bridge_r33": "CLI-compatible result path but rejected until exact R33 authority is frozen"
+  },
+  "non_live": {
+    "fixture_or_fake_cdp": "never LIVE_REVIEW_INGESTED",
+    "SOURCE_READY": "never executable Creator handoff",
+    "MALFORMED_MODEL_RESPONSE": "no executable Creator handoff",
+    "RECONCILIATION_REQUIRED": "no executable Creator handoff"
+  },
+  "evidence_boundary": {
+    "human_ground_truth": false,
+    "human_rating_evidence": false,
+    "human_parity_inferred": false,
+    "browser_mutation": false,
+    "provider_mutation": false,
+    "merge": false
+  }
+}
