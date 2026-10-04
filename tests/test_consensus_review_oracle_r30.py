@@ -118,6 +118,8 @@ class GrowthR30ConsensusOracleTests(unittest.TestCase):
             "review_round": 0,
             "mode": "initial",
             "package_digest": "65b591b7991cc4b0c4fa5ecbabda2d7bb58418b873792ce55f92c93cd08fc470",
+            "r29_package_digest": "6a7b79f617de400a4a086e64a0cae9feceafa51a9a324074e85fb07ebf58dfc9",
+            "r23_session_package_sha256": "773326ccee821991e5faa13e1abb3d3c48bcb18499f96bcf7fbd7baab5637afe",
             "export_index_sha256": "939111e9d870afecb7ca2bbcf817e8a310ed5ba0529467a1f224201133345a98",
             "payload_directory_digest": "ad84d155e2e6ce89059328a7cfe3800b9b110f6c1c80aac80cb9de80f424e4ab",
             "prompt_digest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2",
