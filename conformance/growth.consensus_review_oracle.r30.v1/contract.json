@@ -16,7 +16,10 @@
     "sealed_mapping_contents_model_facing": false,
     "exact_prompt_bytes_hash_required": true,
     "exact_attachment_hash_size_required": true,
-    "exact_response_bytes_hash_required": true
+    "exact_response_bytes_hash_required": true,
+    "outer_media_r24_package_and_inner_r29_package_both_bound": true,
+    "r29_inner_bridge_r32_authority_preserved": true,
+    "bridge_r34_is_outer_review_routing_authority": true
   },
   "aggregation": {
     "policy_file": "aggregation-policy.json",
