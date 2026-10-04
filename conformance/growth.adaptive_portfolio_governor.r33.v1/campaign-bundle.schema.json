@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.portfolio_campaign_bundle.r33.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version","campaign_key","family_slot","priority","traffic_budget_share",
+    "holdback_share","external_change_during_measurement","early","mature"
+  ],
+  "properties": {
+    "contract_version": {"const":"growth.portfolio_campaign_bundle.r33.v1"},
+    "campaign_key": {"type":"string","minLength":1},
+    "family_slot": {"type":"integer","minimum":0,"maximum":3},
+    "priority": {"type":"integer","minimum":1,"maximum":5},
+    "traffic_budget_share": {"type":"number","minimum":0,"maximum":1},
+    "holdback_share": {"type":"number","minimum":0,"maximum":1},
+    "external_change_during_measurement": {"type":"boolean"},
+    "early": {"type":"object"},
+    "mature": {"type":["object","null"]}
+  }
+}
