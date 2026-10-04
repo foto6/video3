@@ -281,7 +281,7 @@ def validate_external_contract(
     if (
         internal["aggregation_policy"].get("contract_version") != POLICY_VERSION
         or internal["aggregation_policy"].get("semantic_digest")
-        != "f77bc62011f5963d223d4de7ea0e5d56ece2495ae8267d376491e13421d44213"
+        != "382fbb63a9b63f87ffa9fe33267c37bf643b2a411ec590ee0dd32fc2a85a3403"
         or policy_digest(loaded["policy"])
         != internal["aggregation_policy"]["semantic_digest"]
     ):
