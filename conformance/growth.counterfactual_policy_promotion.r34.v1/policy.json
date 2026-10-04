@@ -1,0 +1,61 @@
+{
+  "contract_version": "growth.counterfactual_policy_config.r34.v1",
+  "policy_version": 1,
+  "estimator": {
+    "method": "doubly_robust_aipw",
+    "confidence_method": "analytic_influence_interval",
+    "confidence_z": 1.96,
+    "minimum_behavior_propensity": 0.05,
+    "minimum_effective_sample_size": 80.0,
+    "maximum_importance_weight": 5.0,
+    "maximum_clipped_weight_sensitivity": 0.02
+  },
+  "decision": {
+    "primary_metric": "completion_rate",
+    "promotion_margin": 0.02,
+    "harmful_threshold": -0.03,
+    "guardrail_max_degradation": -0.02,
+    "critical_stratum_reversal": -0.02
+  },
+  "maturity": {
+    "required_state": "MATURE",
+    "maximum_censored_fraction": 0.0,
+    "allow_retroactive_window_selection": false
+  },
+  "drift": {
+    "platform_total_variation_max": 0.25,
+    "account_total_variation_max": 0.25,
+    "topic_total_variation_max": 0.25
+  },
+  "complexity": {
+    "maximum_rule_count": 8,
+    "minimum_exploration_floor": 0.2,
+    "maximum_action_concentration": 0.7,
+    "winner_take_all_allowed": false
+  },
+  "leakage": {
+    "allowed_feature_names": [
+      "platform",
+      "account_pseudonym",
+      "topic_cluster",
+      "hour_bucket",
+      "source_type"
+    ],
+    "post_outcome_features_allowed": false,
+    "future_features_allowed": false,
+    "evaluation_corpus_training_allowed": false,
+    "duplicate_exposure_allowed": false
+  },
+  "multiplicity": {
+    "family_alpha": 0.05,
+    "maximum_declared_tests": 4,
+    "method": "bonferroni_declared_offline_policy_family"
+  },
+  "recommendations": [
+    "KEEP_BASELINE",
+    "TEST_MORE",
+    "SHADOW_CANARY_CANDIDATE",
+    "SHADOW_ROLLBACK",
+    "HUMAN_REVIEW_REQUIRED"
+  ]
+}
