@@ -786,8 +786,57 @@ jobs:
         run: |
           set -euo pipefail
           OUT="$RUNNER_TEMP/growth-r32-sequential-experiment-policy"
+          AUTH="conformance/growth.sequential_experiment_policy.r32.v1/authority.json"
           rm -rf "$OUT"
           mkdir -p "$OUT"
+          python - "$AUTH" "$OUT/authority-closeout.json" <<'PY'
+          import json,sys
+          from pathlib import Path
+          from growth_analytics import sequential_experiment_policy_r32 as r32
+          source=Path(sys.argv[1])
+          out=Path(sys.argv[2])
+          authority=r32.validate_authority(json.loads(source.read_text(encoding="utf-8")))
+          parent=authority["growth_r31_parent"]
+          qa=parent["qa_r3_acceptance"]
+          report={
+            "contract_version": authority["contract_version"],
+            "status": r32.STATUS,
+            "parent_qa_state": parent["qa_state"],
+            "parent_authority_accepted": parent["qa_state"] == "ACCEPTED",
+            "parent_r31": {
+              "producer_sha": parent["producer_sha"],
+              "ci_run_id": parent["ci_run_id"],
+              "artifact_id": parent["artifact_id"],
+              "artifact_digest": parent["artifact_digest"],
+            },
+            "qa_r3_acceptance": qa,
+            "self_qa_state": authority["self_qa"]["state"],
+            "r32_accepted": authority["self_qa"]["accepted"],
+            "authority_digest": r32.authority_digest(authority),
+            "human_ground_truth": authority["evidence_boundary"]["human_ground_truth"],
+            "browser_or_provider_mutation": authority["evidence_boundary"]["browser_or_provider_mutation"],
+            "publish": authority["evidence_boundary"]["publish"],
+          }
+          assert report["status"] == "SOURCE_READY_PENDING_R32_QA", report
+          assert report["parent_qa_state"] == "ACCEPTED", report
+          assert report["parent_authority_accepted"] is True, report
+          assert report["parent_r31"]["producer_sha"] == "311606b677d6f0d97669c905265f1eb64b7ff9a4", report
+          assert report["parent_r31"]["ci_run_id"] == 37204153689, report
+          assert report["parent_r31"]["artifact_id"] == 11304006807, report
+          assert report["parent_r31"]["artifact_digest"] == "sha256:fab2ab2df9a4c8106352c5e6c17da3b3281f15a2b0e2015ec285304b2070334d", report
+          assert qa["qa_head"] == "2a48c909bfb5785409b591253f6085642b962d0d", report
+          assert qa["ci_run_id"] == 37207701514, report
+          assert qa["artifact_id"] == 11305557095, report
+          assert qa["artifact_digest"] == "sha256:4c5cb2c476643a03865ec37c084650db4c98c84c3aed04aafeb35b81b4e9fba0", report
+          assert qa["disposition"] == "ACCEPTED", report
+          assert report["self_qa_state"] == "PENDING_QA_R4", report
+          assert report["r32_accepted"] is False, report
+          assert report["human_ground_truth"] is False, report
+          assert report["browser_or_provider_mutation"] is False, report
+          assert report["publish"] is False, report
+          out.write_text(json.dumps(report,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          print(json.dumps(report,sort_keys=True))
+          PY
           python -m growth_analytics.sequential_experiment_policy_r32 rehearse-fixtures \
             --authority conformance/growth.sequential_experiment_policy.r32.v1/authority.json \
             --policy conformance/growth.sequential_experiment_policy.r32.v1/policy.json \
@@ -797,8 +846,15 @@ jobs:
           python - "$OUT/simulation-report.json" <<'PY'
           import json,sys
           p=json.load(open(sys.argv[1],encoding="utf-8"))
-          assert p["status"] == "SOURCE_READY_WAITING_PARENT_QA", p
-          assert p["parent_qa_state"] == "WAITING_QA_R3", p
+          assert p["status"] == "SOURCE_READY_PENDING_R32_QA", p
+          assert p["parent_qa_state"] == "ACCEPTED", p
+          assert p["parent_authority_accepted"] is True, p
+          assert p["self_qa_state"] == "PENDING_QA_R4", p
+          assert p["parent_qa_evidence"]["qa_head"] == "2a48c909bfb5785409b591253f6085642b962d0d", p
+          assert p["parent_qa_evidence"]["ci_run_id"] == 37207701514, p
+          assert p["parent_qa_evidence"]["artifact_id"] == 11305557095, p
+          assert p["parent_qa_evidence"]["artifact_digest"] == "sha256:4c5cb2c476643a03865ec37c084650db4c98c84c3aed04aafeb35b81b4e9fba0", p
+          assert p["parent_qa_evidence"]["disposition"] == "ACCEPTED", p
           assert p["authoritative_integration"] is False, p
           accepted=p["accepted_cases"]
           assert accepted["true_positive_uplift"]["recommendation"] == "PROMOTE_CANDIDATE", p
@@ -837,6 +893,10 @@ jobs:
           assert boundary["provider_publish"] is False, p
           print(json.dumps({
             "report_digest":p["report_digest"],
+            "status":p["status"],
+            "parent_qa_state":p["parent_qa_state"],
+            "self_qa_state":p["self_qa_state"],
+            "qa_r3_head":p["parent_qa_evidence"]["qa_head"],
             "accepted":{k:v["recommendation"] for k,v in accepted.items()},
             "rejected":sorted(p["rejected_cases"]),
             "anti_p_hacking":aph,
