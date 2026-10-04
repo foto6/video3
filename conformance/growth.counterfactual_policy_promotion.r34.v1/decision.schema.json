@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.counterfactual_policy_promotion_decision.r34.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version","decision_id","decision_digest","status","disposition",
+    "recommendation","reason_codes","corpus_id","corpus_digest","evidence_mode",
+    "baseline_policy_id","baseline_policy_digest","candidate_policy_id",
+    "candidate_policy_digest","parent_r33_authority","r34_authority","estimator",
+    "maturity","drift","critical_strata","complexity","multiplicity","assumptions",
+    "limitations","advisory_boundary","creator_r35_advisory_envelope"
+  ],
+  "properties": {
+    "contract_version": {"const":"growth.counterfactual_policy_promotion_decision.r34.v1"},
+    "decision_id": {"type":"string","pattern":"^gr34d1:[0-9a-f]{64}$"},
+    "decision_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "status": {"const":"ADVISORY_ONLY_SOURCE_READY"},
+    "disposition": {"const":"ADVISORY_ONLY"},
+    "recommendation": {"enum":["KEEP_BASELINE","TEST_MORE","SHADOW_CANARY_CANDIDATE","SHADOW_ROLLBACK","HUMAN_REVIEW_REQUIRED"]},
+    "reason_codes": {"type":"array"},
+    "corpus_id": {"type":"string"},
+    "corpus_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "evidence_mode": {"enum":["randomized_controlled","observational_monitoring"]},
+    "baseline_policy_id": {"type":"string"},
+    "baseline_policy_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "candidate_policy_id": {"type":"string"},
+    "candidate_policy_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "parent_r33_authority": {"type":"object"},
+    "r34_authority": {"type":"object"},
+    "estimator": {"type":"object"},
+    "maturity": {"type":"object"},
+    "drift": {"type":"object"},
+    "critical_strata": {"type":"array"},
+    "complexity": {"type":"object"},
+    "multiplicity": {"type":"object"},
+    "assumptions": {"type":"array"},
+    "limitations": {"type":"array"},
+    "advisory_boundary": {"type":"object"},
+    "creator_r35_advisory_envelope": {"type":["object","null"]}
+  }
+}
