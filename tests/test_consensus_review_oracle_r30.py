@@ -30,6 +30,14 @@ class GrowthR30ConsensusOracleTests(unittest.TestCase):
                 / "aggregation-policy.json"
             ).read_text(encoding="utf-8")
         )
+        cls.external_contract = json.loads(
+            (
+                cls.root
+                / "conformance"
+                / "growth.consensus_review.r30.v1"
+                / "contract.json"
+            ).read_text(encoding="utf-8")
+        )
         cls.fixture = (
             cls.root / "fixtures" / "consensus_review_r30" / "accepted"
         )
@@ -450,12 +458,126 @@ class GrowthR30ConsensusOracleTests(unittest.TestCase):
                 (json.dumps(response, sort_keys=True) + "\n").encode("utf-8")
             )
 
+    def test_external_umbrella_maps_exact_internal_oracle(self):
+        parsed = r30.validate_external_contract(
+            self.external_contract,
+            root=self.root,
+        )
+        self.assertEqual(
+            parsed["contract_version"],
+            "growth.consensus_review.r30.v1",
+        )
+        internal = parsed["internal_oracle"]
+        self.assertEqual(
+            internal["contract_version"],
+            "growth.consensus_review_oracle.r30.v1",
+        )
+        self.assertEqual(
+            internal["aggregation_policy"]["contract_version"],
+            r30.POLICY_VERSION,
+        )
+        self.assertEqual(
+            internal["aggregation_policy"]["semantic_digest"],
+            r30.policy_digest(self.policy),
+        )
+        self.assertEqual(
+            internal["verified_review_schema"]["schema_id"],
+            r30.REVIEW_VERSION,
+        )
+        self.assertEqual(
+            internal["consensus_schema"]["schema_id"],
+            r30.CONSENSUS_VERSION,
+        )
+        self.assertEqual(
+            parsed["accepted_authorities"]["growth_r29"]["producer_sha"],
+            r30.R29_SHA,
+        )
+        self.assertEqual(
+            parsed["accepted_authorities"]["media_r24"]["producer_sha"],
+            r30.MEDIA_R24_SHA,
+        )
+        self.assertEqual(
+            parsed["accepted_authorities"]["bridge_r34"]["producer_sha"],
+            r30.BRIDGE_R34_SHA,
+        )
+        self.assertFalse(
+            parsed["evidence_boundary"][
+                "model_consensus_is_human_ground_truth"
+            ]
+        )
+        self.assertEqual(
+            len(r30.external_contract_digest(parsed, root=self.root)),
+            64,
+        )
+
+    def test_external_umbrella_detects_pin_and_internal_file_tampering(self):
+        bad = copy.deepcopy(self.external_contract)
+        bad["internal_oracle"]["consensus_schema"]["file_sha256"] = "0" * 64
+        with self.assertRaisesRegex(
+            r30.AuthorityDrift,
+            "consensus_schema pinned hash drift",
+        ):
+            r30.validate_external_contract(bad, root=self.root)
+
+        bad = copy.deepcopy(self.external_contract)
+        bad["accepted_authorities"]["bridge_r34"]["ci_run_id"] += 1
+        with self.assertRaisesRegex(
+            r30.AuthorityDrift,
+            "accepted authority pins drift",
+        ):
+            r30.validate_external_contract(bad, root=self.root)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            temp_root = Path(tmp)
+            paths = [
+                "conformance/growth.consensus_review_oracle.r30.v1/contract.json",
+                "conformance/growth.consensus_review_oracle.r30.v1/aggregation-policy.json",
+                "conformance/growth.consensus_review_oracle.r30.v1/review.schema.json",
+                "conformance/growth.consensus_review_oracle.r30.v1/consensus.schema.json",
+                "conformance/growth.consensus_review_oracle.r30.v1/authority-profiles.json",
+            ]
+            for relative in paths:
+                src = self.root / relative
+                dst = temp_root / relative
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src, dst)
+            r30.validate_external_contract(
+                self.external_contract,
+                root=temp_root,
+            )
+            policy_path = (
+                temp_root
+                / "conformance"
+                / "growth.consensus_review_oracle.r30.v1"
+                / "aggregation-policy.json"
+            )
+            policy_path.write_text(
+                policy_path.read_text(encoding="utf-8") + "\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                r30.AuthorityDrift,
+                "policy file hash mismatch",
+            ):
+                r30.validate_external_contract(
+                    self.external_contract,
+                    root=temp_root,
+                )
+
     def test_contract_docs_workflow_are_wired(self):
         contract = json.loads(
             (
                 self.root
                 / "conformance"
                 / "growth.consensus_review_oracle.r30.v1"
+                / "contract.json"
+            ).read_text(encoding="utf-8")
+        )
+        external = json.loads(
+            (
+                self.root
+                / "conformance"
+                / "growth.consensus_review.r30.v1"
                 / "contract.json"
             ).read_text(encoding="utf-8")
         )
@@ -468,6 +590,14 @@ class GrowthR30ConsensusOracleTests(unittest.TestCase):
         self.assertEqual(
             contract["contract_version"],
             "growth.consensus_review_oracle.r30.v1",
+        )
+        self.assertEqual(
+            external["contract_version"],
+            "growth.consensus_review.r30.v1",
+        )
+        self.assertEqual(
+            external["internal_oracle"]["contract_version"],
+            contract["contract_version"],
         )
         self.assertIn("model consensus is not human ground truth", docs.lower())
         self.assertIn("test_consensus_review_oracle_r30.py", workflow)
