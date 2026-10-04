@@ -1,0 +1,95 @@
+{
+  "contract": "bridge.r32_multiround_fake_cdp_rehearsal.v1",
+  "state": "SOURCE_READY",
+  "generatedAt": "2026-10-02T12:26:01.589Z",
+  "exactRoundProgression": [
+    0,
+    1,
+    2
+  ],
+  "sameConversationId": "review-chat",
+  "sameCanonicalUrl": "https://chatgpt.com/c/review-chat",
+  "rounds": [
+    {
+      "round": 0,
+      "state": "SOURCE_READY",
+      "fixtureSimulatedTerminalState": "LIVE_REVIEW_PASS",
+      "packageDigest": "e9be78c1b7b7c4f7e273d1c2f02ab138b280a2ccec6cd542784e93639edc6cd7",
+      "promptDigest": "dfb9b55feb6602419700d8c44e93309bb9bb852fe8643c02c388527ee605f92d",
+      "attachmentHashes": [
+        {
+          "blindLabel": "A",
+          "sha256": "620e0b08a4e1f00f47e410299ea37e856cbbce50ebf89ebd92e2c43b6d3b860c",
+          "size": 12
+        },
+        {
+          "blindLabel": "B",
+          "sha256": "a640da07b74c9a2cc526b8f55d4f281deaac4c5eaca3cc28ea40673c6c140a15",
+          "size": 13
+        }
+      ],
+      "requestId": "fixture-request-0",
+      "operationId": "fixture-operation-0",
+      "model_evidence": false,
+      "human_ground_truth": false
+    },
+    {
+      "round": 1,
+      "state": "SOURCE_READY",
+      "fixtureSimulatedTerminalState": "LIVE_REVIEW_PASS",
+      "packageDigest": "8ded6a23807054c3a07e3ce77f21a162c148117b385889122d3a0c56458939df",
+      "promptDigest": "ee736ac4f4608a468da48e74cfe90260694b960db9eb6b06e9f926664b833fcc",
+      "attachmentHashes": [
+        {
+          "blindLabel": "A",
+          "sha256": "32f7afee432bbef8594fde3a10d02945442c789c7f3046ce8d47a69ab64a84b2",
+          "size": 12
+        },
+        {
+          "blindLabel": "B",
+          "sha256": "b9467e024668dc3fc9ba6647acd8542bfb508149b3acbec1cffe435656f86e7a",
+          "size": 13
+        }
+      ],
+      "requestId": "fixture-request-1",
+      "operationId": "fixture-operation-1",
+      "model_evidence": false,
+      "human_ground_truth": false
+    },
+    {
+      "round": 2,
+      "state": "SOURCE_READY",
+      "fixtureSimulatedTerminalState": "LIVE_REVIEW_PASS",
+      "packageDigest": "ade15dd7fb26cdbb61fec5537f9760951df0083754b5d7a7eda00db40e8e1eaf",
+      "promptDigest": "69c9cd383c85810d43e8cce4b6cc9a02dac154cb225c42f0a4725507ba3bba1c",
+      "attachmentHashes": [
+        {
+          "blindLabel": "A",
+          "sha256": "23ba923a1f57af7fa5c8829d98d0875fb632cc4189f072e3b7a215130dba3e55",
+          "size": 12
+        },
+        {
+          "blindLabel": "B",
+          "sha256": "e01b5c491de175abd3353f1ed2882d87a8f84aa6673f8faa6140c25e9aafff2a",
+          "size": 13
+        }
+      ],
+      "requestId": "fixture-request-2",
+      "operationId": "fixture-operation-2",
+      "model_evidence": false,
+      "human_ground_truth": false
+    }
+  ],
+  "duplicateSamePackageSkipped": true,
+  "duplicateDifferentPackageState": "BLOCKED",
+  "lostAckState": "RECONCILIATION_REQUIRED",
+  "inheritedR30FakeCdpEvidenceSha256": "80082a912002c8ddcd76fa751038496d354c8a770c8af573b164c814a4372a78",
+  "browserMutationPerformedByR32": false,
+  "realUploadPerformed": false,
+  "realPromptSent": false,
+  "liveSessionEvidence": false,
+  "retryUploadAuthorized": false,
+  "retrySendAuthorized": false,
+  "automaticReplacementAuthorized": false,
+  "currentLiveBridgeMutated": false
+}
