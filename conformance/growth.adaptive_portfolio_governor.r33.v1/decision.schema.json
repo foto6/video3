@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.adaptive_portfolio_decision.r33.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version","decision_id","decision_digest","status","portfolio_id",
+    "portfolio_digest","portfolio_look_id","policy_version","policy_digest","authority",
+    "family_error_accounting","campaign_states","global_blockers","portfolio_drift",
+    "shadow_recommendation","evidence_maturity","concentration_guard","evidence_boundary"
+  ],
+  "properties": {
+    "contract_version": {"const":"growth.adaptive_portfolio_decision.r33.v1"},
+    "decision_id": {"type":"string","pattern":"^gr33p1:[0-9a-f]{64}$"},
+    "decision_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "status": {"const":"SHADOW_SOURCE_READY"},
+    "portfolio_id": {"type":"string"},
+    "portfolio_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "portfolio_look_id": {"type":"string"},
+    "policy_version": {"const":1},
+    "policy_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "authority": {"type":"object"},
+    "family_error_accounting": {"type":"object"},
+    "campaign_states": {"type":"array"},
+    "global_blockers": {"type":"array"},
+    "portfolio_drift": {"type":"object"},
+    "shadow_recommendation": {"enum":["KEEP","TEST_MORE","SHADOW_PROMOTE","SHADOW_ROLLBACK","HUMAN_REVIEW_REQUIRED"]},
+    "evidence_maturity": {"type":"object"},
+    "concentration_guard": {"type":"object"},
+    "evidence_boundary": {"type":"object"}
+  }
+}
