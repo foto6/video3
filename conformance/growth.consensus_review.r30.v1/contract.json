@@ -55,11 +55,13 @@
         {
           "platform": "ubuntu-latest",
           "id": 11300833232,
+          "name": "r34-sticky-chat-ubuntu-latest",
           "digest": "sha256:feab9b876c609e3fcc6987ae92278ea61c2fed3e13aaad79cb5e68256fd9ef93"
         },
         {
           "platform": "windows-latest",
           "id": 11301086988,
+          "name": "r34-sticky-chat-windows-latest",
           "digest": "sha256:41febb909113a8d522be40388e1c90351815ac9e211f09a2933adf74e47731f6"
         }
       ]
