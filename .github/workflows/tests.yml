@@ -37,6 +37,8 @@ jobs:
           python -m unittest discover -s tests -p "test_exact_session_ingest_r29.py" -v
       - name: Focused R30 consensus compatibility tests
         run: python -m unittest discover -s tests -p "test_consensus_review_oracle_r30.py" -v
+      - name: Focused R31 postpublish learning policy tests
+        run: python -m unittest discover -s tests -p "test_postpublish_learning_policy_r31.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -709,6 +711,69 @@ jobs:
         with:
           name: growth-r30-consensus-review-oracle
           path: ${{ runner.temp }}/growth-r30-consensus-review-oracle
+          if-no-files-found: error
+          retention-days: 90
+      - name: Produce R31 postpublish learning evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/growth-r31-postpublish-learning-policy"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          python -m growth_analytics.postpublish_learning_policy_r31 rehearse-fixtures \
+            --authority conformance/growth.postpublish_learning.r31.v1/authority.json \
+            --policy conformance/growth.postpublish_learning.r31.v1/policy.json \
+            --out-dir "$OUT" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          python - "$OUT/rehearsal.json" <<'PY'
+          import json,os,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert p["status"] == "WAITING_PARENT_QA", p
+          assert p["parent_qa_state"] == "WAITING_PARENT_QA", p
+          assert p["authoritative_integration"] is False, p
+          assert p["observational_case"]["evidence_state"] == "LEARNING_SOURCE_READY", p
+          assert p["observational_case"]["status"] == "WAITING_PARENT_QA", p
+          assert p["observational_case"]["observational_is_causal"] is False, p
+          assert p["observational_case"]["outlier_count"] >= 1, p
+          assert p["randomized_case"]["evidence_state"] == "EXPERIMENT_EVIDENCE_READY", p
+          assert p["randomized_case"]["status"] == "WAITING_PARENT_QA", p
+          assert p["randomized_case"]["experiment"]["minimum_sample_gate_met"] is True, p
+          assert p["randomized_case"]["experiment"]["preference_update_allowed"] is True, p
+          assert p["randomized_case"]["experiment"]["causally_proven"] is False, p
+          assert p["randomized_case"]["causally_proven"] is False, p
+          required={
+            "duplicate_provider_post",
+            "snapshot_replay_new_id",
+            "changed_winner_hash",
+            "mixed_1h_7d_windows",
+            "stale_platform_definition",
+            "cross_account_contamination",
+            "historical_comparison_mislabeled_random",
+            "treatment_leakage",
+            "posthoc_window_selection",
+          }
+          assert required <= set(p["rejected_cases"]), p
+          for name in required:
+            assert p["rejected_cases"][name]["state"] == "REJECTED", (name,p)
+          assert "observational_performance_proves_causal_effect" in p["forbidden_conclusions"], p
+          assert p["no_network"] is True, p
+          assert p["no_live_publish"] is True, p
+          assert p["human_ground_truth"] is False, p
+          print(json.dumps({
+            "report_digest":p["report_digest"],
+            "observational_digest":p["observational_case"]["suggestion_digest"],
+            "randomized_digest":p["randomized_case"]["suggestion_digest"],
+            "experiment_lift":p["randomized_case"]["experiment"]["bounded_lift_estimate"],
+            "experiment_interval":p["randomized_case"]["experiment"]["confidence_interval_95"],
+            "rejected_cases":sorted(p["rejected_cases"]),
+          },sort_keys=True))
+          PY
+      - name: Upload R31 postpublish learning artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r31-postpublish-learning-policy
+          path: ${{ runner.temp }}/growth-r31-postpublish-learning-policy
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
