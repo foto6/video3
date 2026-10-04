@@ -43,6 +43,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_sequential_experiment_policy_r32.py" -v
       - name: Focused R33 adaptive portfolio governor tests
         run: python -m unittest discover -s tests -p "test_adaptive_portfolio_governor_r33.py" -v
+      - name: Focused R34 counterfactual policy promotion tests
+        run: python -m unittest discover -s tests -p "test_counterfactual_policy_promotion_r34.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -923,6 +925,84 @@ jobs:
         with:
           name: growth-r33-adaptive-portfolio-governor
           path: ${{ runner.temp }}/growth-r33-adaptive-portfolio-governor
+          if-no-files-found: error
+          retention-days: 90
+      - name: Produce R34 counterfactual policy promotion evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/growth-r34-counterfactual-policy-promotion"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          python -m growth_analytics.counterfactual_policy_promotion_r34 rehearse-fixtures \
+            --authority conformance/growth.counterfactual_policy_promotion.r34.v1/authority.json \
+            --policy-config conformance/growth.counterfactual_policy_promotion.r34.v1/policy.json \
+            --out-dir "$OUT" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          python - "$OUT/simulation-report.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert p["status"] == "ADVISORY_ONLY_SOURCE_READY", p
+          assert p["disposition"] == "ADVISORY_ONLY", p
+          assert p["case_count"] >= 30, p
+          cases=p["cases"]
+          required={
+            "06_weak_overlap_unsupported_region",
+            "08_extreme_weights_clipped_sensitivity",
+            "09_simpson_critical_stratum_reversal",
+            "13_delayed_outcomes",
+            "12_censored_outcomes",
+            "14_novelty_spike_decays_by_mature_replay",
+            "15_platform_distribution_drift",
+            "16_account_distribution_drift",
+            "17_topic_distribution_drift",
+            "20_hidden_confounder_proxy",
+            "18_leaked_outcome_feature",
+            "21_policy_trained_on_evaluation_corpus",
+            "07_tiny_effective_sample_size",
+            "11_critical_guardrail_collapse",
+            "10_overall_positive_every_key_stratum_negative",
+            "32_multiple_testing_budget_overspend",
+          }
+          assert required <= set(cases), p
+          assert cases["01_clean_supported_uplift"]["recommendation"] == "SHADOW_CANARY_CANDIDATE", p
+          assert cases["04_clear_harm_shadow_rollback"]["recommendation"] == "SHADOW_ROLLBACK", p
+          assert cases["05_observational_never_causal"]["recommendation"] == "TEST_MORE", p
+          assert cases["09_simpson_critical_stratum_reversal"]["recommendation"] == "HUMAN_REVIEW_REQUIRED", p
+          assert cases["38_input_order_invariance"]["same_corpus_digest"] is True, p
+          assert cases["38_input_order_invariance"]["same_decision_digest"] is True, p
+          safety=p["advisory_safety"]
+          assert safety["shadow_canary_candidate_is_advisory"] is True, p
+          assert safety["creator_mutation"] is False, p
+          assert safety["provider_mutation"] is False, p
+          assert safety["browser_mutation"] is False, p
+          assert safety["traffic_routing"] is False, p
+          assert safety["budget_allocation"] is False, p
+          assert safety["live_publish"] is False, p
+          assert safety["human_ground_truth"] is False, p
+          assert safety["violations"] == [], p
+          assert p["authority"]["growth_r33"]["producer_sha"] == "8bedb5ad79023006b87b17933863ff915ab5e046", p
+          assert p["authority"]["growth_r33"]["ci_run_id"] == 37210963972, p
+          assert p["authority"]["growth_r33"]["artifact_id"] == 11306727215, p
+          assert p["authority"]["growth_r33"]["artifact_digest"] == "sha256:132845c0aaa6d4fec5aaf60e1ade60d779183f2a637a9513e4176bd2ee569660", p
+          assert p["authority"]["hard_wave_qa_r5"]["producer_sha"] == "1583c853108b0fb88507448eb8b4c61f0f07b0bc", p
+          assert p["authority"]["hard_wave_qa_r5"]["disposition"] == "ACCEPTED", p
+          print(json.dumps({
+            "report_digest":p["report_digest"],
+            "case_count":p["case_count"],
+            "accepted_case_count":p["accepted_case_count"],
+            "rejected_case_count":p["rejected_case_count"],
+            "clean_promotion":p["clean_promotion"],
+            "required_cases":sorted(required),
+            "advisory_only":p["disposition"],
+          },sort_keys=True))
+          PY
+      - name: Upload R34 counterfactual policy promotion artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r34-counterfactual-policy-promotion
+          path: ${{ runner.temp }}/growth-r34-counterfactual-policy-promotion
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
