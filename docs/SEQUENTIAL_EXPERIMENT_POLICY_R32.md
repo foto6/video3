@@ -4,7 +4,9 @@ Growth R32 turns R31 post-publish learning evidence into an advisory sequential 
 
 The exact parent candidate is Growth R31 `311606b677d6f0d97669c905265f1eb64b7ff9a4`, CI `37204153689 SUCCESS`, artifact `11304006807`, digest `sha256:fab2ab2df9a4c8106352c5e6c17da3b3281f15a2b0e2015ec285304b2070334d`.
 
-R31 is still pending independent QA-R3. Therefore every R32 result has top-level status `SOURCE_READY_WAITING_PARENT_QA` and `authoritative_integration=false`.
+Independent QA-R3 has accepted exactly that frozen R31 authority. The bound acceptance evidence is QA HEAD `2a48c909bfb5785409b591253f6085642b962d0d`, CI `37207701514 SUCCESS`, artifact `11305557095`, digest `sha256:4c5cb2c476643a03865ec37c084650db4c98c84c3aed04aafeb35b81b4e9fba0`, disposition `ACCEPTED`. The acceptance is valid only when the nested accepted R31 SHA/run/artifact/digest match the exact parent tuple above; any QA or parent-pin drift fails closed.
+
+R32 itself is not accepted by that parent QA. Every R32 result now has top-level status `SOURCE_READY_PENDING_R32_QA`, parent state `ACCEPTED`, self state `PENDING_QA_R4`, and `authoritative_integration=false` until independent QA-R4 accepts R32.
 
 ## Contracts
 
@@ -19,6 +21,8 @@ Nested contracts:
 - `growth.sequential_experiment_authority.r32.v1`
 
 Every campaign binds exact session identity, policy version/digest, primary and guardrail metrics, declared candidates, predeclared looks, max horizon, metric schema hash, metric-definition hash, and the exact R31 parent SHA.
+
+The R32 authority additionally binds the exact QA-R3 acceptance tuple above. Parent authority validation is byte/identity strict: wrong QA HEAD, run, artifact ID, artifact digest, disposition, or nested R31 pin is rejected before any decision evaluation.
 
 Every event additionally binds publish transaction, Creator session, published candidate/render SHA-256, exposure identity/time, metric-capture time, platform/account/topic/source, policy and metric hashes, and its own digest.
 
@@ -146,4 +150,4 @@ python -m growth_analytics.sequential_experiment_policy_r32 rehearse-fixtures \
   --growth-ci-run-id <exact-run-id>
 ```
 
-Model review remains not human ground truth. Observational monitoring remains not causal. No browser/provider mutation or publish occurs.
+Model review remains not human ground truth. Observational monitoring remains not causal. QA-R3 acceptance of R31 is not QA-R4 acceptance of R32. No browser/provider mutation or publish occurs.
