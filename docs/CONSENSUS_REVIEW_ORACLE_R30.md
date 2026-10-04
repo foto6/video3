@@ -4,6 +4,27 @@ Growth R30 adds a deterministic, read-only consensus gate over exactly three ind
 
 **Model consensus is not human ground truth.** A three-model agreement is only machine evidence. R30 never claims human parity, human preference, or human-quality equivalence.
 
+## External compatibility contract
+
+The external integration contract is `growth.consensus_review.r30.v1` at
+`conformance/growth.consensus_review.r30.v1/contract.json`.
+
+It is an umbrella over the existing persisted oracle contracts; it does **not**
+rename them. The internal oracle remains
+`growth.consensus_review_oracle.r30.v1`, verified reviews remain
+`growth.verified_r29_r34_model_review.r30.v1`, and persisted consensus results
+remain `growth.multi_review_consensus.r30.v1`.
+
+The umbrella pins the internal oracle contract file, aggregation policy,
+review schema, consensus schema, and authority profile by SHA-256. It also pins
+the policy and authority semantic digests, exact Growth R29 / Media R24 /
+Bridge R34 authorities, the three-review independence rules, and the
+disagreement/human-review gate. Any pin drift or referenced internal-file byte
+change fails closed before the compatibility mapping is accepted.
+
+This compatibility layer does not tune thresholds or change aggregation,
+replay, lineage, or Creator handoff semantics.
+
 ## Frozen exact authorities
 
 R30 accepts only the following source authorities:
