@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.multi_review_consensus.r30.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "state",
+    "consensus_id",
+    "consensus_digest",
+    "media",
+    "winner_blind_label",
+    "selected_candidate_id",
+    "disagreement_score",
+    "audit",
+    "creator_executable_handoff_emitted",
+    "creator_handoff",
+    "fixture_or_nonlive_input",
+    "growth_r30",
+    "authorities",
+    "evidence_boundary"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "growth.multi_review_consensus.r30.v1"
+    },
+    "state": {
+      "enum": [
+        "CONSENSUS_ACCEPTED",
+        "HUMAN_REVIEW_REQUIRED"
+      ]
+    },
+    "consensus_id": {
+      "type": "string",
+      "pattern": "^gr30c1:[0-9a-f]{64}$"
+    },
+    "consensus_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "media": {
+      "type": "object"
+    },
+    "winner_blind_label": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "A",
+        "B",
+        null
+      ]
+    },
+    "selected_candidate_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "disagreement_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "audit": {
+      "type": "object"
+    },
+    "creator_executable_handoff_emitted": {
+      "type": "boolean"
+    },
+    "creator_handoff": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "fixture_or_nonlive_input": {
+      "type": "boolean"
+    },
+    "growth_r30": {
+      "type": "object"
+    },
+    "authorities": {
+      "type": "object"
+    },
+    "evidence_boundary": {
+      "type": "object"
+    }
+  }
+}
