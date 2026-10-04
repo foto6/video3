@@ -554,7 +554,7 @@ jobs:
       - name: Fetch exact Media R24 canonical review artifact
         shell: bash
         env:
-          GITHUB_TOKEN: \${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           rm -rf "$RUNNER_TEMP/r30-media-r24"
@@ -676,7 +676,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: growth-r30-consensus-review-oracle
-          path: \${{ runner.temp }}/growth-r30-consensus-review-oracle
+          path: ${{ runner.temp }}/growth-r30-consensus-review-oracle
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
