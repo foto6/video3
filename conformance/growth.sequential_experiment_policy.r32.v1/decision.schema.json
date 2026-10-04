@@ -4,39 +4,154 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "contract_version","decision_id","decision_digest","status","parent_qa_state",
-    "authoritative_integration","campaign_id","campaign_digest","mode","look_fraction",
-    "look_index","prior_look_fractions","recommendation","recommended_candidate_id",
-    "confidence_summary","evidence_summary","reason_codes","drift","randomized_result",
-    "observational_result","policy_state","causal_claim_allowed","human_ground_truth",
-    "model_review_is_human_ground_truth","creator_mutation","provider_publish"
+    "contract_version",
+    "decision_id",
+    "decision_digest",
+    "status",
+    "parent_qa_state",
+    "parent_authority_accepted",
+    "parent_qa_evidence",
+    "self_qa_state",
+    "authoritative_integration",
+    "campaign_id",
+    "campaign_digest",
+    "mode",
+    "look_fraction",
+    "look_index",
+    "prior_look_fractions",
+    "recommendation",
+    "recommended_candidate_id",
+    "confidence_summary",
+    "evidence_summary",
+    "reason_codes",
+    "drift",
+    "randomized_result",
+    "observational_result",
+    "policy_state",
+    "causal_claim_allowed",
+    "human_ground_truth",
+    "model_review_is_human_ground_truth",
+    "creator_mutation",
+    "provider_publish"
   ],
   "properties": {
-    "contract_version": {"const":"growth.sequential_experiment_decision.r32.v1"},
-    "decision_id": {"type":"string","pattern":"^gr32d1:[0-9a-f]{64}$"},
-    "decision_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
-    "status": {"const":"SOURCE_READY_WAITING_PARENT_QA"},
-    "parent_qa_state": {"const":"WAITING_QA_R3"},
-    "authoritative_integration": {"const":false},
-    "campaign_id": {"type":"string"},
-    "campaign_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
-    "mode": {"enum":["randomized_controlled","observational_monitoring"]},
-    "look_fraction": {"enum":[0.25,0.5,0.75,1.0]},
-    "look_index": {"type":"integer","minimum":0,"maximum":3},
-    "prior_look_fractions": {"type":"array"},
-    "recommendation": {"enum":["KEEP","TEST_MORE","ROLLBACK_RECOMMENDED","PROMOTE_CANDIDATE","HUMAN_REVIEW_REQUIRED"]},
-    "recommended_candidate_id": {"type":["string","null"]},
-    "confidence_summary": {"type":"object"},
-    "evidence_summary": {"type":"object"},
-    "reason_codes": {"type":"array"},
-    "drift": {"type":"object"},
-    "randomized_result": {"type":["object","null"]},
-    "observational_result": {"type":["object","null"]},
-    "policy_state": {"enum":["POLICY_CURRENT","STALE_POLICY_REVIEW_REQUIRED"]},
-    "causal_claim_allowed": {"type":"boolean"},
-    "human_ground_truth": {"const":false},
-    "model_review_is_human_ground_truth": {"const":false},
-    "creator_mutation": {"const":false},
-    "provider_publish": {"const":false}
+    "contract_version": {
+      "const": "growth.sequential_experiment_decision.r32.v1"
+    },
+    "decision_id": {
+      "type": "string",
+      "pattern": "^gr32d1:[0-9a-f]{64}$"
+    },
+    "decision_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "status": {
+      "const": "SOURCE_READY_PENDING_R32_QA"
+    },
+    "parent_qa_state": {
+      "const": "ACCEPTED"
+    },
+    "authoritative_integration": {
+      "const": false
+    },
+    "campaign_id": {
+      "type": "string"
+    },
+    "campaign_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "mode": {
+      "enum": [
+        "randomized_controlled",
+        "observational_monitoring"
+      ]
+    },
+    "look_fraction": {
+      "enum": [
+        0.25,
+        0.5,
+        0.75,
+        1
+      ]
+    },
+    "look_index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "prior_look_fractions": {
+      "type": "array"
+    },
+    "recommendation": {
+      "enum": [
+        "KEEP",
+        "TEST_MORE",
+        "ROLLBACK_RECOMMENDED",
+        "PROMOTE_CANDIDATE",
+        "HUMAN_REVIEW_REQUIRED"
+      ]
+    },
+    "recommended_candidate_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "confidence_summary": {
+      "type": "object"
+    },
+    "evidence_summary": {
+      "type": "object"
+    },
+    "reason_codes": {
+      "type": "array"
+    },
+    "drift": {
+      "type": "object"
+    },
+    "randomized_result": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "observational_result": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "policy_state": {
+      "enum": [
+        "POLICY_CURRENT",
+        "STALE_POLICY_REVIEW_REQUIRED"
+      ]
+    },
+    "causal_claim_allowed": {
+      "type": "boolean"
+    },
+    "human_ground_truth": {
+      "const": false
+    },
+    "model_review_is_human_ground_truth": {
+      "const": false
+    },
+    "creator_mutation": {
+      "const": false
+    },
+    "provider_publish": {
+      "const": false
+    },
+    "parent_authority_accepted": {
+      "const": true
+    },
+    "parent_qa_evidence": {
+      "type": "object"
+    },
+    "self_qa_state": {
+      "const": "PENDING_QA_R4"
+    }
   }
 }
