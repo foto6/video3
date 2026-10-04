@@ -41,6 +41,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_postpublish_learning_policy_r31.py" -v
       - name: Focused R32 sequential experiment policy tests
         run: python -m unittest discover -s tests -p "test_sequential_experiment_policy_r32.py" -v
+      - name: Focused R33 adaptive portfolio governor tests
+        run: python -m unittest discover -s tests -p "test_adaptive_portfolio_governor_r33.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -847,6 +849,80 @@ jobs:
         with:
           name: growth-r32-sequential-experiment-policy
           path: ${{ runner.temp }}/growth-r32-sequential-experiment-policy
+          if-no-files-found: error
+          retention-days: 90
+      - name: Produce R33 adaptive portfolio shadow evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/growth-r33-adaptive-portfolio-governor"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          python -m growth_analytics.adaptive_portfolio_governor_r33 rehearse-fixtures \
+            --authority conformance/growth.adaptive_portfolio_governor.r33.v1/authority.json \
+            --policy conformance/growth.adaptive_portfolio_governor.r33.v1/policy.json \
+            --out-dir "$OUT" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          python - "$OUT/simulation-report.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert p["status"] == "SHADOW_SOURCE_READY", p
+          assert p["case_count"] >= 25, p
+          cases=p["cases"]
+          required={
+            "03_delayed_winner_illusion",
+            "07_censored_loser",
+            "08_simpson_reversal",
+            "11_duplicate_exposures_between_campaigns",
+            "15_cross_account_mixing",
+            "25_platform_shift",
+            "04_novelty_spike_then_decay",
+            "22_metric_schema_switch",
+            "23_metric_definition_switch",
+            "17_campaign_added_after_results",
+            "29_alpha_slot_overspend_or_duplicate",
+            "06_observational_association_only",
+            "12_source_identity_reuse",
+            "13_candidate_identity_reuse",
+            "20_conflicting_r32_parent_authority",
+            "24_stale_policy_tamper",
+            "18_traffic_concentration_above_cap",
+          }
+          assert required <= set(cases), p
+          assert cases["01_persistent_winner_shadow_promote"]["shadow_recommendation"] == "SHADOW_PROMOTE", p
+          assert cases["03_delayed_winner_illusion"]["shadow_recommendation"] == "TEST_MORE", p
+          assert cases["04_novelty_spike_then_decay"]["shadow_recommendation"] == "SHADOW_ROLLBACK", p
+          assert cases["08_simpson_reversal"]["shadow_recommendation"] == "HUMAN_REVIEW_REQUIRED", p
+          assert cases["31_input_order_stability"]["same_as_ordered"] is True, p
+          safety=p["shadow_safety"]
+          assert safety["shadow_promote_is_advisory"] is True, p
+          assert safety["creator_mutation"] is False, p
+          assert safety["provider_mutation"] is False, p
+          assert safety["traffic_routing"] is False, p
+          assert safety["budget_allocation"] is False, p
+          assert safety["live_publish"] is False, p
+          assert safety["violations"] == [], p
+          assert p["evidence_boundaries"]["human_ground_truth"] is False, p
+          assert p["evidence_boundaries"]["observational_is_causal"] is False, p
+          assert p["authority"]["growth_r32"]["producer_sha"] == "aacaefca808a0d71adb56fbb5b5ecf6213e874c8", p
+          assert p["authority"]["growth_r32"]["ci_run_id"] == 37207893319, p
+          assert p["authority"]["growth_r32"]["artifact_id"] == 11304917444, p
+          assert p["authority"]["growth_r32"]["artifact_digest"] == "sha256:a697270b382b935271fc088e856720e29f9b2e6ff2c313adc93b2789234032be", p
+          print(json.dumps({
+            "report_digest":p["report_digest"],
+            "case_count":p["case_count"],
+            "accepted_case_count":p["accepted_case_count"],
+            "rejected_case_count":p["rejected_case_count"],
+            "shadow_promote_advisory":safety["shadow_promote_is_advisory"],
+            "required_cases":sorted(required),
+          },sort_keys=True))
+          PY
+      - name: Upload R33 adaptive portfolio governor artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r33-adaptive-portfolio-governor
+          path: ${{ runner.temp }}/growth-r33-adaptive-portfolio-governor
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
