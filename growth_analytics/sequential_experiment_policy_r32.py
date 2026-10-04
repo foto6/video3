@@ -29,6 +29,12 @@ PARENT_ARTIFACT_DIGEST = (
     "sha256:fab2ab2df9a4c8106352c5e6c17da3b3281f15a2b0e2015ec285304b2070334d"
 )
 PARENT_CONTRACT = "growth.postpublish_learning.r31.v1"
+QA_R3_HEAD = "2a48c909bfb5785409b591253f6085642b962d0d"
+QA_R3_CI = 37207701514
+QA_R3_ARTIFACT_ID = 11305557095
+QA_R3_ARTIFACT_DIGEST = (
+    "sha256:4c5cb2c476643a03865ec37c084650db4c98c84c3aed04aafeb35b81b4e9fba0"
+)
 
 MODES = {"randomized_controlled", "observational_monitoring"}
 RECOMMENDATIONS = {
@@ -38,7 +44,8 @@ RECOMMENDATIONS = {
     "PROMOTE_CANDIDATE",
     "HUMAN_REVIEW_REQUIRED",
 }
-STATUS = "SOURCE_READY_WAITING_PARENT_QA"
+STATUS = "SOURCE_READY_PENDING_R32_QA"
+SELF_QA_STATE = "PENDING_QA_R4"
 POLICY_STALE = "STALE_POLICY_REVIEW_REQUIRED"
 POLICY_CURRENT = "POLICY_CURRENT"
 
@@ -134,6 +141,7 @@ def validate_authority(value: Mapping[str, Any]) -> dict[str, Any]:
     if not isinstance(value, Mapping) or set(value) != {
         "contract_version",
         "growth_r31_parent",
+        "self_qa",
         "metric_contracts",
         "evidence_boundary",
     }:
@@ -148,10 +156,28 @@ def validate_authority(value: Mapping[str, Any]) -> dict[str, Any]:
         "artifact_name": "growth-r31-postpublish-learning-policy",
         "artifact_digest": PARENT_ARTIFACT_DIGEST,
         "contract": PARENT_CONTRACT,
-        "qa_state": "WAITING_QA_R3",
-        "authoritative_integration_allowed": False,
+        "qa_state": "ACCEPTED",
+        "authoritative_integration_allowed": True,
+        "qa_r3_acceptance": {
+            "qa_head": QA_R3_HEAD,
+            "ci_run_id": QA_R3_CI,
+            "artifact_id": QA_R3_ARTIFACT_ID,
+            "artifact_digest": QA_R3_ARTIFACT_DIGEST,
+            "disposition": "ACCEPTED",
+            "accepted_growth_r31": {
+                "producer_sha": PARENT_SHA,
+                "ci_run_id": PARENT_CI,
+                "artifact_id": PARENT_ARTIFACT_ID,
+                "artifact_digest": PARENT_ARTIFACT_DIGEST,
+            },
+        },
     }:
-        raise AuthorityDrift("exact R31 parent authority drift")
+        raise AuthorityDrift("exact R31 parent or QA-R3 acceptance authority drift")
+    if value["self_qa"] != {
+        "state": SELF_QA_STATE,
+        "accepted": False,
+    }:
+        raise AuthorityDrift("R32 self QA state drift")
     if value["metric_contracts"] != {
         "publish_result": "growth.shortform_publish_result.v1",
         "metric_snapshot": "growth.shortform_metric_snapshot.v1",
@@ -857,6 +883,11 @@ def evaluate(
         "decision_digest": "",
         "status": STATUS,
         "parent_qa_state": authority["growth_r31_parent"]["qa_state"],
+        "parent_authority_accepted": True,
+        "parent_qa_evidence": _clone(
+            authority["growth_r31_parent"]["qa_r3_acceptance"]
+        ),
+        "self_qa_state": authority["self_qa"]["state"],
         "authoritative_integration": False,
         "campaign_id": campaign["campaign_id"],
         "campaign_digest": campaign["campaign_digest"],
@@ -1624,7 +1655,12 @@ def build_rehearsal(
     report = {
         "report_version": REPORT_VERSION,
         "status": STATUS,
-        "parent_qa_state": "WAITING_QA_R3",
+        "parent_qa_state": "ACCEPTED",
+        "parent_authority_accepted": True,
+        "parent_qa_evidence": _clone(
+            authority["growth_r31_parent"]["qa_r3_acceptance"]
+        ),
+        "self_qa_state": SELF_QA_STATE,
         "authoritative_integration": False,
         "accepted_cases": {
             name: {
@@ -1725,6 +1761,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "decision_digest": decision["decision_digest"],
                 "policy_state": decision["policy_state"],
                 "parent_qa_state": decision["parent_qa_state"],
+                "parent_authority_accepted": decision["parent_authority_accepted"],
+                "parent_qa_evidence": decision["parent_qa_evidence"],
+                "self_qa_state": decision["self_qa_state"],
                 "authoritative_integration": False,
                 "human_ground_truth": False,
                 "creator_mutation": False,
@@ -1741,7 +1780,22 @@ def main(argv: Sequence[str] | None = None) -> int:
             "recommendation": "HUMAN_REVIEW_REQUIRED",
             "reason": type(exc).__name__,
             "detail": str(exc),
-            "parent_qa_state": "WAITING_QA_R3",
+            "parent_qa_state": "ACCEPTED",
+            "parent_authority_accepted": True,
+            "parent_qa_evidence": {
+                "qa_head": QA_R3_HEAD,
+                "ci_run_id": QA_R3_CI,
+                "artifact_id": QA_R3_ARTIFACT_ID,
+                "artifact_digest": QA_R3_ARTIFACT_DIGEST,
+                "disposition": "ACCEPTED",
+                "accepted_growth_r31": {
+                    "producer_sha": PARENT_SHA,
+                    "ci_run_id": PARENT_CI,
+                    "artifact_id": PARENT_ARTIFACT_ID,
+                    "artifact_digest": PARENT_ARTIFACT_DIGEST,
+                },
+            },
+            "self_qa_state": SELF_QA_STATE,
             "authoritative_integration": False,
             "human_ground_truth": False,
             "creator_mutation": False,
