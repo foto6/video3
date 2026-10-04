@@ -1,7 +1,7 @@
 {
   "contract_version": "growth.dynamic_creator_external_review_envelope.r26.v1",
   "envelope_id": "fixture-b-b",
-  "envelope_digest": "9e580ac3faee8d76590b789e46d94c62ea8e1c801d40cfdb4dfabcb7da32230b",
+  "envelope_digest": "177f77e6909240897503233911a4de702db011b25d73c0d9be2ef9050a41af0f",
   "creator_event": {
     "contractVersion": "creator.dynamic_external_review_event.r26.v1",
     "producer": {
@@ -35,7 +35,7 @@
     "assistant_response_digest": "04d2757e0ff1a68f5400690270f590416270f48c01a4c13d4900475113a221cb"
   },
   "review": {
-    "package_digest": "65b591b7991cc4b0c4fa5ecbabda2d7bb58418b873792ce55f92c93cd08fc470",
+    "package_digest": "6a7b79f617de400a4a086e64a0cae9feceafa51a9a324074e85fb07ebf58dfc9",
     "sealed_mapping_digest": "01cef4f83ebf90c9fd11d058251a27daef2fc76b276c170b86e32d7fc98b1fa6",
     "review_round": 0,
     "model_facing_selection": "A",
