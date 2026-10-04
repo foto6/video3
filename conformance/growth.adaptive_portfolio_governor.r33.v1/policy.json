@@ -1,0 +1,54 @@
+{
+  "contract_version": "growth.adaptive_portfolio_policy.r33.v1",
+  "policy_version": 1,
+  "family_error_accounting": {
+    "alpha_total": 0.05,
+    "method": "prospective_slot_reservation",
+    "max_campaigns": 4,
+    "slot_alpha": [0.02, 0.0125, 0.01, 0.0075],
+    "previous_slots_rewritten": false
+  },
+  "maturity_windows_seconds": {
+    "early": 3600,
+    "mature": 604800
+  },
+  "exploration": {
+    "minimum_exploration_floor": 0.2,
+    "maximum_concentration_recommendation": 0.7,
+    "minimum_mature_exposures_per_arm": 20,
+    "winner_take_all_allowed": false
+  },
+  "holdback": {
+    "minimum_share": 0.1
+  },
+  "interference": {
+    "source_overlap_blocks": true,
+    "candidate_bytes_overlap_blocks": true,
+    "cross_platform_candidate_reuse_blocks": true,
+    "exposure_identity_overlap_blocks": true,
+    "external_change_blocks": true
+  },
+  "strata": {
+    "dimensions": ["platform", "account_pseudonym", "topic_cluster"],
+    "critical_reversal_effect": -0.05,
+    "overall_positive_effect": 0.05,
+    "aggregation_policy": "equal_event_weight_with_critical_reversal_veto"
+  },
+  "novelty": {
+    "early_spike_effect": 0.08,
+    "mature_persistence_effect": 0.02,
+    "mature_evidence_required_for_shadow_promote": true
+  },
+  "drift": {
+    "stale_r32_policy_blocks": true,
+    "platform_total_variation": 0.35,
+    "topic_total_variation": 0.4
+  },
+  "recommendations": [
+    "KEEP",
+    "TEST_MORE",
+    "SHADOW_PROMOTE",
+    "SHADOW_ROLLBACK",
+    "HUMAN_REVIEW_REQUIRED"
+  ]
+}
