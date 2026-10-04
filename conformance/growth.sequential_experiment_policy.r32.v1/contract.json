@@ -1,0 +1,21 @@
+{
+  "contract_version": "growth.sequential_experiment_policy.r32.v1",
+  "authority_contract": "growth.sequential_experiment_authority.r32.v1",
+  "policy_contract": "growth.sequential_experiment_policy_config.r32.v1",
+  "campaign_contract": "growth.sequential_experiment_campaign.r32.v1",
+  "event_contract": "growth.sequential_experiment_event.r32.v1",
+  "decision_contract": "growth.sequential_experiment_decision.r32.v1",
+  "evidence_modes": ["randomized_controlled", "observational_monitoring"],
+  "recommendations": ["KEEP", "TEST_MORE", "ROLLBACK_RECOMMENDED", "PROMOTE_CANDIDATE", "HUMAN_REVIEW_REQUIRED"],
+  "source_ready_status": "SOURCE_READY_WAITING_PARENT_QA",
+  "causal_boundary": {
+    "observational_winner_allowed": false,
+    "randomized_preference_requires_all_gates": true,
+    "human_ground_truth": false
+  },
+  "mutation_boundary": {
+    "creator_edit": false,
+    "provider_publish": false,
+    "browser_mutation": false
+  }
+}
