@@ -32,6 +32,16 @@ The oracle validates the canonical Media R24 directory before reading any review
 
 Only the prompt and blinded A/B media are model-facing. Sealed A/B role/candidate mapping remains machine-side.
 
+### Outer R24 versus preserved inner R29 identity
+
+R24 adds a canonical export package around the accepted R23/R22/R21 review material. Its outer `packageDigest` is therefore not the R29 round result's `package_digest`. R30 validates both identities and their byte-level linkage:
+
+- outer R24 round-0 package digest: `65b591b7991cc4b0c4fa5ecbabda2d7bb58418b873792ce55f92c93cd08fc470`;
+- nested R23 session-package SHA-256: `773326ccee821991e5faa13e1abb3d3c48bcb18499f96bcf7fbd7baab5637afe`;
+- preserved inner R29/R21 package digest: `6a7b79f617de400a4a086e64a0cae9feceafa51a9a324074e85fb07ebf58dfc9`.
+
+The embedded R29 round result also retains its frozen R29 authority set, including Bridge R32. Bridge R34 is a new outer review-capture/routing authority and never rewrites the R29 evidence lineage.
+
 ## Verified review manifest
 
 Each `review-*.json` uses `growth.verified_r29_r34_model_review.r30.v1` and binds:
