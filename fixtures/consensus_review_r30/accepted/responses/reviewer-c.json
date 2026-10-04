@@ -1,0 +1,22 @@
+{
+  "contract_version": "growth.model_review_vote.r30.v1",
+  "winner": "A",
+  "confidence": 0.89,
+  "defects": [
+    {
+      "attachment_label": "A",
+      "start_ms": 2600,
+      "end_ms": 3300,
+      "defect_category": "pacing",
+      "severity": "medium",
+      "evidence": "Reviewer C observed a removable pause in blinded candidate A.",
+      "requested_edit": "Decrease the pause duration while preserving speech continuity.",
+      "direction": "decrease",
+      "confidence": 0.86,
+      "uncertainty": "Fixture-only evidence; exact human preference is unknown."
+    }
+  ],
+  "policy_valid": true,
+  "format_valid": true,
+  "uncertainty": "Independent fixture review; model evidence only."
+}
