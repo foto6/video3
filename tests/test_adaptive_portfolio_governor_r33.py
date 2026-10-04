@@ -159,7 +159,7 @@ class GrowthR33AdaptivePortfolioGovernorTests(unittest.TestCase):
         control = [0.50] * 40 + [0.20] * 40
         candidate = [0.40] * 40 + [0.60] * 40
         platforms = {
-            i: ("instagram_reels" if (i % 80) < 40 else "tiktok")
+            i: ("instagram_reels" if (i // 2) < 40 else "tiktok")
             for i in range(160)
         }
         early = r33._make_r32_evidence(
@@ -198,9 +198,18 @@ class GrowthR33AdaptivePortfolioGovernorTests(unittest.TestCase):
         )
         bundles = copy.deepcopy(bundles)
         bundles[1]["early"]["events"][0]["exposure_id"] = bundles[0]["early"]["events"][0]["exposure_id"]
-        bundles[1]["early"]["events"][0]["event_digest"] = r32._event_digest(
-            bundles[1]["early"]["events"][0]
+        changed_event = bundles[1]["early"]["events"][0]
+        randomized = changed_event["randomized"]
+        randomized["assignment_digest"] = r33.sha256_json(
+            {
+                "campaign_id": bundles[1]["early"]["campaign"]["campaign_id"],
+                "assignment_id": randomized["assignment_id"],
+                "exposure_id": changed_event["exposure_id"],
+                "seed": randomized["randomization_seed"],
+                "candidate_id": changed_event["candidate_id"],
+            }
         )
+        changed_event["event_digest"] = r32._event_digest(changed_event)
         evidence = bundles[1]["early"]
         evidence["decision"] = r32.evaluate(
             campaign=evidence["campaign"],
