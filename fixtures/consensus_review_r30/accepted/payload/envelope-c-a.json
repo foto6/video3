@@ -1,0 +1,64 @@
+{
+  "contract_version": "growth.dynamic_creator_external_review_envelope.r26.v1",
+  "envelope_id": "fixture-c-a",
+  "envelope_digest": "60268ae25997e82b46919903fd01aa4539bd55c53bfce7e677d006f6a7201498",
+  "creator_event": {
+    "contractVersion": "creator.dynamic_external_review_event.r26.v1",
+    "producer": {
+      "repository": "foto6/video3",
+      "sha": "e844ed2daaaca9e9694fe1e0fb6b8b7bfac69cbc",
+      "ciRunId": 36996617627,
+      "contract": "growth.dynamic_creator_reedit_handoff.r26.v1"
+    },
+    "captureMode": "external_live_review",
+    "reviewIdentity": "fixture-review-c",
+    "handoff": {
+      "handoff_digest": "f6c743028c08b273343cd256329daa5d6a765a034ace4fd6d1823a7ea9fffc41"
+    }
+  },
+  "growth_r26": {
+    "repository": "foto6/video3",
+    "producer_sha": "e844ed2daaaca9e9694fe1e0fb6b8b7bfac69cbc",
+    "ci_run_id": 36996617627,
+    "starting_r25_sha": "2c441ebaa017c7da72461316401aeaf445e3d6e5",
+    "ingest_contract": "growth.dynamic_live_review_capture.r26.v1"
+  },
+  "media_authority": {
+    "producer_sha": "244acdf154741e669991b17df3ef2a47e2dfdfa9"
+  },
+  "bridge_authority": {
+    "producer_sha": "4e2a37545cc0cdd940cf6e86d40e0d620d6c94ae"
+  },
+  "capture": {
+    "conversation_id": "r30-review-c",
+    "capture_digest": "b5b93daefa3742095ed28c2514cb5ddac1a8a625af7dc1098c55f843191d45af",
+    "assistant_response_digest": "6dcbfd5a098eab9051fb769d03831c0f5335827a3c5b97030f1eaf37ee39646b"
+  },
+  "review": {
+    "package_digest": "65b591b7991cc4b0c4fa5ecbabda2d7bb58418b873792ce55f92c93cd08fc470",
+    "sealed_mapping_digest": "01cef4f83ebf90c9fd11d058251a27daef2fc76b276c170b86e32d7fc98b1fa6",
+    "review_round": 0,
+    "model_facing_selection": "A",
+    "selected_candidate_id": "r20-initial-alternative"
+  },
+  "candidate": {
+    "candidate_id": "r20-initial-alternative",
+    "candidate_round": 0,
+    "source_id": "talking-head-vertical-source",
+    "source_sha256": "bf7a2423ae26cb7bba73cb93930e46df95adad1619d79d2a08bfe3b072812309",
+    "render_sha256": "70fdc25373b544b98aad4f8b5180fc56e69aea9ce11c3d5fb65b08ac02c50cb2",
+    "render_size": 787963,
+    "attachment_sha256": "70fdc25373b544b98aad4f8b5180fc56e69aea9ce11c3d5fb65b08ac02c50cb2",
+    "attachment_size": 787963,
+    "attachment_mime_type": "video/mp4",
+    "handoff_digest": "f6c743028c08b273343cd256329daa5d6a765a034ace4fd6d1823a7ea9fffc41",
+    "state": "winner"
+  },
+  "evidence_boundary": {
+    "model_evidence": true,
+    "human_ground_truth": false,
+    "human_rating_evidence": false,
+    "human_parity_inferred": false,
+    "provider_mutation": false
+  }
+}
