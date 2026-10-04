@@ -104,7 +104,7 @@ class GrowthR31PostPublishLearningTests(unittest.TestCase):
         # Same provider post with a distinct valid snapshot is also rejected.
         b = self.observation(1)
         b["observation_id"] = "obs-other"
-        b["metric_snapshot"]["window"]["end"] = "2026-09-02T11:00:00Z"
+        b["metric_snapshot"]["selected_metrics_event_digest"] = "f" * 64
         material = dict(b["metric_snapshot"])
         material.pop("snapshot_digest")
         b["metric_snapshot"]["snapshot_digest"] = r31.sha256_json(material)
