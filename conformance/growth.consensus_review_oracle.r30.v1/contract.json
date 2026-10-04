@@ -1,0 +1,53 @@
+{
+  "contract_version": "growth.consensus_review_oracle.r30.v1",
+  "authority_contract": "growth.consensus_authorities.r30.v1",
+  "policy_contract": "growth.consensus_aggregation_policy.r30.v1",
+  "verified_review_contract": "growth.verified_r29_r34_model_review.r30.v1",
+  "vote_contract": "growth.model_review_vote.r30.v1",
+  "consensus_contract": "growth.multi_review_consensus.r30.v1",
+  "creator_handoff_contract": "growth.consensus_creator_handoff.r30.v1",
+  "inputs": {
+    "exact_reviewer_count": 3,
+    "same_media_r24_package_round_required": true,
+    "exact_bridge_r34_authority_required": true,
+    "distinct_review_conversation_ids": true,
+    "duplicate_capture_digest_rejected": true,
+    "duplicate_response_digest_rejected": true,
+    "sealed_mapping_contents_model_facing": false,
+    "exact_prompt_bytes_hash_required": true,
+    "exact_attachment_hash_size_required": true,
+    "exact_response_bytes_hash_required": true
+  },
+  "aggregation": {
+    "policy_file": "aggregation-policy.json",
+    "policy_must_exist_before_fixture_evidence": true,
+    "dissent_preserved_in_audit": true,
+    "deterministic_canonical_order": "conversation_id_ascending",
+    "accepted_states": [
+      "CONSENSUS_ACCEPTED",
+      "HUMAN_REVIEW_REQUIRED"
+    ]
+  },
+  "creator": {
+    "executable_only_on_consensus_gate_pass_and_all_live_inputs": true,
+    "canonical_inner_contract": "growth.dynamic_creator_external_review_envelope.r26.v1",
+    "outer_exact_r30_authority": true,
+    "fixture_executable": false
+  },
+  "replay": {
+    "same_three_captures": "byte-stable/no-op",
+    "reordered_inputs": "same semantic result and digest",
+    "changed_capture_same_reviewer_session": "conflict",
+    "duplicate_reviewer_or_capture": "reject"
+  },
+  "evidence_boundary": {
+    "model_consensus_is_human_ground_truth": false,
+    "human_ground_truth": false,
+    "human_rating_evidence": false,
+    "human_parity_inferred": false,
+    "browser_mutation": false,
+    "model_call": false,
+    "provider_publish": false,
+    "merge": false
+  }
+}
