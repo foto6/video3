@@ -1,0 +1,73 @@
+{
+  "contract_version": "growth.consensus_aggregation_policy.r30.v1",
+  "reviewer_count": 3,
+  "canonical_reviewer_order": "conversation_id_ascending",
+  "winner_values": ["A", "B", "tie", "insufficient_evidence"],
+  "confidence_range": [0.0, 1.0],
+  "thresholds": {
+    "high_confidence_min": 0.82,
+    "high_confidence_mean": 0.86,
+    "majority_dissent_confidence_max": 0.45,
+    "majority_disagreement_score_max": 0.30
+  },
+  "disagreement_score": {
+    "formula": "min(1, 0.35*categorical_disagreement + 0.15*confidence_spread + 0.25*dissent_strength + 0.15*directive_conflict + 0.10*invalid_fraction)",
+    "categorical_disagreement": "1 - modal_vote_count/3",
+    "confidence_spread": "max(confidence)-min(confidence) across parseable reviews",
+    "dissent_strength": "max confidence among reviews not voting for the modal A/B winner; zero for unanimous winner",
+    "directive_conflict": "1 when overlapping same-label same-category defects request different directions, otherwise 0",
+    "invalid_fraction": "invalid_or_malformed_review_count/3"
+  },
+  "acceptance": {
+    "unanimous_high_confidence_winner": {
+      "required_vote_count": 3,
+      "winner_must_be": ["A", "B"],
+      "min_each_confidence": 0.82,
+      "min_mean_confidence": 0.86,
+      "all_policy_valid": true,
+      "all_format_valid": true,
+      "directive_conflict_allowed": false
+    },
+    "two_of_three_majority": {
+      "required_vote_count": 2,
+      "winner_must_be": ["A", "B"],
+      "min_each_majority_confidence": 0.82,
+      "min_majority_mean_confidence": 0.86,
+      "max_dissent_confidence": 0.45,
+      "max_disagreement_score": 0.30,
+      "all_policy_valid": true,
+      "all_format_valid": true,
+      "directive_conflict_allowed": false
+    }
+  },
+  "human_review_required": [
+    "malformed_review",
+    "policy_invalid",
+    "format_invalid",
+    "tie_or_insufficient_modal_outcome",
+    "no_two_vote_winner",
+    "unanimous_low_confidence",
+    "majority_low_confidence",
+    "dissent_confidence_too_high",
+    "excessive_disagreement",
+    "conflicting_defect_direction"
+  ],
+  "independence": {
+    "distinct_conversation_ids": 3,
+    "duplicate_capture_digest_allowed": false,
+    "duplicate_response_digest_allowed": false,
+    "same_media_package_required": true,
+    "same_review_round_required": true,
+    "same_prompt_digest_required": true,
+    "same_attachment_identity_required": true,
+    "same_sealed_mapping_digest_required": true,
+    "sealed_mapping_visible_to_reviewer": false
+  },
+  "evidence_boundary": {
+    "fixture_can_emit_executable_creator_handoff": false,
+    "model_consensus_is_human_ground_truth": false,
+    "human_ground_truth": false,
+    "human_rating_evidence": false,
+    "human_parity_inferred": false
+  }
+}
