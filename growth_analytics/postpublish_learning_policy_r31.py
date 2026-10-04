@@ -407,6 +407,16 @@ def normalize_observation(
         "live_performance_claim_allowed"
     ]:
         raise ObservationConflict("snapshot/publish live-scope mismatch")
+    available_metrics = set(snapshot["available_metrics"])
+    for metric_name, metric_value in snapshot["raw_metrics"].items():
+        if metric_name not in available_metrics and metric_value is not None:
+            raise ObservationConflict(
+                f"unavailable metric treated as zero/value: {metric_name}"
+            )
+        if metric_name in available_metrics and metric_value is None:
+            raise ObservationConflict(
+                f"available metric unexpectedly null: {metric_name}"
+            )
     if raw["fixture"] is not (publish["source_class"] == "synthetic_fixture"):
         raise ObservationConflict("fixture flag/source_class mismatch")
 
@@ -1495,10 +1505,14 @@ def build_rehearsal(
             raise AssertionError(f"adversarial case did not reject: {name}")
 
     duplicate = copy.deepcopy(observations[:3])
-    duplicate[1]["publish_result"]["post_id"] = duplicate[0]["publish_result"]["post_id"]
-    # Rebuilding IDs would make this a different receipt; direct duplicate evidence is clearer.
     duplicate[1] = copy.deepcopy(duplicate[0])
     duplicate[1]["observation_id"] = "duplicate-post-new-id"
+    duplicate[1]["metric_snapshot"]["selected_metrics_event_digest"] = "f" * 64
+    duplicate_material = dict(duplicate[1]["metric_snapshot"])
+    duplicate_material.pop("snapshot_digest")
+    duplicate[1]["metric_snapshot"]["snapshot_digest"] = sha256_json(
+        duplicate_material
+    )
     reject(
         "duplicate_provider_post",
         lambda: validate_dataset(duplicate, authority=authority, policy=policy),
@@ -1536,6 +1550,57 @@ def build_rehearsal(
     reject(
         "stale_platform_definition",
         lambda: normalize_observation(stale_schema, authority=authority, policy=policy),
+    )
+    normalized_schema = copy.deepcopy(observations[0])
+    normalized_schema["metric_definition"]["normalized_schema_version"] = (
+        "growth.shortform_metric_snapshot.v0"
+    )
+    reject(
+        "schema_drift",
+        lambda: normalize_observation(
+            normalized_schema,
+            authority=authority,
+            policy=policy,
+        ),
+    )
+    unavailable_zero = copy.deepcopy(observations[0])
+    unavailable_zero["metric_snapshot"]["raw_metrics"]["impressions"] = 0
+    unavailable_material = dict(unavailable_zero["metric_snapshot"])
+    unavailable_material.pop("snapshot_digest")
+    unavailable_zero["metric_snapshot"]["snapshot_digest"] = sha256_json(
+        unavailable_material
+    )
+    reject(
+        "unavailable_metric_treated_as_zero",
+        lambda: normalize_observation(
+            unavailable_zero,
+            authority=authority,
+            policy=policy,
+        ),
+    )
+    counter_decrease = copy.deepcopy(observations[0])
+    prior = copy.deepcopy(counter_decrease["metric_snapshot"])
+    prior["window"]["end"] = (
+        parse_timestamp(prior["window"]["start"])
+        .replace(minute=30)
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
+    prior["raw_metrics"]["views"] = (
+        counter_decrease["metric_snapshot"]["raw_metrics"]["views"] + 100
+    )
+    prior["normalized_metrics"]["views"] = prior["raw_metrics"]["views"]
+    prior_material = dict(prior)
+    prior_material.pop("snapshot_digest")
+    prior["snapshot_digest"] = sha256_json(prior_material)
+    counter_decrease["prior_metric_snapshot"] = prior
+    reject(
+        "metric_counter_decrease",
+        lambda: normalize_observation(
+            counter_decrease,
+            authority=authority,
+            policy=policy,
+        ),
     )
     contaminated = copy.deepcopy(observations[:3])
     contaminated[2] = _fixture_observation(
