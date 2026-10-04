@@ -1,0 +1,89 @@
+{
+  "contract_version": "growth.verified_r29_r34_model_review.r30.v1",
+  "evidence_state": "FIXTURE_VERIFIED",
+  "review_id": "fixture-review-c",
+  "r29": {
+    "producer_sha": "3e4a8ad6d73b058c953abeadba7a60abe567adbc",
+    "ci_run_id": 37195373334,
+    "artifact_id": 11301225456,
+    "artifact_digest": "sha256:40fb5e5c7ab7ccf7a02514f9b5a40eb8fc3207373c63391a17606fb12a6d0e55",
+    "round_result_contract": "growth.exact_session_round_result.r29.v1",
+    "round_result_file": "payload/r29-result-c.json",
+    "round_result_file_sha256": "3dc4a5517014e27bede009b874e43a8a7251e1e9485682fdf20abd2ed842f635",
+    "session_id": "fixture-r30-consensus-session"
+  },
+  "media_r24": {
+    "producer_sha": "244acdf154741e669991b17df3ef2a47e2dfdfa9",
+    "ci_run_id": 37195239582,
+    "artifact_id": 11301055747,
+    "artifact_digest": "sha256:fc5c9b9635d49b643e66efafe602d21ce1ef695a553f81a797bdf16d7b8cf228",
+    "session_id": "r23-real-session",
+    "session_identity": "e53c6c45febf4a1281de6902a77a0795011bdb99f4e7aec25afeae516ee74560",
+    "package_digest": "65b591b7991cc4b0c4fa5ecbabda2d7bb58418b873792ce55f92c93cd08fc470",
+    "review_round": 0,
+    "prompt_digest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2",
+    "prompt_size": 678,
+    "sealed_mapping_digest": "01cef4f83ebf90c9fd11d058251a27daef2fc76b276c170b86e32d7fc98b1fa6",
+    "attachments": [
+      {
+        "blindLabel": "A",
+        "relativePath": "review-A.mp4",
+        "sha256": "70fdc25373b544b98aad4f8b5180fc56e69aea9ce11c3d5fb65b08ac02c50cb2",
+        "size": 787963,
+        "mime": "video/mp4"
+      },
+      {
+        "blindLabel": "B",
+        "relativePath": "review-B.mp4",
+        "sha256": "1855a1745d53329294c680600299a9ca0308a7c468b27d6dab94d21a72605054",
+        "size": 795358,
+        "mime": "video/mp4"
+      }
+    ]
+  },
+  "bridge_r34": {
+    "producer_sha": "4e2a37545cc0cdd940cf6e86d40e0d620d6c94ae",
+    "ci_run_id": 37196102639,
+    "capture_contract": "bridge.existing_chat_video_review_capture.v1",
+    "result_contract": "bridge.existing_chat_video_review_result.v1",
+    "routing_authority": "providerConversationId",
+    "provider_conversation_id": "r30-review-c",
+    "conversation_id": "r30-review-c",
+    "canonical_url": "https://chatgpt.com/c/r30-review-c",
+    "request_id": "r30-request-c",
+    "operation_id": "r30-operation-c",
+    "capture_digest": "b5b93daefa3742095ed28c2514cb5ddac1a8a625af7dc1098c55f843191d45af",
+    "response_digest": "6dcbfd5a098eab9051fb769d03831c0f5335827a3c5b97030f1eaf37ee39646b",
+    "response_file": "responses/reviewer-c.json",
+    "response_file_sha256": "6dcbfd5a098eab9051fb769d03831c0f5335827a3c5b97030f1eaf37ee39646b"
+  },
+  "model_metadata": {
+    "provider": "fixture-provider-3",
+    "model": "fixture-model-gamma",
+    "metadata": {
+      "fixture": true,
+      "temperature": 0
+    }
+  },
+  "inner_envelopes": {
+    "A": {
+      "relative_path": "payload/envelope-c-a.json",
+      "sha256": "3b714d7cd8b8d447d740a1c10d22bc143b37ee42efebaba88ca12dbf38fdf366",
+      "envelope_digest": "60268ae25997e82b46919903fd01aa4539bd55c53bfce7e677d006f6a7201498"
+    },
+    "B": {
+      "relative_path": "payload/envelope-c-b.json",
+      "sha256": "373388682dab162182e7592ff82143929367b005a18be1934be1fa4df78bffeb",
+      "envelope_digest": "02b5dbd99f9899b8eead7d67e92c0916fc499a76a7288aeb54167085edab2bb3"
+    }
+  },
+  "evidence_boundary": {
+    "sealed_mapping_visible_to_reviewer": false,
+    "model_evidence": true,
+    "human_ground_truth": false,
+    "human_rating_evidence": false,
+    "human_parity_inferred": false,
+    "browser_mutation_by_growth": false,
+    "provider_publish_by_growth": false
+  }
+}
