@@ -1,0 +1,64 @@
+{
+  "contract_version": "growth.dynamic_creator_external_review_envelope.r26.v1",
+  "envelope_id": "fixture-a-b",
+  "envelope_digest": "bf4fb4f8439b63bea771701a7f12cc72707c9d28879ee709cc32c6939c9e0637",
+  "creator_event": {
+    "contractVersion": "creator.dynamic_external_review_event.r26.v1",
+    "producer": {
+      "repository": "foto6/video3",
+      "sha": "e844ed2daaaca9e9694fe1e0fb6b8b7bfac69cbc",
+      "ciRunId": 36996617627,
+      "contract": "growth.dynamic_creator_reedit_handoff.r26.v1"
+    },
+    "captureMode": "external_live_review",
+    "reviewIdentity": "fixture-review-a",
+    "handoff": {
+      "handoff_digest": "ba61cf133091fce79758c7cd254f72dbaab04b0eaeedef07865fe3b5cec706cc"
+    }
+  },
+  "growth_r26": {
+    "repository": "foto6/video3",
+    "producer_sha": "e844ed2daaaca9e9694fe1e0fb6b8b7bfac69cbc",
+    "ci_run_id": 36996617627,
+    "starting_r25_sha": "2c441ebaa017c7da72461316401aeaf445e3d6e5",
+    "ingest_contract": "growth.dynamic_live_review_capture.r26.v1"
+  },
+  "media_authority": {
+    "producer_sha": "244acdf154741e669991b17df3ef2a47e2dfdfa9"
+  },
+  "bridge_authority": {
+    "producer_sha": "4e2a37545cc0cdd940cf6e86d40e0d620d6c94ae"
+  },
+  "capture": {
+    "conversation_id": "r30-review-a",
+    "capture_digest": "501ff68f4e5ea38114bf803a725e91ba902bcbc92f8db14504e361fec6acba34",
+    "assistant_response_digest": "b62821e83fff8ab7808f60eb820dd0662b3ae4239cb0b35168ea9ce96e469aec"
+  },
+  "review": {
+    "package_digest": "65b591b7991cc4b0c4fa5ecbabda2d7bb58418b873792ce55f92c93cd08fc470",
+    "sealed_mapping_digest": "01cef4f83ebf90c9fd11d058251a27daef2fc76b276c170b86e32d7fc98b1fa6",
+    "review_round": 0,
+    "model_facing_selection": "A",
+    "selected_candidate_id": "r20-initial-alternative"
+  },
+  "candidate": {
+    "candidate_id": "r20-initial-control",
+    "candidate_round": 0,
+    "source_id": "talking-head-vertical-source",
+    "source_sha256": "bf7a2423ae26cb7bba73cb93930e46df95adad1619d79d2a08bfe3b072812309",
+    "render_sha256": "1855a1745d53329294c680600299a9ca0308a7c468b27d6dab94d21a72605054",
+    "render_size": 795358,
+    "attachment_sha256": "1855a1745d53329294c680600299a9ca0308a7c468b27d6dab94d21a72605054",
+    "attachment_size": 795358,
+    "attachment_mime_type": "video/mp4",
+    "handoff_digest": "ba61cf133091fce79758c7cd254f72dbaab04b0eaeedef07865fe3b5cec706cc",
+    "state": "targeted_reedit"
+  },
+  "evidence_boundary": {
+    "model_evidence": true,
+    "human_ground_truth": false,
+    "human_rating_evidence": false,
+    "human_parity_inferred": false,
+    "provider_mutation": false
+  }
+}
