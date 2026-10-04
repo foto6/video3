@@ -1,0 +1,29 @@
+{
+  "contract_version": "growth.sequential_experiment_authority.r32.v1",
+  "growth_r31_parent": {
+    "repository": "foto6/video3",
+    "producer_sha": "311606b677d6f0d97669c905265f1eb64b7ff9a4",
+    "ci_run_id": 37204153689,
+    "artifact_id": 11304006807,
+    "artifact_name": "growth-r31-postpublish-learning-policy",
+    "artifact_digest": "sha256:fab2ab2df9a4c8106352c5e6c17da3b3281f15a2b0e2015ec285304b2070334d",
+    "contract": "growth.postpublish_learning.r31.v1",
+    "qa_state": "WAITING_QA_R3",
+    "authoritative_integration_allowed": false
+  },
+  "metric_contracts": {
+    "publish_result": "growth.shortform_publish_result.v1",
+    "metric_snapshot": "growth.shortform_metric_snapshot.v1",
+    "r31_observation": "growth.postpublish_observation.r31.v1"
+  },
+  "evidence_boundary": {
+    "randomized_and_observational_combined_into_one_causal_estimate": false,
+    "observational_is_causal": false,
+    "model_review_is_human_ground_truth": false,
+    "human_ground_truth": false,
+    "automatic_creator_mutation": false,
+    "browser_or_provider_mutation": false,
+    "publish": false,
+    "merge": false
+  }
+}
