@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.counterfactual_candidate_policy.r34.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version","policy_id","policy_digest","policy_role","policy_version",
+    "evaluation_corpus_digest","training_corpus_digest","training_split_id",
+    "trained_on_evaluation_corpus","actions","features_used","default_probabilities",
+    "rules","reference_distribution","evaluation_family"
+  ],
+  "properties": {
+    "contract_version": {"const":"growth.counterfactual_candidate_policy.r34.v1"},
+    "policy_id": {"type":"string","minLength":1},
+    "policy_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "policy_role": {"enum":["BASELINE_POLICY","CANDIDATE_POLICY"]},
+    "policy_version": {"type":"integer","minimum":1},
+    "evaluation_corpus_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "training_corpus_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "training_split_id": {"type":"string","minLength":1},
+    "trained_on_evaluation_corpus": {"type":"boolean"},
+    "actions": {"type":"array","minItems":2},
+    "features_used": {"type":"array"},
+    "default_probabilities": {"type":"object"},
+    "rules": {"type":"array"},
+    "reference_distribution": {"type":"object"},
+    "evaluation_family": {"type":"object"}
+  }
+}
