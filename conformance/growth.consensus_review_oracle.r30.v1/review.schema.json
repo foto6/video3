@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.verified_r29_r34_model_review.r30.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "evidence_state",
+    "review_id",
+    "r29",
+    "media_r24",
+    "bridge_r34",
+    "model_metadata",
+    "inner_envelopes",
+    "evidence_boundary"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "growth.verified_r29_r34_model_review.r30.v1"
+    },
+    "evidence_state": {
+      "enum": [
+        "LIVE_REVIEW_INGESTED",
+        "FIXTURE_VERIFIED"
+      ]
+    },
+    "review_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "r29": {
+      "type": "object"
+    },
+    "media_r24": {
+      "type": "object"
+    },
+    "bridge_r34": {
+      "type": "object"
+    },
+    "model_metadata": {
+      "type": "object"
+    },
+    "inner_envelopes": {
+      "type": "object",
+      "required": [
+        "A",
+        "B"
+      ]
+    },
+    "evidence_boundary": {
+      "type": "object"
+    }
+  }
+}
