@@ -602,12 +602,12 @@ def validate_dataset(
             item["account_pseudonym"],
             item["post_id"],
         )
-        if post_key in posts:
-            raise ObservationConflict("duplicate provider post")
-        posts.add(post_key)
         if item["snapshot_digest"] in snapshots:
             raise ObservationConflict("same metrics snapshot replayed under new ID")
         snapshots.add(item["snapshot_digest"])
+        if post_key in posts:
+            raise ObservationConflict("duplicate provider post")
+        posts.add(post_key)
         previous = observation_ids.get(item["observation_id"])
         if previous is not None and previous != item["observation_digest"]:
             raise ObservationConflict("observation ID changed bytes")
@@ -1442,7 +1442,7 @@ def build_rehearsal(
     )
 
     randomized = []
-    while len(randomized) < 16:
+    while len(randomized) < 32:
         i = 100 + len(randomized)
         raw = _fixture_observation(
             index=i,
