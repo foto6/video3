@@ -1,0 +1,35 @@
+{
+  "contract_version": "growth.postpublish_learning_authority.r31.v1",
+  "growth_r30_parent": {
+    "repository": "foto6/video3",
+    "producer_sha": "9313c984932d9b1bbf18f7c382533f830337971e",
+    "ci_run_id": 37202813275,
+    "artifact_id": 11303044114,
+    "artifact_name": "growth-r30-consensus-review-oracle",
+    "artifact_digest": "sha256:0d8a0ff48c5ade7ec4d2440227f4409d63f1b67153de1308cd53d1a4b3f57646",
+    "external_contract": "growth.consensus_review.r30.v1",
+    "external_contract_blob": "d1f399dbc1cd3b10d52c123e24f53db83595d40a",
+    "parent_qa_state": "WAITING_PARENT_QA",
+    "authoritative_integration_allowed": false
+  },
+  "upstream_metrics": {
+    "publish_contract": "growth.shortform_publish_result.v1",
+    "metric_snapshot_contract": "growth.shortform_metric_snapshot.v1",
+    "platforms": ["instagram_reels", "tiktok", "youtube_shorts"],
+    "accepted_provider_schema_versions": {
+      "instagram_reels": "instagram-insights-v26.0",
+      "tiktok": "tiktok-video-query-v2",
+      "youtube_shorts": "youtube-analytics-v2"
+    }
+  },
+  "evidence_boundary": {
+    "observational_performance_is_causal_effect": false,
+    "historical_best_guarantees_future_best": false,
+    "model_consensus_is_human_ground_truth": false,
+    "human_ground_truth": false,
+    "live_publish": false,
+    "platform_api_call_in_ci": false,
+    "automatic_irreversible_mutation": false,
+    "merge": false
+  }
+}
