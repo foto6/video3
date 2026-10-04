@@ -1,0 +1,40 @@
+{
+  "contract_version": "growth.counterfactual_policy_promotion_authority.r34.v1",
+  "growth_r33_parent": {
+    "repository": "foto6/video3",
+    "producer_sha": "8bedb5ad79023006b87b17933863ff915ab5e046",
+    "ci_run_id": 37210963972,
+    "artifact_id": 11306727215,
+    "artifact_name": "growth-r33-adaptive-portfolio-governor",
+    "artifact_digest": "sha256:132845c0aaa6d4fec5aaf60e1ade60d779183f2a637a9513e4176bd2ee569660",
+    "contract": "growth.adaptive_portfolio_governor.r33.v1",
+    "authority_blob": "35426e8f05f708d0a6db4356c4211458bf033c16",
+    "policy_blob": "0f4da630a87d08ccac2e22dfc307b1abb6120dd9",
+    "contract_blob": "518f293756564ca9bf0f004a728d34201f491dfa",
+    "implementation_blob": "a6fddc11e5c5014ff16a69fd7b6944d17a71e9f2"
+  },
+  "hard_wave_qa_r5": {
+    "repository": "foto6/boss",
+    "producer_sha": "1583c853108b0fb88507448eb8b4c61f0f07b0bc",
+    "checkpoint_path": "CHECKPOINTS/2026-10-04-hardwave-acceptance-r5.md",
+    "checkpoint_blob": "e80fae9f8e20708ddd6f98b9741ff1dd5ec8245e",
+    "disposition": "ACCEPTED",
+    "accepted_growth_r33_sha": "8bedb5ad79023006b87b17933863ff915ab5e046",
+    "accepted_growth_r33_ci_run_id": 37210963972,
+    "accepted_growth_r33_artifact_id": 11306727215,
+    "accepted_growth_r33_artifact_digest": "sha256:132845c0aaa6d4fec5aaf60e1ade60d779183f2a637a9513e4176bd2ee569660"
+  },
+  "evidence_boundary": {
+    "advisory_only": true,
+    "shadow_only": true,
+    "creator_mutation": false,
+    "provider_mutation": false,
+    "browser_mutation": false,
+    "traffic_routing": false,
+    "budget_allocation": false,
+    "live_publish": false,
+    "human_ground_truth": false,
+    "observational_is_causal": false,
+    "merge": false
+  }
+}
