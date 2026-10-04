@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.counterfactual_policy_promotion_envelope.r34.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version","envelope_id","envelope_digest","disposition","creator_target",
+    "creator_execution_allowed","provider_mutation","browser_mutation","live_traffic_allowed",
+    "live_publish_allowed","human_ground_truth","recommendation","decision_digest",
+    "corpus_id","corpus_digest","baseline_policy_id","baseline_policy_digest",
+    "candidate_policy_id","candidate_policy_digest","parent_r33_authority","r34_authority"
+  ],
+  "properties": {
+    "contract_version": {"const":"growth.counterfactual_policy_promotion_envelope.r34.v1"},
+    "envelope_id": {"type":"string","pattern":"^gr34e1:[0-9a-f]{64}$"},
+    "envelope_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "disposition": {"const":"ADVISORY_ONLY"},
+    "creator_target": {"const":"Creator R35 advisory input"},
+    "creator_execution_allowed": {"const":false},
+    "provider_mutation": {"const":false},
+    "browser_mutation": {"const":false},
+    "live_traffic_allowed": {"const":false},
+    "live_publish_allowed": {"const":false},
+    "human_ground_truth": {"const":false},
+    "recommendation": {"const":"SHADOW_CANARY_CANDIDATE"},
+    "decision_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "corpus_id": {"type":"string"},
+    "corpus_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "baseline_policy_id": {"type":"string"},
+    "baseline_policy_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "candidate_policy_id": {"type":"string"},
+    "candidate_policy_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "parent_r33_authority": {"type":"object"},
+    "r34_authority": {"type":"object"}
+  }
+}
