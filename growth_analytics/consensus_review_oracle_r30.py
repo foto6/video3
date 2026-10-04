@@ -1669,6 +1669,8 @@ def rehearse_fixtures(
     def contradictory(root: Path) -> None:
         response = root / "responses" / "reviewer-c.json"
         def change(x):
+            x["defects"][0]["start_ms"] = 1000
+            x["defects"][0]["end_ms"] = 1600
             x["defects"][0]["direction"] = "increase"
             x["defects"][0]["requested_edit"] = "Increase the same pacing interval."
         _mutate_json(response, change)
