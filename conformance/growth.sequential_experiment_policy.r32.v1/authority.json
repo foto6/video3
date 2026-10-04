@@ -8,8 +8,21 @@
     "artifact_name": "growth-r31-postpublish-learning-policy",
     "artifact_digest": "sha256:fab2ab2df9a4c8106352c5e6c17da3b3281f15a2b0e2015ec285304b2070334d",
     "contract": "growth.postpublish_learning.r31.v1",
-    "qa_state": "WAITING_QA_R3",
-    "authoritative_integration_allowed": false
+    "qa_state": "ACCEPTED",
+    "authoritative_integration_allowed": true,
+    "qa_r3_acceptance": {
+      "qa_head": "2a48c909bfb5785409b591253f6085642b962d0d",
+      "ci_run_id": 37207701514,
+      "artifact_id": 11305557095,
+      "artifact_digest": "sha256:4c5cb2c476643a03865ec37c084650db4c98c84c3aed04aafeb35b81b4e9fba0",
+      "disposition": "ACCEPTED",
+      "accepted_growth_r31": {
+        "producer_sha": "311606b677d6f0d97669c905265f1eb64b7ff9a4",
+        "ci_run_id": 37204153689,
+        "artifact_id": 11304006807,
+        "artifact_digest": "sha256:fab2ab2df9a4c8106352c5e6c17da3b3281f15a2b0e2015ec285304b2070334d"
+      }
+    }
   },
   "metric_contracts": {
     "publish_result": "growth.shortform_publish_result.v1",
@@ -25,5 +38,9 @@
     "browser_or_provider_mutation": false,
     "publish": false,
     "merge": false
+  },
+  "self_qa": {
+    "state": "PENDING_QA_R4",
+    "accepted": false
   }
 }
