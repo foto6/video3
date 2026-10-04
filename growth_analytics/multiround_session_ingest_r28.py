@@ -455,6 +455,7 @@ def validate_operator_package(
     operator_dir: Path,
     *,
     profile: Mapping[str, Any],
+    exact_package_override: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     profile = validate_authority_profile(profile)
     root = Path(operator_dir).resolve()
@@ -646,24 +647,36 @@ def validate_operator_package(
         ):
             raise PackageDrift(f"sealed mapping candidate/attachment drift: {label}")
 
-    known = profile["media_r22"]["known_packages"].get(f"round_{review_round}")
-    if known is not None:
-        exact_checks = {
-            "operator_manifest_sha256": _file_sha(manifest_path),
-            "archive_sha256": archive_sha,
-            "archive_size": archive_size,
-            "authority_profile_sha256": _file_sha(authority_path),
-            "package_manifest_sha256": _file_sha(package_manifest_path),
-            "r21_package_digest": package_digest,
-            "sealed_mapping_digest": mapping_digest,
-            "prompt_digest": prompt_digest,
-            "mode": bundle.get("mode"),
-            "review_round": review_round,
-        }
-        if exact_checks != known:
-            raise PackageDrift(f"known exact Media R22 round-{review_round} package drift")
-    elif review_round < 2:
-        raise PackageDrift("unknown Media R22 package for frozen existing review round")
+    exact_checks = {
+        "operator_manifest_sha256": _file_sha(manifest_path),
+        "archive_sha256": archive_sha,
+        "archive_size": archive_size,
+        "authority_profile_sha256": _file_sha(authority_path),
+        "package_manifest_sha256": _file_sha(package_manifest_path),
+        "r21_package_digest": package_digest,
+        "sealed_mapping_digest": mapping_digest,
+        "prompt_digest": prompt_digest,
+        "mode": bundle.get("mode"),
+        "review_round": review_round,
+    }
+    if exact_package_override is not None:
+        if not isinstance(exact_package_override, Mapping):
+            raise PackageDrift("exact Media R22 package override must be object")
+        if exact_checks != dict(exact_package_override):
+            raise PackageDrift(
+                f"R29-authorized exact Media R22 round-{review_round} package drift"
+            )
+    else:
+        known = profile["media_r22"]["known_packages"].get(f"round_{review_round}")
+        if known is not None:
+            if exact_checks != known:
+                raise PackageDrift(
+                    f"known exact Media R22 round-{review_round} package drift"
+                )
+        elif review_round < 2:
+            raise PackageDrift(
+                "unknown Media R22 package for frozen existing review round"
+            )
     # Round 2 can be newly materialized by the exact R22 producer from the
     # Creator-produced exact R21 next-round bundle. A future distinct R23
     # producer is not trusted until this authority profile is updated.
