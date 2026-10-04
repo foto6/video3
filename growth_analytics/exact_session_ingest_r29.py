@@ -402,7 +402,7 @@ def _r32_package_identity(
     attachments = [
         {
             "blindLabel": row["blind_label"],
-            "name": row["path"],
+            "name": row["generic_file_name"],
             "size": row["size"],
             "sha256": row["sha256"],
             "mime": "video/mp4",
@@ -586,7 +586,7 @@ def validate_media_session_dir(
         [
             {
                 "blindLabel": row["blind_label"],
-                "name": row["path"],
+                "name": row["generic_file_name"],
                 "sha256": row["sha256"],
                 "size": row["size"],
                 "mime": "video/mp4",
