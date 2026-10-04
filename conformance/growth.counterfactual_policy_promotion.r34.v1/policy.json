@@ -6,8 +6,8 @@
     "confidence_method": "analytic_influence_interval",
     "confidence_z": 1.96,
     "minimum_behavior_propensity": 0.05,
-    "minimum_effective_sample_size": 80.0,
-    "maximum_importance_weight": 5.0,
+    "minimum_effective_sample_size": 80,
+    "maximum_importance_weight": 5,
     "maximum_clipped_weight_sensitivity": 0.02
   },
   "decision": {
@@ -15,11 +15,13 @@
     "promotion_margin": 0.02,
     "harmful_threshold": -0.03,
     "guardrail_max_degradation": -0.02,
-    "critical_stratum_reversal": -0.02
+    "critical_stratum_reversal": -0.02,
+    "minimum_critical_stratum_events": 20,
+    "keep_equivalence_margin": 0.005
   },
   "maturity": {
     "required_state": "MATURE",
-    "maximum_censored_fraction": 0.0,
+    "maximum_censored_fraction": 0,
     "allow_retroactive_window_selection": false
   },
   "drift": {
