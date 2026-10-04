@@ -1,0 +1,42 @@
+{
+  "contract_version": "growth.postpublish_learning.r31.v1",
+  "authority_contract": "growth.postpublish_learning_authority.r31.v1",
+  "policy_contract": "growth.postpublish_learning_policy.r31.v1",
+  "observation_contract": "growth.postpublish_observation.r31.v1",
+  "experiment_contract": "growth.randomized_assignment_exposure.r31.v1",
+  "suggestion_contract": "growth.future_edit_policy_suggestion.r31.v1",
+  "status_values": [
+    "LEARNING_SOURCE_READY",
+    "WAITING_PARENT_QA",
+    "INSUFFICIENT_EVIDENCE",
+    "EXPERIMENT_EVIDENCE_READY"
+  ],
+  "attribution": {
+    "observational_is_causal": false,
+    "randomized_contract_required_for_causal_language": true,
+    "historical_best_is_guarantee": false
+  },
+  "normalization": {
+    "no_cross_platform_metric_substitution": true,
+    "unavailable_is_null_not_zero": true,
+    "provider_reported_attribution_only": true,
+    "windows_are_predeclared": true
+  },
+  "robustness": {
+    "single_outlier_can_dominate": false,
+    "minimum_independent_sample_gate": true,
+    "bounded_exploration_required": true,
+    "automatic_irreversible_mutation": false
+  },
+  "parent_gate": {
+    "required_parent_sha": "9313c984932d9b1bbf18f7c382533f830337971e",
+    "current_state": "WAITING_PARENT_QA",
+    "authoritative_integration_allowed": false
+  },
+  "evidence_boundary": {
+    "human_ground_truth": false,
+    "platform_network_call_in_ci": false,
+    "live_publish": false,
+    "merge": false
+  }
+}
