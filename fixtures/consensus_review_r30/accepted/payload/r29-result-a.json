@@ -1,7 +1,7 @@
 {
   "contract_version": "growth.exact_session_round_result.r29.v1",
   "round_result_id": "fixture-r29-a",
-  "round_result_digest": "601551ef77221342a0c69be5687e9468690a5013e6c220cc18834dab1ffbfef0",
+  "round_result_digest": "cd95b9055151a56c239417f4450a6533cd60357cc36a78c1d6c95bee78ae81ea",
   "session_id": "fixture-r30-consensus-session",
   "media_session_id": "r23-real-session",
   "review_round": 0,
@@ -12,7 +12,7 @@
   "capture_digest": "501ff68f4e5ea38114bf803a725e91ba902bcbc92f8db14504e361fec6acba34",
   "bridge_round_result_sha256": "aa6af0f7c8acbe51b0e60f2dc12bc0ba6f4af81e28aab494bf8b2edaaa35c360",
   "session_package_sha256": "773326ccee821991e5faa13e1abb3d3c48bcb18499f96bcf7fbd7baab5637afe",
-  "package_digest": "65b591b7991cc4b0c4fa5ecbabda2d7bb58418b873792ce55f92c93cd08fc470",
+  "package_digest": "6a7b79f617de400a4a086e64a0cae9feceafa51a9a324074e85fb07ebf58dfc9",
   "sealed_mapping_digest": "01cef4f83ebf90c9fd11d058251a27daef2fc76b276c170b86e32d7fc98b1fa6",
   "prompt_digest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2",
   "r32_session_package_digest": "593c40daafa5cb8525b4990677f1634b2384cf29e9d215dcc957c36fc6f310b4",
@@ -30,7 +30,7 @@
   "candidate_envelopes": {
     "r20-initial-alternative": {
       "contract_version": "growth.dynamic_creator_external_review_envelope.r26.v1",
-      "envelope_digest": "6a6b54a4f99a72a2abf8acfc33c9bb671e2915c097a790a43d5785ce9aca40cc",
+      "envelope_digest": "3dd39dce54fdf81eb97fdf9e3e0aa42783e6ea243b39b19f0df21cebd73e4b79",
       "handoff_digest": "d133cc86def696de9182ab1370a47840ff09d0a3799637484c092ca6470d6753",
       "candidate_round": 0,
       "state": "winner",
@@ -39,7 +39,7 @@
     },
     "r20-initial-control": {
       "contract_version": "growth.dynamic_creator_external_review_envelope.r26.v1",
-      "envelope_digest": "bf4fb4f8439b63bea771701a7f12cc72707c9d28879ee709cc32c6939c9e0637",
+      "envelope_digest": "2ce27b8ada98cf9028bec4d77e5aaafc440266eec24cd64f7b670022cd604a65",
       "handoff_digest": "ba61cf133091fce79758c7cd254f72dbaab04b0eaeedef07865fe3b5cec706cc",
       "candidate_round": 0,
       "state": "targeted_reedit",
@@ -50,14 +50,14 @@
   "terminal_winner": false,
   "creator_executable_handoff_emitted": true,
   "growth_r29": {
-    "repository": "foto6/video3",
     "producer_sha": "3e4a8ad6d73b058c953abeadba7a60abe567adbc",
     "ci_run_id": 37195373334,
     "authority_profile_digest": "18feddb9f091ec15ecb61a82e06d8ebd2571b6447e41b3b19c6b2104bb2e7e9a"
   },
   "authorities": {
     "media_r23_sha": "78c6982a91d7e3e8c037cd9ce740ee077babdccc",
-    "bridge_r34_sha": "4e2a37545cc0cdd940cf6e86d40e0d620d6c94ae",
+    "bridge_r32_sha": "805bf628d3d2844549b54db1112736fae0200fc7",
+    "creator_r30_sha": "50c17852a910c57f0894dcdb356d4d4923edb62b",
     "canonical_inner_envelope_contract": "growth.dynamic_creator_external_review_envelope.r26.v1"
   },
   "evidence_boundary": {
