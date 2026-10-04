@@ -107,7 +107,12 @@ class GrowthR34CounterfactualPolicyPromotionTests(unittest.TestCase):
         self.assertEqual(envelope["parent_r33_authority"], r34.parent_r33_tuple())
 
     def test_clear_harm_requires_shadow_rollback(self):
-        corpus = sim._make_corpus(label="harm-test", effect_a=-0.20, effect_b=-0.20)
+        corpus = sim._make_corpus(
+            label="harm-test",
+            effect_a=-0.20,
+            effect_b=-0.20,
+            critical_strata=[],
+        )
         decision = self.evaluate(corpus, label="harm-test")
         self.assertEqual(decision["recommendation"], "SHADOW_ROLLBACK")
         self.assertLessEqual(
