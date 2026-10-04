@@ -1,0 +1,37 @@
+{
+  "contract_version": "growth.adaptive_portfolio_governor_authority.r33.v1",
+  "growth_r32": {
+    "repository": "foto6/video3",
+    "producer_sha": "aacaefca808a0d71adb56fbb5b5ecf6213e874c8",
+    "ci_run_id": 37207893319,
+    "artifact_id": 11304917444,
+    "artifact_name": "growth-r32-sequential-experiment-policy",
+    "artifact_digest": "sha256:a697270b382b935271fc088e856720e29f9b2e6ff2c313adc93b2789234032be",
+    "contract": "growth.sequential_experiment_policy.r32.v1",
+    "authority_blob": "3b84e62d1b26dbad515300805de1c3e742d1180b",
+    "policy_blob": "adbae9426bcc5f3c2dce913c24594767f36f0cc9",
+    "contract_blob": "4b1e33300946463c1667027203a02e7e0ca940b5",
+    "implementation_blob": "0053f869c127f4eb8a100f4528ac6a2eb596ecef"
+  },
+  "growth_r31_lineage": {
+    "repository": "foto6/video3",
+    "producer_sha": "311606b677d6f0d97669c905265f1eb64b7ff9a4",
+    "ci_run_id": 37204153689,
+    "artifact_id": 11304006807,
+    "artifact_name": "growth-r31-postpublish-learning-policy",
+    "artifact_digest": "sha256:fab2ab2df9a4c8106352c5e6c17da3b3281f15a2b0e2015ec285304b2070334d",
+    "contract": "growth.postpublish_learning.r31.v1"
+  },
+  "evidence_boundary": {
+    "shadow_only": true,
+    "creator_mutation": false,
+    "provider_mutation": false,
+    "traffic_routing": false,
+    "budget_allocation": false,
+    "live_publish": false,
+    "human_ground_truth": false,
+    "observational_is_causal": false,
+    "model_review_is_human_ground_truth": false,
+    "merge": false
+  }
+}
