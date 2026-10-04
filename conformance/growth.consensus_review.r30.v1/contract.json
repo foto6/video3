@@ -9,7 +9,7 @@
       "contract_version": "growth.consensus_aggregation_policy.r30.v1",
       "file": "conformance/growth.consensus_review_oracle.r30.v1/aggregation-policy.json",
       "file_sha256": "8915db1d3415f8f2aff717004d738370ad11aad7b8392ca054f853099fb915b3",
-      "semantic_digest": "f77bc62011f5963d223d4de7ea0e5d56ece2495ae8267d376491e13421d44213"
+      "semantic_digest": "382fbb63a9b63f87ffa9fe33267c37bf643b2a411ec590ee0dd32fc2a85a3403"
     },
     "verified_review_schema": {
       "schema_id": "growth.verified_r29_r34_model_review.r30.v1",
