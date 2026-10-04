@@ -1,0 +1,31 @@
+{
+  "contract_version": "growth.adaptive_portfolio_governor.r33.v1",
+  "authority_contract": "growth.adaptive_portfolio_governor_authority.r33.v1",
+  "policy_contract": "growth.adaptive_portfolio_policy.r33.v1",
+  "portfolio_contract": "growth.adaptive_portfolio.r33.v1",
+  "campaign_bundle_contract": "growth.portfolio_campaign_bundle.r33.v1",
+  "decision_contract": "growth.adaptive_portfolio_decision.r33.v1",
+  "recommendations": [
+    "KEEP",
+    "TEST_MORE",
+    "SHADOW_PROMOTE",
+    "SHADOW_ROLLBACK",
+    "HUMAN_REVIEW_REQUIRED"
+  ],
+  "state": "SHADOW_SOURCE_READY",
+  "rules": {
+    "verified_r32_only": true,
+    "exact_r31_lineage_required": true,
+    "randomized_and_observational_not_merged": true,
+    "incomplete_mature_cohorts_not_compared_as_mature": true,
+    "prospective_multiplicity_only": true,
+    "critical_stratum_reversal_veto": true,
+    "shadow_promotion_is_advisory": true,
+    "live_traffic_routing": false,
+    "creator_mutation": false,
+    "provider_mutation": false,
+    "budget_allocation": false,
+    "live_publish": false,
+    "human_ground_truth": false
+  }
+}
