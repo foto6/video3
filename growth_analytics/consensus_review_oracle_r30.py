@@ -461,17 +461,18 @@ def validate_media_r24(
         raise PackageDrift("Media R24 package manifest linkage drift")
     if (
         authority.get("contractVersion") != "media.canonical_live_review_authority.r24.v1"
-        or authority.get("producer", {}).get("repository") != "foto6/video2"
-        or authority.get("producer", {}).get("sha") != MEDIA_R24_SHA
-        or authority.get("producer", {}).get("ciRunId") != MEDIA_R24_CI
+        or authority.get("state") != "CANONICAL_LIVE_REVIEW_ARTIFACT_READY"
+        or authority.get("producerR24", {}).get("repository") != "foto6/video2"
+        or authority.get("producerR24", {}).get("producerSha") != MEDIA_R24_SHA
+        or authority.get("producerR24", {}).get("ciRunId") != MEDIA_R24_CI
     ):
         raise AuthorityDrift("Media R24 embedded authority profile drift")
     accepted = authority.get("acceptedR23", {})
     if (
         accepted.get("producerSha")
-        != profile["growth_r29"].get("producer_sha")
-        and accepted.get("producerSha")
         != "78c6982a91d7e3e8c037cd9ce740ee077babdccc"
+        or accepted.get("ciRunId") != 37007419237
+        or accepted.get("contractVersion") != "media.review_session_package.r23.v1"
     ):
         raise AuthorityDrift("Media R24 nested R23 authority drift")
     if (
