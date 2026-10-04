@@ -1365,8 +1365,8 @@ def build_rehearsal(
         campaign=obs_campaign,
         policy=policy,
         values={
-            "control": [0.30 + i * 0.001 for i in range(10)],
-            "candidate": [0.75 + i * 0.001 for i in range(10)],
+            "control": [0.30 + i * 0.001 for i in range(20)],
+            "candidate": [0.75 + i * 0.001 for i in range(20)],
         },
     )
     accepted["observational_confounding"] = evaluate(
