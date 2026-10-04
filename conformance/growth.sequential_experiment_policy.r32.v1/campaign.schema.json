@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.sequential_experiment_campaign.r32.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version","campaign_id","campaign_digest","mode","session_id",
+    "policy_version","policy_digest","primary_metric","guardrail_metrics",
+    "declared_candidates","control_candidate_id","declared_look_fractions",
+    "maximum_horizon_exposures","metric_schema_hash","metric_definition_hash",
+    "metric_window_seconds","training_distribution","parent_r31_sha"
+  ],
+  "properties": {
+    "contract_version": {"const": "growth.sequential_experiment_campaign.r32.v1"},
+    "campaign_id": {"type":"string","minLength":1},
+    "campaign_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "mode": {"enum":["randomized_controlled","observational_monitoring"]},
+    "session_id": {"type":"string","minLength":1},
+    "policy_version": {"const":1},
+    "policy_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "primary_metric": {"const":"completion_rate"},
+    "guardrail_metrics": {"const":["share_rate","comment_rate"]},
+    "declared_candidates": {"type":"array","minItems":2,"maxItems":3,"uniqueItems":true},
+    "control_candidate_id": {"type":"string","minLength":1},
+    "declared_look_fractions": {"const":[0.25,0.5,0.75,1.0]},
+    "maximum_horizon_exposures": {"const":320},
+    "metric_schema_hash": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "metric_definition_hash": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "metric_window_seconds": {"type":"integer","minimum":1},
+    "training_distribution": {"type":"object"},
+    "parent_r31_sha": {"const":"311606b677d6f0d97669c905265f1eb64b7ff9a4"}
+  }
+}
