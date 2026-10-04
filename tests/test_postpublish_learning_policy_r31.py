@@ -92,6 +92,22 @@ class GrowthR31PostPublishLearningTests(unittest.TestCase):
         self.assertFalse(parsed["metrics"]["subscribes"]["available"])
         self.assertIsNone(parsed["metrics"]["subscribes"]["value"])
 
+    def test_unavailable_metric_cannot_be_tampered_to_zero(self):
+        item = self.observation(11)
+        item["metric_snapshot"]["raw_metrics"]["impressions"] = 0
+        material = dict(item["metric_snapshot"])
+        material.pop("snapshot_digest")
+        item["metric_snapshot"]["snapshot_digest"] = r31.sha256_json(material)
+        with self.assertRaisesRegex(
+            r31.ObservationConflict,
+            "unavailable metric treated as zero/value: impressions",
+        ):
+            r31.normalize_observation(
+                item,
+                authority=self.authority,
+                policy=self.policy,
+            )
+
     def test_duplicate_provider_post_rejected(self):
         a = self.observation(1)
         b = copy.deepcopy(a)
@@ -414,7 +430,6 @@ class GrowthR31PostPublishLearningTests(unittest.TestCase):
                 policy=self.policy,
                 as_of="2026-10-04T00:00:00Z",
             )
-        baseline["platform_distribution"] = {"instagram_reels": 1.0}
         baseline["schema_versions"] = [
             "instagram_reels:instagram-insights-v26.0"
         ]
@@ -424,6 +439,7 @@ class GrowthR31PostPublishLearningTests(unittest.TestCase):
             policy=self.policy,
             as_of="2026-10-04T00:00:00Z",
         )
+        self.assertIn("platform_distribution_shift", drift["warnings"])
         self.assertIn("content_topic_shift", drift["warnings"])
         self.assertIn("content_source_shift", drift["warnings"])
         self.assertIn("season_time_window_shift", drift["warnings"])
@@ -456,6 +472,9 @@ class GrowthR31PostPublishLearningTests(unittest.TestCase):
             "changed_winner_hash",
             "mixed_1h_7d_windows",
             "stale_platform_definition",
+            "schema_drift",
+            "unavailable_metric_treated_as_zero",
+            "metric_counter_decrease",
             "cross_account_contamination",
             "historical_comparison_mislabeled_random",
             "treatment_leakage",
