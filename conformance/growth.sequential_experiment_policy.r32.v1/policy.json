@@ -1,0 +1,36 @@
+{
+  "contract_version": "growth.sequential_experiment_policy_config.r32.v1",
+  "policy_version": 1,
+  "primary_metric": "completion_rate",
+  "guardrail_metrics": ["share_rate", "comment_rate"],
+  "minimum_exposures_per_arm": 20,
+  "maximum_exposures_per_arm": 80,
+  "maximum_horizon_exposures": 320,
+  "look_fractions": [0.25, 0.5, 0.75, 1.0],
+  "alpha_total": 0.05,
+  "alpha_spending_cumulative": [0.005, 0.0125, 0.025, 0.05],
+  "multiple_comparison_method": "bonferroni_candidates_x_tested_metrics",
+  "minimum_effect_size": 0.05,
+  "rollback_effect_size": -0.05,
+  "guardrail_max_relative_degradation": 0.2,
+  "sample_ratio_mismatch_z_threshold": 3.0,
+  "severe_imbalance_min_arm_share": 0.3,
+  "late_metric_tolerance_seconds": 900,
+  "drift": {
+    "half_horizon_primary_mean_shift": 0.12,
+    "platform_distribution_total_variation": 0.35,
+    "topic_distribution_total_variation": 0.4,
+    "policy_stale_distribution_total_variation": 0.35
+  },
+  "observational": {
+    "minimum_independent_posts": 6,
+    "causal_winner_allowed": false
+  },
+  "stopping": {
+    "promote_requires_adjusted_p_below_boundary": true,
+    "promote_requires_effect_at_least_minimum": true,
+    "rollback_requires_adjusted_p_below_boundary": true,
+    "maximum_one_decision_per_declared_look": true,
+    "undeclared_look_is_conflict": true
+  }
+}
