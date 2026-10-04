@@ -269,6 +269,8 @@ def validate_authority_profile(value: Mapping[str, Any]) -> dict[str, Any]:
             "archive_sha256",
             "prompt_digest",
             "sealed_mapping_digest",
+            "r23_session_package_sha256",
+            "r29_package_digest",
         ):
             _sha(row.get(field), f"media_r24.rounds.{round_key}.{field}")
 
@@ -546,12 +548,86 @@ def validate_media_r24(
             raise PackageDrift("Media R24 sealed mapping attachment identity drift")
         mapping_by_label[label] = row
 
+    nested_r23 = index.get("nestedR23")
+    if not isinstance(nested_r23, Mapping) or set(nested_r23) != {
+        "sessionEvidenceRelativePath",
+        "sessionEvidenceSha256",
+        "sessionPackageRelativePath",
+        "sessionPackageSha256",
+    }:
+        raise PackageDrift("Media R24 nested R23 linkage missing")
+    r23_package_path = _safe_child(
+        root,
+        nested_r23["sessionPackageRelativePath"],
+        "nestedR23.sessionPackageRelativePath",
+    )
+    if (
+        not r23_package_path.is_file()
+        or _file_sha(r23_package_path)
+        != _sha(
+            nested_r23["sessionPackageSha256"],
+            "nestedR23.sessionPackageSha256",
+        )
+    ):
+        raise PackageDrift("Media R24 nested R23 package byte identity drift")
+    r23_manifest_key = str(
+        r23_package_path.relative_to(payload)
+    ).replace("\\", "/")
+    if hashes.get(r23_manifest_key) != nested_r23["sessionPackageSha256"]:
+        raise PackageDrift("Media R24 package manifest does not bind nested R23")
+    r23_package = _load(r23_package_path)
+    if (
+        r23_package.get("contractVersion")
+        != "media.review_session_package.r23.v1"
+        or r23_package.get("state") != "REVIEW_SESSION_PACKAGE_READY"
+        or r23_package.get("producer")
+        != {
+            "repository": "foto6/video2",
+            "sha": "78c6982a91d7e3e8c037cd9ce740ee077babdccc",
+            "ciRunId": 37007419237,
+        }
+    ):
+        raise PackageDrift("Media R24 nested R23 producer/contract drift")
+    r29_package_digest = _sha(
+        r23_package.get("r21", {}).get("packageDigest"),
+        "nestedR23.r21.packageDigest",
+    )
+
     source_lineage = index.get("sourceLineage")
     if not isinstance(source_lineage, Mapping):
         raise PackageDrift("Media R24 source lineage missing")
     for key in ("sessionId", "sessionIdentity", "reviewRound", "briefLineageDigest"):
         if handoff.get("sourceLineage", {}).get(key) != source_lineage.get(key):
             raise PackageDrift(f"Media R24 source lineage drift: {key}")
+        r23_key = {
+            "sessionId": "sessionId",
+            "sessionIdentity": "sessionIdentity",
+            "reviewRound": "reviewRound",
+            "briefLineageDigest": "briefLineageDigest",
+        }[key]
+        if r23_package.get(r23_key) != source_lineage.get(key):
+            raise PackageDrift(f"Media R24/R23 source lineage drift: {key}")
+    if (
+        r23_package.get("promptDigest") != prompt_digest
+        or r23_package.get("sealedMappingDigest") != mapping_digest
+    ):
+        raise PackageDrift("Media R24/R23 prompt or sealed mapping lineage drift")
+    r23_attachments = sorted(
+        r23_package.get("attachments") or [],
+        key=lambda row: row.get("blindLabel", ""),
+    )
+    expected_r23_attachments = [
+        {
+            "blindLabel": row["blindLabel"],
+            "name": row["relativePath"],
+            "sha256": row["sha256"],
+            "size": row["size"],
+            "mime": row["mime"],
+        }
+        for row in attachments
+    ]
+    if r23_attachments != expected_r23_attachments:
+        raise PackageDrift("Media R24/R23 attachment lineage drift")
     review_round = source_lineage.get("reviewRound")
     if review_round not in (0, 1, 2):
         raise PackageDrift("Media R24 review round outside 0..2")
@@ -571,6 +647,8 @@ def validate_media_r24(
             "archive_sha256": index["archive"]["sha256"],
             "prompt_digest": prompt_digest,
             "sealed_mapping_digest": mapping_digest,
+            "r23_session_package_sha256": nested_r23["sessionPackageSha256"],
+            "r29_package_digest": r29_package_digest,
             "attachments": attachments,
         }
         if observed != known:
@@ -584,6 +662,8 @@ def validate_media_r24(
             "review_round": review_round,
             "mode": source_lineage.get("mode"),
             "package_digest": _sha(index["packageDigest"], "media.packageDigest"),
+            "r29_package_digest": r29_package_digest,
+            "r23_session_package_sha256": nested_r23["sessionPackageSha256"],
             "export_index_sha256": index_sha,
             "payload_directory_digest": _sha(
                 index["payloadDirectory"]["digest"],
@@ -740,7 +820,7 @@ def _validate_inner_envelope(
     if not isinstance(candidate, Mapping) or not isinstance(review, Mapping):
         raise ReviewConflict("inner Creator envelope candidate/review missing")
     if (
-        review.get("package_digest") != media["package_digest"]
+        review.get("package_digest") != media["r29_package_digest"]
         or review.get("sealed_mapping_digest") != media["sealed_mapping_digest"]
         or review.get("review_round") != media["review_round"]
     ):
@@ -789,7 +869,6 @@ def _critical_r29_result(
     if sha256_json(material) != digest:
         raise ReviewConflict("R29 round-result semantic digest drift")
     if result.get("growth_r29") != {
-        "repository": "foto6/video3",
         "producer_sha": R29_SHA,
         "ci_run_id": R29_CI,
         "authority_profile_digest": result.get("growth_r29", {}).get(
@@ -823,12 +902,21 @@ def _critical_r29_result(
         "operation_id": review["bridge_r34"]["operation_id"],
         "response_digest": review["bridge_r34"]["response_digest"],
         "capture_digest": review["bridge_r34"]["capture_digest"],
-        "package_digest": media["package_digest"],
+        "package_digest": media["r29_package_digest"],
         "sealed_mapping_digest": media["sealed_mapping_digest"],
         "prompt_digest": media["prompt_digest"],
     }
     if critical != expected:
         raise ReviewConflict("R29 result critical lineage/digest drift")
+    if result.get("session_package_sha256") != media["r23_session_package_sha256"]:
+        raise ReviewConflict("R29 result nested R23 session package drift")
+    if result.get("authorities") != {
+        "media_r23_sha": "78c6982a91d7e3e8c037cd9ce740ee077babdccc",
+        "bridge_r32_sha": "805bf628d3d2844549b54db1112736fae0200fc7",
+        "creator_r30_sha": "50c17852a910c57f0894dcdb356d4d4923edb62b",
+        "canonical_inner_envelope_contract": INNER_ENVELOPE_VERSION,
+    }:
+        raise AuthorityDrift("R29 round-result preserved authority set drift")
     if result.get("evidence_boundary") != {
         "model_evidence": True,
         "human_ground_truth": False,
@@ -899,6 +987,7 @@ def load_review(
         "session_id": media["session_id"],
         "session_identity": media["session_identity"],
         "package_digest": media["package_digest"],
+        "r29_package_digest": media["r29_package_digest"],
         "review_round": media["review_round"],
         "prompt_digest": media["prompt_digest"],
         "prompt_size": media["prompt_size"],
@@ -1277,6 +1366,7 @@ def aggregate_reviews(
             "session_id": media["session_id"],
             "session_identity": media["session_identity"],
             "package_digest": media["package_digest"],
+            "r29_package_digest": media["r29_package_digest"],
             "review_round": media["review_round"],
             "prompt_digest": media["prompt_digest"],
             "sealed_mapping_digest": media["sealed_mapping_digest"],
