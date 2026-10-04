@@ -5,9 +5,18 @@
   "campaign_contract": "growth.sequential_experiment_campaign.r32.v1",
   "event_contract": "growth.sequential_experiment_event.r32.v1",
   "decision_contract": "growth.sequential_experiment_decision.r32.v1",
-  "evidence_modes": ["randomized_controlled", "observational_monitoring"],
-  "recommendations": ["KEEP", "TEST_MORE", "ROLLBACK_RECOMMENDED", "PROMOTE_CANDIDATE", "HUMAN_REVIEW_REQUIRED"],
-  "source_ready_status": "SOURCE_READY_WAITING_PARENT_QA",
+  "evidence_modes": [
+    "randomized_controlled",
+    "observational_monitoring"
+  ],
+  "recommendations": [
+    "KEEP",
+    "TEST_MORE",
+    "ROLLBACK_RECOMMENDED",
+    "PROMOTE_CANDIDATE",
+    "HUMAN_REVIEW_REQUIRED"
+  ],
+  "source_ready_status": "SOURCE_READY_PENDING_R32_QA",
   "causal_boundary": {
     "observational_winner_allowed": false,
     "randomized_preference_requires_all_gates": true,
@@ -17,5 +26,15 @@
     "creator_edit": false,
     "provider_publish": false,
     "browser_mutation": false
+  },
+  "parent_authority": {
+    "growth_r31_state": "ACCEPTED",
+    "qa_r3_disposition": "ACCEPTED",
+    "exact_parent_pin_required": true,
+    "exact_qa_evidence_required": true
+  },
+  "self_qa": {
+    "state": "PENDING_QA_R4",
+    "accepted": false
   }
 }
