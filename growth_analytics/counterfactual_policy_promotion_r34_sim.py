@@ -428,7 +428,12 @@ def build_rehearsal(
         lambda: run_corpus("weak", weak),
     )
 
-    harmful = _make_corpus(label="harmful", effect_a=-0.20, effect_b=-0.20)
+    harmful = _make_corpus(
+        label="harmful",
+        effect_a=-0.20,
+        effect_b=-0.20,
+        critical_strata=[],
+    )
     cases["04_clear_harm_shadow_rollback"] = _case(
         "04_clear_harm_shadow_rollback",
         lambda: run_corpus("harmful", harmful),
