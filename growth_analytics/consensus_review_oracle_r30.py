@@ -13,6 +13,8 @@ from typing import Any, Mapping, Sequence
 
 from .autonomous_reels import canonical_json, sha256_json
 
+EXTERNAL_CONTRACT_VERSION = "growth.consensus_review.r30.v1"
+INTERNAL_ORACLE_CONTRACT_VERSION = "growth.consensus_review_oracle.r30.v1"
 AUTHORITY_VERSION = "growth.consensus_authorities.r30.v1"
 POLICY_VERSION = "growth.consensus_aggregation_policy.r30.v1"
 REVIEW_VERSION = "growth.verified_r29_r34_model_review.r30.v1"
@@ -174,6 +176,203 @@ def default_policy() -> dict[str, Any]:
         / "growth.consensus_review_oracle.r30.v1"
         / "aggregation-policy.json"
     )
+
+
+def default_external_contract() -> dict[str, Any]:
+    root = Path(__file__).resolve().parents[1]
+    return _load(
+        root
+        / "conformance"
+        / "growth.consensus_review.r30.v1"
+        / "contract.json"
+    )
+
+
+def validate_external_contract(
+    value: Mapping[str, Any],
+    *,
+    root: Path | None = None,
+) -> dict[str, Any]:
+    if not isinstance(value, Mapping) or set(value) != {
+        "contract_version",
+        "purpose",
+        "internal_oracle",
+        "accepted_authorities",
+        "independence_rules",
+        "disagreement_and_human_review_gates",
+        "evidence_boundary",
+    }:
+        raise AuthorityDrift("R30 external umbrella fields invalid")
+    if value["contract_version"] != EXTERNAL_CONTRACT_VERSION:
+        raise AuthorityDrift("R30 external umbrella contract mismatch")
+
+    root = (
+        Path(__file__).resolve().parents[1]
+        if root is None
+        else Path(root).resolve()
+    )
+    internal = value["internal_oracle"]
+    expected_internal_keys = {
+        "contract_version",
+        "contract_file",
+        "contract_file_sha256",
+        "aggregation_policy",
+        "verified_review_schema",
+        "consensus_schema",
+        "authority_profile",
+        "creator_handoff_contract",
+        "canonical_inner_creator_envelope",
+    }
+    if not isinstance(internal, Mapping) or set(internal) != expected_internal_keys:
+        raise AuthorityDrift("R30 external internal-oracle mapping invalid")
+    if (
+        internal["contract_version"] != INTERNAL_ORACLE_CONTRACT_VERSION
+        or internal["creator_handoff_contract"] != CREATOR_HANDOFF_VERSION
+        or internal["canonical_inner_creator_envelope"] != INNER_ENVELOPE_VERSION
+    ):
+        raise AuthorityDrift("R30 external internal contract mapping drift")
+
+    bindings = {
+        "contract": (
+            internal["contract_file"],
+            internal["contract_file_sha256"],
+            "eee6baccb9466b89d77cfbd50ff3a8861d70a372f08d1314e6da90c678a1d3f4",
+        ),
+        "policy": (
+            internal["aggregation_policy"]["file"],
+            internal["aggregation_policy"]["file_sha256"],
+            "8915db1d3415f8f2aff717004d738370ad11aad7b8392ca054f853099fb915b3",
+        ),
+        "review_schema": (
+            internal["verified_review_schema"]["file"],
+            internal["verified_review_schema"]["file_sha256"],
+            "fac193e0627aae6c1acef4b1af431d82d9c55617a1ad4a99c7c38ee3d091ac47",
+        ),
+        "consensus_schema": (
+            internal["consensus_schema"]["file"],
+            internal["consensus_schema"]["file_sha256"],
+            "b59d5d2d58b739b79146b5b11701118de8a8cd8faa4d05d6944bd60a6a143630",
+        ),
+        "authority_profile": (
+            internal["authority_profile"]["file"],
+            internal["authority_profile"]["file_sha256"],
+            "95b278cbdc7efe63330c852294b17f2f28003f50c747610ea7153b07fee02267",
+        ),
+    }
+    loaded: dict[str, Any] = {}
+    for name, (relative, pinned, expected) in bindings.items():
+        if pinned != expected:
+            raise AuthorityDrift(f"R30 external {name} pinned hash drift")
+        path = _safe_child(root, relative, f"external.{name}.file")
+        if not path.is_file() or _file_sha(path) != expected:
+            raise AuthorityDrift(f"R30 external {name} file hash mismatch")
+        loaded[name] = _load(path)
+
+    if (
+        loaded["contract"].get("contract_version")
+        != INTERNAL_ORACLE_CONTRACT_VERSION
+        or loaded["contract"].get("policy_contract") != POLICY_VERSION
+        or loaded["contract"].get("verified_review_contract") != REVIEW_VERSION
+        or loaded["contract"].get("consensus_contract") != CONSENSUS_VERSION
+        or loaded["contract"].get("creator_handoff_contract")
+        != CREATOR_HANDOFF_VERSION
+    ):
+        raise AuthorityDrift("R30 external -> internal oracle contract mapping drift")
+    if (
+        internal["aggregation_policy"].get("contract_version") != POLICY_VERSION
+        or internal["aggregation_policy"].get("semantic_digest")
+        != "f77bc62011f5963d223d4de7ea0e5d56ece2495ae8267d376491e13421d44213"
+        or policy_digest(loaded["policy"])
+        != internal["aggregation_policy"]["semantic_digest"]
+    ):
+        raise AuthorityDrift("R30 external aggregation policy mapping drift")
+    if (
+        internal["verified_review_schema"].get("schema_id") != REVIEW_VERSION
+        or loaded["review_schema"].get("$id") != REVIEW_VERSION
+        or internal["consensus_schema"].get("schema_id") != CONSENSUS_VERSION
+        or loaded["consensus_schema"].get("$id") != CONSENSUS_VERSION
+    ):
+        raise AuthorityDrift("R30 external schema ID mapping drift")
+    if (
+        internal["authority_profile"].get("contract_version") != AUTHORITY_VERSION
+        or internal["authority_profile"].get("semantic_digest")
+        != "8ceb1fb2fd8b2a3317fe110068e60ff4ab8716574e5ae549840b6b9b687cbbe3"
+    ):
+        raise AuthorityDrift("R30 external authority-profile mapping drift")
+    profile = validate_authority_profile(loaded["authority_profile"])
+    if authority_digest(profile) != internal["authority_profile"]["semantic_digest"]:
+        raise AuthorityDrift("R30 external authority-profile semantic digest drift")
+
+    accepted = value["accepted_authorities"]
+    if accepted != {
+        "growth_r29": {
+            "repository": "foto6/video3",
+            "producer_sha": R29_SHA,
+            "ci_run_id": R29_CI,
+            "artifact_id": R29_ARTIFACT_ID,
+            "artifact_digest": R29_ARTIFACT_DIGEST,
+        },
+        "media_r24": {
+            "repository": "foto6/video2",
+            "producer_sha": MEDIA_R24_SHA,
+            "ci_run_id": MEDIA_R24_CI,
+            "artifact_id": MEDIA_R24_ARTIFACT_ID,
+            "artifact_digest": MEDIA_R24_ARTIFACT_DIGEST,
+        },
+        "bridge_r34": {
+            "repository": "foto6/WebAIBridge",
+            "producer_sha": BRIDGE_R34_SHA,
+            "ci_run_id": BRIDGE_R34_CI,
+            "routing_authority": "providerConversationId",
+            "live_cutover": False,
+            "artifacts": profile["bridge_r34"]["artifacts"],
+        },
+    }:
+        raise AuthorityDrift("R30 external accepted authority pins drift")
+
+    policy = validate_policy(loaded["policy"])
+    if value["independence_rules"] != {
+        "reviewer_count": 3,
+        "distinct_review_conversation_ids": 3,
+        "duplicate_capture_digest_allowed": False,
+        "duplicate_response_digest_allowed": False,
+        "same_media_package_required": True,
+        "same_review_round_required": True,
+        "same_prompt_digest_required": True,
+        "same_attachment_identity_required": True,
+        "same_sealed_mapping_digest_required": True,
+        "sealed_mapping_visible_to_reviewer": False,
+        "canonical_reviewer_order": "conversation_id_ascending",
+    }:
+        raise AuthorityDrift("R30 external independence rules drift")
+    if value["disagreement_and_human_review_gates"] != {
+        "threshold_source": "internal_oracle.aggregation_policy",
+        "threshold_tuning_allowed_by_umbrella": False,
+        "human_review_required_for": policy["human_review_required"],
+        "dissent_must_remain_in_audit": True,
+        "creator_executable_handoff_only_when_internal_consensus_gate_passes": True,
+    }:
+        raise AuthorityDrift("R30 external disagreement/human-review gate drift")
+    if value["evidence_boundary"] != {
+        "model_consensus_is_human_ground_truth": False,
+        "human_ground_truth": False,
+        "human_rating_evidence": False,
+        "human_parity_inferred": False,
+        "browser_mutation": False,
+        "model_call": False,
+        "provider_publish": False,
+        "merge": False,
+    }:
+        raise AuthorityDrift("R30 external evidence boundary drift")
+    return _clone(value)
+
+
+def external_contract_digest(
+    value: Mapping[str, Any],
+    *,
+    root: Path | None = None,
+) -> str:
+    return sha256_json(validate_external_contract(value, root=root))
 
 
 def validate_authority_profile(value: Mapping[str, Any]) -> dict[str, Any]:
