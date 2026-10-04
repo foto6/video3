@@ -1,0 +1,164 @@
+{
+  "contract_version": "growth.consensus_authorities.r30.v1",
+  "growth_r29": {
+    "repository": "foto6/video3",
+    "producer_sha": "3e4a8ad6d73b058c953abeadba7a60abe567adbc",
+    "ci_run_id": 37195373334,
+    "artifact": {
+      "id": 11301225456,
+      "name": "growth-r29-exact-session-ingest",
+      "digest": "sha256:40fb5e5c7ab7ccf7a02514f9b5a40eb8fc3207373c63391a17606fb12a6d0e55"
+    },
+    "contracts": {
+      "round_result": "growth.exact_session_round_result.r29.v1",
+      "selected_result": "growth.creator_r30_selected_review_result.r29.v1",
+      "inner_creator_envelope": "growth.dynamic_creator_external_review_envelope.r26.v1"
+    },
+    "blobs": {
+      "implementation": "cfd3a3e8788775b754a2a94af37baa88e7957dc8",
+      "authority_profile": "5f59d52d9768b0489ff7655bf90fe0982d7523d8",
+      "contract": "402ca7aed9b2d5a17ac9a1e79e751d3ccb376b5c",
+      "tests": "f7dd43d5d8e0dd08b67aa0f907d9f4fac51a05bb",
+      "workflow": "3f7e77508183b56a450244c6f1207549fd1551a5"
+    }
+  },
+  "media_r24": {
+    "repository": "foto6/video2",
+    "producer_sha": "244acdf154741e669991b17df3ef2a47e2dfdfa9",
+    "ci_run_id": 37195239582,
+    "artifact": {
+      "id": 11301055747,
+      "name": "media-r24-canonical-live-review-export",
+      "digest": "sha256:fc5c9b9635d49b643e66efafe602d21ce1ef695a553f81a797bdf16d7b8cf228"
+    },
+    "contracts": {
+      "export": "media.canonical_live_review_export.r24.v1",
+      "package_manifest": "media.canonical_live_review_package_manifest.r24.v1",
+      "authority": "media.canonical_live_review_authority.r24.v1",
+      "bridge_handoff": "media.bridge_live_review_handoff.r24.v1",
+      "verification": "media.canonical_live_review_verification.r24.v1"
+    },
+    "blobs": {
+      "contract": "e63a7d712f85ad5335e89c9a23c617d178baf2ea",
+      "manifest": "d2d22ca2fb9300053fe58fe5a7c56a517bd18aaa",
+      "schema": "79ab876b27143fe9939c90ea7e075b42243285ba",
+      "implementation": "6ac715d57cb5ec37792a84190ec481c0f7194a77",
+      "exporter": "13552bc37ce752b3980396f49ed503c0c744c587",
+      "verifier": "b01cfab99ffb6a39a6edcc3a29af491d7fb42e9c",
+      "upstream_verifier": "3fa2c45764e5c3baad4627143b0548980dfe44d9",
+      "demo": "8af588531c6dc31541e32e6ba64af5679d8e1df4",
+      "actions_readiness": "240e98ad363e04a4386d3fba2621fc27d53ae4bb",
+      "tests": "97b8539633fdc773744c29cb651ceefbdfe1a2d7",
+      "workflow": "830cf4ac5976460c7217574860ebb4ef06287c99"
+    },
+    "known_artifact_rounds": {
+      "0": {
+        "session_id": "r23-real-session",
+        "session_identity": "e53c6c45febf4a1281de6902a77a0795011bdb99f4e7aec25afeae516ee74560",
+        "package_digest": "65b591b7991cc4b0c4fa5ecbabda2d7bb58418b873792ce55f92c93cd08fc470",
+        "export_index_sha256": "939111e9d870afecb7ca2bbcf817e8a310ed5ba0529467a1f224201133345a98",
+        "payload_directory_digest": "ad84d155e2e6ce89059328a7cfe3800b9b110f6c1c80aac80cb9de80f424e4ab",
+        "archive_sha256": "f057913278069634cc4884f14b6f4263d65497d3ae82d84c044c0acf6c163934",
+        "prompt_digest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2",
+        "sealed_mapping_digest": "01cef4f83ebf90c9fd11d058251a27daef2fc76b276c170b86e32d7fc98b1fa6",
+        "attachments": [
+          {
+            "blindLabel": "A",
+            "relativePath": "review-A.mp4",
+            "sha256": "70fdc25373b544b98aad4f8b5180fc56e69aea9ce11c3d5fb65b08ac02c50cb2",
+            "size": 787963,
+            "mime": "video/mp4"
+          },
+          {
+            "blindLabel": "B",
+            "relativePath": "review-B.mp4",
+            "sha256": "1855a1745d53329294c680600299a9ca0308a7c468b27d6dab94d21a72605054",
+            "size": 795358,
+            "mime": "video/mp4"
+          }
+        ]
+      },
+      "1": {
+        "session_id": "r23-real-session",
+        "session_identity": "8d05af710200fd0f1b9d2e60b263307cd2229da7286177cebb83d8daf7419002",
+        "package_digest": "cf1634450565b7c84c0e1bb0e1b31d0fc144db6606112397b7518cfcf5f78444",
+        "export_index_sha256": "518b033d91ebf586c6b71a01024d5ae9580139fccfc86568c16547fb50d6650c",
+        "payload_directory_digest": "f37487b7b520fab489820b82fdd3a08ed88afce005b881bb12994650d4662288",
+        "archive_sha256": "ec5258af4ab963d579b9158289ec9c250421f814801bc4a179de590322a40f30",
+        "prompt_digest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2",
+        "sealed_mapping_digest": "a3eef575b69e9f1dd0f7faf9147c7b60ea1d23f912f3f0ddafb463cabaf065ba",
+        "attachments": [
+          {
+            "blindLabel": "A",
+            "relativePath": "review-A.mp4",
+            "sha256": "528ea10a074d99f510805ca65153a734c8f81d4e12eeaee0e254c969e1c897dd",
+            "size": 738225,
+            "mime": "video/mp4"
+          },
+          {
+            "blindLabel": "B",
+            "relativePath": "review-B.mp4",
+            "sha256": "1855a1745d53329294c680600299a9ca0308a7c468b27d6dab94d21a72605054",
+            "size": 795358,
+            "mime": "video/mp4"
+          }
+        ]
+      }
+    }
+  },
+  "bridge_r34": {
+    "repository": "foto6/WebAIBridge",
+    "producer_sha": "4e2a37545cc0cdd940cf6e86d40e0d620d6c94ae",
+    "ci_run_id": 37196102639,
+    "contracts": {
+      "review_request": "bridge.existing_chat_video_review_request.v1",
+      "review_result": "bridge.existing_chat_video_review_result.v1",
+      "capture": "bridge.existing_chat_video_review_capture.v1",
+      "readiness": "bridge.r34_sticky_chat_exact_id_readiness.v1",
+      "rehearsal": "bridge.r34_sticky_chat_exact_id_rehearsal.v1"
+    },
+    "blobs": {
+      "sticky_chat_routing": "0e72ccb822f4e5fd9f29bc8ef17ccec70aeb78da",
+      "chat_file_attachment": "3807a788e1a2113dc2d1a7e573a7bb1e065e8840",
+      "existing_chat_video_review": "51df839d829028da754ce93e2640c9fc76c2412a",
+      "server": "a2bb2502dc071b8a6530214e07eb1895c5c5be7b",
+      "attachment_rehearsal": "132fcf25d5fdccc6801459be95b57a1e1ee24879",
+      "readiness": "e4cf0ba13e9b51a978f61ac9bac33b9d08ee3bcc",
+      "tests": "726eb6b6a3284666293dcde4458ee65e7fc6ea26",
+      "rehearsal": "9a8cad3627a3d0d429897cf09d263dae97e8209e",
+      "package": "b13e7e3aca12b22f7b3b5af140a92dd0a7ccb998",
+      "workflow": "1677f17e9c55be18b2b1bc8c1d4eb25431ecd906"
+    },
+    "artifacts": [
+      {
+        "platform": "ubuntu-latest",
+        "id": 11300833232,
+        "name": "r34-sticky-chat-ubuntu-latest",
+        "digest": "sha256:feab9b876c609e3fcc6987ae92278ea61c2fed3e13aaad79cb5e68256fd9ef93"
+      },
+      {
+        "platform": "windows-latest",
+        "id": 11301086988,
+        "name": "r34-sticky-chat-windows-latest",
+        "digest": "sha256:41febb909113a8d522be40388e1c90351815ac9e211f09a2933adf74e47731f6"
+      }
+    ],
+    "routing_authority": "providerConversationId",
+    "title_routing_allowed": false,
+    "last_open_routing_allowed": false,
+    "only_open_routing_allowed": false,
+    "tab_id_authoritative": false,
+    "project_slug_authoritative": false,
+    "live_cutover": false
+  },
+  "evidence_boundary": {
+    "model_consensus_is_human_ground_truth": false,
+    "human_ground_truth": false,
+    "human_rating_evidence": false,
+    "human_parity_inferred": false,
+    "browser_mutation": false,
+    "model_call": false,
+    "provider_publish": false,
+    "merge": false
+  }
+}
