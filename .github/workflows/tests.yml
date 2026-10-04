@@ -34,6 +34,7 @@ jobs:
           python -m unittest discover -s tests -p "test_dynamic_review_capture_r26.py" -v
           python -m unittest discover -s tests -p "test_live_ingest_operator_r27.py" -v
           python -m unittest discover -s tests -p "test_multiround_session_ingest_r28.py" -v
+          python -m unittest discover -s tests -p "test_exact_session_ingest_r29.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -405,6 +406,164 @@ jobs:
         with:
           name: growth-r28-multiround-session-ingest
           path: ${{ runner.temp }}/growth-r28-session-ingest
+          if-no-files-found: error
+          retention-days: 90
+      - name: Fetch exact Media R23 session-package artifact
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/r29-media-r23"
+          mkdir -p "$RUNNER_TEMP/r29-media-r23"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            --header "Authorization: Bearer $GITHUB_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/foto6/video2/actions/artifacts/11226183002/zip" \
+            --output "$RUNNER_TEMP/r29-media-r23/media-r23-review-session-package.zip"
+          echo "5170ada97f8c86421f4bee34c97fbfa5701bef74ef406f18889a1a790ae3ac66  $RUNNER_TEMP/r29-media-r23/media-r23-review-session-package.zip" | sha256sum --check -
+          unzip -q "$RUNNER_TEMP/r29-media-r23/media-r23-review-session-package.zip" -d "$RUNNER_TEMP/r29-media-r23/unpacked"
+      - name: Fetch exact Bridge R32 source-ready artifact
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/r29-bridge-r32"
+          mkdir -p "$RUNNER_TEMP/r29-bridge-r32"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            --header "Authorization: Bearer $GITHUB_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/foto6/WebAIBridge/actions/artifacts/11225129739/zip" \
+            --output "$RUNNER_TEMP/r29-bridge-r32/r32-multiround-live-session-ubuntu-latest.zip"
+          echo "e0fea734df884bdaf39e1a5f2ed961a39bee89e2d219c744720da49581d0d5b4  $RUNNER_TEMP/r29-bridge-r32/r32-multiround-live-session-ubuntu-latest.zip" | sha256sum --check -
+          unzip -q "$RUNNER_TEMP/r29-bridge-r32/r32-multiround-live-session-ubuntu-latest.zip" -d "$RUNNER_TEMP/r29-bridge-r32/unpacked"
+      - name: Produce R29 exact R23 source-ready and R32 fixture evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROFILE="conformance/growth.exact_session_ingest.r29.v1/authority-profiles.json"
+          OUT="$RUNNER_TEMP/growth-r29-exact-session-ingest"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          for ROUND in 0 1 2; do
+            python -m growth_analytics.exact_session_ingest_r29 source-ready \
+              --media-session-dir "$RUNNER_TEMP/r29-media-r23/unpacked/round-$ROUND" \
+              --authority-profile "$PROFILE" \
+              --out-dir "$OUT/source-ready-round-$ROUND" \
+              --conversation-id "ci-r29-dedicated-review-conversation" \
+              --growth-sha "$GITHUB_SHA" \
+              --growth-ci-run-id "$GITHUB_RUN_ID"
+          done
+          python -m growth_analytics.exact_session_ingest_r29 fixture-readiness \
+            --bridge-fixture "$RUNNER_TEMP/r29-bridge-r32/unpacked/r32-multiround-evidence.json" \
+            --authority-profile "$PROFILE" \
+            --out-dir "$OUT/r32-fixture" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          python - "$OUT" <<'PY'
+          import json,os,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          expected={
+            0:{
+              "session_package_sha256":"773326ccee821991e5faa13e1abb3d3c48bcb18499f96bcf7fbd7baab5637afe",
+              "r21_package_digest":"6a7b79f617de400a4a086e64a0cae9feceafa51a9a324074e85fb07ebf58dfc9",
+              "r22_archive_sha256":"c52c13bac6507bc615bde74938a84ecbc456b3125b1d9d55511ddcac882831a6",
+              "sealed_mapping_digest":"01cef4f83ebf90c9fd11d058251a27daef2fc76b276c170b86e32d7fc98b1fa6",
+              "r32_session_package_digest":"593c40daafa5cb8525b4990677f1634b2384cf29e9d215dcc957c36fc6f310b4",
+            },
+            1:{
+              "session_package_sha256":"4640cd3739b7e1949fc8b200c8d07de57ca2ee9366e43d5ffbb5925372bb1a42",
+              "r21_package_digest":"cc1a9d64dcdbc6b06bd2c1e29c164d2285c729f255a05c0e3ae5a4e55c267d07",
+              "r22_archive_sha256":"d025b407db41ee71c9f77346caa1d1624796554d57ebd2118bc1db5a6e74d98c",
+              "sealed_mapping_digest":"a3eef575b69e9f1dd0f7faf9147c7b60ea1d23f912f3f0ddafb463cabaf065ba",
+              "r32_session_package_digest":"028a2fc5a2f3f084ebfe157e75a9aecf21a4b5b578e20bbb3e0f4070590d38e3",
+            },
+            2:{
+              "session_package_sha256":"50c28bd285373503722e4fe2eddfb38e86126fb31409feceb21a7e0e8d2b8e5d",
+              "r21_package_digest":"951362dbf747cada15b14490a96adb95fd3d23d1f33ca540f62b38185ab83577",
+              "r22_archive_sha256":"cb712176414e1bcd6884484cf171bc437d9c0177853e0b475166aeaee34d596b",
+              "sealed_mapping_digest":"2961e685ecab294a5da35785ae4eb7dc23c31274502e8d638364bec00b3a3dbf",
+              "r32_session_package_digest":"b4adb130e64cffbfcc2372b63cfac6436402f521c8431b689e6a8af005139353",
+            },
+          }
+          authority=None
+          for round_no, exp in expected.items():
+            p=json.load(open(root/f"source-ready-round-{round_no}"/"session-readiness.json",encoding="utf-8"))
+            assert p["state"] == "SOURCE_READY", p
+            assert p["live_capture_gate"] == "BLOCKED_WAITING_GENUINE_R32_ROUND", p
+            assert p["review_round"] == round_no, p
+            for key,value in exp.items():
+              assert p[key] == value, (key,p,value)
+            assert p["prompt_digest"] == "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2", p
+            assert p["live_review_ingested"] is False, p
+            assert p["creator_executable_handoff_emitted"] is False, p
+            assert p["fixture_promoted"] is False, p
+            assert p["human_ground_truth"] is False, p
+            assert p["human_rating_evidence"] is False, p
+            assert p["human_parity_inferred"] is False, p
+            assert p["browser_mutation"] is False and p["provider_mutation"] is False, p
+            assert p["growth_r29"]["producer_sha"] == os.environ["GITHUB_SHA"], p
+            assert str(p["growth_r29"]["ci_run_id"]) == os.environ["GITHUB_RUN_ID"], p
+            if authority is None: authority=p["growth_r29"]["authority_profile_digest"]
+            else: assert p["growth_r29"]["authority_profile_digest"] == authority, p
+          fixture=json.load(open(root/"r32-fixture"/"fixture-readiness.json",encoding="utf-8"))
+          assert fixture["state"] == "SOURCE_READY", fixture
+          assert fixture["fixture_only"] is True, fixture
+          assert fixture["round_sequence_proven"] == [0,1,2], fixture
+          assert fixture["live_review_ingested"] is False, fixture
+          assert fixture["creator_executable_handoff_emitted"] is False, fixture
+          assert fixture["fixture_promoted"] is False, fixture
+          assert fixture["human_ground_truth"] is False, fixture
+          assert fixture["human_rating_evidence"] is False, fixture
+          assert fixture["human_parity_inferred"] is False, fixture
+          assert fixture["browser_mutation"] is False and fixture["provider_mutation"] is False, fixture
+          print(json.dumps({"authority_profile_digest":authority,"rounds":expected,"fixture_report_digest":fixture["report_digest"]},sort_keys=True))
+          PY
+      - name: Prove R29 swapped sealed mapping fails closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROFILE="conformance/growth.exact_session_ingest.r29.v1/authority-profiles.json"
+          OUT="$RUNNER_TEMP/growth-r29-exact-session-ingest"
+          cp -R "$RUNNER_TEMP/r29-media-r23/unpacked/round-1" "$RUNNER_TEMP/r29-media-r23/swapped-round-1"
+          python - "$RUNNER_TEMP/r29-media-r23/swapped-round-1/operator/payload/media.review_round_sealed_mapping.r21.v1.json" <<'PY'
+          import json,sys
+          from pathlib import Path
+          path=Path(sys.argv[1])
+          p=json.loads(path.read_text(encoding="utf-8"))
+          p["entries"][0],p["entries"][1]=p["entries"][1],p["entries"][0]
+          path.write_text(json.dumps(p,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          PY
+          set +e
+          python -m growth_analytics.exact_session_ingest_r29 source-ready \
+            --media-session-dir "$RUNNER_TEMP/r29-media-r23/swapped-round-1" \
+            --authority-profile "$PROFILE" \
+            --out-dir "$OUT/swapped-mapping" \
+            --conversation-id "ci-r29-dedicated-review-conversation" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          STATUS=$?
+          set -e
+          test "$STATUS" -eq 2
+          python - "$OUT/swapped-mapping/session-readiness.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert p["state"] == "BLOCKED_WAITING_GENUINE_R32_ROUND", p
+          assert p["reason"] == "PackageDrift", p
+          assert p["live_review_ingested"] is False, p
+          assert p["creator_executable_handoff_emitted"] is False, p
+          assert p["human_ground_truth"] is False, p
+          assert p["provider_mutation"] is False, p
+          PY
+      - name: Upload R29 exact session ingest artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r29-exact-session-ingest
+          path: ${{ runner.temp }}/growth-r29-exact-session-ingest
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
