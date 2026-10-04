@@ -35,6 +35,7 @@ jobs:
           python -m unittest discover -s tests -p "test_live_ingest_operator_r27.py" -v
           python -m unittest discover -s tests -p "test_multiround_session_ingest_r28.py" -v
           python -m unittest discover -s tests -p "test_exact_session_ingest_r29.py" -v
+          python -m unittest discover -s tests -p "test_consensus_review_oracle_r30.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -548,6 +549,134 @@ jobs:
         with:
           name: growth-r29-exact-session-ingest
           path: ${{ runner.temp }}/growth-r29-exact-session-ingest
+          if-no-files-found: error
+          retention-days: 90
+      - name: Fetch exact Media R24 canonical review artifact
+        shell: bash
+        env:
+          GITHUB_TOKEN: \${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/r30-media-r24"
+          mkdir -p "$RUNNER_TEMP/r30-media-r24"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            --header "Authorization: Bearer $GITHUB_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/foto6/video2/actions/artifacts/11301055747/zip" \
+            --output "$RUNNER_TEMP/r30-media-r24/media-r24-canonical-live-review-export.zip"
+          echo "fc5c9b9635d49b643e66efafe602d21ce1ef695a553f81a797bdf16d7b8cf228  $RUNNER_TEMP/r30-media-r24/media-r24-canonical-live-review-export.zip" | sha256sum --check -
+          unzip -q "$RUNNER_TEMP/r30-media-r24/media-r24-canonical-live-review-export.zip" -d "$RUNNER_TEMP/r30-media-r24/unpacked"
+      - name: Produce R30 accepted semantic consensus and adversarial rehearsal
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROFILE="conformance/growth.consensus_review_oracle.r30.v1/authority-profiles.json"
+          POLICY="conformance/growth.consensus_review_oracle.r30.v1/aggregation-policy.json"
+          MEDIA="$RUNNER_TEMP/r30-media-r24/unpacked/round-0"
+          REVIEWS="fixtures/consensus_review_r30/accepted"
+          OUT="$RUNNER_TEMP/growth-r30-consensus-review-oracle"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          python -m growth_analytics.consensus_review_oracle_r30 consensus \
+            --media-dir "$MEDIA" \
+            --reviews-dir "$REVIEWS" \
+            --authority-profile "$PROFILE" \
+            --policy "$POLICY" \
+            --ledger-dir "$OUT/ledger" \
+            --out-dir "$OUT/accepted" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          python -m growth_analytics.consensus_review_oracle_r30 rehearse-fixtures \
+            --media-dir "$MEDIA" \
+            --reviews-dir "$REVIEWS" \
+            --authority-profile "$PROFILE" \
+            --policy "$POLICY" \
+            --out-dir "$OUT/rehearsal" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          python - "$OUT" <<'PY'
+          import json,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          result=json.load(open(root/"accepted"/"consensus-result.json",encoding="utf-8"))
+          ready=json.load(open(root/"accepted"/"readiness.json",encoding="utf-8"))
+          rehearsal=json.load(open(root/"rehearsal"/"rehearsal.json",encoding="utf-8"))
+          assert result["state"] == "CONSENSUS_ACCEPTED", result
+          assert result["winner_blind_label"] == "A", result
+          assert result["selected_candidate_id"] == "r20-initial-alternative", result
+          assert result["audit"]["acceptance_rule"] == "unanimous_high_confidence_winner", result
+          assert result["audit"]["canonical_reviewer_order"] == ["r30-review-a","r30-review-b","r30-review-c"], result
+          assert result["creator_executable_handoff_emitted"] is False, result
+          assert result["fixture_or_nonlive_input"] is True, result
+          assert result["evidence_boundary"]["model_consensus_is_human_ground_truth"] is False, result
+          assert result["evidence_boundary"]["human_ground_truth"] is False, result
+          assert result["evidence_boundary"]["human_rating_evidence"] is False, result
+          assert result["evidence_boundary"]["human_parity_inferred"] is False, result
+          assert result["evidence_boundary"]["browser_mutation"] is False, result
+          assert result["evidence_boundary"]["model_call"] is False, result
+          assert result["evidence_boundary"]["provider_publish"] is False, result
+          assert ready["state"] == "CONSENSUS_ACCEPTED", ready
+          assert ready["creator_executable_handoff_emitted"] is False, ready
+          assert ready["model_consensus_is_human_ground_truth"] is False, ready
+          assert rehearsal["cases"]["accepted_unanimous"]["state"] == "CONSENSUS_ACCEPTED", rehearsal
+          assert rehearsal["cases"]["two_one_high_disagreement"]["state"] == "HUMAN_REVIEW_REQUIRED", rehearsal
+          assert rehearsal["cases"]["unanimous_low_confidence"]["state"] == "HUMAN_REVIEW_REQUIRED", rehearsal
+          assert rehearsal["cases"]["contradictory_directives"]["state"] == "HUMAN_REVIEW_REQUIRED", rehearsal
+          assert rehearsal["cases"]["duplicate_conversation"]["state"] == "BLOCKED_INVALID_EVIDENCE", rehearsal
+          assert len(rehearsal["rejected_cases"]) >= 4, rehearsal
+          assert rehearsal["model_consensus_is_human_ground_truth"] is False, rehearsal
+          print(json.dumps({
+            "consensus_digest":result["consensus_digest"],
+            "disagreement_score":result["disagreement_score"],
+            "rehearsal_report_digest":rehearsal["report_digest"],
+            "rejected_cases":rehearsal["rejected_cases"],
+          },sort_keys=True))
+          PY
+      - name: Prove R30 exact Media R24 mapping drift fails closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROFILE="conformance/growth.consensus_review_oracle.r30.v1/authority-profiles.json"
+          POLICY="conformance/growth.consensus_review_oracle.r30.v1/aggregation-policy.json"
+          OUT="$RUNNER_TEMP/growth-r30-consensus-review-oracle"
+          cp -R "$RUNNER_TEMP/r30-media-r24/unpacked/round-0" "$RUNNER_TEMP/r30-media-r24/swapped-round-0"
+          python - "$RUNNER_TEMP/r30-media-r24/swapped-round-0/payload/machine/r21/media.review_round_sealed_mapping.r21.v1.json" <<'PY'
+          import json,sys
+          from pathlib import Path
+          path=Path(sys.argv[1])
+          p=json.loads(path.read_text(encoding="utf-8"))
+          p["entries"][0],p["entries"][1]=p["entries"][1],p["entries"][0]
+          path.write_text(json.dumps(p,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          PY
+          set +e
+          python -m growth_analytics.consensus_review_oracle_r30 consensus \
+            --media-dir "$RUNNER_TEMP/r30-media-r24/swapped-round-0" \
+            --reviews-dir "fixtures/consensus_review_r30/accepted" \
+            --authority-profile "$PROFILE" \
+            --policy "$POLICY" \
+            --ledger-dir "$OUT/swapped-ledger" \
+            --out-dir "$OUT/swapped-mapping" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          STATUS=$?
+          set -e
+          test "$STATUS" -eq 2
+          python - "$OUT/swapped-mapping/readiness.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert p["state"] == "BLOCKED_INVALID_EVIDENCE", p
+          assert p["reason"] == "PackageDrift", p
+          assert p["creator_executable_handoff_emitted"] is False, p
+          assert p["model_consensus_is_human_ground_truth"] is False, p
+          assert p["human_ground_truth"] is False, p
+          assert p["provider_publish"] is False, p
+          PY
+      - name: Upload R30 consensus oracle evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r30-consensus-review-oracle
+          path: \${{ runner.temp }}/growth-r30-consensus-review-oracle
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
