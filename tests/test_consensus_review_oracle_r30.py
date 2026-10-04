@@ -325,7 +325,25 @@ class GrowthR30ConsensusOracleTests(unittest.TestCase):
             result["audit"]["rejection_reasons"],
         )
         self.assertGreater(result["disagreement_score"], 0.30)
-        self.assertEqual(result["audit"]["dissenting_reviews"], [])
+        self.assertEqual(
+            result["audit"]["dissenting_reviews"], ["r30-review-c"]
+        )
+
+    def test_two_one_bounded_majority_is_semantically_accepted(self):
+        reviews = self.load_fixture_reviews()
+        reviews[2]["vote"]["winner"] = "B"
+        reviews[2]["vote"]["confidence"] = 0.20
+        result = self.aggregate(reviews)
+        self.assertEqual(result["state"], "CONSENSUS_ACCEPTED")
+        self.assertEqual(result["winner_blind_label"], "A")
+        self.assertEqual(
+            result["audit"]["acceptance_rule"], "two_of_three_majority"
+        )
+        self.assertEqual(
+            result["audit"]["dissenting_reviews"], ["r30-review-c"]
+        )
+        self.assertLessEqual(result["disagreement_score"], 0.30)
+        self.assertFalse(result["creator_executable_handoff_emitted"])
 
     def test_unanimous_low_confidence_requires_human_review(self):
         reviews = self.load_fixture_reviews()
