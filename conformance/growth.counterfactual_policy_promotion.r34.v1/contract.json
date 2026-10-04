@@ -1,0 +1,38 @@
+{
+  "contract_version": "growth.counterfactual_policy_promotion.r34.v1",
+  "authority_contract": "growth.counterfactual_policy_promotion_authority.r34.v1",
+  "policy_contract": "growth.counterfactual_policy_config.r34.v1",
+  "corpus_contract": "growth.counterfactual_replay_corpus.r34.v1",
+  "candidate_policy_contract": "growth.counterfactual_candidate_policy.r34.v1",
+  "decision_contract": "growth.counterfactual_policy_promotion_decision.r34.v1",
+  "creator_advisory_envelope_contract": "growth.counterfactual_policy_promotion_envelope.r34.v1",
+  "disposition": "ADVISORY_ONLY",
+  "assumptions": [
+    "consistency: logged reward corresponds to the logged action",
+    "positivity: every target-supported action has logging probability above the frozen threshold",
+    "conditional exchangeability is not guaranteed by observational logging and observational evidence remains non-causal",
+    "outcome model is trained outside the evaluation corpus under a declared split",
+    "same frozen mature corpus is used for baseline and candidate policy replay",
+    "no interference or hidden cross-account exposure contamination",
+    "propensity vectors are exact source-bound logging probabilities rather than reconstructed post-hoc guesses"
+  ],
+  "limitations": [
+    "offline replay cannot prove live canary safety",
+    "doubly-robust estimation is only robust when at least one of the propensity or outcome models is valid under its assumptions",
+    "unmeasured confounding can invalidate causal interpretation",
+    "limited overlap increases variance and extrapolation risk",
+    "critical guardrail or stratum reversals veto promotion even when aggregate primary effect is positive"
+  ],
+  "rules": {
+    "same_frozen_corpus_for_both_policies": true,
+    "unsupported_action_regions_rejected": true,
+    "observational_evidence_is_causal": false,
+    "critical_stratum_reversal_veto": true,
+    "shadow_canary_candidate_is_advisory": true,
+    "creator_mutation": false,
+    "provider_mutation": false,
+    "traffic_routing": false,
+    "live_publish": false,
+    "human_ground_truth": false
+  }
+}
