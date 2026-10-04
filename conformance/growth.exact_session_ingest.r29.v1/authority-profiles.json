@@ -121,7 +121,9 @@
         "digest": "sha256:189358b73d7a95a934219bb226451579fb402bd7ca615b91667f3e817b045e2d"
       }
     ],
-    "ci_live_session_evidence": false
+    "ci_live_session_evidence": false,
+    "fixture_evidence_sha256": "c822e31f1091d48c32298534ff651ab8c4a3ad47158ee8e06dbad236cf333a2e",
+    "readiness_evidence_sha256": "12314e5af85e76616e9e140b36928b7054ec5540fe5cf7727e2d2ee545600789"
   },
   "creator_r30": {
     "repository": "foto6/video1",
