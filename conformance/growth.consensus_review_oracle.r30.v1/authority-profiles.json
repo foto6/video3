@@ -76,7 +76,9 @@
             "size": 795358,
             "mime": "video/mp4"
           }
-        ]
+        ],
+        "r23_session_package_sha256": "773326ccee821991e5faa13e1abb3d3c48bcb18499f96bcf7fbd7baab5637afe",
+        "r29_package_digest": "6a7b79f617de400a4a086e64a0cae9feceafa51a9a324074e85fb07ebf58dfc9"
       },
       "1": {
         "session_id": "r23-real-session",
@@ -102,7 +104,9 @@
             "size": 795358,
             "mime": "video/mp4"
           }
-        ]
+        ],
+        "r23_session_package_sha256": "4640cd3739b7e1949fc8b200c8d07de57ca2ee9366e43d5ffbb5925372bb1a42",
+        "r29_package_digest": "cc1a9d64dcdbc6b06bd2c1e29c164d2285c729f255a05c0e3ae5a4e55c267d07"
       }
     }
   },
