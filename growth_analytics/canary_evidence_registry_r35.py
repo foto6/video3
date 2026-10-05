@@ -753,8 +753,6 @@ def build_entry(
         "source_run_id": provenance["source_run_id"],
         "source_artifact_id": provenance["source_artifact_id"],
         "source_artifact_digest": provenance["source_artifact_digest"],
-        "supersedes_entry_ids": supersedes,
-        "resolves_conflict_entry_ids": resolves,
     }
     material["registry_entry_id"] = "gr35e1:" + sha256_json(id_material)
     digest_material = copy.deepcopy(material)
