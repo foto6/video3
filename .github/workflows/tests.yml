@@ -45,6 +45,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_adaptive_portfolio_governor_r33.py" -v
       - name: Focused R34 counterfactual policy promotion tests
         run: python -m unittest discover -s tests -p "test_counterfactual_policy_promotion_r34.py" -v
+      - name: Focused R35 canary evidence registry tests
+        run: python -m unittest discover -s tests -p "test_canary_evidence_registry_r35.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -1003,6 +1005,100 @@ jobs:
         with:
           name: growth-r34-counterfactual-policy-promotion
           path: ${{ runner.temp }}/growth-r34-counterfactual-policy-promotion
+          if-no-files-found: error
+          retention-days: 90
+      - name: Produce R35 canary evidence registry artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/growth-r35-canary-evidence-registry"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          python -m growth_analytics.canary_evidence_registry_r35 rehearse-fixtures \
+            --authority conformance/growth.canary_evidence_registry.r35.v1/authority.json \
+            --policy conformance/growth.canary_evidence_registry.r35.v1/policy.json \
+            --out-dir "$OUT" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          python - "$OUT/readiness-report.json" "$OUT/readiness-certificate.json" "$OUT/adversarial-results.json" "$OUT/conformance-manifest.json" <<'PY'
+          import json,sys
+          report=json.load(open(sys.argv[1],encoding="utf-8"))
+          cert=json.load(open(sys.argv[2],encoding="utf-8"))
+          adv=json.load(open(sys.argv[3],encoding="utf-8"))
+          manifest=json.load(open(sys.argv[4],encoding="utf-8"))
+          assert report["status"] == "ADVISORY_ONLY_SOURCE_READY", report
+          assert report["disposition"] == "ADVISORY_ONLY", report
+          assert report["readiness"] == "NOT_READY", report
+          assert report["synthetic_source_ready_evidence_only"] is True, report
+          assert report["adversarial_case_count"] >= 35, report
+          assert report["all_expected_dispositions_stable"] is True, report
+          assert report["provenance_classes_not_interchangeable"] is True, report
+          assert report["metadata_can_upgrade_provenance"] is False, report
+          assert report["live_authorization"] is False, report
+          assert report["provider_mutation_allowed"] is False, report
+          assert report["creator_mutation_allowed"] is False, report
+          assert report["traffic_allocation_allowed"] is False, report
+          assert report["publish_allowed"] is False, report
+          assert report["credential_access_allowed"] is False, report
+          assert report["human_ground_truth"] is False, report
+          assert cert["contract_version"] == "growth.shadow_canary_readiness_certificate.r35.v1", cert
+          assert cert["readiness"] == "NOT_READY", cert
+          assert cert["live_authorization"] is False, cert
+          assert cert["provider_mutation_allowed"] is False, cert
+          assert cert["creator_mutation_allowed"] is False, cert
+          assert adv["case_count"] >= 35, adv
+          assert adv["all_expected_dispositions_stable"] is True, adv
+          required={
+            "06_duplicate_artifact_new_run_counted_once",
+            "07_same_policy_corpus_changed_bytes",
+            "08_same_policy_new_corpus_distinct",
+            "09_randomized_vs_observational_contradiction",
+            "10_expired_positive_not_ready",
+            "11_fresh_negative_guardrail_veto",
+            "12_shifted_positive_not_ready",
+            "13_copied_exposures_across_corpora",
+            "14_hidden_evaluation_leakage_rejected",
+            "16_stale_parent_r34_authority",
+            "17_alternate_same_sha_artifact_tuple",
+            "18_negative_evidence_cannot_be_omitted",
+            "19_registry_ordering_invariant",
+            "21_supersession_cycle",
+            "22_supersession_to_weaker_evidence",
+            "23_rollback_memory_erasure_attempt",
+            "29_metadata_cannot_upgrade_provenance",
+          }
+          assert required <= set(adv["cases"]), adv
+          assert adv["provenance_upgrade_proof"]["same_core_evidence_with_different_source_class_is_conflict"] is True, adv
+          assert adv["live_authorization"] is False, adv
+          assert adv["provider_mutation_allowed"] is False, adv
+          assert adv["creator_mutation_allowed"] is False, adv
+          parent=manifest["parent_authority"]
+          assert parent["growth_r34"]["producer_sha"] == "9ff243bc5ec6977bc5f0eb8f16cd5e51aa0dcdfc", manifest
+          assert parent["growth_r34"]["ci_run_id"] == 37244660304, manifest
+          assert parent["growth_r34"]["artifact_id"] == 11318054384, manifest
+          assert parent["growth_r34"]["artifact_digest"] == "sha256:6fc329964c14ce7c11f27fd2dd47235912470a377c6a1f5a6f3e66f4481f5ac9", manifest
+          assert parent["qa_r6"]["producer_sha"] == "233a0e3d2237300a9b85b99965e27a190ebb362f", manifest
+          assert parent["qa_r6"]["ci_run_id"] == 37245109258, manifest
+          assert parent["qa_r6"]["artifact_id"] == 11319180558, manifest
+          assert parent["qa_r6"]["artifact_digest"] == "sha256:402f6440b1ec136de6b3ff4f0547970f6f75274f3f3f482857d54528921d3ac8", manifest
+          assert parent["qa_r6"]["matrix_blob"] == "249574798f19bdd1593301aee09918530c391c71", manifest
+          assert manifest["advisory_only"] is True, manifest
+          assert manifest["live_authorization"] is False, manifest
+          print(json.dumps({
+            "registry_snapshot_digest":report["registry_snapshot_digest"],
+            "readiness_certificate_digest":report["readiness_certificate_digest"],
+            "adversarial_case_count":report["adversarial_case_count"],
+            "adversarial_report_digest":report["adversarial_report_digest"],
+            "conformance_manifest_digest":report["conformance_manifest_digest"],
+            "readiness":report["readiness"],
+            "disposition":report["disposition"],
+          },sort_keys=True))
+          PY
+      - name: Upload R35 canary evidence registry artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r35-canary-evidence-registry
+          path: ${{ runner.temp }}/growth-r35-canary-evidence-registry
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
