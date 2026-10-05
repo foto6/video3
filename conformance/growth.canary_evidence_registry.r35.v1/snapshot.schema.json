@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.canary_evidence_registry_snapshot.r35.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version","registry_id","registry_snapshot_digest","snapshot_at",
+    "policy_version","registry_policy_digest","authority","entries","conflicts",
+    "duplicate_groups","supersession_graph","valid_superseded_entry_ids",
+    "explicitly_resolved_entry_ids","advisory_boundary"
+  ],
+  "properties": {
+    "contract_version": {"const":"growth.canary_evidence_registry_snapshot.r35.v1"},
+    "registry_id": {"type":"string","minLength":1},
+    "registry_snapshot_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "snapshot_at": {"type":"string"},
+    "policy_version": {"const":1},
+    "registry_policy_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "authority": {"type":"object"},
+    "entries": {"type":"array","items":{"$ref":"growth.canary_evidence_entry.r35.v1"}},
+    "conflicts": {"type":"array"},
+    "duplicate_groups": {"type":"array"},
+    "supersession_graph": {"type":"object"},
+    "valid_superseded_entry_ids": {"type":"array","items":{"type":"string"}},
+    "explicitly_resolved_entry_ids": {"type":"array","items":{"type":"string"}},
+    "advisory_boundary": {"type":"object"}
+  }
+}
