@@ -1346,7 +1346,7 @@ def build_rehearsal(
         raise AssertionError(f"R35 adversarial expectations failed: {failed}")
 
     adversarial_results = {
-        "report_version": REPORT_VERSION,
+        "report_version": r35.REPORT_VERSION,
         "fixture_scenarios_only": True,
         "case_count": len(case_values),
         "all_expected_dispositions_stable": all_expected,
@@ -1375,7 +1375,7 @@ def build_rehearsal(
         policy=policy,
     )
     readiness_report = {
-        "report_version": REPORT_VERSION,
+        "report_version": r35.REPORT_VERSION,
         "status": STATUS,
         "disposition": "ADVISORY_ONLY",
         "registry_snapshot_digest": registry_snapshot[
