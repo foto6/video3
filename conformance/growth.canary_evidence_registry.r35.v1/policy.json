@@ -1,0 +1,71 @@
+{
+  "contract_version": "growth.canary_evidence_registry_policy.r35.v1",
+  "policy_version": 1,
+  "validity_window_seconds": 2592000,
+  "source_classes": {
+    "RANDOMIZED": {
+      "priority": 4,
+      "weight": 4.0,
+      "readiness_eligible": true,
+      "causal_capable": true
+    },
+    "OFF_POLICY_REPLAY": {
+      "priority": 3,
+      "weight": 3.0,
+      "readiness_eligible": true,
+      "causal_capable": false
+    },
+    "OBSERVATIONAL": {
+      "priority": 2,
+      "weight": 1.0,
+      "readiness_eligible": false,
+      "causal_capable": false
+    },
+    "SYNTHETIC_TEST": {
+      "priority": 1,
+      "weight": 0.0,
+      "readiness_eligible": false,
+      "causal_capable": false
+    }
+  },
+  "readiness": {
+    "minimum_independent_eligible_entries": 2,
+    "minimum_distinct_underlying_corpora": 2,
+    "minimum_effective_sample_size": 80.0,
+    "minimum_behavior_propensity": 0.05,
+    "maximum_drift_total_variation": 0.25,
+    "candidate_recommendation": "SHADOW_CANARY_CANDIDATE",
+    "negative_recommendations": [
+      "SHADOW_ROLLBACK",
+      "HUMAN_REVIEW_REQUIRED"
+    ],
+    "positive_confidence_lower_bound_min": 0.02
+  },
+  "conflicts": {
+    "contradictory_mature_evidence_requires_human_review": true,
+    "critical_guardrail_veto_persists": true,
+    "critical_stratum_reversal_veto_persists": true,
+    "duplicate_exposure_identity_is_conflict": true,
+    "same_policy_corpus_changed_bytes_is_conflict": true
+  },
+  "supersession": {
+    "explicit_parent_required": true,
+    "strictly_stronger_source_class_required": true,
+    "negative_history_retained": true,
+    "cycle_rejected": true,
+    "conflict_resolution_must_be_explicit": true
+  },
+  "aggregation": {
+    "method": "all_fresh_independent_evidence_with_vetoes",
+    "no_best_corpus_selection": true,
+    "no_negative_guardrail_averaging": true,
+    "source_weighted_summary_is_diagnostic_only": true
+  },
+  "recommendations": [
+    "NOT_READY",
+    "TEST_MORE",
+    "SHADOW_CANARY_CANDIDATE",
+    "HUMAN_REVIEW_REQUIRED",
+    "SHADOW_ROLLBACK"
+  ]
+}
