@@ -1376,7 +1376,7 @@ def build_rehearsal(
     )
     readiness_report = {
         "report_version": r35.REPORT_VERSION,
-        "status": STATUS,
+        "status": r35.STATUS,
         "disposition": "ADVISORY_ONLY",
         "registry_snapshot_digest": registry_snapshot[
             "registry_snapshot_digest"
