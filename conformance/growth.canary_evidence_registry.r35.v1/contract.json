@@ -1,0 +1,25 @@
+{
+  "contract_version": "growth.canary_evidence_registry.r35.v1",
+  "authority_contract": "growth.canary_evidence_registry_authority.r35.v1",
+  "policy_contract": "growth.canary_evidence_registry_policy.r35.v1",
+  "entry_contract": "growth.canary_evidence_entry.r35.v1",
+  "snapshot_contract": "growth.canary_evidence_registry_snapshot.r35.v1",
+  "certificate_contract": "growth.shadow_canary_readiness_certificate.r35.v1",
+  "creator_advisory_contract": "growth.shadow_canary_registry_advisory.r35.v1",
+  "disposition": "ADVISORY_ONLY",
+  "rules": {
+    "immutable_entries": true,
+    "evidence_classes_not_interchangeable": true,
+    "metadata_cannot_upgrade_provenance": true,
+    "duplicate_exact_evidence_is_idempotent": true,
+    "different_corpus_is_distinct_evidence": true,
+    "historical_negative_evidence_is_never_deleted": true,
+    "critical_negative_evidence_cannot_be_averaged_away": true,
+    "live_authorization": false,
+    "provider_mutation_allowed": false,
+    "creator_mutation_allowed": false,
+    "traffic_allocation_allowed": false,
+    "publish_allowed": false,
+    "human_ground_truth": false
+  }
+}
