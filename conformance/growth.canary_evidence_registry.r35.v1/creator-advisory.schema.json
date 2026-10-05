@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.shadow_canary_registry_advisory.r35.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version","advisory_id","disposition","readiness","certificate_digest",
+    "registry_snapshot_digest","policy_digest","live_authorization",
+    "provider_mutation_allowed","creator_mutation_allowed","browser_mutation_allowed",
+    "traffic_allocation_allowed","publish_allowed","credential_access_allowed",
+    "human_ground_truth"
+  ],
+  "properties": {
+    "contract_version": {"const":"growth.shadow_canary_registry_advisory.r35.v1"},
+    "advisory_id": {"type":"string","pattern":"^gr35adv1:[0-9a-f]{64}$"},
+    "disposition": {"const":"ADVISORY_ONLY"},
+    "readiness": {"enum":["NOT_READY","TEST_MORE","SHADOW_CANARY_CANDIDATE","HUMAN_REVIEW_REQUIRED","SHADOW_ROLLBACK"]},
+    "certificate_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "registry_snapshot_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "policy_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "live_authorization": {"const":false},
+    "provider_mutation_allowed": {"const":false},
+    "creator_mutation_allowed": {"const":false},
+    "browser_mutation_allowed": {"const":false},
+    "traffic_allocation_allowed": {"const":false},
+    "publish_allowed": {"const":false},
+    "credential_access_allowed": {"const":false},
+    "human_ground_truth": {"const":false}
+  }
+}
