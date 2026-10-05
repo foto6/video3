@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "growth.canary_evidence_entry.r35.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version","registry_entry_id","entry_digest","evidence_payload_digest",
+    "policy_id","policy_digest","corpus_id","corpus_digest","underlying_event_corpus_digest",
+    "exposure_identity_digest","estimator_config_digest","strata_guardrail_digest",
+    "decision_digest","decision_recommendation","confidence_interval","diagnostics",
+    "drift_diagnostics","critical_guardrail_failures","critical_stratum_reversals",
+    "provenance","created_at","maturity","authority","supersedes_entry_ids",
+    "resolves_conflict_entry_ids","advisory_boundary"
+  ],
+  "properties": {
+    "contract_version": {"const":"growth.canary_evidence_entry.r35.v1"},
+    "registry_entry_id": {"type":"string","pattern":"^gr35e1:[0-9a-f]{64}$"},
+    "entry_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "evidence_payload_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "policy_id": {"type":"string","minLength":1},
+    "policy_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "corpus_id": {"type":"string","minLength":1},
+    "corpus_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "underlying_event_corpus_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "exposure_identity_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "estimator_config_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "strata_guardrail_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "decision_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "decision_recommendation": {"enum":["KEEP_BASELINE","TEST_MORE","SHADOW_CANARY_CANDIDATE","SHADOW_ROLLBACK","HUMAN_REVIEW_REQUIRED"]},
+    "confidence_interval": {"type":"object"},
+    "diagnostics": {"type":"object"},
+    "drift_diagnostics": {"type":"object"},
+    "critical_guardrail_failures": {"type":"array","items":{"type":"string"}},
+    "critical_stratum_reversals": {"type":"array","items":{"type":"string"}},
+    "provenance": {"type":"object"},
+    "created_at": {"type":"string"},
+    "maturity": {"type":"object"},
+    "authority": {"type":"object"},
+    "supersedes_entry_ids": {"type":"array","items":{"type":"string"}},
+    "resolves_conflict_entry_ids": {"type":"array","items":{"type":"string"}},
+    "advisory_boundary": {"type":"object"}
+  }
+}
