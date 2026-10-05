@@ -102,7 +102,10 @@ class GrowthR35CanaryEvidenceRegistryTests(unittest.TestCase):
                     r35.validate_authority(bad)
 
     def test_source_class_is_derived_and_cannot_be_upgraded_by_label(self):
-        with self.assertRaisesRegex(r35.EntryRejected, "metadata cannot upgrade"):
+        with self.assertRaisesRegex(
+            r35.EntryRejected,
+            "non-randomized evidence cannot claim causal status",
+        ):
             sim._entry(
                 policy=self.policy,
                 seed="class-upgrade",
