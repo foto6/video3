@@ -1,0 +1,20 @@
+{
+  "candidate_hashes": {
+    "A": "c7cd86d08215dc3c01b6f362b4d5e70197a0c91f95c7943b434b195f6ed58b88",
+    "B": "b88dfc065e3879385ecbed83f41bbfbbc1997b3dde607facc7e86be3fda4a892"
+  },
+  "confidence": 0.93,
+  "contract_version": "growth.local_review_vote.r37.v1",
+  "created_at": "2026-10-06T00:12:00Z",
+  "defects": [],
+  "evidence_class": "FIXTURE",
+  "format_valid": true,
+  "package_digest": "e5c4775be779e8ec8b225391eeaf068b355583ab9e9b5dde242380f3126673ed",
+  "policy_valid": true,
+  "review_id": "fixture-r37-r1-b",
+  "review_round": 1,
+  "reviewer_id": "fixture-reviewer-b",
+  "source_sha256": "f58833a2553914adb9972371910182674999424f8ead652eb2d4a24549211309",
+  "uncertainty": "Synthetic local rehearsal fixture; not human ground truth.",
+  "winner": "B"
+}
