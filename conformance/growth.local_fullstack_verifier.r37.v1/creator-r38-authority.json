@@ -1,11 +1,22 @@
 {
   "contract_version": "growth.creator_r38_authority.r37.v1",
-  "status": "WAITING_CREATOR_AUTHORITY",
+  "status": "ACCEPTED",
   "repository": "foto6/video1",
   "observed_branch": "agent/creator-r38-local-fullstack-rehearsal-20261006",
-  "observed_sha": "1f7cb9ed8f1985cd4faca79ce55f1c5fda9e3a57",
-  "observed_commit_message": "Add R37 local integration driver",
-  "distinct_r38_authority_available": false,
-  "exact_authority": null,
-  "exact_authority_digest": null
+  "observed_sha": "b4d0b3a940357eec333d5a1d9b9141bd61b89809",
+  "observed_commit_message": "R38 align adversarial and replay assertions",
+  "distinct_r38_authority_available": true,
+  "exact_authority": {
+    "repository": "foto6/video1",
+    "producer_sha": "b4d0b3a940357eec333d5a1d9b9141bd61b89809",
+    "ci_run_id": 37405132939,
+    "artifact_id": 11387350709,
+    "artifact_name": "creator-r38-local-fullstack-rehearsal-b4d0b3a940357eec333d5a1d9b9141bd61b89809",
+    "artifact_digest": "sha256:2b37c0a5747daf2baff343001f58d16de9b1e2ee0098ceba31e345c87e72e407",
+    "contract": "creator.local_fullstack_rehearsal.r38.v1",
+    "authority_blob": "31bee01ede79db2a373a98ee47621f7928f67da6",
+    "manifest_blob": "5b0e079bb02996195a2bbf7293f783fa44ae392f",
+    "readiness_blob": "b1a078783f915c1f24a3df2dba40d60e830e16d0"
+  },
+  "exact_authority_digest": "24df4a8a11599cec02841d7cbd08ec57aabb099c4e2318ff2e2347047c478df2"
 }
