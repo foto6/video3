@@ -319,7 +319,7 @@ def build_rehearsal(
     bad_policy["thresholds"]["high_confidence_min"] = 0.5
     cases["26_r30_consensus_policy_drift"] = _case(
         "26_r30_consensus_policy_drift",
-        "REJECTED:PolicyDrift",
+        "REJECTED:R30Error",
         lambda: run(r30_policy_value=bad_policy),
     )
 
