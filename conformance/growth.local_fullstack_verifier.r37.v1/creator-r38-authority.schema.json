@@ -1,0 +1,18 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"growth.creator_r38_authority.r37.v1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["contract_version","status","repository","observed_branch","observed_sha","observed_commit_message","distinct_r38_authority_available","exact_authority","exact_authority_digest"],
+  "properties":{
+    "contract_version":{"const":"growth.creator_r38_authority.r37.v1"},
+    "status":{"enum":["WAITING_CREATOR_AUTHORITY","ACCEPTED"]},
+    "repository":{"const":"foto6/video1"},
+    "observed_branch":{"type":"string"},
+    "observed_sha":{"type":"string","pattern":"^[0-9a-f]{40}$"},
+    "observed_commit_message":{"type":"string"},
+    "distinct_r38_authority_available":{"type":"boolean"},
+    "exact_authority":{"type":["object","null"]},
+    "exact_authority_digest":{"type":["string","null"]}
+  }
+}
