@@ -1,0 +1,30 @@
+{
+  "contract_version": "growth.real_local_bundle_verifier_policy.r38.v1",
+  "policy_version": 1,
+  "evidence_classes": ["FIXTURE", "OFFLINE_MODEL", "GENUINE_REVIEW"],
+  "consensus": {
+    "minimum_reviews": 3,
+    "minimum_confidence": 0.82,
+    "minimum_mean_confidence": 0.86,
+    "allowed_winners": ["BASELINE", "CANDIDATE", "TARGETED_REEDIT", "tie", "insufficient_evidence"]
+  },
+  "decisions": [
+    "WAITING_MEDIA_R27_QA",
+    "READY_FOR_CREATOR_LOCAL_REHEARSAL",
+    "NEEDS_REEDIT",
+    "HUMAN_REVIEW_REQUIRED",
+    "BLOCKED_INVALID_EVIDENCE"
+  ],
+  "class_rules": {
+    "FIXTURE": {"positive_ready_allowed": false, "human_ground_truth": false},
+    "OFFLINE_MODEL": {"positive_ready_allowed": true, "human_ground_truth": false},
+    "GENUINE_REVIEW": {"positive_ready_allowed": true, "human_ground_truth": false}
+  },
+  "boundaries": {
+    "publish_authorized": false,
+    "provider_mutation_allowed": false,
+    "browser_mutation_allowed": false,
+    "creator_mutation_allowed": false,
+    "credential_access_allowed": false
+  }
+}
