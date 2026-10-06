@@ -22,25 +22,17 @@ def _load(path: Path) -> Any:
 
 
 def _accepted_creator() -> dict[str, Any]:
-    exact = {
-        "repository": "foto6/video1",
-        "producer_sha": "1" * 40,
-        "ci_run_id": 900001,
-        "artifact_id": 900002,
-        "artifact_name": "synthetic-creator-r38-authority-fixture",
-        "artifact_digest": "sha256:" + "2" * 64,
-        "contract": "creator.local_fullstack_rehearsal.r38.v1",
-    }
+    exact = r37._expected_creator_r38_exact()
     return {
         "contract_version": r37.CREATOR_AUTHORITY_VERSION,
         "status": "ACCEPTED",
         "repository": "foto6/video1",
         "observed_branch": r37.OBSERVED_CREATOR_R38_BRANCH,
-        "observed_sha": r37.OBSERVED_CREATOR_SHA,
-        "observed_commit_message": "Add R37 local integration driver",
+        "observed_sha": r37.CREATOR_R38_SHA,
+        "observed_commit_message": "R38 align adversarial and replay assertions",
         "distinct_r38_authority_available": True,
         "exact_authority": exact,
-        "exact_authority_digest": r37._sha_json(exact),
+        "exact_authority_digest": r37.CREATOR_R38_AUTHORITY_DIGEST,
     }
 
 
@@ -112,7 +104,7 @@ def _make_real_local(
         "artifact_id": 900102,
         "artifact_name": "synthetic-exact-green-media-r37-fixture",
         "artifact_digest": "sha256:" + "4" * 64,
-        "contract": "media.multicandidate_round.r25.v1",
+        "contract": "media.local_windows_rehearsal.r26.fixture.v1",
     }
     _write_json(root / "manifest.json", manifest)
     for round_row in manifest["rounds"]:
@@ -193,17 +185,17 @@ def rehearse(
             growth_ci_run_id=growth_ci_run_id,
         )
 
-    # Baseline current authority: structurally valid but blocked on Creator + fixture Media.
+    # Baseline exact Creator authority: fixture Media remains non-promotable.
     with tempfile.TemporaryDirectory() as temp:
         root = Path(temp) / "bundle"
         shutil.copytree(base, root)
-        cases["01_current_fixture_waits_creator"] = _case(
-            "01_current_fixture_waits_creator",
+        cases["01_current_fixture_blocked_on_media"] = _case(
+            "01_current_fixture_blocked_on_media",
             r37.BLOCKED_INCOMPLETE,
             lambda: run(root),
         )
 
-    # Creator-only acceptance does not promote synthetic Media.
+    # Exact Creator acceptance still cannot promote synthetic Media.
     with tempfile.TemporaryDirectory() as temp:
         root = Path(temp) / "bundle"
         shutil.copytree(base, root)
