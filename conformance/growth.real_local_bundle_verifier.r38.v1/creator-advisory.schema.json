@@ -1,0 +1,15 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"growth.real_local_bundle_advisory.r38.v1",
+  "type":"object",
+  "required":["contract_version","final_decision","verification_digest","publish_authorized","provider_mutation_authorized","creator_mutation_authorized","human_ground_truth"],
+  "properties":{
+    "contract_version":{"const":"growth.real_local_bundle_advisory.r38.v1"},
+    "final_decision":{"enum":["WAITING_MEDIA_R27_QA","READY_FOR_CREATOR_LOCAL_REHEARSAL","NEEDS_REEDIT","HUMAN_REVIEW_REQUIRED","BLOCKED_INVALID_EVIDENCE"]},
+    "verification_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "publish_authorized":{"const":false},
+    "provider_mutation_authorized":{"const":false},
+    "creator_mutation_authorized":{"const":false},
+    "human_ground_truth":{"const":false}
+  }
+}
