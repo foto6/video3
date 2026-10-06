@@ -1,0 +1,15 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"growth.local_media_review_bundle.r36.v1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["contract_version","bundle_id","bundle_kind","media","reviews","boundary"],
+  "properties":{
+    "contract_version":{"const":"growth.local_media_review_bundle.r36.v1"},
+    "bundle_id":{"type":"string","minLength":1},
+    "bundle_kind":{"enum":["FROZEN_LOCAL_REHEARSAL_FIXTURE","FROZEN_LOCAL_REHEARSAL_EVIDENCE"]},
+    "media":{"type":"object"},
+    "reviews":{"type":"array","minItems":3,"maxItems":3},
+    "boundary":{"type":"object"}
+  }
+}
