@@ -1,0 +1,26 @@
+{
+  "contract_version": "growth.real_local_bundle_verifier.r38.v1",
+  "authority_contract": "growth.real_local_bundle_verifier_authority.r38.v1",
+  "policy_contract": "growth.real_local_bundle_verifier_policy.r38.v1",
+  "review_contract": "growth.real_local_review_evidence.r38.v1",
+  "verification_contract": "growth.real_local_bundle_verification.r38.v1",
+  "ledger_contract": "growth.real_local_bundle_verifier_ledger.r38.v1",
+  "creator_advisory_contract": "growth.real_local_bundle_advisory.r38.v1",
+  "rules": {
+    "exact_media_r27_tuple_required": true,
+    "media_r27_independent_qa_required_for_ready": true,
+    "current_creator_r39_source_pin_required": true,
+    "four_candidate_hashes_required": true,
+    "all_manifest_files_rehashed": true,
+    "input_and_normalized_source_lineage_required": true,
+    "runtime_identity_required": true,
+    "targeted_reedit_and_final_hashes_must_match": true,
+    "fixture_offline_model_genuine_review_never_collapsed": true,
+    "same_bundle_changed_bytes_conflict": true,
+    "exact_replay_noop": true,
+    "publish_authorized": false,
+    "provider_mutation_allowed": false,
+    "browser_mutation_allowed": false,
+    "credential_access_allowed": false
+  }
+}
