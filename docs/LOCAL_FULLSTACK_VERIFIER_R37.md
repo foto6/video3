@@ -13,18 +13,24 @@ Parent Growth R36 is frozen exactly:
 - artifact digest: \`sha256:89e719718b5480ad889190a09c837efdfff31a15ea899f1e836ddb9d033f0894\`
 - contract: \`growth.local_rehearsal_evidence.r36.v1\`
 
-Creator R38 is **not yet an exact authority**. The observed branch
-\`agent/creator-r38-local-fullstack-rehearsal-20261006\` currently points at
-\`1f7cb9ed8f1985cd4faca79ce55f1c5fda9e3a57\`, whose commit is
-\`Add R37 local integration driver\`. That is an R37 Creator commit, not a distinct R38 authority.
+Creator R38 became exact-green while R37 was being implemented and is now frozen exactly:
 
-Therefore the checked-in Creator authority file exposes:
+- repository: `foto6/video1`
+- SHA: `b4d0b3a940357eec333d5a1d9b9141bd61b89809`
+- CI: `37405132939 SUCCESS`
+- artifact: `11387350709`
+- artifact name: `creator-r38-local-fullstack-rehearsal-b4d0b3a940357eec333d5a1d9b9141bd61b89809`
+- artifact digest: `sha256:2b37c0a5747daf2baff343001f58d16de9b1e2ee0098ceba31e345c87e72e407`
+- contract: `creator.local_fullstack_rehearsal.r38.v1`
+- authority blob: `31bee01ede79db2a373a98ee47621f7928f67da6`
+- manifest blob: `5b0e079bb02996195a2bbf7293f783fa44ae392f`
+- readiness blob: `b1a078783f915c1f24a3df2dba40d60e830e16d0`
 
-\`WAITING_CREATOR_AUTHORITY\`
+The checked-in Creator authority file therefore uses `status=ACCEPTED` and binds that exact tuple. A stale pending Creator manifest is rejected now that the exact R38 authority exists. The protocol still defines `WAITING_CREATOR_AUTHORITY` for pre-authority deployments, but the current branch no longer emits it.
 
-and does not infer R38 acceptance from the branch name.
+Creator R38 itself is `WAITING_MEDIA_AUTHORITY` and explicitly requires Media R26; old Media R25 is forbidden. R37 mirrors that boundary: real `EXACT_GREEN` Media evidence cannot use `media.multicandidate_round.r25.v1`.
 
-The observed Media R25 local-fix branch is also not treated as an exact-green authority. The last observed multicandidate run \`37247948495\` failed, and the newer local-fix branch has no exact-green run. R37 never treats those moving branches as authority.
+The observed Media R25 local-fix branch is not treated as an exact-green authority. The last observed multicandidate run `37247948495` failed, and the newer local-fix branch has no exact-green run. R37 never treats those moving branches as authority.
 
 ## Contract
 
@@ -137,18 +143,17 @@ A final file cannot override review lineage.
 
 The checked-in file:
 
-\`conformance/growth.local_fullstack_verifier.r37.v1/creator-r38-authority.json\`
+`conformance/growth.local_fullstack_verifier.r37.v1/creator-r38-authority.json`
 
-is currently \`WAITING_CREATOR_AUTHORITY\`.
+freezes exact Creator R38 at:
 
-When a distinct R38 candidate becomes exact-green, the coordinator may supply another manifest with:
+`b4d0b3a940357eec333d5a1d9b9141bd61b89809 / 37405132939 / 11387350709 / sha256:2b37c0a5747daf2baff343001f58d16de9b1e2ee0098ceba31e345c87e72e407`
 
-- \`status=ACCEPTED\`;
-- exact Creator repository/SHA/CI/artifact ID/name/digest/contract;
-- \`distinct_r38_authority_available=true\`;
-- \`exact_authority_digest\` equal to the canonical digest of that exact tuple.
+Its exact-authority digest is:
 
-The Creator SHA must differ from the currently observed R37 SHA. Until then R37 cannot emit a final demo-ready decision.
+`24df4a8a11599cec02841d7cbd08ec57aabb099c4e2318ff2e2347047c478df2`
+
+R37 rejects any different Creator R38 SHA, CI, artifact tuple, contract, authority blob, manifest blob, or readiness blob. `WAITING_CREATOR_AUTHORITY` remains a defined state for an environment that genuinely lacks R38 authority, but a stale pending manifest is not accepted on this branch.
 
 ## Replay and resume
 
