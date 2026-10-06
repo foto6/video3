@@ -1,0 +1,36 @@
+{
+  "contract_version": "growth.local_rehearsal_policy.r36.v1",
+  "policy_version": 1,
+  "parent_gate": {
+    "accepted_disposition": "ACCEPTED",
+    "pending_state": "WAITING_PARENT_QA",
+    "accepted_state": "LOCAL_REHEARSAL_EVIDENCE_READY"
+  },
+  "consensus": {
+    "delegate_contract": "growth.consensus_review_oracle.r30.v1",
+    "reviewer_count": 3,
+    "allowed_outcomes": ["A","B","tie","insufficient_evidence"]
+  },
+  "directives": {
+    "executable_operations": ["trim","cut","crop_scale_reframe","speed_change","fade_transition","text_overlay","subtitles_captions","audio_duck_mix","intro_outro_cta"],
+    "defect_to_operation": {
+      "pacing": "trim",
+      "pacing_coherence": "trim",
+      "semantic_cut_correctness": "cut",
+      "subject_framing_crop_quality": "crop_scale_reframe",
+      "caption_readability_emphasis_relevance": "subtitles_captions",
+      "visual_continuity": "fade_transition",
+      "motion_zoom_appropriateness": "crop_scale_reframe",
+      "audio_voice_music_balance": "audio_duck_mix",
+      "payoff_cta_loop_coherence": "intro_outro_cta",
+      "awkward_dead_moment": "trim"
+    },
+    "free_form_requested_edit_is_audit_only": true
+  },
+  "evidence": {
+    "fixture_source_class": "SYNTHETIC_TEST",
+    "local_rehearsal_is_human_ground_truth": false,
+    "registry_submission_allowed": false,
+    "live_authorization": false
+  }
+}
