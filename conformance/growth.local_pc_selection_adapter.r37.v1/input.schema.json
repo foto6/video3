@@ -1,0 +1,24 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"growth.local_pc_media_evidence.r37.v1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["contract_version","media_contract_id","bundle_id","media_claim","execution_context","local_run_manifest","local_run_manifest_digest","input_video","runtime","candidates","targeted_reedit","final_artifact","phase_timings","resume_events","boundary"],
+  "properties":{
+    "contract_version":{"const":"growth.local_pc_media_evidence.r37.v1"},
+    "media_contract_id":{"const":"media.local_render_runner.r26.v1"},
+    "bundle_id":{"type":"string","minLength":1},
+    "media_claim":{"type":"object"},
+    "execution_context":{"type":"object"},
+    "local_run_manifest":{"type":"object"},
+    "local_run_manifest_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "input_video":{"type":"object"},
+    "runtime":{"type":"object"},
+    "candidates":{"type":"array","minItems":2},
+    "targeted_reedit":{"type":"object"},
+    "final_artifact":{"type":"object"},
+    "phase_timings":{"type":"array","minItems":1},
+    "resume_events":{"type":"array"},
+    "boundary":{"type":"object"}
+  }
+}
