@@ -49,6 +49,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_canary_evidence_registry_r35.py" -v
       - name: Focused R36 local rehearsal evidence tests
         run: python -m unittest discover -s tests -p "test_local_rehearsal_evidence_r36.py" -v
+      - name: Focused R37 local PC selection adapter tests
+        run: python -m unittest discover -s tests -p "test_local_pc_selection_adapter_r37.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -1264,6 +1266,144 @@ jobs:
         with:
           name: growth-r36-local-rehearsal-evidence
           path: ${{ runner.temp }}/growth-r36-local-rehearsal-evidence
+          if-no-files-found: error
+          retention-days: 90
+      - name: Produce R37 local PC selection source-ready evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/growth-r37-local-pc-selection-adapter"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          python -m growth_analytics.local_pc_selection_adapter_r37 rehearse-fixtures \
+            --authority conformance/growth.local_pc_selection_adapter.r37.v1/authority.json \
+            --policy conformance/growth.local_pc_selection_adapter.r37.v1/policy.json \
+            --out-dir "$OUT" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+
+          cp conformance/growth.local_pc_selection_adapter.r37.v1/authority.json "$OUT/authority.json"
+          cp conformance/growth.local_pc_selection_adapter.r37.v1/policy.json "$OUT/policy.json"
+          cp conformance/growth.local_pc_selection_adapter.r37.v1/contract.json "$OUT/contract.json"
+
+          python - "$OUT" <<'PY'
+          import hashlib,json,os,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          report=json.load(open(root/"adversarial-report.json",encoding="utf-8"))
+          bundle=json.load(open(root/"source-ready-bundle.json",encoding="utf-8"))
+          result=json.load(open(root/"source-ready-result.json",encoding="utf-8"))
+          advisory=json.load(open(root/"source-ready-creator-advisory.json",encoding="utf-8"))
+          authority=json.load(open(root/"authority.json",encoding="utf-8"))
+
+          assert report["scenario_count"] >= 25, report
+          assert report["scenario_count"] >= 35, report
+          assert report["all_expected_dispositions_stable"] is True, report
+          assert report["source_ready_status"] == "WAITING_MEDIA_R26_AUTHORITY", report
+          assert report["media_r26_exact_authority_claimed"] is False, report
+          assert authority["media_r26_authority"]["state"] == "UNRESOLVED", authority
+          assert authority["media_r26_authority"]["producer_sha"] is None, authority
+          assert authority["media_r26_authority"]["ci_run_id"] is None, authority
+          assert authority["media_r26_authority"]["artifact"]["availability"] == "UNRESOLVED", authority
+
+          assert bundle["media_contract_id"] == "media.local_render_runner.r26.v1", bundle
+          assert bundle["execution_context"]["mode"] == "LOCAL_WINDOWS", bundle
+          assert bundle["execution_context"]["hosted_ci"] is False, bundle
+          assert bundle["boundary"]["provider_call"] is False, bundle
+
+          assert result["status"] == "WAITING_MEDIA_R26_AUTHORITY", result
+          assert result["decision"]["recommendation"] == "WAITING_MEDIA_R26_AUTHORITY", result
+          assert result["normalization"]["media_authority_state"] == "UNRESOLVED", result
+          assert result["normalization"]["r36_projection"]["parent_contract"] == "growth.local_rehearsal_evidence.r36.v1", result
+          assert result["normalization"]["r36_projection"]["media_r26_lineage"]["local_run_manifest_digest"] == bundle["local_run_manifest_digest"], result
+          assert result["normalization"]["evidence_class_counts"] == {"FIXTURE":6}, result
+
+          assert advisory["recommendation"] == "WAITING_MEDIA_R26_AUTHORITY", advisory
+          assert advisory["media_contract_id"] == "media.local_render_runner.r26.v1", advisory
+          assert advisory["media_r26_authority_state"] == "UNRESOLVED", advisory
+          assert advisory["live_authorization"] is False, advisory
+          assert advisory["provider_mutation_allowed"] is False, advisory
+          assert advisory["creator_mutation_allowed"] is False, advisory
+          assert advisory["browser_call_allowed"] is False, advisory
+          assert advisory["provider_call_allowed"] is False, advisory
+          assert advisory["social_publish_allowed"] is False, advisory
+          assert advisory["credential_access_allowed"] is False, advisory
+          assert advisory["human_ground_truth"] is False, advisory
+
+          required={
+            "05_tie_keeps_baseline",
+            "06_conflicting_scores_require_human_review",
+            "07_missing_review_evidence_requires_human",
+            "08_partial_candidate_set_invalid",
+            "10_duplicate_candidate_bytes_invalid",
+            "11_input_hash_mismatch_invalid",
+            "12_runtime_hash_mismatch_invalid",
+            "13_resumed_phase_missing_checkpoint_invalid",
+            "15_final_manifest_tamper_invalid",
+            "16_media_authority_drift_invalid",
+            "17_local_evidence_pretending_hosted_ci_invalid",
+            "18_stale_review_policy_invalid",
+            "19_wrong_final_lineage_invalid",
+            "20_targeted_reedit_wrong_selected_source_invalid",
+            "21_duplicate_operation_ids_invalid",
+          }
+          assert required <= set(report["cases"]), report
+
+          files=[]
+          for name in (
+              "authority.json","policy.json","contract.json",
+              "source-ready-bundle.json","source-ready-result.json",
+              "source-ready-creator-advisory.json","adversarial-report.json",
+          ):
+              p=root/name
+              data=p.read_bytes()
+              files.append({"path":name,"sha256":hashlib.sha256(data).hexdigest(),"size":len(data)})
+          manifest={
+              "contract_version":"growth.local_pc_selection_adapter.r37.artifact_manifest.v1",
+              "growth_r37":{
+                  "producer_sha":os.environ["GITHUB_SHA"],
+                  "ci_run_id":int(os.environ["GITHUB_RUN_ID"]),
+                  "contract":"growth.local_pc_selection_adapter.r37.v1",
+              },
+              "growth_r36_parent":{
+                  "producer_sha":"a53f9deb180bb256d193f0422c6ffd7a5923d97a",
+                  "ci_run_id":37403145649,
+                  "ci_conclusion":"SUCCESS",
+                  "contract":"growth.local_rehearsal_evidence.r36.v1",
+              },
+              "media_r26_authority_state":"UNRESOLVED",
+              "source_ready_status":"WAITING_MEDIA_R26_AUTHORITY",
+              "adversarial_scenarios":report["scenario_count"],
+              "files":files,
+              "network_call":False,
+              "browser_call":False,
+              "provider_call":False,
+              "provider_mutation":False,
+              "creator_mutation":False,
+              "live_authorization":False,
+              "social_publish":False,
+              "credential_access":False,
+              "human_ground_truth":False,
+          }
+          material=json.dumps(manifest,sort_keys=True,separators=(",",":")).encode()
+          manifest["manifest_digest"]=hashlib.sha256(material).hexdigest()
+          (root/"artifact-manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          print(json.dumps({
+              "status":result["status"],
+              "result_digest":result["result_digest"],
+              "normalization_digest":result["normalization"]["normalization_digest"],
+              "decision_digest":result["decision"]["decision_digest"],
+              "advisory_digest":advisory["advisory_digest"],
+              "adversarial_report_digest":report["report_digest"],
+              "scenario_count":report["scenario_count"],
+              "artifact_manifest_digest":manifest["manifest_digest"],
+          },sort_keys=True))
+          PY
+      - name: Upload R37 local PC selection adapter artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r37-local-pc-selection-adapter
+          path: ${{ runner.temp }}/growth-r37-local-pc-selection-adapter
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
