@@ -1,0 +1,40 @@
+{
+  "contract_version": "growth.local_pc_selection_policy.r37.v1",
+  "policy_version": 1,
+  "parent_contract": "growth.local_rehearsal_evidence.r36.v1",
+  "selection": {
+    "minimum_candidates": 2,
+    "minimum_reviews_per_candidate": 2,
+    "tie_margin": 0.02,
+    "select_margin_over_baseline": 0.05,
+    "maximum_review_score_spread": 0.25,
+    "targeted_reedit_margin": 0.03
+  },
+  "evidence": {
+    "allowed_classes": ["FIXTURE", "OFFLINE_MODEL", "GENUINE_REVIEW"],
+    "positive_decision_classes": ["OFFLINE_MODEL", "GENUINE_REVIEW"],
+    "fixture_positive_decision_allowed": false,
+    "human_ground_truth": false,
+    "live_metrics": false
+  },
+  "runtime": {
+    "required_execution_context": "LOCAL_WINDOWS",
+    "hosted_ci_evidence_allowed": false,
+    "provider_network_allowed": false,
+    "browser_allowed": false
+  },
+  "output": {
+    "recommendations": [
+      "KEEP_BASELINE",
+      "SELECT_CANDIDATE",
+      "TARGETED_REEDIT_RECOMMENDED",
+      "HUMAN_REVIEW_REQUIRED",
+      "WAITING_MEDIA_R26_AUTHORITY",
+      "EVIDENCE_INVALID"
+    ],
+    "live_authorization": false,
+    "provider_mutation_allowed": false,
+    "creator_mutation_allowed": false,
+    "publish_allowed": false
+  }
+}
