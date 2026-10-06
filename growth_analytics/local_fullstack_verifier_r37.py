@@ -729,6 +729,11 @@ def validate_bundle(
     if final["selected_round"] != selected["round"]:
         raise IncompleteEvidence("final selected round lineage drift")
     final_manifest = _validate_final_manifest(root, manifest, media_digest)
+    final_created = _timestamp(
+        final_manifest["created_at"], "final_manifest.created_at"
+    )
+    if final_created < created_at or final_created > sealed_at:
+        raise IncompleteEvidence("final manifest timestamp outside bundle window")
     if (
         final_manifest["selected_candidate_id"] != final["selected_candidate_id"]
         or final_manifest["selected_round"] != final["selected_round"]
@@ -1150,6 +1155,8 @@ def build_verification(
             "repository": "foto6/video3",
             "producer_sha": _git_sha(growth_sha, "growth_sha"),
             "ci_run_id": _positive(growth_ci_run_id, "growth_ci_run_id"),
+            "authority_digest": _sha_json(authority),
+            "policy_digest": _sha_json(policy),
             "parent_r36": _expected_parent(),
         },
         "source": parsed["source"],
