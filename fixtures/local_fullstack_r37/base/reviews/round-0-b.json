@@ -1,0 +1,31 @@
+{
+  "candidate_hashes": {
+    "A": "c7cd86d08215dc3c01b6f362b4d5e70197a0c91f95c7943b434b195f6ed58b88",
+    "B": "32e254d4a093dc8304de7c42edbc8e0ba4da21e88c5127c329e90867bd4ce3ba"
+  },
+  "confidence": 0.92,
+  "contract_version": "growth.local_review_vote.r37.v1",
+  "created_at": "2026-10-06T00:02:00Z",
+  "defects": [
+    {
+      "candidate_label": "B",
+      "category": "pacing",
+      "confidence": 0.89,
+      "direction": "decrease",
+      "end_ms": 2100,
+      "requested_edit": "Shorten this pause while preserving continuity.",
+      "severity": "high",
+      "start_ms": 1500
+    }
+  ],
+  "evidence_class": "FIXTURE",
+  "format_valid": true,
+  "package_digest": "a7f47aebdd9b7de765cec5f82458ae1dc05bca2945036071177cbc0390f6b33a",
+  "policy_valid": true,
+  "review_id": "fixture-r37-r0-b",
+  "review_round": 0,
+  "reviewer_id": "fixture-reviewer-b",
+  "source_sha256": "f58833a2553914adb9972371910182674999424f8ead652eb2d4a24549211309",
+  "uncertainty": "Synthetic local rehearsal fixture; not human ground truth.",
+  "winner": "B"
+}
