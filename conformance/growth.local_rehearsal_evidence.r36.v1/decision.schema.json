@@ -1,0 +1,24 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"growth.local_offline_decision.r36.v1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["contract_version","decision_digest","state","effective_offline_advisory","normalization_digest","consensus_digest","winner","targeted_reedit_directives","human_review_required","rejection_reasons","parent_r35","parent_qa","authority_manifest_digest","policy_digest","boundary"],
+  "properties":{
+    "contract_version":{"const":"growth.local_offline_decision.r36.v1"},
+    "decision_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "state":{"const":"LOCAL_REHEARSAL_EVIDENCE_READY"},
+    "effective_offline_advisory":{"const":true},
+    "normalization_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "consensus_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "winner":{"type":["object","null"]},
+    "targeted_reedit_directives":{"type":"array"},
+    "human_review_required":{"type":"boolean"},
+    "rejection_reasons":{"type":"array"},
+    "parent_r35":{"type":"object"},
+    "parent_qa":{"type":"object"},
+    "authority_manifest_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "policy_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "boundary":{"type":"object"}
+  }
+}
