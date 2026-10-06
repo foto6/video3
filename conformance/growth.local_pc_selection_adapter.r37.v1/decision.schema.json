@@ -1,0 +1,23 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"growth.local_pc_selection_decision.r37.v1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["contract_version","decision_digest","recommendation","reason_codes","selected_candidate_id","selected_targeted_reedit_id","scores","normalization_digest","media_r26_authority_state","growth_r37","growth_r36_parent","authority_digest","policy_digest","boundary"],
+  "properties":{
+    "contract_version":{"const":"growth.local_pc_selection_decision.r37.v1"},
+    "decision_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "recommendation":{"enum":["KEEP_BASELINE","SELECT_CANDIDATE","TARGETED_REEDIT_RECOMMENDED","HUMAN_REVIEW_REQUIRED","WAITING_MEDIA_R26_AUTHORITY"]},
+    "reason_codes":{"type":"array","items":{"type":"string"}},
+    "selected_candidate_id":{"type":["string","null"]},
+    "selected_targeted_reedit_id":{"type":["string","null"]},
+    "scores":{"type":"object"},
+    "normalization_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "media_r26_authority_state":{"enum":["UNRESOLVED","ACCEPTED"]},
+    "growth_r37":{"type":"object"},
+    "growth_r36_parent":{"type":"object"},
+    "authority_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "policy_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "boundary":{"type":"object"}
+  }
+}
