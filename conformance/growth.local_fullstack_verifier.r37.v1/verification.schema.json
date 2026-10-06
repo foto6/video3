@@ -1,0 +1,19 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"growth.local_fullstack_verification.r37.v1",
+  "type":"object",
+  "required":["contract_version","state","final_decision","underlying_closed_loop_decision","reason_codes","bundle_id","bundle_manifest_digest","media_authority","media_authority_digest","creator_r38_authority_status","creator_r38_authority_digest","growth_r37","source","candidates","final","final_manifest","selected_candidate_id","round_results","evidence_classification","provider_mutation_authorized","browser_mutation_authorized","credential_access_authorized","publish_authorized","live_publish_recommendation","human_ground_truth","verification_digest"],
+  "properties":{
+    "contract_version":{"const":"growth.local_fullstack_verification.r37.v1"},
+    "state":{"enum":["WAITING_CREATOR_AUTHORITY","VERIFIED","BLOCKED"]},
+    "final_decision":{"enum":["READY_FOR_LOCAL_DEMO","NEEDS_REEDIT","HUMAN_REVIEW_REQUIRED","BLOCKED_INCOMPLETE_EVIDENCE"]},
+    "underlying_closed_loop_decision":{"enum":["READY_FOR_LOCAL_DEMO","NEEDS_REEDIT","HUMAN_REVIEW_REQUIRED","BLOCKED_INCOMPLETE_EVIDENCE"]},
+    "provider_mutation_authorized":{"const":false},
+    "browser_mutation_authorized":{"const":false},
+    "credential_access_authorized":{"const":false},
+    "publish_authorized":{"const":false},
+    "live_publish_recommendation":{"const":false},
+    "human_ground_truth":{"const":false},
+    "verification_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+  }
+}
