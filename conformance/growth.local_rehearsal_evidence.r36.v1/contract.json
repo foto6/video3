@@ -1,0 +1,25 @@
+{
+  "contract_version": "growth.local_rehearsal_evidence.r36.v1",
+  "authority_contract": "growth.local_rehearsal_authority.r36.v1",
+  "policy_contract": "growth.local_rehearsal_policy.r36.v1",
+  "bundle_contract": "growth.local_media_review_bundle.r36.v1",
+  "normalization_contract": "growth.local_review_normalization.r36.v1",
+  "decision_contract": "growth.local_offline_decision.r36.v1",
+  "canary_envelope_contract": "growth.local_canary_evidence_envelope.r36.v1",
+  "verification_contract": "growth.local_rehearsal_verification.r36.v1",
+  "disposition": "ADVISORY_ONLY",
+  "rules": {
+    "parent_r35_must_be_explicitly_independently_accepted_before_decision_effective": true,
+    "pending_parent_emits_waiting_parent_qa": true,
+    "media_and_review_bytes_are_source_bound": true,
+    "candidate_identity_never_comes_from_blind_label_alone": true,
+    "free_form_edit_text_is_audit_only": true,
+    "network_or_provider_side_effects": false,
+    "live_metrics": false,
+    "live_authorization": false,
+    "creator_mutation": false,
+    "provider_mutation": false,
+    "publish": false,
+    "human_ground_truth": false
+  }
+}
