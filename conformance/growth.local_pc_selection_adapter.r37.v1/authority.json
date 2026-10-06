@@ -1,0 +1,49 @@
+{
+  "contract_version": "growth.local_pc_selection_authority.r37.v1",
+  "growth_r36_parent": {
+    "repository": "foto6/video3",
+    "producer_sha": "a53f9deb180bb256d193f0422c6ffd7a5923d97a",
+    "ci_run_id": 37403145649,
+    "ci_conclusion": "SUCCESS",
+    "contract": "growth.local_rehearsal_evidence.r36.v1",
+    "authority_blob": "a44963e13c10fd607cf4259e355dc990a297ecd9",
+    "policy_blob": "e6f6dd25b70f1e1ec4031d7eb2d0e8bb7ceb1b82",
+    "contract_blob": "3e0cd5baa85b4c59eb75386766aed0300a91b16d",
+    "implementation_blob": "3eeb7bbacb423c3ed4dcd66391147d0e9fd58c37",
+    "verifier_blob": "a35051e47a6289f1cc04c3ae3b73516dbc45378e"
+  },
+  "media_r26_authority": {
+    "state": "UNRESOLVED",
+    "required_contract_id": "media.local_render_runner.r26.v1",
+    "repository": "foto6/video2",
+    "producer_sha": null,
+    "ci_run_id": null,
+    "ci_conclusion": null,
+    "artifact": {
+      "availability": "UNRESOLVED",
+      "id": null,
+      "name": null,
+      "digest": null
+    },
+    "independent_qa": {
+      "disposition": "UNRESOLVED",
+      "producer_sha": null,
+      "ci_run_id": null,
+      "artifact_id": null,
+      "artifact_digest": null,
+      "matrix_digest": null
+    }
+  },
+  "boundary": {
+    "local_only": true,
+    "network_required": false,
+    "browser_call": false,
+    "provider_call": false,
+    "provider_mutation": false,
+    "creator_mutation": false,
+    "live_authorization": false,
+    "social_publish": false,
+    "credential_access": false,
+    "merge": false
+  }
+}
