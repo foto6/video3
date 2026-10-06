@@ -1,0 +1,39 @@
+{
+  "contract_version": "growth.local_fullstack_verifier.r37.v1",
+  "authority_contract": "growth.local_fullstack_verifier_authority.r37.v1",
+  "policy_contract": "growth.local_fullstack_verifier_policy.r37.v1",
+  "sealed_bundle_contract": "growth.sealed_media_local_evidence.r37.v1",
+  "review_vote_contract": "growth.local_review_vote.r37.v1",
+  "final_manifest_contract": "growth.local_final_manifest.r37.v1",
+  "verification_contract": "growth.local_fullstack_verification.r37.v1",
+  "ledger_contract": "growth.local_fullstack_verifier_ledger.r37.v1",
+  "decisions": [
+    "READY_FOR_LOCAL_DEMO",
+    "NEEDS_REEDIT",
+    "HUMAN_REVIEW_REQUIRED",
+    "BLOCKED_INCOMPLETE_EVIDENCE"
+  ],
+  "states": [
+    "WAITING_CREATOR_AUTHORITY",
+    "VERIFIED",
+    "BLOCKED"
+  ],
+  "rules": {
+    "sealed_bundle_expected_digest_required": true,
+    "all_candidate_and_final_hashes_required": true,
+    "exact_media_authority_tuple_required": true,
+    "creator_r38_exact_authority_required_for_ready": true,
+    "duplicate_candidate_bytes_rejected": true,
+    "source_candidate_round_lineage_exact": true,
+    "review_staleness_rejected": true,
+    "targeted_reedit_must_match_derived_directives": true,
+    "final_must_match_selected_lineage": true,
+    "same_bundle_identity_changed_bytes_conflict": true,
+    "exact_replay_is_idempotent": true,
+    "fixture_offline_model_genuine_review_are_distinct": true,
+    "provider_mutation_authorized": false,
+    "browser_mutation_authorized": false,
+    "credential_access_authorized": false,
+    "publish_authorized": false
+  }
+}
