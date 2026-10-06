@@ -1,0 +1,27 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"growth.local_review_normalization.r36.v1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["contract_version","normalization_digest","bundle_id","bundle_manifest_digest","fixture","session_id","session_identity","review_round","package_digest","r29_package_digest","prompt_digest","sealed_mapping_digest","source","candidates","reviews","consensus","authority","boundary"],
+  "properties":{
+    "contract_version":{"const":"growth.local_review_normalization.r36.v1"},
+    "normalization_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "bundle_id":{"type":"string"},
+    "bundle_manifest_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "fixture":{"type":"boolean"},
+    "session_id":{"type":"string"},
+    "session_identity":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "review_round":{"type":"integer","minimum":0,"maximum":2},
+    "package_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "r29_package_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "prompt_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "sealed_mapping_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "source":{"type":"object"},
+    "candidates":{"type":"array","minItems":2,"maxItems":2},
+    "reviews":{"type":"array","minItems":3,"maxItems":3},
+    "consensus":{"type":"object"},
+    "authority":{"type":"object"},
+    "boundary":{"type":"object"}
+  }
+}
