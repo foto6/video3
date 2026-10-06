@@ -1,0 +1,56 @@
+{
+  "contract_version": "growth.local_media_review_bundle.r36.v1",
+  "bundle_id": "r36-media-r24-r30-round0-fixture",
+  "bundle_kind": "FROZEN_LOCAL_REHEARSAL_FIXTURE",
+  "media": {
+    "producer_sha": "244acdf154741e669991b17df3ef2a47e2dfdfa9",
+    "ci_run_id": 37195239582,
+    "artifact_id": 11301055747,
+    "artifact_digest": "sha256:fc5c9b9635d49b643e66efafe602d21ce1ef695a553f81a797bdf16d7b8cf228",
+    "session_id": "r23-real-session",
+    "session_identity": "e53c6c45febf4a1281de6902a77a0795011bdb99f4e7aec25afeae516ee74560",
+    "review_round": 0,
+    "package_digest": "65b591b7991cc4b0c4fa5ecbabda2d7bb58418b873792ce55f92c93cd08fc470",
+    "r29_package_digest": "6a7b79f617de400a4a086e64a0cae9feceafa51a9a324074e85fb07ebf58dfc9",
+    "prompt_digest": "2f79d24571f0e9d0fb051702678125d6b50308323aab0923b154ee7e16b3c9d2",
+    "sealed_mapping_digest": "01cef4f83ebf90c9fd11d058251a27daef2fc76b276c170b86e32d7fc98b1fa6",
+    "source": {
+      "source_id": "talking-head-vertical-source",
+      "source_sha256": "bf7a2423ae26cb7bba73cb93930e46df95adad1619d79d2a08bfe3b072812309"
+    },
+    "candidates": [
+      {
+        "blind_label": "A",
+        "candidate_id": "r20-initial-alternative",
+        "render_sha256": "70fdc25373b544b98aad4f8b5180fc56e69aea9ce11c3d5fb65b08ac02c50cb2",
+        "render_size": 787963,
+        "attachment_sha256": "70fdc25373b544b98aad4f8b5180fc56e69aea9ce11c3d5fb65b08ac02c50cb2",
+        "attachment_size": 787963,
+        "mime": "video/mp4"
+      },
+      {
+        "blind_label": "B",
+        "candidate_id": "r20-initial-control",
+        "render_sha256": "1855a1745d53329294c680600299a9ca0308a7c468b27d6dab94d21a72605054",
+        "render_size": 795358,
+        "attachment_sha256": "1855a1745d53329294c680600299a9ca0308a7c468b27d6dab94d21a72605054",
+        "attachment_size": 795358,
+        "mime": "video/mp4"
+      }
+    ]
+  },
+  "reviews": [
+    {"path":"review-a.json","git_blob_sha1":"60bf95db0b033e34c505fdf870674c144136e29b"},
+    {"path":"review-b.json","git_blob_sha1":"dd2a423906272be6d1dde7bb5a60980c39ef4d28"},
+    {"path":"review-c.json","git_blob_sha1":"4eff40cacf9dc9533254976dbfec808f05cb42d0"}
+  ],
+  "boundary": {
+    "fixture": true,
+    "model_evidence": true,
+    "human_ground_truth": false,
+    "live_metrics": false,
+    "browser_call": false,
+    "provider_call": false,
+    "provider_mutation": false
+  }
+}
