@@ -1,0 +1,17 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"growth.real_local_review_evidence.r38.v1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["contract_version","evidence_class","manifest_digest","input_sha256","candidate_hashes","targeted_reedit_sha256","reviews","review_digest"],
+  "properties":{
+    "contract_version":{"const":"growth.real_local_review_evidence.r38.v1"},
+    "evidence_class":{"enum":["FIXTURE","OFFLINE_MODEL","GENUINE_REVIEW"]},
+    "manifest_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "input_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "candidate_hashes":{"type":"object","minProperties":4},
+    "targeted_reedit_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "reviews":{"type":"array"},
+    "review_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+  }
+}
