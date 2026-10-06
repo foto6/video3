@@ -1,0 +1,30 @@
+{
+  "contract_version": "growth.local_pc_selection_adapter.r37.v1",
+  "authority_contract": "growth.local_pc_selection_authority.r37.v1",
+  "policy_contract": "growth.local_pc_selection_policy.r37.v1",
+  "input_contract": "growth.local_pc_media_evidence.r37.v1",
+  "normalization_contract": "growth.local_pc_selection_normalization.r37.v1",
+  "decision_contract": "growth.local_pc_selection_decision.r37.v1",
+  "creator_advisory_contract": "growth.local_pc_selection_advisory.r37.v1",
+  "disposition": "ADVISORY_ONLY",
+  "rules": {
+    "media_contract_must_equal_media.local_render_runner.r26.v1": true,
+    "media_r26_exact_authority_required_for_positive_decision": true,
+    "unresolved_media_authority_state": "WAITING_MEDIA_R26_AUTHORITY",
+    "candidate_selection_never_uses_filename_or_input_order": true,
+    "local_run_must_not_claim_hosted_ci_evidence": true,
+    "targeted_reedit_lineage_must_bind_selected_source": true,
+    "final_artifact_must_bind_selected_lineage": true,
+    "resume_requires_checkpoint_evidence": true,
+    "review_policy_must_be_current": true,
+    "preserve_r36_anti_leakage": true,
+    "network_call": false,
+    "browser_call": false,
+    "provider_mutation": false,
+    "creator_mutation": false,
+    "live_authorization": false,
+    "social_publish": false,
+    "credential_access": false,
+    "merge": false
+  }
+}
