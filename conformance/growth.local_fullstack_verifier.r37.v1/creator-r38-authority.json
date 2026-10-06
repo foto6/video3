@@ -1,0 +1,11 @@
+{
+  "contract_version": "growth.creator_r38_authority.r37.v1",
+  "status": "WAITING_CREATOR_AUTHORITY",
+  "repository": "foto6/video1",
+  "observed_branch": "agent/creator-r38-local-fullstack-rehearsal-20261006",
+  "observed_sha": "1f7cb9ed8f1985cd4faca79ce55f1c5fda9e3a57",
+  "observed_commit_message": "Add R37 local integration driver",
+  "distinct_r38_authority_available": false,
+  "exact_authority": null,
+  "exact_authority_digest": null
+}
