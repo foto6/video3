@@ -41,20 +41,27 @@ class GrowthR37LocalFullstackVerifierTests(unittest.TestCase):
             "sha256:89e719718b5480ad889190a09c837efdfff31a15ea899f1e836ddb9d033f0894",
         )
 
-    def test_creator_r38_is_explicitly_waiting_not_inferred_from_r37_sha(self):
+    def test_creator_r38_exact_green_authority_is_frozen(self):
         parsed = r37.validate_creator_authority(self.creator)
-        self.assertEqual(parsed["status"], r37.WAITING_CREATOR_AUTHORITY)
-        self.assertFalse(parsed["distinct_r38_authority_available"])
-        self.assertEqual(parsed["observed_sha"], r37.OBSERVED_CREATOR_SHA)
-        self.assertIsNone(parsed["exact_authority"])
+        self.assertEqual(parsed["status"], "ACCEPTED")
+        self.assertTrue(parsed["distinct_r38_authority_available"])
+        self.assertEqual(parsed["observed_sha"], r37.CREATOR_R38_SHA)
+        self.assertEqual(
+            parsed["exact_authority"],
+            r37._expected_creator_r38_exact(),
+        )
+        self.assertEqual(
+            parsed["exact_authority_digest"],
+            r37.CREATOR_R38_AUTHORITY_DIGEST,
+        )
 
     def test_accepted_creator_requires_distinct_exact_tuple_and_digest(self):
         accepted = sim._accepted_creator()
         parsed = r37.validate_creator_authority(accepted)
         self.assertEqual(parsed["status"], "ACCEPTED")
-        self.assertNotEqual(
+        self.assertEqual(
             parsed["exact_authority"]["producer_sha"],
-            r37.OBSERVED_CREATOR_SHA,
+            r37.CREATOR_R38_SHA,
         )
         bad = copy.deepcopy(accepted)
         bad["exact_authority_digest"] = "0" * 64
@@ -91,10 +98,10 @@ class GrowthR37LocalFullstackVerifierTests(unittest.TestCase):
             growth_sha="a" * 40,
             growth_ci_run_id=1,
         )
-        self.assertEqual(result["state"], r37.WAITING_CREATOR_AUTHORITY)
+        self.assertEqual(result["state"], r37.BLOCKED)
         self.assertEqual(result["final_decision"], r37.BLOCKED_INCOMPLETE)
         self.assertEqual(result["underlying_closed_loop_decision"], r37.READY)
-        self.assertIn("WAITING_CREATOR_AUTHORITY", result["reason_codes"])
+        self.assertNotIn("WAITING_CREATOR_AUTHORITY", result["reason_codes"])
         self.assertIn("MEDIA_AUTHORITY_NOT_EXACT_GREEN", result["reason_codes"])
         self.assertIn("FIXTURE_EVIDENCE_NONPROMOTABLE", result["reason_codes"])
         self.assertFalse(result["provider_mutation_authorized"])
@@ -300,6 +307,7 @@ class GrowthR37LocalFullstackVerifierTests(unittest.TestCase):
             self.root / ".github" / "workflows" / "tests.yml"
         ).read_text(encoding="utf-8")
         self.assertIn("WAITING_CREATOR_AUTHORITY", docs)
+        self.assertIn("b4d0b3a940357eec333d5a1d9b9141bd61b89809", docs)
         self.assertIn("local_fullstack_verifier_r37", docs)
         self.assertIn("test_local_fullstack_verifier_r37.py", workflow)
         self.assertIn("growth-r37-local-fullstack-verifier", workflow)
