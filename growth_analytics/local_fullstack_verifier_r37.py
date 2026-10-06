@@ -46,7 +46,23 @@ R36_POLICY_BLOB = "e6f6dd25b70f1e1ec4031d7eb2d0e8bb7ceb1b82"
 R36_CONTRACT_BLOB = "3e0cd5baa85b4c59eb75386766aed0300a91b16d"
 
 OBSERVED_CREATOR_R38_BRANCH = "agent/creator-r38-local-fullstack-rehearsal-20261006"
-OBSERVED_CREATOR_SHA = "1f7cb9ed8f1985cd4faca79ce55f1c5fda9e3a57"
+CREATOR_R38_SHA = "b4d0b3a940357eec333d5a1d9b9141bd61b89809"
+CREATOR_R38_CI = 37405132939
+CREATOR_R38_ARTIFACT_ID = 11387350709
+CREATOR_R38_ARTIFACT_NAME = (
+    "creator-r38-local-fullstack-rehearsal-"
+    "b4d0b3a940357eec333d5a1d9b9141bd61b89809"
+)
+CREATOR_R38_ARTIFACT_DIGEST = (
+    "sha256:2b37c0a5747daf2baff343001f58d16de9b1e2ee0098ceba31e345c87e72e407"
+)
+CREATOR_R38_CONTRACT = "creator.local_fullstack_rehearsal.r38.v1"
+CREATOR_R38_AUTHORITY_BLOB = "31bee01ede79db2a373a98ee47621f7928f67da6"
+CREATOR_R38_MANIFEST_BLOB = "5b0e079bb02996195a2bbf7293f783fa44ae392f"
+CREATOR_R38_READINESS_BLOB = "b1a078783f915c1f24a3df2dba40d60e830e16d0"
+CREATOR_R38_AUTHORITY_DIGEST = (
+    "24df4a8a11599cec02841d7cbd08ec57aabb099c4e2318ff2e2347047c478df2"
+)
 
 
 class R37Error(ValueError):
@@ -180,6 +196,34 @@ def _expected_parent() -> dict[str, Any]:
     }
 
 
+def _expected_creator_r38_exact() -> dict[str, Any]:
+    return {
+        "repository": "foto6/video1",
+        "producer_sha": CREATOR_R38_SHA,
+        "ci_run_id": CREATOR_R38_CI,
+        "artifact_id": CREATOR_R38_ARTIFACT_ID,
+        "artifact_name": CREATOR_R38_ARTIFACT_NAME,
+        "artifact_digest": CREATOR_R38_ARTIFACT_DIGEST,
+        "contract": CREATOR_R38_CONTRACT,
+        "authority_blob": CREATOR_R38_AUTHORITY_BLOB,
+        "manifest_blob": CREATOR_R38_MANIFEST_BLOB,
+        "readiness_blob": CREATOR_R38_READINESS_BLOB,
+    }
+
+
+def _expected_creator_r38_root() -> dict[str, Any]:
+    return {
+        "status": "ACCEPTED",
+        "repository": "foto6/video1",
+        "expected_contract_prefix": "creator.",
+        "observed_branch": OBSERVED_CREATOR_R38_BRANCH,
+        "observed_sha": CREATOR_R38_SHA,
+        "observed_commit_message": "R38 align adversarial and replay assertions",
+        "observed_distinct_r38_authority": True,
+        "exact_authority": _expected_creator_r38_exact(),
+    }
+
+
 def validate_authority(value: Mapping[str, Any]) -> dict[str, Any]:
     if not isinstance(value, Mapping) or set(value) != {
         "contract_version",
@@ -195,17 +239,8 @@ def validate_authority(value: Mapping[str, Any]) -> dict[str, Any]:
     if value["growth_r36_parent"] != _expected_parent():
         raise AuthorityDrift("exact Growth R36 parent authority drift")
     creator = value["creator_r38"]
-    if creator != {
-        "status": WAITING_CREATOR_AUTHORITY,
-        "repository": "foto6/video1",
-        "expected_contract_prefix": "creator.",
-        "observed_branch": OBSERVED_CREATOR_R38_BRANCH,
-        "observed_sha": OBSERVED_CREATOR_SHA,
-        "observed_commit_message": "Add R37 local integration driver",
-        "observed_distinct_r38_authority": False,
-        "exact_authority": None,
-    }:
-        raise AuthorityDrift("checked-in Creator R38 observation drift")
+    if creator != _expected_creator_r38_root():
+        raise AuthorityDrift("checked-in Creator R38 exact authority drift")
     media = value["media_local_evidence_policy"]
     if media != {
         "required_repository_for_real_evidence": "foto6/video2",
@@ -221,6 +256,8 @@ def validate_authority(value: Mapping[str, Any]) -> dict[str, Any]:
         "allowed_authority_classes": ["EXACT_GREEN", "SYNTHETIC_FIXTURE"],
         "synthetic_fixture_can_be_ready_for_local_demo": False,
         "moving_branch_ref_is_authority": False,
+        "creator_r38_requires_media_r26": True,
+        "forbidden_real_contracts": ["media.multicandidate_round.r25.v1"],
     }:
         raise AuthorityDrift("Media evidence policy drift")
     observed = value["observed_unaccepted_media"]
@@ -330,50 +367,25 @@ def validate_creator_authority(value: Mapping[str, Any]) -> dict[str, Any]:
         raise AuthorityDrift("Creator R38 authority manifest contract drift")
     if value["repository"] != "foto6/video1":
         raise AuthorityDrift("Creator R38 repository drift")
-    status = value["status"]
-    if status == WAITING_CREATOR_AUTHORITY:
-        if (
-            value["observed_branch"] != OBSERVED_CREATOR_R38_BRANCH
-            or value["observed_sha"] != OBSERVED_CREATOR_SHA
-            or value["observed_commit_message"] != "Add R37 local integration driver"
-            or value["distinct_r38_authority_available"] is not False
-            or value["exact_authority"] is not None
-            or value["exact_authority_digest"] is not None
-        ):
-            raise AuthorityDrift("pending Creator R38 observation drift")
-    elif status == "ACCEPTED":
-        if value["distinct_r38_authority_available"] is not True:
-            raise AuthorityDrift("accepted Creator R38 must be distinct authority")
-        exact = value["exact_authority"]
-        if not isinstance(exact, Mapping) or set(exact) != {
-            "repository",
-            "producer_sha",
-            "ci_run_id",
-            "artifact_id",
-            "artifact_name",
-            "artifact_digest",
-            "contract",
-        }:
-            raise AuthorityDrift("accepted Creator R38 exact tuple fields invalid")
-        if exact["repository"] != "foto6/video1":
-            raise AuthorityDrift("accepted Creator R38 repository drift")
-        _git_sha(exact["producer_sha"], "creator.producer_sha")
-        if exact["producer_sha"] == OBSERVED_CREATOR_SHA:
-            raise AuthorityDrift("Creator R38 authority must differ from observed R37 SHA")
-        _positive(exact["ci_run_id"], "creator.ci_run_id")
-        _positive(exact["artifact_id"], "creator.artifact_id")
-        _nonempty(exact["artifact_name"], "creator.artifact_name")
-        _artifact_digest(exact["artifact_digest"], "creator.artifact_digest")
-        contract = _nonempty(exact["contract"], "creator.contract")
-        if not contract.startswith("creator."):
-            raise AuthorityDrift("Creator R38 contract must be creator.*")
-        expected_digest = _sha_json(exact)
-        if value["exact_authority_digest"] != expected_digest:
-            raise AuthorityDrift("Creator R38 exact authority digest drift")
-    else:
+    if value["status"] == WAITING_CREATOR_AUTHORITY:
+        raise AuthorityDrift(
+            "Creator R38 exact authority is now available; pending manifest is stale"
+        )
+    if value["status"] != "ACCEPTED":
         raise AuthorityDrift("Creator R38 status invalid")
+    if (
+        value["observed_branch"] != OBSERVED_CREATOR_R38_BRANCH
+        or value["observed_sha"] != CREATOR_R38_SHA
+        or value["observed_commit_message"]
+            != "R38 align adversarial and replay assertions"
+        or value["distinct_r38_authority_available"] is not True
+        or value["exact_authority"] != _expected_creator_r38_exact()
+        or value["exact_authority_digest"] != CREATOR_R38_AUTHORITY_DIGEST
+    ):
+        raise AuthorityDrift("Creator R38 exact authority tuple drift")
+    if _sha_json(value["exact_authority"]) != CREATOR_R38_AUTHORITY_DIGEST:
+        raise AuthorityDrift("Creator R38 exact authority digest drift")
     return _clone(value)
-
 
 def creator_authority_digest(value: Mapping[str, Any]) -> str:
     return _sha_json(validate_creator_authority(value))
@@ -406,6 +418,13 @@ def validate_media_authority(value: Mapping[str, Any]) -> dict[str, Any]:
     contract = _nonempty(value["contract"], "media.contract")
     if not contract.startswith("media."):
         raise IncompleteEvidence("Media contract must be media.*")
+    if (
+        klass == "EXACT_GREEN"
+        and contract == "media.multicandidate_round.r25.v1"
+    ):
+        raise IncompleteEvidence(
+            "Creator R38 forbids old Media R25 for real local evidence"
+        )
     return _clone(value)
 
 
