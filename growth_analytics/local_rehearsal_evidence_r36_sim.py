@@ -316,7 +316,7 @@ def build_rehearsal(
     )
 
     bad_policy = copy.deepcopy(r30_policy)
-    bad_policy["unanimous"]["minimum_individual_confidence"] = 0.5
+    bad_policy["thresholds"]["high_confidence_min"] = 0.5
     cases["26_r30_consensus_policy_drift"] = _case(
         "26_r30_consensus_policy_drift",
         "REJECTED:PolicyDrift",
