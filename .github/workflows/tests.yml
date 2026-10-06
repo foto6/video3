@@ -47,6 +47,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_counterfactual_policy_promotion_r34.py" -v
       - name: Focused R35 canary evidence registry tests
         run: python -m unittest discover -s tests -p "test_canary_evidence_registry_r35.py" -v
+      - name: Focused R36 local rehearsal evidence tests
+        run: python -m unittest discover -s tests -p "test_local_rehearsal_evidence_r36.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -1099,6 +1101,169 @@ jobs:
         with:
           name: growth-r35-canary-evidence-registry
           path: ${{ runner.temp }}/growth-r35-canary-evidence-registry
+          if-no-files-found: error
+          retention-days: 90
+      - name: Produce R36 local rehearsal evidence and independent verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          MEDIA="$RUNNER_TEMP/r30-media-r24/unpacked/round-0"
+          REVIEWS="fixtures/consensus_review_r30/accepted"
+          BUNDLE="fixtures/local_rehearsal_r36/bundle.json"
+          AUTH="conformance/growth.local_rehearsal_evidence.r36.v1/authority.json"
+          POLICY="conformance/growth.local_rehearsal_evidence.r36.v1/policy.json"
+          R30_AUTH="conformance/growth.consensus_review_oracle.r30.v1/authority-profiles.json"
+          R30_POLICY="conformance/growth.consensus_review_oracle.r30.v1/aggregation-policy.json"
+          OUT="$RUNNER_TEMP/growth-r36-local-rehearsal-evidence"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+
+          set +e
+          python -m growth_analytics.local_rehearsal_evidence_r36 run \
+            --media-dir "$MEDIA" \
+            --reviews-dir "$REVIEWS" \
+            --bundle-manifest "$BUNDLE" \
+            --authority "$AUTH" \
+            --policy "$POLICY" \
+            --r30-authority-profile "$R30_AUTH" \
+            --r30-policy "$R30_POLICY" \
+            --out-dir "$OUT/local-run" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          RUN_STATUS=$?
+          set -e
+          test "$RUN_STATUS" -eq 3
+
+          python -m growth_analytics.local_rehearsal_verifier_r36 \
+            --output-dir "$OUT/local-run" \
+            --authority "$AUTH" \
+            --bundle-manifest "$BUNDLE" \
+            --report "$OUT/local-run/independent-verification.json"
+
+          python -m growth_analytics.local_rehearsal_evidence_r36 rehearse-adversarial \
+            --media-dir "$MEDIA" \
+            --reviews-dir "$REVIEWS" \
+            --bundle-manifest "$BUNDLE" \
+            --authority "$AUTH" \
+            --policy "$POLICY" \
+            --r30-authority-profile "$R30_AUTH" \
+            --r30-policy "$R30_POLICY" \
+            --out-dir "$OUT/adversarial" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+
+          cp "$AUTH" "$OUT/authority.json"
+          cp "$POLICY" "$OUT/policy.json"
+          cp "conformance/growth.local_rehearsal_evidence.r36.v1/contract.json" "$OUT/contract.json"
+          cp "$BUNDLE" "$OUT/bundle.json"
+
+          python - "$OUT" <<'PY'
+          import hashlib,json,os,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          ready=json.load(open(root/"local-run"/"readiness-report.json",encoding="utf-8"))
+          result=json.load(open(root/"local-run"/"result.json",encoding="utf-8"))
+          verify=json.load(open(root/"local-run"/"independent-verification.json",encoding="utf-8"))
+          adversarial=json.load(open(root/"adversarial"/"adversarial-report.json",encoding="utf-8"))
+          assert ready["status"] == "WAITING_PARENT_QA", ready
+          assert ready["parent_r35_independently_accepted"] is False, ready
+          assert ready["decision_digest"] is None, ready
+          assert ready["fixture"] is True, ready
+          assert result["status"] == "WAITING_PARENT_QA", result
+          assert result["decision"] is None, result
+          assert result["offline_decision_preview"]["preview_only"] is True, result
+          assert result["normalization"]["consensus"]["state"] == "CONSENSUS_ACCEPTED", result
+          assert result["normalization"]["consensus"]["selected_candidate_id"] == "r20-initial-alternative", result
+          assert result["normalization"]["review_round"] == 0, result
+          candidates={row["candidate_id"]:row for row in result["normalization"]["candidates"]}
+          assert candidates["r20-initial-alternative"]["render_sha256"] == "70fdc25373b544b98aad4f8b5180fc56e69aea9ce11c3d5fb65b08ac02c50cb2", result
+          assert candidates["r20-initial-control"]["render_sha256"] == "1855a1745d53329294c680600299a9ca0308a7c468b27d6dab94d21a72605054", result
+          env=result["canary_evidence_envelope"]
+          assert env["state"] == "WAITING_PARENT_QA", env
+          assert env["source_class"] == "SYNTHETIC_TEST", env
+          assert env["readiness_eligible"] is False, env
+          assert env["registry_submission_allowed"] is False, env
+          assert env["live_authorization"] is False, env
+          assert env["provider_mutation_allowed"] is False, env
+          assert env["creator_mutation_allowed"] is False, env
+          assert verify["verified"] is True, verify
+          assert verify["status"] == "WAITING_PARENT_QA", verify
+          assert verify["exact_source_candidate_round_binding"] is True, verify
+          assert verify["live_authorization"] is False, verify
+          assert adversarial["scenario_count"] >= 25, adversarial
+          assert adversarial["scenario_count"] >= 35, adversarial
+          assert adversarial["all_expected_dispositions_stable"] is True, adversarial
+          assert adversarial["current_parent_qa_disposition"] == "PENDING", adversarial
+          assert adversarial["current_source_ready_state"] == "WAITING_PARENT_QA", adversarial
+          assert adversarial["real_parent_r35_acceptance_claimed"] is False, adversarial
+          assert adversarial["synthetic_acceptance_fixture_only"] is True, adversarial
+          assert adversarial["network_call"] is False, adversarial
+          assert adversarial["provider_call"] is False, adversarial
+          assert adversarial["live_action"] is False, adversarial
+
+          files=[]
+          for name in (
+              "authority.json","policy.json","contract.json","bundle.json",
+              "local-run/review-normalization.json",
+              "local-run/offline-decision-preview.json",
+              "local-run/canary-evidence-envelope.json",
+              "local-run/result.json",
+              "local-run/readiness-report.json",
+              "local-run/independent-verification.json",
+              "adversarial/adversarial-report.json",
+          ):
+              p=root/name
+              data=p.read_bytes()
+              files.append({"path":name,"sha256":hashlib.sha256(data).hexdigest(),"size":len(data)})
+          manifest={
+              "contract_version":"growth.local_rehearsal_evidence.r36.artifact_manifest.v1",
+              "growth_r36":{"producer_sha":os.environ["GITHUB_SHA"],"ci_run_id":int(os.environ["GITHUB_RUN_ID"])},
+              "parent_r35":{
+                  "producer_sha":"c97f987e6ae780489f2a5fef1883d5596843c64c",
+                  "ci_run_id":37247403389,
+                  "artifact_id":11319801779,
+                  "artifact_digest":"sha256:d6a01a548f05c14723a0740218ce39a8a6edee902ed66cfa716e3aa78000cf02",
+                  "independent_qa":"PENDING",
+              },
+              "media_r24":{
+                  "producer_sha":"244acdf154741e669991b17df3ef2a47e2dfdfa9",
+                  "ci_run_id":37195239582,
+                  "artifact_id":11301055747,
+                  "artifact_digest":"sha256:fc5c9b9635d49b643e66efafe602d21ce1ef695a553f81a797bdf16d7b8cf228",
+              },
+              "state":"WAITING_PARENT_QA",
+              "adversarial_scenarios":adversarial["scenario_count"],
+              "files":files,
+              "network_call":False,
+              "browser_call":False,
+              "provider_call":False,
+              "live_metrics":False,
+              "creator_mutation":False,
+              "provider_mutation":False,
+              "live_authorization":False,
+              "publish":False,
+              "credential_access":False,
+              "human_ground_truth":False,
+          }
+          material=json.dumps(manifest,sort_keys=True,separators=(",",":")).encode()
+          manifest["manifest_digest"]=hashlib.sha256(material).hexdigest()
+          (root/"artifact-manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          print(json.dumps({
+              "state":ready["status"],
+              "result_digest":ready["result_digest"],
+              "normalization_digest":ready["normalization_digest"],
+              "canary_envelope_digest":ready["canary_envelope_digest"],
+              "verification_digest":verify["verification_digest"],
+              "adversarial_report_digest":adversarial["report_digest"],
+              "scenario_count":adversarial["scenario_count"],
+              "artifact_manifest_digest":manifest["manifest_digest"],
+          },sort_keys=True))
+          PY
+      - name: Upload R36 local rehearsal evidence artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r36-local-rehearsal-evidence
+          path: ${{ runner.temp }}/growth-r36-local-rehearsal-evidence
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
