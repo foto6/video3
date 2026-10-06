@@ -13,14 +13,25 @@
     "contract_blob": "3e0cd5baa85b4c59eb75386766aed0300a91b16d"
   },
   "creator_r38": {
-    "status": "WAITING_CREATOR_AUTHORITY",
+    "status": "ACCEPTED",
     "repository": "foto6/video1",
     "expected_contract_prefix": "creator.",
     "observed_branch": "agent/creator-r38-local-fullstack-rehearsal-20261006",
-    "observed_sha": "1f7cb9ed8f1985cd4faca79ce55f1c5fda9e3a57",
-    "observed_commit_message": "Add R37 local integration driver",
-    "observed_distinct_r38_authority": false,
-    "exact_authority": null
+    "observed_sha": "b4d0b3a940357eec333d5a1d9b9141bd61b89809",
+    "observed_commit_message": "R38 align adversarial and replay assertions",
+    "observed_distinct_r38_authority": true,
+    "exact_authority": {
+      "repository": "foto6/video1",
+      "producer_sha": "b4d0b3a940357eec333d5a1d9b9141bd61b89809",
+      "ci_run_id": 37405132939,
+      "artifact_id": 11387350709,
+      "artifact_name": "creator-r38-local-fullstack-rehearsal-b4d0b3a940357eec333d5a1d9b9141bd61b89809",
+      "artifact_digest": "sha256:2b37c0a5747daf2baff343001f58d16de9b1e2ee0098ceba31e345c87e72e407",
+      "contract": "creator.local_fullstack_rehearsal.r38.v1",
+      "authority_blob": "31bee01ede79db2a373a98ee47621f7928f67da6",
+      "manifest_blob": "5b0e079bb02996195a2bbf7293f783fa44ae392f",
+      "readiness_blob": "b1a078783f915c1f24a3df2dba40d60e830e16d0"
+    }
   },
   "media_local_evidence_policy": {
     "required_repository_for_real_evidence": "foto6/video2",
@@ -38,7 +49,11 @@
       "SYNTHETIC_FIXTURE"
     ],
     "synthetic_fixture_can_be_ready_for_local_demo": false,
-    "moving_branch_ref_is_authority": false
+    "moving_branch_ref_is_authority": false,
+    "creator_r38_requires_media_r26": true,
+    "forbidden_real_contracts": [
+      "media.multicandidate_round.r25.v1"
+    ]
   },
   "observed_unaccepted_media": {
     "local_fix_branch": "agent/media-r25-final-local-fix-20261006",
