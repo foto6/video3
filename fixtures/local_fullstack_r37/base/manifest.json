@@ -1,0 +1,177 @@
+{
+  "bundle_id": "fixture-r37-local-fullstack-v1",
+  "bundle_kind": "SYNTHETIC_FIXTURE",
+  "candidates": [
+    {
+      "applied_directive_digest": null,
+      "candidate_id": "baseline",
+      "parent_candidate_id": null,
+      "path": "candidates/baseline.mp4",
+      "round": 0,
+      "sha256": "c7cd86d08215dc3c01b6f362b4d5e70197a0c91f95c7943b434b195f6ed58b88",
+      "size": 33,
+      "source_sha256": "f58833a2553914adb9972371910182674999424f8ead652eb2d4a24549211309"
+    },
+    {
+      "applied_directive_digest": null,
+      "candidate_id": "challenger",
+      "parent_candidate_id": null,
+      "path": "candidates/challenger.mp4",
+      "round": 0,
+      "sha256": "32e254d4a093dc8304de7c42edbc8e0ba4da21e88c5127c329e90867bd4ce3ba",
+      "size": 35,
+      "source_sha256": "f58833a2553914adb9972371910182674999424f8ead652eb2d4a24549211309"
+    },
+    {
+      "applied_directive_digest": "07b1f7c76146db325d4f6ea93f326f80e56186ac7a0e4cac240178a7275e22c3",
+      "candidate_id": "targeted-reedit",
+      "parent_candidate_id": "challenger",
+      "path": "candidates/targeted-reedit.mp4",
+      "round": 1,
+      "sha256": "b88dfc065e3879385ecbed83f41bbfbbc1997b3dde607facc7e86be3fda4a892",
+      "size": 40,
+      "source_sha256": "f58833a2553914adb9972371910182674999424f8ead652eb2d4a24549211309"
+    }
+  ],
+  "contract_version": "growth.sealed_media_local_evidence.r37.v1",
+  "created_at": "2026-10-06T00:00:00Z",
+  "evidence_boundary": {
+    "browser_call": false,
+    "credentials_accessed": false,
+    "fixture": true,
+    "human_ground_truth": false,
+    "network_call": false,
+    "provider_call": false,
+    "provider_mutation": false,
+    "publish": false
+  },
+  "final": {
+    "manifest_path": "final-manifest.json",
+    "manifest_sha256": "fcd3069adc4e8f50cdbdc12f7cd40de28b86bcf43fbad72423ebf40538b0bcfa",
+    "manifest_size": 640,
+    "path": "final.mp4",
+    "selected_candidate_id": "targeted-reedit",
+    "selected_round": 1,
+    "sha256": "b88dfc065e3879385ecbed83f41bbfbbc1997b3dde607facc7e86be3fda4a892",
+    "size": 40
+  },
+  "manifest_digest": "ab3adf05edc79f570b04d5b129bc302ad336592ab6402843c049978d26ce529d",
+  "media_authority": {
+    "artifact_digest": "sha256:fcc57db504df896442dfb2c2f899a0078bed42bfad86fc1a3b52866378939926",
+    "artifact_id": 1,
+    "artifact_name": "fixture-media-local-fullstack-r37",
+    "authority_class": "SYNTHETIC_FIXTURE",
+    "ci_run_id": 1,
+    "contract": "media.multicandidate_round.r25.v1",
+    "producer_sha": "ffffffffffffffffffffffffffffffffffffffff",
+    "repository": "fixture/media"
+  },
+  "media_authority_digest": "42212bf25ea0b06a5f2abc84867a89953a35d20507a20213ba9331322a5ca470",
+  "rounds": [
+    {
+      "labels": {
+        "A": "baseline",
+        "B": "challenger"
+      },
+      "opened_at": "2026-10-06T00:00:00Z",
+      "package_digest": "a7f47aebdd9b7de765cec5f82458ae1dc05bca2945036071177cbc0390f6b33a",
+      "prompt": {
+        "path": "prompts/round-0.txt",
+        "sha256": "9de9ab4a27a5d3b2fe138dbe212cd814515688ce950da21cdf5760cb09482475",
+        "size": 85
+      },
+      "review_round": 0,
+      "reviews": [
+        {
+          "path": "reviews/round-0-a.json",
+          "sha256": "73e6e65933e0ac6ed70936ccf8539057e6d94df74c5cf01f20aae4e0c9cdd7e9",
+          "size": 1041
+        },
+        {
+          "path": "reviews/round-0-b.json",
+          "sha256": "c28dc671830eb0377b6331514740e4000bbdcd82169ec81bba1174f79ecf1d2e",
+          "size": 1042
+        },
+        {
+          "path": "reviews/round-0-c.json",
+          "sha256": "dd3313ebe952700796cc2f9e9ca75dc8dcf14f4e50bb1d4cd21fb2e7b59689db",
+          "size": 1041
+        }
+      ],
+      "sealed_mapping_digest": "084a82e31c61bf73b97128b214d2cd50cbb815c40cd94d7cbe4e39f021795f6e"
+    },
+    {
+      "labels": {
+        "A": "baseline",
+        "B": "targeted-reedit"
+      },
+      "opened_at": "2026-10-06T00:10:00Z",
+      "package_digest": "e5c4775be779e8ec8b225391eeaf068b355583ab9e9b5dde242380f3126673ed",
+      "prompt": {
+        "path": "prompts/round-1.txt",
+        "sha256": "9baf9f6a96de7e75c3c8283184b67746288e5e97e39370b90b7bd20ff4477645",
+        "size": 55
+      },
+      "review_round": 1,
+      "reviews": [
+        {
+          "path": "reviews/round-1-a.json",
+          "sha256": "faa59f8bb01d6e17018e50c3ae1f27ca369bb9912ac4ddb9719fb708f143a345",
+          "size": 766
+        },
+        {
+          "path": "reviews/round-1-b.json",
+          "sha256": "1f2916176f5c48f26dbd5fa2a1cd1ff237538163ad11dc03cbd4d6f75be58732",
+          "size": 766
+        },
+        {
+          "path": "reviews/round-1-c.json",
+          "sha256": "c6ea0cb1b7436aaa049828c851798477b3851623cd6348862c7f50e481c88431",
+          "size": 766
+        }
+      ],
+      "sealed_mapping_digest": "2e8a0a8ce1ed906ae692bcfc91aed4a56ccb368975ec8861acced152890dbdee"
+    }
+  ],
+  "sealed_at": "2026-10-06T00:20:00Z",
+  "source": {
+    "path": "source.bin",
+    "sha256": "f58833a2553914adb9972371910182674999424f8ead652eb2d4a24549211309",
+    "size": 22
+  },
+  "targeted_reedits": [
+    {
+      "child_candidate_id": "targeted-reedit",
+      "child_round": 1,
+      "directive_digest": "07b1f7c76146db325d4f6ea93f326f80e56186ac7a0e4cac240178a7275e22c3",
+      "directives": [
+        {
+          "candidate_id": "challenger",
+          "category": "pacing",
+          "direction": "decrease",
+          "end_ms": 1400,
+          "operation": "trim",
+          "start_ms": 800
+        },
+        {
+          "candidate_id": "challenger",
+          "category": "pacing",
+          "direction": "decrease",
+          "end_ms": 2100,
+          "operation": "trim",
+          "start_ms": 1500
+        },
+        {
+          "candidate_id": "challenger",
+          "category": "pacing",
+          "direction": "decrease",
+          "end_ms": 2800,
+          "operation": "trim",
+          "start_ms": 2200
+        }
+      ],
+      "parent_candidate_id": "challenger",
+      "parent_round": 0
+    }
+  ]
+}
