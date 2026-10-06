@@ -946,6 +946,7 @@ def validate_bundle(
         "input_video",
         "runtime_identity_digest",
         "candidate_hashes",
+        "review_evidence_digest",
         "targeted_reedit_sha256",
         "final_artifact_sha256",
         "phase_timings_digest",
@@ -969,6 +970,14 @@ def validate_bundle(
     }
     if manifest["candidate_hashes"] != expected_candidate_hashes:
         raise EvidenceInvalid("candidate hash mapping mismatch with local-run manifest")
+    review_evidence_material = {
+        "candidates": {
+            row["candidate_id"]: row["reviews"] for row in candidates
+        },
+        "targeted_reedit": target_reviews,
+    }
+    if manifest["review_evidence_digest"] != sha256_json(review_evidence_material):
+        raise EvidenceInvalid("review evidence digest mismatch with local-run manifest")
     if manifest["targeted_reedit_sha256"] != target_hash:
         raise EvidenceInvalid("targeted re-edit hash mismatch with local-run manifest")
     if manifest["final_artifact_sha256"] != final_hash:
