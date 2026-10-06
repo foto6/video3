@@ -1,0 +1,28 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"growth.local_pc_selection_normalization.r37.v1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["contract_version","normalization_digest","bundle_id","media_contract_id","media_authority_state","media_claim","local_run_manifest_digest","input_video","runtime","candidates","targeted_reedit","final_artifact","phase_timings","resume_events","score_table","evidence_class_counts","r36_projection","authority","boundary"],
+  "properties":{
+    "contract_version":{"const":"growth.local_pc_selection_normalization.r37.v1"},
+    "normalization_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "bundle_id":{"type":"string"},
+    "media_contract_id":{"const":"media.local_render_runner.r26.v1"},
+    "media_authority_state":{"enum":["UNRESOLVED","ACCEPTED"]},
+    "media_claim":{"type":"object"},
+    "local_run_manifest_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "input_video":{"type":"object"},
+    "runtime":{"type":"object"},
+    "candidates":{"type":"array","minItems":2},
+    "targeted_reedit":{"type":"object"},
+    "final_artifact":{"type":"object"},
+    "phase_timings":{"type":"array"},
+    "resume_events":{"type":"array"},
+    "score_table":{"type":"object"},
+    "evidence_class_counts":{"type":"object"},
+    "r36_projection":{"type":"object"},
+    "authority":{"type":"object"},
+    "boundary":{"type":"object"}
+  }
+}
