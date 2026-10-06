@@ -67,7 +67,7 @@ def build_fixture(root:Path, *, evidence_class:str="OFFLINE_MODEL", winners:tupl
       {"path":"evidence/normalization.json",**norm_ev},
       {"path":"initial/media.review_tournament_bracket.r25.v1.json",**bracket},
     ]
-    files += [{"path":f"candidates/candidate-{i}/final.mp4",**candidates[i-1]} for i in range(1,5)]
+    files += [{"path":f"candidates/candidate-{i}/final.mp4","sha256":candidates[i-1]["sha256"],"size":candidates[i-1]["size"]} for i in range(1,5)]
     files += [{"path":"targeted-reedit/r27-targeted-reedit-evidence.json",**target_ev_id},{"path":"targeted-reedit/final.mp4",**target},{"path":"final/final.mp4",**final}]
     manifest={"contractVersion":r38.MEDIA_GROWTH_CONTRACT,"mediaContractId":r38.MEDIA_CONTRACT,
               "producer":{"repository":"foto6/video2","sha":r38.MEDIA_SHA,"authorityState":"PENDING_INDEPENDENT_QA","acceptedByIndependentQa":False},
