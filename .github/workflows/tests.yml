@@ -51,6 +51,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_local_rehearsal_evidence_r36.py" -v
       - name: Focused R37 local fullstack verifier tests
         run: python -m unittest discover -s tests -p "test_local_fullstack_verifier_r37.py" -v
+      - name: Focused R38 real local bundle verifier tests
+        run: python -m unittest discover -s tests -p "test_real_local_bundle_verifier_r38.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -1394,6 +1396,132 @@ jobs:
         with:
           name: growth-r37-local-fullstack-verifier
           path: ${{ runner.temp }}/growth-r37-local-fullstack-verifier
+          if-no-files-found: error
+          retention-days: 90
+      - name: Produce R38 real local bundle verifier evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/growth-r38-real-local-bundle-verifier"
+          FIXTURE="$OUT/fixture"
+          AUTH="conformance/growth.real_local_bundle_verifier.r38.v1/authority.json"
+          POLICY="conformance/growth.real_local_bundle_verifier.r38.v1/policy.json"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+
+          python - "$FIXTURE" "$OUT/review.json" <<'PY'
+          import json,sys
+          from pathlib import Path
+          from growth_analytics.real_local_bundle_verifier_r38_sim import build_fixture
+          fx=build_fixture(Path(sys.argv[1]),evidence_class="OFFLINE_MODEL")
+          Path(sys.argv[2]).write_text(json.dumps(fx["review"],indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          print(json.dumps({"manifest_digest":fx["manifest"]["manifestDigest"],"fixture":True},sort_keys=True))
+          PY
+
+          set +e
+          python -m growth_analytics.real_local_bundle_verifier_r38 verify \
+            --bundle-dir "$FIXTURE" \
+            --review-evidence "$OUT/review.json" \
+            --authority "$AUTH" \
+            --policy "$POLICY" \
+            --ledger-dir "$OUT/ledger" \
+            --out "$OUT/source-ready-verification.json" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          VERIFY_STATUS=$?
+          set -e
+          test "$VERIFY_STATUS" -eq 3
+
+          python -m growth_analytics.real_local_bundle_verifier_r38 rehearse-adversarial \
+            --authority "$AUTH" \
+            --policy "$POLICY" \
+            --out "$OUT/adversarial-report.json" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+
+          cp "$AUTH" "$OUT/authority.json"
+          cp "$POLICY" "$OUT/policy.json"
+          cp conformance/growth.real_local_bundle_verifier.r38.v1/contract.json "$OUT/contract.json"
+
+          python - "$OUT" <<'PY'
+          import hashlib,json,os,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          v=json.load(open(root/"source-ready-verification.json",encoding="utf-8"))
+          a=json.load(open(root/"adversarial-report.json",encoding="utf-8"))
+          auth=json.load(open(root/"authority.json",encoding="utf-8"))
+          assert v["state"] == "VERIFIED", v
+          assert v["final_decision"] == "WAITING_MEDIA_R27_QA", v
+          assert v["evidence_class"] == "OFFLINE_MODEL", v
+          assert v["media_r27_authority"]["producer_sha"] == "183838a24205c6885b2366ad6ffa394164283d91", v
+          assert v["media_r27_authority"]["ci_run_id"] == 37451069045, v
+          assert v["media_r27_authority"]["artifact_id"] == 11406357346, v
+          assert v["media_r27_authority"]["independent_qa"]["disposition"] == "PENDING", v
+          assert v["creator_r39_authority"]["producer_sha"] == "b7dd4f7297db2d90317236b4108b6d3133979d2f", v
+          assert v["creator_r39_authority"]["runtime_blob"] == "be96165df080a6646ac45cb9a0e1a5b4e963e4bd", v
+          assert v["publish_authorized"] is False, v
+          assert v["live_authorization"] is False, v
+          assert v["provider_mutation_authorized"] is False, v
+          assert v["browser_mutation_authorized"] is False, v
+          assert v["creator_mutation_authorized"] is False, v
+          assert v["credential_access_authorized"] is False, v
+          assert v["human_ground_truth"] is False, v
+          assert a["scenario_count"] >= 25, a
+          assert a["scenario_count"] >= 35, a
+          assert a["all_expected_dispositions_stable"] is True, a
+          assert a["source_ready_status"] == "WAITING_MEDIA_R27_QA", a
+          assert a["media_r27_qa_disposition"] == "PENDING", a
+          assert a["publish_authorized"] is False, a
+          assert auth["media_r27"]["authority_state"] == "PENDING_INDEPENDENT_QA", auth
+
+          advisory={
+            "contract_version":"growth.real_local_bundle_advisory.r38.v1",
+            "final_decision":v["final_decision"],
+            "verification_digest":v["verification_digest"],
+            "publish_authorized":False,
+            "provider_mutation_authorized":False,
+            "creator_mutation_authorized":False,
+            "human_ground_truth":False,
+          }
+          (root/"creator-advisory.json").write_text(json.dumps(advisory,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+
+          files=[]
+          for name in ("authority.json","policy.json","contract.json","review.json","source-ready-verification.json","adversarial-report.json","creator-advisory.json","ledger/growth-r38-real-local-ledger.json"):
+              p=root/name; data=p.read_bytes()
+              files.append({"path":name,"sha256":hashlib.sha256(data).hexdigest(),"size":len(data)})
+          manifest={
+            "contract_version":"growth.real_local_bundle_verifier.r38.artifact_manifest.v1",
+            "growth_r38":{"producer_sha":os.environ["GITHUB_SHA"],"ci_run_id":int(os.environ["GITHUB_RUN_ID"])},
+            "growth_r37_parent":{"producer_sha":"f3cb8ec0d8aa7155b6169d5f86828de3fbc9d3ba","ci_run_id":37406299930,"artifact_id":11387826461,"artifact_digest":"sha256:d53c063ffd68481fd88901111e1683a175e8c54fd8fc07574b6c798cd12ff463"},
+            "media_r27":{"producer_sha":"183838a24205c6885b2366ad6ffa394164283d91","ci_run_id":37451069045,"artifact_id":11406357346,"artifact_digest":"sha256:9cfa2ddd358f2b25a3066ee60792c44c460c62715590210bacf5c5430d14a4b5","qa":"PENDING"},
+            "creator_r39":{"producer_sha":"b7dd4f7297db2d90317236b4108b6d3133979d2f","runtime_blob":"be96165df080a6646ac45cb9a0e1a5b4e963e4bd"},
+            "source_ready_decision":"WAITING_MEDIA_R27_QA",
+            "verification_digest":v["verification_digest"],
+            "adversarial_report_digest":a["report_digest"],
+            "adversarial_scenarios":a["scenario_count"],
+            "files":files,
+            "publish_authorized":False,
+            "provider_mutation_authorized":False,
+            "browser_mutation_authorized":False,
+            "credential_access_authorized":False,
+            "human_ground_truth":False,
+          }
+          material=json.dumps(manifest,sort_keys=True,separators=(",",":")).encode()
+          manifest["manifest_digest"]=hashlib.sha256(material).hexdigest()
+          (root/"artifact-manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          print(json.dumps({
+            "decision":v["final_decision"],
+            "verification_digest":v["verification_digest"],
+            "adversarial_report_digest":a["report_digest"],
+            "scenario_count":a["scenario_count"],
+            "artifact_manifest_digest":manifest["manifest_digest"],
+          },sort_keys=True))
+          PY
+      - name: Upload R38 real local bundle verifier artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r38-real-local-bundle-verifier
+          path: ${{ runner.temp }}/growth-r38-real-local-bundle-verifier
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
