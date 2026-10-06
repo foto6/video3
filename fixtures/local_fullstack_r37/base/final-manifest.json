@@ -1,0 +1,12 @@
+{
+  "candidate_sha256": "b88dfc065e3879385ecbed83f41bbfbbc1997b3dde607facc7e86be3fda4a892",
+  "contract_version": "growth.local_final_manifest.r37.v1",
+  "created_at": "2026-10-06T00:18:00Z",
+  "final_sha256": "b88dfc065e3879385ecbed83f41bbfbbc1997b3dde607facc7e86be3fda4a892",
+  "final_size": 40,
+  "manifest_digest": "05ba8de1bb20f9e670d84998eb010de28cce2abe8100b0ff3b0efa0aa19f11fc",
+  "media_authority_digest": "42212bf25ea0b06a5f2abc84867a89953a35d20507a20213ba9331322a5ca470",
+  "selected_candidate_id": "targeted-reedit",
+  "selected_round": 1,
+  "source_sha256": "f58833a2553914adb9972371910182674999424f8ead652eb2d4a24549211309"
+}
