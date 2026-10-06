@@ -1,0 +1,65 @@
+{
+  "contract_version": "growth.local_fullstack_verifier_authority.r37.v1",
+  "growth_r36_parent": {
+    "repository": "foto6/video3",
+    "producer_sha": "a53f9deb180bb256d193f0422c6ffd7a5923d97a",
+    "ci_run_id": 37398558145,
+    "artifact_id": 11383953328,
+    "artifact_name": "growth-r36-local-rehearsal-evidence",
+    "artifact_digest": "sha256:89e719718b5480ad889190a09c837efdfff31a15ea899f1e836ddb9d033f0894",
+    "contract": "growth.local_rehearsal_evidence.r36.v1",
+    "authority_blob": "a44963e13c10fd607cf4259e355dc990a297ecd9",
+    "policy_blob": "e6f6dd25b70f1e1ec4031d7eb2d0e8bb7ceb1b82",
+    "contract_blob": "3e0cd5baa85b4c59eb75386766aed0300a91b16d"
+  },
+  "creator_r38": {
+    "status": "WAITING_CREATOR_AUTHORITY",
+    "repository": "foto6/video1",
+    "expected_contract_prefix": "creator.",
+    "observed_branch": "agent/creator-r38-local-fullstack-rehearsal-20261006",
+    "observed_sha": "1f7cb9ed8f1985cd4faca79ce55f1c5fda9e3a57",
+    "observed_commit_message": "Add R37 local integration driver",
+    "observed_distinct_r38_authority": false,
+    "exact_authority": null
+  },
+  "media_local_evidence_policy": {
+    "required_repository_for_real_evidence": "foto6/video2",
+    "required_authority_fields": [
+      "repository",
+      "producer_sha",
+      "ci_run_id",
+      "artifact_id",
+      "artifact_name",
+      "artifact_digest",
+      "contract"
+    ],
+    "allowed_authority_classes": [
+      "EXACT_GREEN",
+      "SYNTHETIC_FIXTURE"
+    ],
+    "synthetic_fixture_can_be_ready_for_local_demo": false,
+    "moving_branch_ref_is_authority": false
+  },
+  "observed_unaccepted_media": {
+    "local_fix_branch": "agent/media-r25-final-local-fix-20261006",
+    "local_fix_sha": "19a660e839b3d81d1fed80db562e8a1a82500c17",
+    "exact_green_run": null,
+    "multicandidate_branch": "agent/media-r25-multicandidate-round-engine-20261004",
+    "observed_sha": "b11a93664f9b64bf6da626119758c841a0a75c1e",
+    "observed_run_id": 37247948495,
+    "observed_run_conclusion": "failure",
+    "accepted": false
+  },
+  "boundary": {
+    "local_only": true,
+    "network_call": false,
+    "browser_call": false,
+    "provider_call": false,
+    "credential_access": false,
+    "creator_mutation": false,
+    "provider_mutation": false,
+    "publish": false,
+    "merge": false,
+    "human_ground_truth": false
+  }
+}
