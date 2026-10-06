@@ -49,6 +49,8 @@ jobs:
         run: python -m unittest discover -s tests -p "test_canary_evidence_registry_r35.py" -v
       - name: Focused R36 local rehearsal evidence tests
         run: python -m unittest discover -s tests -p "test_local_rehearsal_evidence_r36.py" -v
+      - name: Focused R37 local fullstack verifier tests
+        run: python -m unittest discover -s tests -p "test_local_fullstack_verifier_r37.py" -v
       - name: Full unittest suite
         run: python -m unittest discover -s tests -v
       - name: Produce R23 critic re-edit readiness report
@@ -1264,6 +1266,134 @@ jobs:
         with:
           name: growth-r36-local-rehearsal-evidence
           path: ${{ runner.temp }}/growth-r36-local-rehearsal-evidence
+          if-no-files-found: error
+          retention-days: 90
+      - name: Produce R37 local fullstack verification and adversarial evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="fixtures/local_fullstack_r37/base"
+          EXPECTED="ab3adf05edc79f570b04d5b129bc302ad336592ab6402843c049978d26ce529d"
+          AUTH="conformance/growth.local_fullstack_verifier.r37.v1/authority.json"
+          POLICY="conformance/growth.local_fullstack_verifier.r37.v1/policy.json"
+          CREATOR="conformance/growth.local_fullstack_verifier.r37.v1/creator-r38-authority.json"
+          OUT="$RUNNER_TEMP/growth-r37-local-fullstack-verifier"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+
+          set +e
+          python -m growth_analytics.local_fullstack_verifier_r37 verify \
+            --bundle-dir "$ROOT" \
+            --expected-bundle-digest "$EXPECTED" \
+            --authority "$AUTH" \
+            --policy "$POLICY" \
+            --creator-authority "$CREATOR" \
+            --ledger-dir "$OUT/ledger" \
+            --out "$OUT/final-decision.json" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+          VERIFY_STATUS=$?
+          set -e
+          test "$VERIFY_STATUS" -eq 3
+
+          python -m growth_analytics.local_fullstack_verifier_r37 rehearse-adversarial \
+            --bundle-dir "$ROOT" \
+            --expected-bundle-digest "$EXPECTED" \
+            --authority "$AUTH" \
+            --policy "$POLICY" \
+            --creator-authority "$CREATOR" \
+            --out "$OUT/adversarial-report.json" \
+            --growth-sha "$GITHUB_SHA" \
+            --growth-ci-run-id "$GITHUB_RUN_ID"
+
+          cp "$AUTH" "$OUT/authority.json"
+          cp "$POLICY" "$OUT/policy.json"
+          cp "$CREATOR" "$OUT/creator-r38-authority.json"
+          cp "conformance/growth.local_fullstack_verifier.r37.v1/contract.json" "$OUT/contract.json"
+          cp "$ROOT/manifest.json" "$OUT/sealed-fixture-manifest.json"
+
+          python - "$OUT" <<'PY'
+          import hashlib,json,os,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          decision=json.load(open(root/"final-decision.json",encoding="utf-8"))
+          adv=json.load(open(root/"adversarial-report.json",encoding="utf-8"))
+          assert decision["state"] == "WAITING_CREATOR_AUTHORITY", decision
+          assert decision["final_decision"] == "BLOCKED_INCOMPLETE_EVIDENCE", decision
+          assert decision["underlying_closed_loop_decision"] == "READY_FOR_LOCAL_DEMO", decision
+          assert "WAITING_CREATOR_AUTHORITY" in decision["reason_codes"], decision
+          assert "MEDIA_AUTHORITY_NOT_EXACT_GREEN" in decision["reason_codes"], decision
+          assert "FIXTURE_EVIDENCE_NONPROMOTABLE" in decision["reason_codes"], decision
+          assert decision["selected_candidate_id"] == "targeted-reedit", decision
+          assert decision["final"]["sha256"] == "b88dfc065e3879385ecbed83f41bbfbbc1997b3dde607facc7e86be3fda4a892", decision
+          assert decision["evidence_classification"]["classification"] == "FIXTURE", decision
+          assert decision["provider_mutation_authorized"] is False, decision
+          assert decision["browser_mutation_authorized"] is False, decision
+          assert decision["credential_access_authorized"] is False, decision
+          assert decision["publish_authorized"] is False, decision
+          assert decision["human_ground_truth"] is False, decision
+          assert adv["scenario_count"] >= 20, adv
+          assert adv["scenario_count"] >= 35, adv
+          assert adv["all_expected_dispositions_stable"] is True, adv
+          assert adv["failed_scenarios"] == [], adv
+          assert adv["fixture_offline_model_genuine_are_distinct"] is True, adv
+          assert adv["exact_replay_idempotent"] is True, adv
+          assert adv["changed_same_identity_conflicts"] is True, adv
+          assert adv["provider_mutation_authorized"] is False, adv
+          assert adv["publish_authorized"] is False, adv
+
+          file_names=[
+            "authority.json","policy.json","creator-r38-authority.json","contract.json",
+            "sealed-fixture-manifest.json","final-decision.json","adversarial-report.json",
+            "ledger/growth-r37-local-fullstack-ledger.json"
+          ]
+          files=[]
+          for name in file_names:
+              p=root/name
+              data=p.read_bytes()
+              files.append({"path":name,"sha256":hashlib.sha256(data).hexdigest(),"size":len(data)})
+          manifest={
+            "contract_version":"growth.local_fullstack_verifier.r37.artifact_manifest.v1",
+            "growth_r37":{"producer_sha":os.environ["GITHUB_SHA"],"ci_run_id":int(os.environ["GITHUB_RUN_ID"])},
+            "parent_r36":{
+              "producer_sha":"a53f9deb180bb256d193f0422c6ffd7a5923d97a",
+              "ci_run_id":37398558145,
+              "artifact_id":11383953328,
+              "artifact_digest":"sha256:89e719718b5480ad889190a09c837efdfff31a15ea899f1e836ddb9d033f0894",
+            },
+            "creator_r38_state":"WAITING_CREATOR_AUTHORITY",
+            "media_fixture_authority_class":"SYNTHETIC_FIXTURE",
+            "final_decision":"BLOCKED_INCOMPLETE_EVIDENCE",
+            "underlying_closed_loop_decision":"READY_FOR_LOCAL_DEMO",
+            "fixture_bundle_digest":"ab3adf05edc79f570b04d5b129bc302ad336592ab6402843c049978d26ce529d",
+            "verification_digest":decision["verification_digest"],
+            "adversarial_scenarios":adv["scenario_count"],
+            "adversarial_report_digest":adv["report_digest"],
+            "files":files,
+            "provider_mutation_authorized":False,
+            "browser_mutation_authorized":False,
+            "credential_access_authorized":False,
+            "publish_authorized":False,
+            "human_ground_truth":False,
+          }
+          material=json.dumps(manifest,sort_keys=True,separators=(",",":")).encode()
+          manifest["manifest_digest"]=hashlib.sha256(material).hexdigest()
+          (root/"artifact-manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          print(json.dumps({
+            "state":decision["state"],
+            "final_decision":decision["final_decision"],
+            "underlying":decision["underlying_closed_loop_decision"],
+            "verification_digest":decision["verification_digest"],
+            "adversarial_report_digest":adv["report_digest"],
+            "scenario_count":adv["scenario_count"],
+            "artifact_manifest_digest":manifest["manifest_digest"],
+          },sort_keys=True))
+          PY
+      - name: Upload R37 local fullstack verifier artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: growth-r37-local-fullstack-verifier
+          path: ${{ runner.temp }}/growth-r37-local-fullstack-verifier
           if-no-files-found: error
           retention-days: 90
       - name: Fetch exact Media R16 candidate batch artifact
