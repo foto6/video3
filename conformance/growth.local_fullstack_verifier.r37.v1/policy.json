@@ -1,0 +1,56 @@
+{
+  "contract_version": "growth.local_fullstack_verifier_policy.r37.v1",
+  "policy_version": 1,
+  "review_consensus": {
+    "reviewers_per_round": 3,
+    "high_confidence_min": 0.82,
+    "high_confidence_mean": 0.86,
+    "majority_dissent_confidence_max": 0.45,
+    "winner_values": ["A", "B", "tie", "insufficient_evidence"]
+  },
+  "targeted_reedit": {
+    "high_severity_selected_candidate_requires_reedit": true,
+    "allowed_operations": [
+      "trim",
+      "cut",
+      "crop_scale_reframe",
+      "speed_change",
+      "fade_transition",
+      "text_overlay",
+      "subtitles_captions",
+      "audio_duck_mix",
+      "intro_outro_cta"
+    ],
+    "defect_to_operation": {
+      "pacing": "trim",
+      "pacing_coherence": "trim",
+      "semantic_cut_correctness": "cut",
+      "subject_framing_crop_quality": "crop_scale_reframe",
+      "caption_readability_emphasis_relevance": "subtitles_captions",
+      "visual_continuity": "fade_transition",
+      "motion_zoom_appropriateness": "crop_scale_reframe",
+      "audio_voice_music_balance": "audio_duck_mix",
+      "payoff_cta_loop_coherence": "intro_outro_cta",
+      "awkward_dead_moment": "trim"
+    },
+    "free_form_requested_edit_is_audit_only": true
+  },
+  "decision_precedence": [
+    "BLOCKED_INCOMPLETE_EVIDENCE",
+    "HUMAN_REVIEW_REQUIRED",
+    "NEEDS_REEDIT",
+    "READY_FOR_LOCAL_DEMO"
+  ],
+  "evidence_classes": [
+    "FIXTURE",
+    "OFFLINE_MODEL",
+    "GENUINE_REVIEW"
+  ],
+  "boundaries": {
+    "ready_for_local_demo_is_publish_authorization": false,
+    "provider_mutation_allowed": false,
+    "browser_mutation_allowed": false,
+    "credential_access_allowed": false,
+    "publish_allowed": false
+  }
+}
