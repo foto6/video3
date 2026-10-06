@@ -1,0 +1,23 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"growth.sealed_media_local_evidence.r37.v1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["contract_version","bundle_id","bundle_kind","created_at","sealed_at","media_authority","media_authority_digest","source","candidates","rounds","targeted_reedits","final","evidence_boundary","manifest_digest"],
+  "properties":{
+    "contract_version":{"const":"growth.sealed_media_local_evidence.r37.v1"},
+    "bundle_id":{"type":"string","minLength":1},
+    "bundle_kind":{"enum":["SYNTHETIC_FIXTURE","LOCAL_EVIDENCE"]},
+    "created_at":{"type":"string"},
+    "sealed_at":{"type":"string"},
+    "media_authority":{"type":"object"},
+    "media_authority_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "source":{"type":"object"},
+    "candidates":{"type":"array","minItems":2},
+    "rounds":{"type":"array","minItems":1},
+    "targeted_reedits":{"type":"array"},
+    "final":{"type":"object"},
+    "evidence_boundary":{"type":"object"},
+    "manifest_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+  }
+}
