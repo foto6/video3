@@ -1318,10 +1318,10 @@ jobs:
           root=Path(sys.argv[1])
           decision=json.load(open(root/"final-decision.json",encoding="utf-8"))
           adv=json.load(open(root/"adversarial-report.json",encoding="utf-8"))
-          assert decision["state"] == "WAITING_CREATOR_AUTHORITY", decision
+          assert decision["state"] == "BLOCKED", decision
           assert decision["final_decision"] == "BLOCKED_INCOMPLETE_EVIDENCE", decision
           assert decision["underlying_closed_loop_decision"] == "READY_FOR_LOCAL_DEMO", decision
-          assert "WAITING_CREATOR_AUTHORITY" in decision["reason_codes"], decision
+          assert "WAITING_CREATOR_AUTHORITY" not in decision["reason_codes"], decision
           assert "MEDIA_AUTHORITY_NOT_EXACT_GREEN" in decision["reason_codes"], decision
           assert "FIXTURE_EVIDENCE_NONPROMOTABLE" in decision["reason_codes"], decision
           assert decision["selected_candidate_id"] == "targeted-reedit", decision
@@ -1361,7 +1361,7 @@ jobs:
               "artifact_id":11383953328,
               "artifact_digest":"sha256:89e719718b5480ad889190a09c837efdfff31a15ea899f1e836ddb9d033f0894",
             },
-            "creator_r38_state":"WAITING_CREATOR_AUTHORITY",
+            "creator_r38_state":"ACCEPTED",
             "media_fixture_authority_class":"SYNTHETIC_FIXTURE",
             "final_decision":"BLOCKED_INCOMPLETE_EVIDENCE",
             "underlying_closed_loop_decision":"READY_FOR_LOCAL_DEMO",
