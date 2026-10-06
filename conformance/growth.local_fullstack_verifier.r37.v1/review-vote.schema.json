@@ -1,0 +1,24 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"growth.local_review_vote.r37.v1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["contract_version","review_id","reviewer_id","evidence_class","created_at","review_round","package_digest","source_sha256","candidate_hashes","winner","confidence","policy_valid","format_valid","defects","uncertainty"],
+  "properties":{
+    "contract_version":{"const":"growth.local_review_vote.r37.v1"},
+    "review_id":{"type":"string","minLength":1},
+    "reviewer_id":{"type":"string","minLength":1},
+    "evidence_class":{"enum":["FIXTURE","OFFLINE_MODEL","GENUINE_REVIEW"]},
+    "created_at":{"type":"string"},
+    "review_round":{"type":"integer","minimum":0},
+    "package_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "source_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "candidate_hashes":{"type":"object","required":["A","B"],"additionalProperties":false},
+    "winner":{"enum":["A","B","tie","insufficient_evidence"]},
+    "confidence":{"type":"number","minimum":0,"maximum":1},
+    "policy_valid":{"type":"boolean"},
+    "format_valid":{"type":"boolean"},
+    "defects":{"type":"array"},
+    "uncertainty":{"type":"string"}
+  }
+}
