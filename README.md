@@ -3,3 +3,5 @@
 Experiment and feedback layer for autonomous content production.
 
 Scope: channel/video metrics, retention/CTR analysis, experiment tracking, content hypotheses, feedback to upstream agents, ranking and reporting.
+
+[Описание проекта и навигация по исходникам на русском](PROJECT_RU.md).
